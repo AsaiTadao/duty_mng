@@ -69412,10 +69412,13 @@ body.swal2-toast-column .swal2-toast .swal2-validation-message {
   color: #6cb2eb;
 }
 
-.main-sidebar {
-  background-color: #ffe699 !important;
-}
-
 /* a.nav-link {
   color: $blacktext;
 } */
+.content-wrapper {
+  height: 100%;
+}
+
+section.content {
+  padding-top: 30px !important;
+}

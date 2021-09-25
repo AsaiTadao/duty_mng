@@ -1,12 +1,6 @@
 <template>
-    <admin-layout />
+    <router-view />
 </template>
 <script>
-import AdminLayout from "./layout/AdminLayout.vue";
-
-export default {
-    components: {
-        AdminLayout
-    }
-};
+export default {};
 </script>
