@@ -51,7 +51,7 @@ export default {
     },
     mounted() {
         const userRoutes = routes.find(({ path }) => path === "/admin");
-        this.routes = userRoutes.children;
+        this.routes = userRoutes.children.filter(({ menu }) => menu);
     }
 };
 </script>
