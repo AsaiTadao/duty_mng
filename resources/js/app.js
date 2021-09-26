@@ -106,9 +106,9 @@ Vue.filter("yesno", value =>
 // Global variables
 Vue.prototype.$request_type = [
     { id: 1, name: "遅刻" },
-    { id: 1, name: "早退" },
-    { id: 1, name: "残業" },
-    { id: 1, name: "その他" }
+    { id: 2, name: "早退" },
+    { id: 3, name: "残業" },
+    { id: 4, name: "その他" }
 ];
 
 const app = new Vue({
