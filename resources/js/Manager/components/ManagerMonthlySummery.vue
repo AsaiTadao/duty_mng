@@ -266,7 +266,7 @@
                                         </tr>
                                         <tr>
                                           <td>6日</td>
-                                          <td>土</td>
+                                          <td class="blue">土</td>
                                           <td>7:55</td>
                                           <td>18:00</td>
                                           <td>-</td>
@@ -302,7 +302,7 @@
                                         </tr>
                                         <tr>
                                           <td>7日</td>
-                                          <td>日</td>
+                                          <td class="red">日</td>
                                           <td>7:55</td>
                                           <td>18:00</td>
                                           <td>-</td>
