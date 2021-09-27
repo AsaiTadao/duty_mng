@@ -18,6 +18,7 @@ import TimezoneMaster from "./Admin/components/TimezoneMaster";
 import VacationMaster from "./Admin/components/VacationMaster";
 import ScheduleMaster from "./Admin/components/ScheduleMaster";
 import MemberStatus from "./Admin/components/MemberStatus";
+import Login from "./Auth/Login";
 
 export default [
     {
@@ -166,6 +167,16 @@ export default [
                 menu: false
             }
         ]
+    },
+    {
+        path: "/login",
+        name: "login",
+        component: Login
+    },
+    {
+        path: "/",
+        name: "home",
+        component: Login
     },
     {
         path: "*",
