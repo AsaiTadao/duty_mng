@@ -2,7 +2,7 @@ import Home from "./components/Home";
 import OwnAttend from "./components/OwnAttend";
 import NotFound from "./components/NotFound";
 import UserLayout from "./User/layout/UserLayout";
-import UserStatus from "./User/components/UserStatus";
+import AttendStatus from "./components/AttendStatus";
 import ManagerLayout from "./Manager/layout/ManagerLayout";
 import ManagerAttendStatus from "./Manager/components/ManagerAttendStatus";
 import ManagerMonthlySummery from "./Manager/components/ManagerMonthlySummery";
@@ -35,7 +35,7 @@ export default [
             {
                 path: "status",
                 name: "user-status",
-                components: { default: UserStatus },
+                components: { default: AttendStatus },
                 icon: "fas fa-file-alt",
                 anchor: "勤怠状況"
             }
@@ -51,6 +51,13 @@ export default [
                 components: { default: Home },
                 icon: "fas fa-clock",
                 anchor: "打刻"
+            },
+            {
+                path: "status",
+                name: "manager-status",
+                components: { default: AttendStatus },
+                icon: "fas fa-file-alt",
+                anchor: "勤怠状況"
             },
             {
                 path: "attend-status",
