@@ -58,9 +58,9 @@
 //   padding: 10px 0.5rem !important;
 // }
 
-// .main-sidebar {
-//   background-color: $yellow !important;
-// }
+.main-sidebar {
+    background-color: $yellow !important;
+}
 
 /* a.nav-link {
   color: $blacktext;
@@ -103,4 +103,37 @@ section.content {
 }
 .border-width-medium {
     border-width: medium;
+}
+.sidebar a {
+    color: #333 !important;
+}
+.menu-open .nav-link {
+    color: #000 !important;
+}
+.menu-open .nav-link {
+    background-color: #f2f2f2 !important;
+}
+.main-header {
+    background-color: #7f6000;
+    & .navbar-nav {
+        & .nav-item .nav-link {
+            color: #fff;
+        }
+    }
+
+    & .top-profile-link {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        & .top-avatar img {
+            max-width: 40px;
+        }
+        & .top-profile-name {
+            margin-left: 10px;
+        }
+    }
+}
+.sidebar-logo {
+    color: #7f6000 !important;
 }
