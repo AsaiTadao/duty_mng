@@ -26,9 +26,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" style="font-size: 20px;">
+                <router-link to="/" class="nav-link" style="font-size: 20px;">
                     <i class="fas fa-sign-out-alt"></i>
-                </a>
+                </router-link>
             </li>
         </ul>
     </nav>
