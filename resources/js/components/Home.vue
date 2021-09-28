@@ -4,7 +4,7 @@
             <div class="col-md-10 home-panel">
                 <div class="card home-panel">
                     <div class="card-header">
-                        ラテラル保育園 {{ formatDate(new Date()) }}
+                        ラテラル保育園 - 阿部 一子 {{ formatDate(new Date()) }}
                         {{ $gate.name }}
                     </div>
 

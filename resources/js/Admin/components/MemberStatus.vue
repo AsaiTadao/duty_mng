@@ -107,7 +107,7 @@
 
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -139,7 +139,7 @@
 
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -171,7 +171,7 @@
 
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -203,7 +203,7 @@
 
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -235,7 +235,7 @@
 
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -267,7 +267,7 @@
 
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -299,7 +299,7 @@
 
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
