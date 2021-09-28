@@ -1,8 +1,8 @@
 <template>
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="/" class="brand-link text-center">
-            <span class="brand-text font-weight-light">LK TMS</span>
-        </a>
+        <router-link to="/manager" class="brand-link text-center sidebar-logo">
+            <span class="brand-text font-weight-bolder">Lateral kids</span>
+        </router-link>
         <div class="sidebar">
             <nav class="mt-2">
                 <ul

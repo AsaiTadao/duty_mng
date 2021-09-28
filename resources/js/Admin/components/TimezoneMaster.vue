@@ -25,10 +25,10 @@
                         <br>
                         <div class="table-responsive p-0">
                             <table
-                                class="table table-bordered table-striped table-hover"
+                                class="table table-bordered table-striped table-master table-hover"
                             >
                                 <thead class="text-center">
-                                    <tr class="heavy-green">
+                                    <tr class="dark-grey text-white">
                                         <th>
                                             時間帯名
                                         </th>
@@ -53,10 +53,10 @@
                                             10:00
                                         </td>
                                         <td>
-                                            <a href="#" class="mx-2" @click="requestModal()">
+                                            <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="far fa-trash-alt fa-lg"></i>
                                             </a>
                                         </td>
@@ -72,10 +72,10 @@
                                             16:00
                                         </td>
                                         <td>
-                                            <a href="#" class="mx-2" @click="requestModal()">
+                                            <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="far fa-trash-alt fa-lg"></i>
                                             </a>
                                         </td>
@@ -91,10 +91,10 @@
                                             17:30
                                         </td>
                                         <td>
-                                            <a href="#" class="mx-2" @click="requestModal()">
+                                            <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="far fa-trash-alt fa-lg"></i>
                                             </a>
                                         </td>
@@ -110,10 +110,10 @@
                                             19:00
                                         </td>
                                         <td>
-                                            <a href="#" class="mx-2" @click="requestModal()">
+                                            <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="far fa-trash-alt fa-lg"></i>
                                             </a>
                                         </td>
@@ -129,10 +129,10 @@
                                             20:00
                                         </td>
                                         <td>
-                                            <a href="#" class="mx-2" @click="requestModal()">
+                                            <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="far fa-trash-alt fa-lg"></i>
                                             </a>
                                         </td>

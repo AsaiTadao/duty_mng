@@ -22,7 +22,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive p-0" v-show="!showWeekTable">
-                                <table class="table table-bordered table-striped table-hover">
+                                <table class="table table-bordered table-kintai table-striped table-hover">
                                     <thead class="text-center">
                                         <tr class="heavy-green">
                                             <th>氏名</th>
@@ -84,7 +84,7 @@
                                 </table>
                             </div>
                             <div class="table-responsive p-0" v-show="showWeekTable">
-                                <table class="table table-bordered table-striped table-hover">
+                                <table class="table table-bordered table-striped table-kintai table-hover">
                                     <thead class="text-center">
                                         <tr class="heavy-green">
                                             <th rowspan="2"  class="align-middle">氏名</th>

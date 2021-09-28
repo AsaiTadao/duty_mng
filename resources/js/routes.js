@@ -72,21 +72,21 @@ export default [
                 components: { default: ManagerMonthlySummery },
                 icon: "fas fa-plus-square",
                 anchor: "月間集計"
-            },
-            {
-                path: "shift-manage",
-                name: "manager-shift-manage",
-                components: { default: ManagerShiftManage },
-                icon: "fas fa-calendar-alt",
-                anchor: "シフト管理"
-            },
-            {
-                path: "shift-create",
-                name: "manager-shift-create",
-                components: { default: ManagerShiftCreate },
-                icon: "fas fa-edit",
-                anchor: "シフト作成"
             }
+            // {
+            //     path: "shift-manage",
+            //     name: "manager-shift-manage",
+            //     components: { default: ManagerShiftManage },
+            //     icon: "fas fa-calendar-alt",
+            //     anchor: "シフト管理"
+            // }
+            // {
+            //     path: "shift-create",
+            //     name: "manager-shift-create",
+            //     components: { default: ManagerShiftCreate },
+            //     icon: "fas fa-edit",
+            //     anchor: "シフト作成"
+            // }
         ]
     },
     {

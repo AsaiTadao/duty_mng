@@ -25,10 +25,10 @@
                         <br>
                         <div class="table-responsive p-0">
                             <table
-                                class="table table-bordered table-hover"
+                                class="table table-bordered table-master table-hover"
                             >
                                 <thead class="text-center">
-                                    <tr class="heavy-green">
+                                    <tr class="dark-grey text-white">
                                         <th>
                                             社員No
                                         </th>
@@ -44,7 +44,7 @@
                                         <th rowspan="3"></th>
                                         <th rowspan="3"></th>
                                     </tr>
-                                    <tr class="heavy-green">
+                                    <tr class="dark-grey text-white">
                                         <th colspan="2">
                                             住　　　　　所
                                         </th>
@@ -52,7 +52,7 @@
                                             電話番号
                                         </th>
                                     </tr>
-                                    <tr class="heavy-green">
+                                    <tr class="dark-grey text-white">
                                         <th colspan="2">
                                             メールアドレス
                                         </th>
@@ -69,10 +69,10 @@
                                         <td>スタッフ</td>
                                         <td rowspan="3" class="align-middle"><i class="fas fa-qrcode fa-lg"></i></td>
                                         <td rowspan="3" class="align-middle">
-                                            <a href="#" class="mx-2" @click="requestModal()">
+                                            <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="far fa-trash-alt fa-lg"></i>
                                             </a>
                                         </td>
@@ -92,10 +92,10 @@
                                         <td></td>
                                         <td rowspan="3" class="align-middle"><i class="fas fa-qrcode fa-lg"></i></td>
                                         <td rowspan="3" class="align-middle">
-                                            <a href="#" class="mx-2" @click="requestModal()">
+                                            <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="far fa-trash-alt fa-lg"></i>
                                             </a>
                                         </td>
@@ -115,10 +115,10 @@
                                         <td>スタッフ</td>
                                         <td rowspan="3" class="align-middle"><i class="fas fa-qrcode fa-lg"></i></td>
                                         <td rowspan="3" class="align-middle">
-                                            <a href="#" class="mx-2" @click="requestModal()">
+                                            <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="far fa-trash-alt fa-lg"></i>
                                             </a>
                                         </td>

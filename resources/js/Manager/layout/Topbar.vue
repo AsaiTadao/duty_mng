@@ -11,8 +11,24 @@
                     <i class="fas fa-bars"></i>
                 </a>
             </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <router-link to="/manager" class="nav-link">Home</router-link>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <div class="top-profile-link">
+                        <div class="top-avatar">
+                            <img src="/images/dummy-avatar.png" />
+                        </div>
+                        <div class="top-profile-name">
+                            阿部 一子
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" style="font-size: 20px;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
             </li>
         </ul>
     </nav>
