@@ -19,7 +19,7 @@
                         </div>
                         <div class="card-body">
                         <div class="table-responsive p-0">
-                            <table class="table table-bordered table-striped table-hover">
+                            <table class="table table-bordered table-striped table-kintai table-hover">
                                 <thead class="text-center">
                                     <tr class="heavy-green">
                                         <th>氏名</th>
@@ -64,7 +64,7 @@
                                           <td>-</td>
                                           <td>-</td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg black"></i>
                                             </a>
                                           </td>
@@ -85,7 +85,7 @@
                                           <td>-</td>
                                           <td>-</td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -106,7 +106,7 @@
                                           <td class="red">15分</td>
                                           <td>-</td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -127,7 +127,7 @@
                                           <td>-</td>
                                           <td>-</td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -148,7 +148,7 @@
                                           <td></td>
                                           <td></td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>

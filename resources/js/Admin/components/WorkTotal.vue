@@ -41,7 +41,7 @@
                         <div class="card-body">
                             <div class="table-responsive p-0">
                                 <table
-                                    class="table table-bordered table-striped table-hover"
+                                    class="table table-bordered table-striped table-kintai table-hover"
                                 >
                                     <thead class="text-center">
                                         <tr class="heavy-green">
