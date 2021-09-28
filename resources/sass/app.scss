@@ -77,6 +77,18 @@ section.content {
 .light-green {
     background-color: #d5e3cf;
 }
+.thin-green {
+    background-color: #ebf1e9;
+}
+.dark-grey {
+    background-color: #404040;
+}
+.light-grey {
+    background-color: #cbcbcb;
+}
+.thin-grey {
+    background-color: #e7e7e7;
+}
 .background-grey {
     background-color: grey;
 }
@@ -103,4 +115,28 @@ section.content {
 }
 .border-width-medium {
     border-width: medium;
+}
+.table-master tbody tr:nth-of-type(odd) {
+    background-color: #cbcbcb;
+}
+.table-master tbody tr:nth-of-type(even) {
+    background-color: #e7e7e7;
+}
+.table-kintai tbody tr:nth-of-type(odd) {
+    background-color: #d5e3cf;
+}
+.table-kintai tbody tr:nth-of-type(even) {
+    background-color: #ebf1e9;
+}
+.table-bordered th,
+.table-bordered td {
+    border: 2px solid #ffffff;
+}
+.table thead th {
+    border-bottom: 2px solid #ffffff;
+}
+.table th,
+.table td {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
 }

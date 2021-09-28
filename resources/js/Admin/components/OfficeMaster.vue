@@ -25,10 +25,10 @@
                         <br>
                         <div class="table-responsive p-0">
                             <table
-                                class="table table-bordered table-striped table-hover"
+                                class="table table-bordered table-striped table-master table-hover"
                             >
                                 <thead class="text-center">
-                                    <tr class="heavy-green">
+                                    <tr class="dark-grey text-white">
                                         <th>
                                             事業所No
                                         </th>
@@ -47,10 +47,10 @@
                                             ラテラルキッズ本社
                                         </td>
                                         <td>
-                                            <a href="#" class="mx-2" @click="requestModal()">
+                                            <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="far fa-trash-alt fa-lg"></i>
                                             </a>
                                         </td>
@@ -63,10 +63,10 @@
                                             いずみく保育園
                                         </td>
                                         <td>
-                                            <a href="#" class="mx-2" @click="requestModal()">
+                                            <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="far fa-trash-alt fa-lg"></i>
                                             </a>
                                         </td>
@@ -79,10 +79,10 @@
                                             沖縄本部
                                         </td>
                                         <td>
-                                            <a href="#" class="mx-2" @click="requestModal()">
+                                            <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="far fa-trash-alt fa-lg"></i>
                                             </a>
                                         </td>

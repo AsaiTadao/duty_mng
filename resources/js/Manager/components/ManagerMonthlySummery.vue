@@ -34,7 +34,7 @@
                             <input type="checkbox" class="align-middle">
                         </div>
                         <div class="table-responsive p-0">
-                            <table class="table table-bordered table-striped table-hover">
+                            <table class="table table-bordered table-striped table-kintai table-hover">
                                 <thead class="text-center">
                                     <tr class="heavy-green">
                                         <th width="4%" rowspan="2" class="align-middle">日付</th>
@@ -114,7 +114,7 @@
                                               <input type="text">
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -150,7 +150,7 @@
                                               <input type="text">
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -186,7 +186,7 @@
                                               <input type="text">
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -222,7 +222,7 @@
                                               <input type="text">
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -258,7 +258,7 @@
                                               <input type="text">
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -294,7 +294,7 @@
                                               <input type="text">
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -330,7 +330,7 @@
                                               <input type="text">
                                           </td>
                                           <td>
-                                            <a href="#" @click="requestModal()">
+                                            <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
                                             </a>
                                           </td>
@@ -340,34 +340,34 @@
                             </table>
                         </div>
                         <div class="table-responsive p-0">
-                            <table class="table table-bordered table-striped-row table-hover">
+                            <table class="table table-bordered table-striped-row table-kintai table-hover">
                                 <tbody class="text-center">
                                     <tr>
-                                        <td class="heavy-green">
+                                        <td class="heavy-green text-white">
                                             勤務①計
                                         </td>
                                         <td class="light-green">
                                             42.5時間
                                         </td>
-                                        <td class="heavy-green">
+                                        <td class="heavy-green text-white">
                                             勤務②計
                                         </td>
                                         <td class="light-green">
                                             13時間
                                         </td>
-                                        <td class="heavy-green">
+                                        <td class="heavy-green text-white">
                                             勤務合計
                                         </td>
                                         <td class="light-green">
                                             55.5時間
                                         </td>
-                                        <td class="heavy-green">
+                                        <td class="heavy-green text-white">
                                             実働時間
                                         </td>
                                         <td class="light-green">
                                             52.5時間
                                         </td>
-                                        <td class="heavy-green">
+                                        <td class="heavy-green text-white">
                                             残業時間
                                         </td>
                                         <td class="light-green">
@@ -375,7 +375,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="heavy-green">
+                                        <td class="heavy-green text-white">
                                             遅刻
                                         </td>
                                         <td class="light-green">
@@ -384,7 +384,7 @@
                                         <td class="light-green">
                                             0.25時間
                                         </td>
-                                        <td class="heavy-green">
+                                        <td class="heavy-green text-white">
                                             早退
                                         </td>
                                         <td class="light-green">
@@ -393,7 +393,7 @@
                                         <td class="light-green">
                                             0.5時間
                                         </td>
-                                        <td class="heavy-green">
+                                        <td class="heavy-green text-white">
                                             連続勤務
                                         </td>
                                         <td class="light-green">
@@ -401,7 +401,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="heavy-green">
+                                        <td class="heavy-green text-white">
                                             年次有休
                                         </td>
                                         <td class="light-green">
@@ -410,13 +410,13 @@
                                         <td class="light-green">
                                             4時間
                                         </td>
-                                        <td class="heavy-green">
+                                        <td class="heavy-green text-white">
                                             特休-有給
                                         </td>
                                         <td class="light-green">
                                             5時間
                                         </td>
-                                        <td class="heavy-green">
+                                        <td class="heavy-green text-white">
                                             特休-無給
                                         </td>
                                         <td class="light-green">
