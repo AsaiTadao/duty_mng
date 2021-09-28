@@ -65,7 +65,7 @@
 export default {
     methods: {
         onLogin() {
-            this.$router.push("/user");
+            this.$router.push("/user/");
         }
     }
 };
