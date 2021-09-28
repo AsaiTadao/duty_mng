@@ -174,3 +174,36 @@ section.content {
     padding-top: 0.4rem;
     padding-bottom: 0.4rem;
 }
+.w-1000-px {
+    width: 1000px;
+}
+.w-2500-px {
+    width: 2500px;
+}
+.overflow-scroll-x {
+    overflow-x: scroll;
+}
+.shifttable-bordered th,
+.shifttable-bordered td {
+    border: 1px solid #000;
+}
+.shifttable-bordered thead th {
+    border-bottom: 1px solid #000;
+}
+.modal-huge {
+    max-width: 1000px;
+}
+.background-orange {
+    background-color: #ffc000;
+}
+.shift-time-table tbody tr > td {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.fixed-width-40 {
+    width: 80px !important;
+}
+.one-digit-time {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
