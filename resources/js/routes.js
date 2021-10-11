@@ -13,8 +13,10 @@ import Master from "./Admin/components/Master";
 import WorkTotal from "./Admin/components/WorkTotal";
 import AdminSetting from "./Admin/components/AdminSetting";
 import OfficeMaster from "./Admin/components/OfficeMaster";
+import AreaMaster from "./Admin/components/AreaMaster";
 import EmployeeMaster from "./Admin/components/EmployeeMaster";
 import TimezoneMaster from "./Admin/components/TimezoneMaster";
+import HourlyMaster from "./Admin/components/HourlyMaster";
 import VacationMaster from "./Admin/components/VacationMaster";
 import ScheduleMaster from "./Admin/components/ScheduleMaster";
 import MemberStatus from "./Admin/components/MemberStatus";
@@ -142,6 +144,14 @@ export default [
                 menu: false
             },
             {
+                path: "area-master",
+                name: "admin-area-master",
+                components: { default: AreaMaster },
+                icon: "",
+                anchor: "エリアマスタ",
+                menu: false
+            },
+            {
                 path: "employee-master",
                 name: "admin-employee-master",
                 components: { default: EmployeeMaster },
@@ -155,6 +165,14 @@ export default [
                 components: { default: TimezoneMaster },
                 icon: "",
                 anchor: "時間帯マスタ",
+                menu: false
+            },
+            {
+                path: "hourly-master",
+                name: "admin-hourly-master",
+                components: { default: HourlyMaster },
+                icon: "",
+                anchor: "時給テーブルマスタ",
                 menu: false
             },
             {

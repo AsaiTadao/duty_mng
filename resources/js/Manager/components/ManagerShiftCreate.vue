@@ -10,8 +10,8 @@
                                 <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
                                     <i class="fas fa-caret-left fa-2x"></i>
                                 </button>
-                                <div class="mx-2">2021年8月</div>
-                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="getResults(this.currentDate)">
+                                <div class="mx-2">{{displayDate}}</div>
+                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="getResults(getThisMonthDate())">
                                     今月
                                 </button>
                                 <button type="button" class="btn btn-sm btn-outline" :hidden="isThisMonth()" @click="getResults(getNextMonthDate())">
@@ -31,159 +31,9 @@
                                 <thead class="text-center">
                                     <tr class="light-green">
                                         <th width="4%" class="align-middle">日付</th>
-                                        <th class="align-middle">
+                                        <th v-for="day in days" :key="day.getDate()" class="align-middle">
                                             <a href="#" @click="openDayCalendar()">
-                                                1日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                2日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                3日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                4日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                5日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                6日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                7日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                8日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                9日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                10日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                11日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                12日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                13日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                               14日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                15日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                16日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                17日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                18日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                19日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                20日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                21日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                22日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                23日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                24日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                25日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                26日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                27日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                28日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                29日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                30日
-                                            </a>
-                                        </th>
-                                        <th class="align-middle">
-                                            <a href="#" @click="openDayCalendar()">
-                                                31日
+                                                {{day.getDate()}}日
                                             </a>
                                         </th>
                                         <th class="align-middle heavy-green" rowspan="2">勤務予定日数</th>
@@ -191,37 +41,11 @@
                                     </tr>
                                     <tr class="light-green">
                                         <th class="align-middle">曜日</th>
-                                        <th class="align-middle">月</th>
-                                        <th class="align-middle">火</th>
-                                        <th class="align-middle">水</th>
-                                        <th class="align-middle">木</th>
-                                        <th class="align-middle">金</th>
-                                        <th class="align-middle blue">土</th>
-                                        <th class="align-middle red">日</th>
-                                        <th class="align-middle">月</th>
-                                        <th class="align-middle">火</th>
-                                        <th class="align-middle">水</th>
-                                        <th class="align-middle">木</th>
-                                        <th class="align-middle">金</th>
-                                        <th class="align-middle blue">土</th>
-                                        <th class="align-middle red">日</th>
-                                        <th class="align-middle">月</th>
-                                        <th class="align-middle">火</th>
-                                        <th class="align-middle">水</th>
-                                        <th class="align-middle">木</th>
-                                        <th class="align-middle">金</th>
-                                        <th class="align-middle blue">土</th>
-                                        <th class="align-middle red">日</th>
-                                        <th class="align-middle">月</th>
-                                        <th class="align-middle">火</th>
-                                        <th class="align-middle">水</th>
-                                        <th class="align-middle">木</th>
-                                        <th class="align-middle">金</th>
-                                        <th class="align-middle blue">土</th>
-                                        <th class="align-middle red">日</th>
-                                        <th class="align-middle">月</th>
-                                        <th class="align-middle">火</th>
-                                        <th class="align-middle">水</th>
+                                        <th v-for="day in days" :key="day.getDate()" class="align-middle">
+                                            <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
+                                            <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
+                                            <div v-else>{{day|formatWeek}}</div>
+                                        </th>
                                     </tr>
                                 </thead>
                                     <tbody class="text-center">
@@ -857,6 +681,11 @@
                                             </a>
                                           </td>
                                           <td>
+                                            <div>
+                                                <a href="#" @click="openShiftPopup()">
+                                                    パ-A
+                                                </a>
+                                            </div>
                                             <a href="#" @click="openShiftPopup()">
                                                 パ-B
                                             </a>
@@ -1008,6 +837,7 @@
                                     </tbody>
                             </table>
                         </div>
+                        <button class="btn btn-primary float-right mt-2">Excel出力</button>
                         </div>
                     </div>
                 </div>
@@ -1540,11 +1370,13 @@
     </section>
 </template>
 <script>
+    import moment from 'moment';
     export default {
         data () {
             return {
                 editmode: false,
                 currentDate: new Date(),
+                displayDate: new Date(),
                 days: [],
                 attends : [],
                 requests : [],
@@ -1561,16 +1393,33 @@
             }
         },
         methods: {
+            getWeekEnd(day) {
+                const weekDay = moment(day).format("ddd");;
+                if (weekDay === '土'){
+                    return 1;
+                } else if(weekDay === '日'){
+                    return 2;
+                } else {
+                    return 0;
+                }
+            },
             isThisMonth() {
                 const today = new Date();
                 return this.currentDate.getFullYear() == today.getFullYear() && this.currentDate.getMonth() == today.getMonth();
             },
+            getThisMonthDate() {
+                const date = new Date();
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY年 M月');
+                return new Date(date.getFullYear(), date.getMonth(), 1);
+            },
             getNextMonthDate() {
                 const date = this.currentDate;
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY年 M月');
                 return new Date(date.getFullYear(), date.getMonth() + 1, 1);
             },
             getPrevMonthDate() {
                 const date = this.currentDate;
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY年 M月');
                 return new Date(date.getFullYear(), date.getMonth() - 1, 1);
             },
             getResults(month_date) {
@@ -1631,10 +1480,11 @@
                 this.currentDate = date;
                 var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDate();
                 var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+                this.days = [];
                 for(let day = firstDay; day <= lastDay; day++) {
                     this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
                 }
-                console.log(this.days);
+                //console.log(this.days);
 
             },
 
@@ -1643,6 +1493,7 @@
             console.log('User Component mounted.')
         },
         created() {
+            this.displayDate = moment(this.displayDate).format('YYYY年 M月');
             this.getResults(this.currentDate);
         }
     }

@@ -7,29 +7,25 @@
                         <div class="card-header calendar-title">
                             <h3 class="card-title mb-0">ラテラル保育園</h3>
                             <div class="card-tools calendar-center flex-grow-1">
-                                <datepicker
-                                :language="ja"
-                                :format="customFormatter"
-                                ref="programaticOpen"
-                                :placeholder="todayDate">
-                                </datepicker>
-                                <button type="button" class="btn btn-sm btn-outline mx-2" @click="openDatePicker()">
-                                    <i class="fas fa-calendar-alt fa-2x"></i>
+                                <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
+                                    <i class="fas fa-caret-left fa-2x"></i>
                                 </button>
-                                <div class="form-group mx-4 mb-0">
-                                    <select class="form-control">
-                                        <option>ラテラル保育園</option>
-                                        <option>ラテラルキッズ本社</option>
-                                    </select>
-                                </div>
+                                <div class="mx-2">2021年8月</div>
+                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="getResults(this.currentDate)">
+                                    今月
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline" :hidden="isThisMonth()" @click="getResults(getNextMonthDate())">
+                                    <i class="fas fa-caret-right fa-2x"></i>
+                                </button>
                             </div>
                         </div>
                         <div class="card-body">
                         <div class="table-responsive p-0">
                             <table class="table table-bordered table-striped table-kintai table-hover">
-                                <thead class="text-center text-white">
+                                <thead class="text-center">
                                     <tr class="heavy-green">
-                                        <th>氏名</th>
+                                        <th>日付</th>
+                                        <th>曜日</th>
                                         <th>出勤時間①</th>
                                         <th>退勤時間①</th>
                                         <th>遅刻[分数]</th>
@@ -38,7 +34,6 @@
                                         <th>退勤時間②</th>
                                         <th>遅刻[分数]</th>
                                         <th>早退[分数]</th>
-                                        <th>編集</th>
                                         <th>申請</th>
                                     </tr>
                                 </thead>
@@ -61,20 +56,16 @@
                                             </td>
                                         </tr> -->
                                         <tr>
-                                          <td>阿部　一子</td>
-                                          <td>8:05</td>
-                                          <td>14:05</td>
-                                          <td class="red">15分</td>
+                                          <td>1日</td>
+                                          <td>月</td>
+                                          <td>7:55</td>
+                                          <td>18:00</td>
                                           <td>-</td>
                                           <td>-</td>
                                           <td>-</td>
                                           <td>-</td>
                                           <td>-</td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg black"></i>
-                                            </a>
-                                          </td>
+                                          <td>-</td>
                                           <td>
                                             <a href="#" @click="requestModal()">
                                                 <i class="far fa-envelope fa-lg orange"></i>
@@ -82,51 +73,61 @@
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td>伊藤　二子</td>
+                                          <td>2日</td>
+                                          <td>火</td>
+                                          <td>8:05</td>
+                                          <td>14:00</td>
+                                          <td>15分</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>
+                                            <a href="#" @click="requestModal()">
+                                                <i class="far fa-envelope fa-lg orange"></i>
+                                            </a>
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td>3日</td>
+                                          <td>水</td>
                                           <td>7:55</td>
-                                          <td>16:00</td>
+                                          <td>13:00</td>
                                           <td>-</td>
                                           <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
+                                          <td>14:55</td>
+                                          <td>20:00</td>
                                           <td>-</td>
                                           <td>-</td>
                                           <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td>
-                                            <!-- <a href="#" @click="requestModal()">
+                                            <a href="#" @click="requestModal()">
                                                 <i class="far fa-envelope fa-lg orange"></i>
-                                            </a> -->
+                                            </a>
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td>上野　三子</td>
-                                          <td>7:29</td>
-                                          <td>12:03</td>
+                                          <td>4日</td>
+                                          <td>木</td>
+                                          <td>7:55</td>
+                                          <td>17:00</td>
                                           <td>-</td>
                                           <td>-</td>
-                                          <td>14:04</td>
                                           <td>-</td>
-                                          <td class="red">15分</td>
+                                          <td>-</td>
+                                          <td>-</td>
                                           <td>-</td>
                                           <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td>
-                                            <!-- <a href="#" @click="requestModal()">
+                                            <a href="#" @click="requestModal()">
                                                 <i class="far fa-envelope fa-lg orange"></i>
-                                            </a> -->
+                                            </a>
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td>遠藤　四子</td>
-                                          <td>9:55</td>
-                                          <td>17:35</td>
+                                          <td>5日</td>
+                                          <td>金</td>
+                                          <td>7:55</td>
+                                          <td>14:35</td>
                                           <td>-</td>
                                           <td>30分</td>
                                           <td>-</td>
@@ -134,31 +135,39 @@
                                           <td>-</td>
                                           <td>-</td>
                                           <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td>
-                                            <!-- <a href="#" @click="requestModal()">
+                                            <a href="#" @click="requestModal()">
                                                 <i class="far fa-envelope fa-lg orange"></i>
-                                            </a> -->
+                                            </a>
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td>小野　五子</td>
-                                          <td class="red">欠勤</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
+                                          <td>6日</td>
+                                          <td>土</td>
+                                          <td>7:55</td>
+                                          <td>12:00</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>14:00</td>
+                                          <td>19:00</td>
+                                          <td>-</td>
+                                          <td>-</td>
                                           <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
+                                            <a href="#" @click="requestModal()">
+                                                <i class="far fa-envelope fa-lg orange"></i>
                                             </a>
                                           </td>
+                                        </tr>
+                                        <tr>
+                                          <td>7日</td>
+                                          <td>日</td>
+                                          <td></td>
+                                          <td></td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
+                                          <td>-</td>
                                           <td>
                                             <a href="#" @click="requestModal()">
                                                 <i class="far fa-envelope fa-lg orange"></i>
@@ -166,6 +175,34 @@
                                           </td>
                                         </tr>
                                     </tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive p-0">
+                            <table class="table table-bordered text-white">
+                                <thead class="text-center">
+                                    <tr class="top-green">
+                                        <th>勤務時間合計</th>
+                                        <th>実働時間</th>
+                                        <th>所定労働時間</th>
+                                        <th>過不足時間</th>
+                                        <th>残業時間[平日]</th>
+                                        <th>残業時間[土曜]</th>
+                                        <th>遅刻[時間]</th>
+                                        <th>早退[時間]</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr class="heavy-green">
+                                        <td>178時間</td>
+                                        <td>158時間</td>
+                                        <td>160時間</td>
+                                        <td>-2時間</td>
+                                        <td>1.5時間</td>
+                                        <td>0.5時間</td>
+                                        <td>0.25時間</td>
+                                        <td>0.5時間</td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         </div>
@@ -186,26 +223,42 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <i class="fas fa-square-full"></i>
-                                <label>申請者</label>
-                                <div>阿部 一子</div>
+                                <label v-for="item in this.$request_type" :key="item.id" class="mr-2">
+                                    <input v-model="form.type" type="radio" name="type" :value="item.id">
+                                    <label class="ml-auto">{{item.name}}</label>
+                                </label>
+                                <has-error :form="form" field="type"></has-error>
                             </div>
+
                             <div class="form-group">
                                 <i class="fas fa-square-full"></i>
                                 <label>申請日時</label>
-                                <div>8月2日 8:11</div>
+                                <div>{{ currentTime() }}</div>
                             </div>
                             <div class="form-group">
                                 <i class="fas fa-square-full"></i>
                                 <label>修正時間</label>
-                                <div>遅刻</div>
                                 <div class="form-row align-items-center">
-                                    <div class="col-md-1">
-                                        <div>8:05</div>
+                                    <div class="col-md-2">
+                                        <input v-model="form.hour" type="number" name="hour"
+                                            class="form-control" :class="{ 'is-invalid': form.errors.has('hour') }">
+                                        <has-error :form="form" field="hour"></has-error>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input v-model="form.minute" type="number" name="minute"
+                                            class="form-control" :class="{ 'is-invalid': form.errors.has('minute') }">
+                                        <has-error :form="form" field="minute"></has-error>
                                     </div>
                                     <div class="form-control-label">⇒</div>
-                                    <div class="col-md-1">
-                                        <div>8:00</div>
+                                    <div class="col-md-2">
+                                        <input v-model="form.new_hour" type="number" name="new_hour"
+                                            class="form-control" :class="{ 'is-invalid': form.errors.has('new_hour') }">
+                                        <has-error :form="form" field="new_hour"></has-error>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input v-model="form.new_minute" type="number" name="new_minute"
+                                            class="form-control" :class="{ 'is-invalid': form.errors.has('new_minute') }">
+                                        <has-error :form="form" field="new_minute"></has-error>
                                     </div>
                                 </div>
                             </div>
@@ -213,13 +266,15 @@
                             <div class="form-group">
                                 <i class="fas fa-square-full"></i>
                                 <label>申請理由</label>
-                                <div>雨天によるJR遅延のため</div>
+                                <input v-model="form.memo" type="text" name="memo"
+                                    class="form-control" :class="{ 'is-invalid': form.errors.has('memo') }">
+                                <has-error :form="form" field="memo"></has-error>
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">承認</button>
-                            <button type="submit" class="btn btn-warning">却下</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                            <button type="submit" class="btn btn-primary">申請</button>
                         </div>
                     </div>
                 </div>
@@ -228,18 +283,11 @@
     </section>
 </template>
 <script>
-    import Datepicker from "vuejs-datepicker";
-    import { ja } from 'vuejs-datepicker/dist/locale';
-    import moment from 'moment'
     export default {
-        components: {
-            Datepicker,
-        },
         data () {
             return {
                 editmode: false,
                 currentDate: new Date(),
-                todayDate: "",
                 days: [],
                 attends : [],
                 requests : [],
@@ -252,8 +300,7 @@
                     new_hour: '',
                     new_minute: '',
                     memo: '',
-                }),
-                ja: ja,
+                })
             }
         },
         methods: {
@@ -298,14 +345,6 @@
                 // }
                 $('#addNew').modal('show');
             },
-            getCurrentDate(){
-                // var today = new Date();
-                // var year = today.getFullYear();
-                // var month = today.getMonth();
-                // var day = today.getDate();
-                // var dayweek = today.getDay();
-                return moment().format('YYYY年 M月 D日 (ddd)');
-            },
             currentTime(){
                 var today = new Date();
                 var month = today.getMonth() + 1;
@@ -338,19 +377,13 @@
                 console.log(this.days);
 
             },
-            customFormatter(date) {
-                return moment(date).format('YYYY年 M月 D日 (ddd)');
-            },
-            openDatePicker(){
-                this.$refs.programaticOpen.showCalendar();
-            }
+
         },
         mounted() {
             console.log('User Component mounted.')
         },
         created() {
             this.getResults(this.currentDate);
-            this.todayDate = this.getCurrentDate().toString();
         }
     }
 </script>

@@ -10,8 +10,8 @@
                                 <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
                                     <i class="fas fa-caret-left fa-2x"></i>
                                 </button>
-                                <div class="mx-2">2021年8月</div>
-                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="getResults(this.currentDate)">
+                                <div class="mx-2">{{displayDate}}</div>
+                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="getResults(getThisMonthDate())">
                                     今月
                                 </button>
                                 <button type="button" class="btn btn-sm btn-outline" :hidden="isThisMonth()" @click="getResults(getNextMonthDate())">
@@ -33,43 +33,70 @@
                             <label>一括承認する</label>
                             <input type="checkbox" class="align-middle">
                         </div>
-                        <div class="table-responsive p-0">
-                            <table class="table table-bordered table-striped table-kintai table-hover">
-                                <thead class="text-center">
+                        <div class="table-responsive p-0 overflow-scroll-x">
+                            <table class="table table-bordered table-striped table-kintai table-hover w-2500-px">
+                                <thead class="text-center text-white">
                                     <tr class="heavy-green">
-                                        <th width="4%" rowspan="2" class="align-middle">日付</th>
-                                        <th width="4%" rowspan="2" class="align-middle">曜日</th>
-                                        <th width="4%" rowspan="2" class="align-middle">出勤①</th>
-                                        <th width="4%" rowspan="2" class="align-middle">退勤①</th>
-                                        <th width="4%" rowspan="2" class="align-middle">遅刻</th>
-                                        <th width="4%" rowspan="2" class="align-middle">早退</th>
-                                        <th width="4%" rowspan="2" class="align-middle">出勤②</th>
-                                        <th width="4%" rowspan="2" class="align-middle">退勤②</th>
-                                        <th width="4%" rowspan="2" class="align-middle">遅刻</th>
-                                        <th width="4%" rowspan="2" class="align-middle">早退</th>
-                                        <th width="4%" rowspan="2" class="align-middle">勤務時間</th>
-                                        <th width="4%" rowspan="2" class="align-middle">休憩</th>
-                                        <th width="4%" rowspan="2" class="align-middle">実働時間</th>
-                                        <th width="4%" rowspan="2" class="align-middle">残業時間</th>
-                                        <th width="4%" rowspan="2" class="align-middle">連勤</th>
+                                        <th rowspan="2" class="align-middle p-0">日付</th>
+                                        <th rowspan="2" class="align-middle p-0">曜日</th>
+                                        <th rowspan="2" class="align-middle">出勤時間<br>①</th>
+                                        <th rowspan="2" class="align-middle">退勤時間<br>①</th>
+                                        <th rowspan="2" class="align-middle p-0">遅刻[分数]</th>
+                                        <th rowspan="2" class="align-middle p-0">早退[分数]</th>
+                                        <th rowspan="2" class="align-middle">出勤時間<br>②</th>
+                                        <th rowspan="2" class="align-middle">退勤時間<br>②</th>
+                                        <th rowspan="2" class="align-middle p-0">遅刻[分数]</th>
+                                        <th rowspan="2" class="align-middle p-0">早退[分数]</th>
+                                        <th rowspan="2" class="align-middle">勤務<br>時間</th>
+                                        <th rowspan="2" class="align-middle">休憩<br>時間</th>
+                                        <th rowspan="2" class="align-middle">実働<br>時間</th>
+                                        <th rowspan="2" class="align-middle">残業<br>時間</th>
+                                        <th rowspan="2" class="align-middle">深夜<br>時間</th>
+                                        <th rowspan="2" class="align-middle p-0">シフト外出勤</th>
+                                        <th rowspan="2" class="align-middle">代休日</th>
+                                        <th rowspan="2" class="align-middle">連休有無</th>
                                         <th colspan="2">年次有休</th>
-                                        <th colspan="2">特別休暇</th>
-                                        <th rowspan="2" class="align-middle">休暇理由</th>
+                                        <th colspan="2">特休有給</th>
+                                        <th colspan="2">特休無給</th>
+                                        <th colspan="2">その他無給</th>
+                                        <th rowspan="2" class="align-middle">欠勤日</th>
+                                        <th rowspan="2" class="align-middle">休暇・欠勤理由</th>
                                         <th rowspan="2" class="align-middle">備考</th>
-                                        <th width="4%" rowspan="2" class="align-middle">編集</th>
-                                        <th width="4%" rowspan="2" class="align-middle">承認</th>
+                                        <th rowspan="2" class="align-middle p-0">編集</th>
+                                        <th rowspan="2" class="align-middle p-0">承認</th>
                                     </tr>
                                     <tr class="heavy-green">
-                                        <th width="4%">時間</th>
-                                        <th width="4%">日</th>
-                                        <th width="4%">有給</th>
-                                        <th width="4%">無給</th>
+                                        <th>時間</th>
+                                        <th>日</th>
+                                        <th>時間</th>
+                                        <th>日</th>
+                                        <th>時間</th>
+                                        <th>日</th>
+                                        <th>時間</th>
+                                        <th>日</th>
                                     </tr>
                                 </thead>
                                     <tbody class="text-center">
-                                        <!-- <tr v-for="day in days" :key="day.getDate()">
+                                        <tr v-for="day in days" :key="day.getDate()">
                                             <td>{{day.getDate()}}日</td>
-                                            <td>{{day|formatWeek}}</td>
+                                            <td v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</td>
+                                            <td v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</td>
+                                            <td v-else>{{day|formatWeek}}</td>
+                                            <td>7:55</td>
+                                            <td>18:00</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>10:00</td>
+                                            <td>1:00</td>
+                                            <td>9:00</td>
+                                            <td>-</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td><input type="checkbox"></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -78,350 +105,86 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
+                                            <td></td>
+                                            <td><input type="checkbox"></td>
                                             <td>
-                                                <a href="#" @click="requestModal(row)">
-                                                    <i class="fa fa-edit blue"></i>
+                                                <select>
+                                                    <option>育児休暇</option>
+                                                    <option>育児休暇</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text">
+                                            </td>
+                                            <td>
+                                                <a href="#">
+                                                    <i class="fa fa-edit fa-lg blue"></i>
                                                 </a>
                                             </td>
-                                        </tr> -->
-                                        <tr>
-                                          <td>1日</td>
-                                          <td>月</td>
-                                          <td>7:55</td>
-                                          <td>18:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>10:00</td>
-                                          <td>1:00</td>
-                                          <td>9:00</td>
-                                          <td>-</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td>
-                                              <select>
-                                                  <option>育児休暇</option>
-                                                  <option>育児休暇</option>
-                                              </select>
-                                          </td>
-                                          <td>
-                                              <input type="text">
-                                          </td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td><input type="checkbox"></td>
-                                        </tr>
-                                        <tr>
-                                          <td>2日</td>
-                                          <td>火</td>
-                                          <td>7:55</td>
-                                          <td>18:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>10:00</td>
-                                          <td>1:00</td>
-                                          <td>9:00</td>
-                                          <td>-</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td>
-                                              <select>
-                                                  <option>育児休暇</option>
-                                                  <option>育児休暇</option>
-                                              </select>
-                                          </td>
-                                          <td>
-                                              <input type="text">
-                                          </td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td><input type="checkbox"></td>
-                                        </tr>
-                                        <tr>
-                                          <td>3日</td>
-                                          <td>水</td>
-                                          <td>7:55</td>
-                                          <td>18:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>10:00</td>
-                                          <td>1:00</td>
-                                          <td>9:00</td>
-                                          <td>-</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td>
-                                              <select>
-                                                  <option>育児休暇</option>
-                                                  <option>育児休暇</option>
-                                              </select>
-                                          </td>
-                                          <td>
-                                              <input type="text">
-                                          </td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td><input type="checkbox"></td>
-                                        </tr>
-                                        <tr>
-                                          <td>4日</td>
-                                          <td>木</td>
-                                          <td>7:55</td>
-                                          <td>18:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>10:00</td>
-                                          <td>1:00</td>
-                                          <td>9:00</td>
-                                          <td>-</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td>
-                                              <select>
-                                                  <option>育児休暇</option>
-                                                  <option>育児休暇</option>
-                                              </select>
-                                          </td>
-                                          <td>
-                                              <input type="text">
-                                          </td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td><input type="checkbox"></td>
-                                        </tr>
-                                        <tr>
-                                          <td>5日</td>
-                                          <td>金</td>
-                                          <td>7:55</td>
-                                          <td>18:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>10:00</td>
-                                          <td>1:00</td>
-                                          <td>9:00</td>
-                                          <td>-</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td>
-                                              <select>
-                                                  <option>育児休暇</option>
-                                                  <option>育児休暇</option>
-                                              </select>
-                                          </td>
-                                          <td>
-                                              <input type="text">
-                                          </td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td><input type="checkbox"></td>
-                                        </tr>
-                                        <tr>
-                                          <td>6日</td>
-                                          <td class="blue">土</td>
-                                          <td>7:55</td>
-                                          <td>18:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>10:00</td>
-                                          <td>1:00</td>
-                                          <td>9:00</td>
-                                          <td>-</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td>
-                                              <select>
-                                                  <option>育児休暇</option>
-                                                  <option>育児休暇</option>
-                                              </select>
-                                          </td>
-                                          <td>
-                                              <input type="text">
-                                          </td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td><input type="checkbox"></td>
-                                        </tr>
-                                        <tr>
-                                          <td>7日</td>
-                                          <td class="red">日</td>
-                                          <td>7:55</td>
-                                          <td>18:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>10:00</td>
-                                          <td>1:00</td>
-                                          <td>9:00</td>
-                                          <td>-</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td></td>
-                                          <td><input type="checkbox"></td>
-                                          <td>
-                                              <select>
-                                                  <option>育児休暇</option>
-                                                  <option>育児休暇</option>
-                                              </select>
-                                          </td>
-                                          <td>
-                                              <input type="text">
-                                          </td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td><input type="checkbox"></td>
+                                            <td><input type="checkbox"></td>
                                         </tr>
                                     </tbody>
                             </table>
                         </div>
+                        <br>
                         <div class="table-responsive p-0">
-                            <table class="table table-bordered table-striped-row table-kintai table-hover">
+                            <table class="table table-bordered">
                                 <tbody class="text-center">
-                                    <tr>
-                                        <td class="heavy-green text-white">
-                                            勤務①計
-                                        </td>
-                                        <td class="light-green">
-                                            42.5時間
-                                        </td>
-                                        <td class="heavy-green text-white">
-                                            勤務②計
-                                        </td>
-                                        <td class="light-green">
-                                            13時間
-                                        </td>
-                                        <td class="heavy-green text-white">
-                                            勤務合計
-                                        </td>
-                                        <td class="light-green">
-                                            55.5時間
-                                        </td>
-                                        <td class="heavy-green text-white">
-                                            実働時間
-                                        </td>
-                                        <td class="light-green">
-                                            52.5時間
-                                        </td>
-                                        <td class="heavy-green text-white">
-                                            残業時間
-                                        </td>
-                                        <td class="light-green">
-                                            0.75時間
-                                        </td>
+                                    <tr class="top-green text-white">
+                                        <th class="align-middle">勤務時間<br>合計</th>
+                                        <th class="align-middle">実働時間</th>
+                                        <th class="align-middle">所定労働<br>時間</th>
+                                        <th class="align-middle">過不足<br>時間</th>
+                                        <th class="align-middle">残業時間<br>[平日]</th>
+                                        <th class="align-middle">残業時間<br>[土曜]</th>
+                                        <th class="align-middle">深夜時間</th>
+                                        <th class="align-middle">遅刻[時間]</th>
+                                        <th class="align-middle">早退[時間]</th>
+                                        <th class="align-middle">シフト外勤<br>務時間</th>
+                                        <th class="align-middle">代休時間</th>
+                                        <th class="align-middle">連勤時間</th>
                                     </tr>
-                                    <tr>
-                                        <td class="heavy-green text-white">
-                                            遅刻
-                                        </td>
-                                        <td class="light-green">
-                                            1回
-                                        </td>
-                                        <td class="light-green">
-                                            0.25時間
-                                        </td>
-                                        <td class="heavy-green text-white">
-                                            早退
-                                        </td>
-                                        <td class="light-green">
-                                            1回
-                                        </td>
-                                        <td class="light-green">
-                                            0.5時間
-                                        </td>
-                                        <td class="heavy-green text-white">
-                                            連続勤務
-                                        </td>
-                                        <td class="light-green">
-                                           1日
-                                        </td>
+                                    <tr class="heavy-green text-white">
+                                        <td>178時間</td>
+                                        <td>158時間</td>
+                                        <td>160時間</td>
+                                        <td>-時間</td>
+                                        <td>1.50時間</td>
+                                        <td>0.50時間</td>
+                                        <td>3.25時間</td>
+                                        <td>0.50時間</td>
+                                        <td>1.25時間</td>
+                                        <td>9時間</td>
+                                        <td>5時間</td>
+                                        <td>8時間</td>
                                     </tr>
-                                    <tr>
-                                        <td class="heavy-green text-white">
-                                            年次有休
-                                        </td>
-                                        <td class="light-green">
-                                            1日
-                                        </td>
-                                        <td class="light-green">
-                                            4時間
-                                        </td>
-                                        <td class="heavy-green text-white">
-                                            特休-有給
-                                        </td>
-                                        <td class="light-green">
-                                            5時間
-                                        </td>
-                                        <td class="heavy-green text-white">
-                                            特休-無給
-                                        </td>
-                                        <td class="light-green">
-                                           1日
-                                        </td>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive p-0">
+                            <table class="table table-bordered">
+                                <tbody class="text-center">
+                                    <tr class="top-green text-white">
+                                        <th class="align-middle">年次有休<br>[時間]</th>
+                                        <th class="align-middle">年次有休<br>[日]</th>
+                                        <th class="align-middle">特休有給<br>[時間]</th>
+                                        <th class="align-middle">特休有給<br>[日]</th>
+                                        <th class="align-middle">特休無給<br>[平日]</th>
+                                        <th class="align-middle">特休無給<br>[土曜]</th>
+                                        <th class="align-middle">その他無給<br>[時間]</th>
+                                        <th class="align-middle">その他無給<br>[日]</th>
+                                        <th class="align-middle">欠勤日数</th>
+                                    </tr>
+                                    <tr class="heavy-green text-white">
+                                        <td>12時間</td>
+                                        <td>1日</td>
+                                        <td>5時間</td>
+                                        <td>1日</td>
+                                        <td>6時間</td>
+                                        <td>1日</td>
+                                        <td>3時間</td>
+                                        <td>2日</td>
+                                        <td>1日</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -505,11 +268,13 @@
     </section>
 </template>
 <script>
+    import moment from 'moment';
     export default {
         data () {
             return {
                 editmode: false,
                 currentDate: new Date(),
+                displayDate: new Date(),
                 days: [],
                 attends : [],
                 requests : [],
@@ -526,16 +291,33 @@
             }
         },
         methods: {
+            getWeekEnd(day) {
+                const weekDay = moment(day).format("ddd");;
+                if (weekDay === '土'){
+                    return 1;
+                } else if(weekDay === '日'){
+                    return 2;
+                } else {
+                    return 0;
+                }
+            },
             isThisMonth() {
                 const today = new Date();
                 return this.currentDate.getFullYear() == today.getFullYear() && this.currentDate.getMonth() == today.getMonth();
             },
+            getThisMonthDate() {
+                const date = new Date();
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY年 M月');
+                return new Date(date.getFullYear(), date.getMonth(), 1);
+            },
             getNextMonthDate() {
                 const date = this.currentDate;
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY年 M月');
                 return new Date(date.getFullYear(), date.getMonth() + 1, 1);
             },
             getPrevMonthDate() {
                 const date = this.currentDate;
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY年 M月');
                 return new Date(date.getFullYear(), date.getMonth() - 1, 1);
             },
             getResults(month_date) {
@@ -593,10 +375,11 @@
                 this.currentDate = date;
                 var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDate();
                 var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+                this.days = [];
                 for(let day = firstDay; day <= lastDay; day++) {
                     this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
                 }
-                console.log(this.days);
+                // console.log(this.days);
 
             },
 
@@ -605,6 +388,7 @@
             console.log('User Component mounted.')
         },
         created() {
+            this.displayDate = moment(this.displayDate).format('YYYY年 M月');
             this.getResults(this.currentDate);
         }
     }

@@ -7,10 +7,318 @@
                         <h3 class="card-title mb-0">所定労働時間マスタ</h3>
                     </div>
                     <div class="card-body">
-                        所定労働時間マスタ...
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <button type="submit" class="btn btn-sm btn-primary" @click="addSchedule()">
+                                        新規登録
+                                </button>
+                            </div>
+                            <div class="input-group w-auto">
+                                <input type="search" class="form-control form-control-sm" placeholder="業種名">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-sm btn-default">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mt-2" style="margin-bottom:-30px;">
+                            <div class="form-row align-items-center justify-content-end">
+                                <div class="col-md-2">
+                                    <select class="form-control">
+                                        <option>本社・本部Grp</option>
+                                        <option>本社・本部Grp</option>
+                                        <option>本社・本部Grp</option>
+                                        <option>本社・本部Grp</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="this-year-tab" data-toggle="pill" href="#this-year-table" role="tab" aria-controls="this-year-table" aria-selected="true">本年度</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="next-year-tab" data-toggle="pill" href="#next-year-table" role="tab" aria-controls="next-year-table" aria-selected="false">来年度</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="custom-content-below-tabContent">
+                            <div class="tab-pane fade show active" id="this-year-table" role="tabpanel" aria-labelledby="this-year-tab">
+                                <div class="table-responsive p-0">
+                                    <table
+                                        class="table table-bordered table-striped table-master table-hover"
+                                    >
+                                        <thead class="text-center">
+                                            <tr class="dark-grey text-white">
+                                                <th>
+                                                    年月
+                                                </th>
+                                                <th>
+                                                    所定労働日数
+                                                </th>
+                                                <th>
+                                                    所定労働時間
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            <tr>
+                                                <td>
+                                                    2021年4月
+                                                </td>
+                                                <td>
+                                                    21日
+                                                </td>
+                                                <td>
+                                                    168時間
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    2021年5月
+                                                </td>
+                                                <td>
+                                                    19日
+                                                </td>
+                                                <td>
+                                                    152時間
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    2021年6月
+                                                </td>
+                                                <td>
+                                                    19日
+                                                </td>
+                                                <td>
+                                                    152時間
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    2021年7月
+                                                </td>
+                                                <td>
+                                                    22日
+                                                </td>
+                                                <td>
+                                                    176時間
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="next-year-table" role="tabpanel" aria-labelledby="next-year-tab">
+                                <div class="table-responsive p-0">
+                                    <table
+                                        class="table table-bordered table-striped table-master table-hover"
+                                    >
+                                        <thead class="text-center">
+                                            <tr class="dark-grey text-white">
+                                                <th>
+                                                    年月
+                                                </th>
+                                                <th>
+                                                    所定労働日数
+                                                </th>
+                                                <th>
+                                                    所定労働時間
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            <tr>
+                                                <td>
+                                                    2022年4月
+                                                </td>
+                                                <td>
+                                                    21日
+                                                </td>
+                                                <td>
+                                                    168時間
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    2022年5月
+                                                </td>
+                                                <td>
+                                                    19日
+                                                </td>
+                                                <td>
+                                                    152時間
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    2022年6月
+                                                </td>
+                                                <td>
+                                                    19日
+                                                </td>
+                                                <td>
+                                                    152時間
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    2022年7月
+                                                </td>
+                                                <td>
+                                                    22日
+                                                </td>
+                                                <td>
+                                                    176時間
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNew" aria-hidden="true">
+                            <div class="modal-dialog modal-huge" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">新規登録</h5>
+                                        <!-- <h5 class="modal-title" v-show="editmode">再申請</h5> -->
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <div class="form-row">
+                                                <div class="col-md-3">
+                                                    <input type="text" name="office_number"
+                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('hour') }"
+                                                    placeholder="業種グループ名入力">
+                                                    <has-error :form="form" field="hour"></has-error>
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-6">
+                                                    <div class="form-row">
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="1">
+                                                            <label class="ml-auto">仙台本社</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="2">
+                                                            <label class="ml-auto">沖縄本社</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="3">
+                                                            <label class="ml-auto">埼玉支社</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="1">
+                                                            <label class="ml-auto">梅田あひる園</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="2">
+                                                            <label class="ml-auto">福岡かえる園</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="3">
+                                                            <label class="ml-auto">福岡すずめ園</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                                        <button type="submit" class="btn btn-primary">登録</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+<script>
+    export default {
+        data() {
+            return {
+                editmode: false,
+                currentDate: new Date(),
+                days: [],
+                attends : [],
+                requests : [],
+                form: new Form({
+                    id : '',
+                    date: '',
+                    type : 0,
+                    hour: '',
+                    minute: '',
+                    new_hour: '',
+                    new_minute: '',
+                    memo: '',
+                })
+            }
+        },
+        methods: {
+            addSchedule(){
+                $("#addNew").modal("show");
+            }
+        },
+        mounted() {
+
+        },
+        created() {
+
+        }
+    }
+</script>

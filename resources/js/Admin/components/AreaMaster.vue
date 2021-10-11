@@ -4,17 +4,17 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title mb-0">事業所マスタ</h3>
+                        <h3 class="card-title mb-0">エリアマスタ</h3>
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <button type="submit" class="btn btn-sm btn-primary" @click="addOffice()">
+                                <button type="submit" class="btn btn-sm btn-primary" @click="addArea()">
                                         新規登録
                                 </button>
                             </div>
                             <div class="input-group w-auto">
-                                <input type="search" class="form-control form-control-sm" placeholder="事業所名">
+                                <input type="search" class="form-control form-control-sm" placeholder="エリア名">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-sm btn-default">
                                         <i class="fa fa-search"></i>
@@ -30,10 +30,10 @@
                                 <thead class="text-center">
                                     <tr class="dark-grey text-white">
                                         <th>
-                                            事業所No
+                                            エリア名
                                         </th>
                                         <th>
-                                            事業所名
+                                            所轄事業所
                                         </th>
                                         <th></th>
                                     </tr>
@@ -41,12 +41,12 @@
                                 <tbody class="text-center">
                                     <tr>
                                         <td>
-                                            A123
+                                            大阪エリア
                                         </td>
                                         <td>
-                                            ラテラルキッズ本社
+                                            天王寺ひよこ園、日本橋ひよこ園、日本橋園
                                         </td>
-                                        <td class="align-middle" rowspan="2">
+                                        <td class="align-middle">
                                             <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
@@ -56,18 +56,13 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">
-                                         休憩時間の控除：6時間以上の勤務で1時間を自動控除
-                                        </td>
-                                    </tr>
-                                    <tr>
                                         <td>
-                                            B456
+                                            九州エリア
                                         </td>
                                         <td>
-                                            いずみく保育園
+
                                         </td>
-                                        <td class="align-middle" rowspan="2">
+                                        <td class="align-middle">
                                             <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
@@ -77,8 +72,19 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">
-                                            休憩時間の控除：シフトに登録した休憩時間を控除
+                                        <td>
+                                            沖縄エリア
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="#" class="mx-2">
+                                                <i class="far fa-edit fa-lg"></i>
+                                            </a>
+                                            <a href="#">
+                                                <i class="far fa-trash-alt fa-lg"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -97,32 +103,57 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <div class="form-row align-items-center">
-                                                <div class="col-md-5">
+                                            <div class="form-row">
+                                                <div class="col-md-3">
                                                     <input type="text" name="office_number"
                                                         class="form-control" :class="{ 'is-invalid': form.errors.has('hour') }"
-                                                    placeholder="事業所No入力">
+                                                    placeholder="エリア名入力">
                                                     <has-error :form="form" field="hour"></has-error>
                                                 </div>
                                                 <div class="col-md-1"></div>
-                                                <div class="col-md-5">
-                                                    <input type="text" name="office_name"
-                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('minute') }"
-                                                    placeholder="事業所名入力">
-                                                    <has-error :form="form" field="minute"></has-error>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="form-row align-items-center">
-                                                <div class="col-md-5">
-                                                    <input v-model="form.type" type="radio" name="type" :value="1">
-                                                    <label class="ml-auto">休憩時間の控除：6時間以上の勤務で1時間を自動控除</label>
-                                                </div>
-                                                <div class="col-md-1"></div>
-                                                <div class="col-md-5">
-                                                    <input v-model="form.type" type="radio" name="type" :value="2">
-                                                    <label class="ml-auto">休憩時間の控除：シフトに登録した休憩時間を控除</label>
+                                                <div class="col-md-6">
+                                                    <div class="form-row">
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="1">
+                                                            <label class="ml-auto">天王寺ひよこ園</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="2">
+                                                            <label class="ml-auto">日本橋ひよこ園</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="3">
+                                                            <label class="ml-auto">日本橋園</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="1">
+                                                            <label class="ml-auto">梅田あひる園</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="2">
+                                                            <label class="ml-auto">福岡かえる園</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="3">
+                                                            <label class="ml-auto">福岡すずめ園</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="1">
+                                                            <label class="ml-auto">新大阪支店</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="2">
+                                                            <label class="ml-auto">心斎橋支店</label>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="checkbox" name="type" :value="3">
+                                                            <label class="ml-auto">沖縄本部</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -162,7 +193,7 @@
             }
         },
         methods: {
-            addOffice(){
+            addArea(){
                 $("#addNew").modal("show");
             }
         },

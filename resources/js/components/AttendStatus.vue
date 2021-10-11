@@ -10,8 +10,8 @@
                                 <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
                                     <i class="fas fa-caret-left fa-2x"></i>
                                 </button>
-                                <div class="mx-2">2021年8月</div>
-                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="getResults(this.currentDate)">
+                                <div class="mx-2">{{displayDate}}</div>
+                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="getResults(getThisMonthDate())">
                                     今月
                                 </button>
                                 <button type="button" class="btn btn-sm btn-outline" :hidden="isThisMonth()" @click="getResults(getNextMonthDate())">
@@ -22,159 +22,70 @@
                         <div class="card-body">
                         <div class="table-responsive p-0">
                             <table class="table table-bordered table-striped table-kintai table-hover">
-                                <thead class="text-center">
+                                <thead class="text-center text-white">
                                     <tr class="heavy-green">
                                         <th>日付</th>
                                         <th>曜日</th>
-                                        <th>出勤①</th>
-                                        <th>退勤①</th>
-                                        <th>遅刻</th>
-                                        <th>早退</th>
-                                        <th>出勤②</th>
-                                        <th>退勤②</th>
-                                        <th>遅刻</th>
-                                        <th>早退</th>
+                                        <th>出勤時間①</th>
+                                        <th>退勤時間①</th>
+                                        <th>遅刻[分数]</th>
+                                        <th>早退[分数]</th>
+                                        <th>出勤時間②</th>
+                                        <th>退勤時間②</th>
+                                        <th>遅刻[分数]</th>
+                                        <th>早退[分数]</th>
                                         <th>申請</th>
                                     </tr>
                                 </thead>
                                     <tbody class="text-center">
-                                        <!-- <tr v-for="day in days" :key="day.getDate()">
+                                        <tr v-for="day in days" :key="day.getDate()">
                                             <td>{{day.getDate()}}日</td>
-                                            <td>{{day|formatWeek}}</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</td>
+                                            <td v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</td>
+                                            <td v-else>{{day|formatWeek}}</td>
+                                            <td>7:55</td>
+                                            <td>18:00</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
                                             <td>
-                                                <a href="#" @click="requestModal(row)">
-                                                    <i class="fa fa-edit blue"></i>
-                                                </a>
+                                                <a href="#" @click="requestModal()">
+                                                <i class="far fa-envelope fa-lg orange"></i>
+                                            </a>
                                             </td>
-                                        </tr> -->
-                                        <tr>
-                                          <td>1日</td>
-                                          <td>月</td>
-                                          <td>7:55</td>
-                                          <td>18:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>
-                                            <a href="#" @click="requestModal()">
-                                                <i class="far fa-envelope fa-lg orange"></i>
-                                            </a>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>2日</td>
-                                          <td>火</td>
-                                          <td>8:05</td>
-                                          <td>14:00</td>
-                                          <td>15分</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>
-                                            <a href="#" @click="requestModal()">
-                                                <i class="far fa-envelope fa-lg orange"></i>
-                                            </a>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>3日</td>
-                                          <td>水</td>
-                                          <td>7:55</td>
-                                          <td>13:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>14:55</td>
-                                          <td>20:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>
-                                            <a href="#" @click="requestModal()">
-                                                <i class="far fa-envelope fa-lg orange"></i>
-                                            </a>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>4日</td>
-                                          <td>木</td>
-                                          <td>7:55</td>
-                                          <td>17:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>
-                                            <a href="#" @click="requestModal()">
-                                                <i class="far fa-envelope fa-lg orange"></i>
-                                            </a>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>5日</td>
-                                          <td>金</td>
-                                          <td>7:55</td>
-                                          <td>14:35</td>
-                                          <td>-</td>
-                                          <td>30分</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>
-                                            <a href="#" @click="requestModal()">
-                                                <i class="far fa-envelope fa-lg orange"></i>
-                                            </a>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>6日</td>
-                                          <td>土</td>
-                                          <td>7:55</td>
-                                          <td>12:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>14:00</td>
-                                          <td>19:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>
-                                            <a href="#" @click="requestModal()">
-                                                <i class="far fa-envelope fa-lg orange"></i>
-                                            </a>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>7日</td>
-                                          <td>日</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>
-                                            <a href="#" @click="requestModal()">
-                                                <i class="far fa-envelope fa-lg orange"></i>
-                                            </a>
-                                          </td>
                                         </tr>
                                     </tbody>
+                            </table>
+                        </div>
+                        <div class="table-responsive p-0">
+                            <table class="table table-bordered text-white">
+                                <thead class="text-center">
+                                    <tr class="top-green">
+                                        <th>勤務時間合計</th>
+                                        <th>実働時間</th>
+                                        <th>所定労働時間</th>
+                                        <th>過不足時間</th>
+                                        <th>残業時間[平日]</th>
+                                        <th>残業時間[土曜]</th>
+                                        <th>遅刻[時間]</th>
+                                        <th>早退[時間]</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr class="heavy-green">
+                                        <td>178時間</td>
+                                        <td>158時間</td>
+                                        <td>160時間</td>
+                                        <td>-2時間</td>
+                                        <td>1.5時間</td>
+                                        <td>0.5時間</td>
+                                        <td>0.25時間</td>
+                                        <td>0.5時間</td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                         </div>
@@ -255,11 +166,13 @@
     </section>
 </template>
 <script>
+    import moment from 'moment';
     export default {
         data () {
             return {
                 editmode: false,
                 currentDate: new Date(),
+                displayDate: new Date(),
                 days: [],
                 attends : [],
                 requests : [],
@@ -276,16 +189,33 @@
             }
         },
         methods: {
+            getWeekEnd(day) {
+                const weekDay = moment(day).format("ddd");;
+                if (weekDay === '土'){
+                    return 1;
+                } else if(weekDay === '日'){
+                    return 2;
+                } else {
+                    return 0;
+                }
+            },
             isThisMonth() {
                 const today = new Date();
                 return this.currentDate.getFullYear() == today.getFullYear() && this.currentDate.getMonth() == today.getMonth();
             },
+            getThisMonthDate() {
+                const date = new Date();
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY年 M月');
+                return new Date(date.getFullYear(), date.getMonth(), 1);
+            },
             getNextMonthDate() {
                 const date = this.currentDate;
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY年 M月');
                 return new Date(date.getFullYear(), date.getMonth() + 1, 1);
             },
             getPrevMonthDate() {
                 const date = this.currentDate;
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY年 M月');
                 return new Date(date.getFullYear(), date.getMonth() - 1, 1);
             },
             getResults(month_date) {
@@ -343,6 +273,7 @@
                 this.currentDate = date;
                 var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDate();
                 var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+                this.days = [];
                 for(let day = firstDay; day <= lastDay; day++) {
                     this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
                 }
@@ -355,6 +286,7 @@
             console.log('User Component mounted.')
         },
         created() {
+            this.displayDate = moment(this.displayDate).format('YYYY年 M月');
             this.getResults(this.currentDate);
         }
     }

@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <button type="submit" class="btn btn-sm btn-primary">
+                                <button type="submit" class="btn btn-sm btn-primary" @click="addEmployee()">
                                         新規登録
                                 </button>
                             </div>
@@ -36,20 +36,26 @@
                                             氏　　名
                                         </th>
                                         <th>
-                                            所　　属
+                                            雇用形態
                                         </th>
                                         <th>
-                                            権　　限
+                                            在籍管理
                                         </th>
                                         <th rowspan="3"></th>
                                         <th rowspan="3"></th>
                                     </tr>
                                     <tr class="dark-grey text-white">
-                                        <th colspan="2">
-                                            住　　　　　所
+                                        <th>
+                                            事業所
                                         </th>
-                                        <th colspan="2">
-                                            電話番号
+                                        <th>
+                                            エリア
+                                        </th>
+                                        <th>
+                                            業種グループ
+                                        </th>
+                                        <th>
+                                            本社グループ
                                         </th>
                                     </tr>
                                     <tr class="dark-grey text-white">
@@ -78,66 +84,222 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">宮城県仙台市泉区1-2-3</td>
-                                        <td colspan="2">090-1234-5678</td>
+                                        <td>仙台本社</td>
+                                        <td>東北エリア</td>
+                                        <td>本社・本部Grp</td>
+                                        <td>1</td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">xxxxxxxxxx@gmail.com</td>
                                         <td colspan="2">Abeitiko111</td>
                                     </tr>
                                     <tr>
-                                        <td>B8912345</td>
-                                        <td>伊藤　二子</td>
-                                        <td>BBBBB保育園</td>
-                                        <td></td>
-                                        <td rowspan="3" class="align-middle"><i class="fas fa-qrcode fa-lg"></i></td>
-                                        <td rowspan="3" class="align-middle">
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
+                                        <td class="align-middle pl-4"><i class="fas fa-square-full"></i>権限タイプ</td>
+                                        <td colspan="5" class="align-middle text-left">
+                                            <div class="align-middle d-flex">
+                                                <div class="d-flex align-items-center mr-3">
+                                                    <input class="mr-1" type="radio" name="authoriy" :value="1"/>
+                                                    <div class="mb-0">admin</div>
+                                                </div>
+                                                <div class="d-flex align-items-center mr-3">
+                                                    <input class="mr-1" type="radio" name="authoriy" :value="2"/>
+                                                    <div class="mb-0">エリアmgr</div>
+                                                </div>
+                                                <div class="d-flex align-items-center mr-3">
+                                                    <input class="mr-1" type="radio" name="authoriy" :value="3"/>
+                                                    <div class="mb-0">事業所管理者</div>
+                                                </div>
+                                                <div class="d-flex align-items-center mr-3">
+                                                    <input class="mr-1" type="radio" name="authoriy" :value="4"/>
+                                                    <div class="mb-0">一般A</div>
+                                                </div>
+                                                <div class="d-flex align-items-center mr-3">
+                                                    <input class="mr-1" type="radio" name="authoriy" :value="5"/>
+                                                    <div class="mb-0">一般B</div>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">宮城県仙台市青葉区4-5-6</td>
-                                        <td colspan="2">080-9876-5432</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">yyyyyyyyyy@i.softbank.jp</td>
-                                        <td colspan="2">Itolucky777</td>
-                                    </tr>
-                                    <tr>
-                                        <td>C678912</td>
-                                        <td>上野　三子</td>
-                                        <td>CCCCC保育園</td>
-                                        <td>スタッフ</td>
-                                        <td rowspan="3" class="align-middle"><i class="fas fa-qrcode fa-lg"></i></td>
-                                        <td rowspan="3" class="align-middle">
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
+                                        <td class="align-middle"><i class="fas fa-square-full"></i>残業手担</td>
+                                        <td colspan="5" class="align-middle text-left">
+                                            <div class="align-middle d-flex">
+                                                <div class="d-flex align-items-center mr-3">
+                                                    <input class="mr-1" type="radio" name="zangyo" :value="1"/>
+                                                    <div class="mb-0">月の所定労働時間超過分</div>
+                                                </div>
+                                                <div class="d-flex align-items-center mr-3">
+                                                    <input class="mr-1" type="radio" name="zangyo" :value="2"/>
+                                                    <div class="mb-0">1日8時間未満でもシフトを超えた分</div>
+                                                </div>
+                                                <div class="d-flex align-items-center mr-3">
+                                                    <input class="mr-1" type="radio" name="zangyo" :value="3"/>
+                                                    <div class="mb-0">1日に8時間以上勤務した</div>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">宮城県仙台市太白区7-8-9</td>
-                                        <td colspan="2">090-5432-6789</td>
+                                        <td class="align-middle"><i class="fas fa-square-full"></i>給与控除</td>
+                                        <td colspan="5" class="align-middle text-left">
+                                            <div class="align-middle d-flex">
+                                                <div class="d-flex align-items-center mr-3">
+                                                    <input class="mr-1" type="radio" name="kyuyo" :value="1"/>
+                                                    <div class="mb-0">月の所定労働時間の不足分</div>
+                                                </div>
+                                                <div class="d-flex align-items-center mr-3">
+                                                    <input class="mr-1" type="radio" name="kyuyo" :value="2"/>
+                                                    <div class="mb-0">シフト予定より勤務時間が小さい場合</div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">zzzzzzzzzz@docomo.co.jp</td>
-                                        <td colspan="2">Uenowin333</td>
+                                        <td class="align-middle"><i class="fas fa-square-full"></i>申請期間</td>
+                                        <td colspan="5" class="align-middle text-left">
+                                            <div class="align-middle d-flex">
+                                                <div class="d-flex align-items-center mr-3">
+                                                    <input class="mr-1" type="radio" name="request" :value="1"/>
+                                                    <div class="mb-0">当日中</div>
+                                                </div>
+                                                <div class="d-flex align-items-center mr-3">
+                                                    <input class="mr-1" type="radio" name="request" :value="2"/>
+                                                    <div class="mb-0">当月中</div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <button class="btn btn-primary float-right">CSV取込み</button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNew" aria-hidden="true">
+                            <div class="modal-dialog modal-huge" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">新規登録</h5>
+                                        <!-- <h5 class="modal-title" v-show="editmode">再申請</h5> -->
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <div class="form-row align-items-center">
+                                                <div class="col-md-3">
+                                                    <input type="text" name="office_number"
+                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('hour') }"
+                                                    placeholder="社員No">
+                                                    <has-error :form="form" field="hour"></has-error>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" name="office_name"
+                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('minute') }"
+                                                    placeholder="氏名">
+                                                    <has-error :form="form" field="minute"></has-error>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <input type="radio" name="staff" :value="1">
+                                                    <label class="ml-auto">正社員</label>
+                                                    <input type="radio" name="staff" :value="2">
+                                                    <label class="ml-auto">パート</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="radio" name="staff" :value="1">
+                                                    <label class="ml-auto">在籍中</label>
+                                                    <input type="radio" name="staff" :value="2">
+                                                    <label class="ml-auto">退職</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-row align-items-center">
+                                                <div class="col-md-3">
+                                                    <select class="form-control">
+                                                        <option>仙台本社</option>
+                                                        <option>仙台本社</option>
+                                                        <option>仙台本社</option>
+                                                        <option>仙台本社</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <select class="form-control">
+                                                        <option>東北エリア</option>
+                                                        <option>大阪エリア</option>
+                                                        <option>九州エリア</option>
+                                                        <option>沖縄エリア</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <select class="form-control">
+                                                        <option>本社・本部Grp</option>
+                                                        <option>本社・本部Grp</option>
+                                                        <option>本社・本部Grp</option>
+                                                        <option>本社・本部Grp</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control" name="number" placeholder="No">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-row align-items-center">
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" name="email" placeholder="メールアドレス">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" name="email" placeholder="メールアドレス">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                                        <button type="submit" class="btn btn-primary">登録</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+<script>
+    export default {
+        data() {
+            return {
+                editmode: false,
+                currentDate: new Date(),
+                days: [],
+                attends : [],
+                requests : [],
+                form: new Form({
+                    id : '',
+                    date: '',
+                    type : 0,
+                    hour: '',
+                    minute: '',
+                    new_hour: '',
+                    new_minute: '',
+                    memo: '',
+                })
+            }
+        },
+        methods: {
+            addEmployee(){
+                $("#addNew").modal("show");
+            }
+        },
+        mounted() {
+
+        },
+        created() {
+
+        }
+    }
+</script>

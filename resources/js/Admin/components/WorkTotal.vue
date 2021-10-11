@@ -14,11 +14,11 @@
                                 >
                                     <i class="fas fa-caret-left fa-2x"></i>
                                 </button>
-                                <div class="mx-2">2021年8月</div>
+                                <div class="mx-2">{{displayDate}}</div>
                                 <button
                                     type="button"
                                     class="btn btn-sm btn-outline-primary mx-2"
-                                    @click="getResults(this.currentDate)"
+                                    @click="getResults(getThisMonthDate())"
                                 >
                                     今月
                                 </button>
@@ -39,11 +39,11 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive p-0">
+                            <div class="table-responsive p-0 overflow-scroll-x">
                                 <table
-                                    class="table table-bordered table-striped table-kintai table-hover"
+                                    class="table table-bordered table-striped table-kintai table-hover w-2500-px"
                                 >
-                                    <thead class="text-center">
+                                    <thead class="text-center text-white">
                                         <tr class="heavy-green">
                                             <th
                                                 width="3%"
@@ -74,13 +74,13 @@
                                                 rowspan="2"
                                                 class="align-middle"
                                             >
-                                                遅刻時間
+                                                遅刻[分数]
                                             </th>
                                             <th
                                                 rowspan="2"
                                                 class="align-middle"
                                             >
-                                                早退時間
+                                                早退[分数]
                                             </th>
                                             <th
                                                 rowspan="2"
@@ -98,22 +98,58 @@
                                                 rowspan="2"
                                                 class="align-middle"
                                             >
-                                                残業時間
+                                                残業時間[平日]
                                             </th>
                                             <th
                                                 rowspan="2"
                                                 class="align-middle"
                                             >
-                                                連勤日数
+                                                残業時間[土曜]
+                                            </th>
+                                            <th
+                                                rowspan="2"
+                                                class="align-middle"
+                                            >
+                                                深夜時間
+                                            </th>
+                                            <th
+                                                rowspan="2"
+                                                class="align-middle"
+                                            >
+                                                シフト外勤務時間
+                                            </th>
+                                            <th
+                                                rowspan="2"
+                                                class="align-middle"
+                                            >
+                                                代休時間
+                                            </th>
+                                            <th
+                                                rowspan="2"
+                                                class="align-middle"
+                                            >
+                                                連勤時間
                                             </th>
                                             <th colspan="2">年次有休</th>
-                                            <th colspan="2">特別休暇</th>
+                                            <th colspan="2">特休有給</th>
+                                            <th colspan="2">特休無給</th>
+                                            <th colspan="2">その他無給</th>
+                                            <th
+                                                rowspan="2"
+                                                class="align-middle"
+                                            >
+                                                欠勤日
+                                            </th>
                                         </tr>
                                         <tr class="heavy-green">
                                             <th>時間</th>
                                             <th>日</th>
-                                            <th>有給</th>
-                                            <th>無給</th>
+                                            <th>時間</th>
+                                            <th>日</th>
+                                            <th>時間</th>
+                                            <th>日</th>
+                                            <th>時間</th>
+                                            <th>日</th>
                                         </tr>
                                     </thead>
                                     <tbody class="text-center">
@@ -134,6 +170,15 @@
                                             <td>0.50</td>
                                             <td>1</td>
                                             <td>3.00</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
                                             <td>-</td>
                                             <td>-</td>
                                             <td>-</td>
@@ -159,6 +204,15 @@
                                             <td>1</td>
                                             <td>4.00</td>
                                             <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>A34567</td>
@@ -181,6 +235,15 @@
                                             <td>1</td>
                                             <td>-</td>
                                             <td>2</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
                                         </tr>
                                         <tr>
                                             <td>A45678</td>
@@ -200,6 +263,15 @@
                                             <td>2.75</td>
                                             <td>1</td>
                                             <td>8</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
                                             <td>-</td>
                                             <td>-</td>
                                             <td>-</td>
@@ -225,11 +297,20 @@
                                             <td>-</td>
                                             <td>2.50</td>
                                             <td>1</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>-</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="float-right d-flex align-items-center">
+                            <div class="float-right d-flex align-items-center mt-2">
                                 <div class="mx-3">
                                     <label>全データ出力</label>
                                     <input
@@ -410,11 +491,13 @@
     </section>
 </template>
 <script>
+import moment from 'moment';
 export default {
     data() {
         return {
             editmode: false,
             currentDate: new Date(),
+            displayDate: new Date(),
             days: [],
             attends: [],
             requests: [],
@@ -438,12 +521,19 @@ export default {
                 this.currentDate.getMonth() == today.getMonth()
             );
         },
+        getThisMonthDate() {
+                const date = new Date();
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY年 M月');
+                return new Date(date.getFullYear(), date.getMonth(), 1);
+        },
         getNextMonthDate() {
             const date = this.currentDate;
+            this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY年 M月');
             return new Date(date.getFullYear(), date.getMonth() + 1, 1);
         },
         getPrevMonthDate() {
             const date = this.currentDate;
+            this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY年 M月');
             return new Date(date.getFullYear(), date.getMonth() - 1, 1);
         },
         getResults(month_date) {
@@ -513,6 +603,7 @@ export default {
                 date.getMonth() + 1,
                 0
             ).getDate();
+            this.days = [];
             for (let day = firstDay; day <= lastDay; day++) {
                 this.days.push(
                     new Date(date.getFullYear(), date.getMonth(), day)
@@ -525,6 +616,7 @@ export default {
         console.log("User Component mounted.");
     },
     created() {
+        this.displayDate = moment(this.displayDate).format('YYYY年 M月');
         this.getResults(this.currentDate);
     }
 };
