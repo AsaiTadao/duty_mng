@@ -49,11 +49,11 @@
                         </div>
                     </form>
                     <p class="mb-1">
-                        <a href="#">ログイン情報をお忘れですか？</a>
+                        <a href="#" data-toggle="tooltip" data-placement="top" title="電話番号は＊＊＊＊＊です。">ログイン情報をお忘れですか？</a>
                     </p>
-                    <p class="mb-0">
+                    <!-- <p class="mb-0">
                         <a href="#" class="text-center">新規会員登録</a>
-                    </p>
+                    </p> -->
                 </div>
                 <!-- /.card-body -->
             </div>

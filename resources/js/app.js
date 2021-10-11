@@ -108,8 +108,7 @@ Vue.filter("yesno", value =>
 Vue.prototype.$request_type = [
     { id: 1, name: "遅刻" },
     { id: 2, name: "早退" },
-    { id: 3, name: "残業" },
-    { id: 4, name: "その他" }
+    { id: 3, name: "その他" }
 ];
 
 Vue.prototype.$shift_type = [
@@ -122,6 +121,7 @@ Vue.prototype.$rest_type = [
     { id: 1, name: "年次有休" },
     { id: 2, name: "特別休暇" },
 ];
+
 const app = new Vue({
     el: "#app",
     router,

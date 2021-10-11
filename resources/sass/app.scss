@@ -72,6 +72,9 @@
 section.content {
     padding-top: 30px !important;
 }
+.top-green {
+    background-color: #548235;
+}
 .heavy-green {
     background-color: #70ad47;
 }
@@ -116,6 +119,9 @@ section.content {
 }
 .border-width-medium {
     border-width: medium;
+}
+.border-width-thin {
+    border-width: 5px;
 }
 .sidebar a {
     color: #333 !important;
@@ -203,7 +209,18 @@ section.content {
 .fixed-width-40 {
     width: 80px !important;
 }
+.fixed-width-30 {
+    width: 30px !important;
+}
 .one-digit-time {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
+}
+.font-size-25 {
+    font-size: 25px;
+}
+.btn-large {
+    min-width: 270px;
+    min-height: 50px;
+    font-size: 20px;
 }
