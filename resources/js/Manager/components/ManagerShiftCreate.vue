@@ -37,7 +37,7 @@
                                             </a>
                                         </th>
                                         <th class="align-middle heavy-green" rowspan="2">勤務予定日数</th>
-                                        <th class="align-middle heavy-green" rowspan="2">勤務予定時間</th>
+                                        <th class="align-middle heavy-green" rowspan="2">実働時間</th>
                                     </tr>
                                     <tr class="light-green">
                                         <th class="align-middle">曜日</th>
