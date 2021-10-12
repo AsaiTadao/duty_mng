@@ -56,6 +56,11 @@
                                 <div>］日目を手当対象日とする。</div>
                             </div>
                         </div>
+                        <div class="float-right mt-5">
+                            <button class="btn btn-primary float-right">
+                                保存
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

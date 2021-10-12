@@ -235,9 +235,9 @@
                                                 <div class="col-md-3">
                                                     <select class="form-control">
                                                         <option>本社・本部Grp</option>
-                                                        <option>本社・本部Grp</option>
-                                                        <option>本社・本部Grp</option>
-                                                        <option>本社・本部Grp</option>
+                                                        <option>保育園Grp</option>
+                                                        <option>病児病後児施設Grp</option>
+                                                        <option>放課後サービスGrp</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3">
