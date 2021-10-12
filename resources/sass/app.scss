@@ -61,6 +61,7 @@
 .main-sidebar {
     background-color: $yellow !important;
     min-height: 100vh !important;
+    position: fixed!important;
 }
 
 /* a.nav-link {
@@ -223,4 +224,42 @@ section.content {
     min-width: 270px;
     min-height: 50px;
     font-size: 20px;
+}
+
+nav.main-header {
+    position: fixed;
+    width: 100% !important;
+}
+@media (min-width: 768px) {
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav):not(.sidebar-collapse) .content-wrapper,
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav):not(.sidebar-collapse) .main-footer,
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav):not(.sidebar-collapse) .main-header {
+        transition: 0.3s ease-in-out;
+        margin-left: 250px !important;
+        width: calc(100% - 250px) !important;
+    }
+
+    .sidebar-mini.sidebar-collapse .content-wrapper,
+    .sidebar-mini.sidebar-collapse .main-footer,
+    .sidebar-mini.sidebar-collapse .main-header {
+        margin-left: 0 !important;
+    }
+}
+@media (min-width: 992px) {
+    .sidebar-mini.sidebar-collapse .content-wrapper,
+    .sidebar-mini.sidebar-collapse .main-footer,
+    .sidebar-mini.sidebar-collapse .main-header {
+        margin-left: 4.6rem !important;
+        width: calc(100% - 4.6rem) !important;
+    }
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+.content-wrapper {
+    padding-top: 57px;
 }
