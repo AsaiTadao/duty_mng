@@ -26,6 +26,12 @@
                                         <option>小野　五子</option>
                                     </select>
                                 </div>
+                                <div class="form-group mx-4 mb-0">
+                                    <select class="form-control">
+                                        <option>ラテラル保育園</option>
+                                        <option>ラテラルキッズ本社</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -95,7 +101,7 @@
                                             <td>9:00</td>
                                             <td>-</td>
                                             <td></td>
-                                            <td></td>
+                                            <td>9.00</td>
                                             <td><input type="checkbox"></td>
                                             <td></td>
                                             <td></td>
