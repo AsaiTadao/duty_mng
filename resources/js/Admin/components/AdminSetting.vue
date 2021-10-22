@@ -42,6 +42,36 @@
                                     <div class="mx-1">切り上げ</div>
                                 </div>
                             </div>
+                            <br>
+                            <div class="form-row align-items-center">
+                                <div>遅刻時間［</div>
+                                <input type="text" class="fixed-width-30"/>
+                                <div>］ 分</div>
+
+                                <div class="d-flex align-items-center ml-5 mr-2">
+                                    <input type="radio" name="taikin-minutes" value="1"/>
+                                    <div class="mx-1">切り捨て</div>
+                                </div>
+                                <div class="d-flex align-items-center ml-2">
+                                    <input type="radio" name="taikin-minutes" value="2"/>
+                                    <div class="mx-1">切り上げ</div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-row align-items-center">
+                                <div>早退時間［</div>
+                                <input type="text" class="fixed-width-30"/>
+                                <div>］ 分</div>
+
+                                <div class="d-flex align-items-center ml-5 mr-2">
+                                    <input type="radio" name="taikin-minutes" value="1"/>
+                                    <div class="mx-1">切り捨て</div>
+                                </div>
+                                <div class="d-flex align-items-center ml-2">
+                                    <input type="radio" name="taikin-minutes" value="2"/>
+                                    <div class="mx-1">切り上げ</div>
+                                </div>
+                            </div>
                         </div>
                         <br>
                         <div class="d-flex align-items-center">
@@ -52,7 +82,7 @@
                         <div class="form-group">
                             <div class="form-row align-items-center">
                                 <div>日曜日を起算日として［</div>
-                                <input type="text" class="fixed-width-40" placeholder="７日"/>
+                                <input type="text" class="fixed-width-40" placeholder="７"/>
                                 <div>］日目を手当対象日とする。</div>
                             </div>
                         </div>

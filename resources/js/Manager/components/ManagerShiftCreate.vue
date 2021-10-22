@@ -6,6 +6,25 @@
                     <div class="card">
                         <div class="card-header calendar-title">
                             <h3 class="card-title mb-0">ラテラル保育園</h3>
+                            <div>
+                                <table class="table table-bordered table-black-bordered mb-0 ml-5">
+                                    <thead class="text-center">
+                                        <tr>
+                                            <th colspan="2" class="padding-1px">所定労働</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        <tr>
+                                            <td class="padding-1px">日数</td>
+                                            <td class="padding-1px">20日</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="padding-1px">時間</td>
+                                            <td class="padding-1px">160時間</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
                                     <i class="fas fa-caret-left fa-2x"></i>
@@ -24,23 +43,24 @@
                                     </select>
                                 </div>
                             </div>
+                            <button class="btn btn-primary float-right mt-2">コピーして作成</button>
                         </div>
                         <div class="card-body">
                         <div class="p-0 overflow-scroll-x">
                             <table class="table table-bordered shifttable-bordered table-hover w-2500-px">
                                 <thead class="text-center">
                                     <tr class="light-green">
-                                        <th width="4%" class="align-middle">日付</th>
+                                        <th width="4%" class="align-middle shift-th-x">日付</th>
                                         <th v-for="day in days" :key="day.getDate()" class="align-middle">
                                             <a href="#" @click="openDayCalendar()">
                                                 {{day.getDate()}}日
                                             </a>
                                         </th>
-                                        <th class="align-middle heavy-green" rowspan="2">勤務予定日数</th>
-                                        <th class="align-middle heavy-green" rowspan="2">実働時間</th>
+                                        <th class="align-middle heavy-green" rowspan="2">勤務予定<br>日数</th>
+                                        <th class="align-middle heavy-green" rowspan="2">実働予定<br>時間</th>
                                     </tr>
                                     <tr class="light-green">
-                                        <th class="align-middle">曜日</th>
+                                        <th class="align-middle shift-th-x">曜日</th>
                                         <th v-for="day in days" :key="day.getDate()" class="align-middle">
                                             <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
                                             <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
@@ -50,7 +70,7 @@
                                 </thead>
                                     <tbody class="text-center">
                                         <tr>
-                                          <td>阿部</td>
+                                          <td class="shift-fix-x">阿部　一子</td>
                                           <td>
                                             <a href="#" @click="openShiftPopup()">
                                                 正-A
@@ -206,7 +226,7 @@
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td>伊藤</td>
+                                          <td class="shift-fix-x">伊藤　二子</td>
                                           <td>
                                             <a href="#" @click="openShiftPopup()">
                                                 正-A
@@ -362,7 +382,7 @@
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td>上野</td>
+                                          <td class="shift-fix-x">上野　三子</td>
                                           <td>
                                             <a href="#" @click="openShiftPopup()">
                                                 休
@@ -518,7 +538,7 @@
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td>小野</td>
+                                          <td class="shift-fix-x">遠藤　四子</td>
                                           <td>
                                             <a href="#" @click="openShiftPopup()">
                                                 短-A
@@ -674,7 +694,7 @@
                                           </td>
                                         </tr>
                                         <tr>
-                                          <td>遠藤</td>
+                                          <td class="shift-fix-x">小野　五子</td>
                                           <td>
                                             <a href="#" @click="openShiftPopup()">
                                                 <i class="fa fa-edit black"></i>
@@ -862,13 +882,11 @@
                                 </label>
                                 <has-error :form="form" field="type"></has-error>
                             </div>
+                            <label>出勤①</label>
                             <div class="form-group">
-                                <select class="form-control">
-                                    <option>正-A　8:00～18:00</option>
-                                    <option>正-B　10:00～12:00</option>
-                                    <option>正-C　8:00～18:00</option>
-                                    <option>パ-A　8:00～18:00</option>
-                                </select>
+                                <input v-model="form.kintai_time1" type="text" name="kintai_time1"
+                                    class="form-control" :class="{ 'is-invalid': form.errors.has('kintai_time1') }">
+                                <has-error :form="form" field="kintai_time1"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>休憩</label>
@@ -896,13 +914,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <label>出勤②</label>
                             <div class="form-group">
-                                <select class="form-control">
-                                    <option>正-A　8:00～18:00</option>
-                                    <option>正-B　10:00～12:00</option>
-                                    <option>正-C　8:00～18:00</option>
-                                    <option>パ-A　8:00～18:00</option>
-                                </select>
+                                <input v-model="form.kintai_time2" type="text" name="kintai_time2"
+                                    class="form-control" :class="{ 'is-invalid': form.errors.has('kintai_time2') }">
+                                <has-error :form="form" field="kintai_time2"></has-error>
                             </div>
                             <div class="form-group">
                                 <label>休憩</label>
@@ -1038,23 +1054,23 @@
                                                 </td>
                                                 <td class="background-orange">
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -1118,17 +1134,17 @@
                                                 </td>
                                                 <td class="background-orange">
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -1136,7 +1152,14 @@
                                                    上野
                                                 </td>
                                                 <td>
-                                                   休
+                                                    <div class="mb-0">
+                                                        <input type="radio" name="vacation_type" value="1">
+                                                        <label class="ml-auto font-weight-normal mb-0">有休休暇</label>
+                                                    </div>
+                                                    <div class="mb-0">
+                                                        <input type="radio" name="vacation_type" value="2">
+                                                        <label class="ml-auto font-weight-normal mb-0">特別休暇</label>
+                                                    </div>
                                                 </td>
                                                 <td class="fixed-width-40">
                                                    -
@@ -1260,23 +1283,23 @@
                                                 </td>
                                                 <td class="background-orange">
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
-                                                <td class="background-grey">
+                                                <td>
                                                 </td>
                                             </tr>
                                             <tr>

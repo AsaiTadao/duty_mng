@@ -34,12 +34,12 @@
                         </div>
                         <div class="card-body">
 
-                        <div class="table-responsive p-0 overflow-scroll-x">
-                            <table class="table table-bordered table-striped table-kintai table-hover w-2500-px">
+                        <div class="table-responsive p-0 overflow-scroll-x" style="height: 500px;">
+                            <table class="table table-bordered table-striped table-kintai table-head-fixed table-hover w-2500-px">
                                 <thead class="text-center text-white">
                                     <tr class="heavy-green">
-                                        <th rowspan="2" class="align-middle">日付</th>
-                                        <th rowspan="2" class="align-middle">曜日</th>
+                                        <th rowspan="2" class="align-middle" style="left: 0;z-index: 12 !important;outline: 1px solid white;">日付</th>
+                                        <th rowspan="2" class="align-middle" style="left: 77px;z-index: 13 !important;outline: 1px solid white;">曜日</th>
                                         <th rowspan="2" class="align-middle">出勤<br>時間①</th>
                                         <th rowspan="2" class="align-middle">退勤<br>時間①</th>
                                         <th rowspan="2" class="align-middle">遅刻<br>[分数]</th>
@@ -65,7 +65,7 @@
                                         <th rowspan="2" class="align-middle">備考</th>
                                         <th rowspan="2" class="align-middle">編集</th>
                                     </tr>
-                                    <tr class="heavy-green">
+                                    <tr class="heavy-green header-fix-y">
                                         <th>時間</th>
                                         <th>日</th>
                                         <th>時間</th>
@@ -76,12 +76,12 @@
                                         <th>日</th>
                                     </tr>
                                 </thead>
-                                    <tbody class="text-center">
+                                    <tbody class="text-center header-fix-x-tr">
                                         <tr v-for="day in days" :key="day.getDate()">
-                                            <td>{{day.getDate()}}日</td>
-                                            <td v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</td>
-                                            <td v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</td>
-                                            <td v-else>{{day|formatWeek}}</td>
+                                            <td class="header-fix-x">{{day.getDate()}}日</td>
+                                            <td v-if="getWeekEnd(day) === 1" class="blue header-fix-x-77">{{day|formatWeek}}</td>
+                                            <td v-else-if="getWeekEnd(day) === 2" class="red header-fix-x-77">{{day|formatWeek}}</td>
+                                            <td v-else class="header-fix-x-77">{{day|formatWeek}}</td>
                                             <td>7:55</td>
                                             <td>18:00</td>
                                             <td>-</td>
@@ -114,7 +114,7 @@
 
                                             </td>
                                             <td>
-                                                <a href="#">
+                                                <a v-if="day.getDate() % 4 == 0" href="#">
                                                     <i class="fa fa-edit fa-lg blue"></i>
                                                 </a>
                                             </td>
@@ -127,16 +127,16 @@
                             <table class="table table-bordered">
                                 <tbody class="text-center">
                                     <tr class="top-green text-white">
-                                        <th class="align-middle">勤務時間<br>合計</th>
+                                        <th class="align-middle">勤務時間合計</th>
                                         <th class="align-middle">実働時間</th>
-                                        <th class="align-middle">所定労働<br>時間</th>
-                                        <th class="align-middle">過不足<br>時間</th>
-                                        <th class="align-middle">残業時間<br>[平日]</th>
-                                        <th class="align-middle">残業時間<br>[土曜]</th>
+                                        <th class="align-middle">所定労働時間</th>
+                                        <th class="align-middle">過不足時間</th>
+                                        <th class="align-middle">残業時間[平日]</th>
+                                        <th class="align-middle">残業時間[土曜]</th>
                                         <th class="align-middle">深夜時間</th>
                                         <th class="align-middle">遅刻[時間]</th>
                                         <th class="align-middle">早退[時間]</th>
-                                        <th class="align-middle">シフト外勤<br>務時間</th>
+                                        <th class="align-middle">シフト外勤務時間</th>
                                         <th class="align-middle">代休時間</th>
                                         <th class="align-middle">連勤時間</th>
                                     </tr>

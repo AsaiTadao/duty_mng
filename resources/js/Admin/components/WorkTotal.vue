@@ -39,9 +39,9 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive p-0 overflow-scroll-x">
+                            <div class="table-responsive p-0 overflow-scroll-x" style="height: 500px;">
                                 <table
-                                    class="table table-bordered table-striped table-kintai table-hover w-2500-px"
+                                    class="table table-bordered table-striped table-kintai table-head-fixed table-hover w-2500-px"
                                 >
                                     <thead class="text-center text-white">
                                         <tr class="heavy-green">
@@ -49,12 +49,14 @@
                                                 width="3%"
                                                 rowspan="2"
                                                 class="align-middle"
+                                                style="left: 0;z-index: 12 !important;outline: 1px solid white;"
                                             >
                                                 社員No
                                             </th>
                                             <th
                                                 rowspan="2"
                                                 class="align-middle"
+                                                style="left: 77px;z-index: 13 !important;outline: 1px solid white;"
                                             >
                                                 氏名
                                             </th>
@@ -141,7 +143,7 @@
                                                 欠勤日
                                             </th>
                                         </tr>
-                                        <tr class="heavy-green">
+                                        <tr class="heavy-green header-fix-y">
                                             <th>時間</th>
                                             <th>日</th>
                                             <th>時間</th>
@@ -152,10 +154,10 @@
                                             <th>日</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="text-center">
+                                    <tbody class="text-center header-fix-x-tr">
                                         <tr>
-                                            <td>A12345</td>
-                                            <td>
+                                            <td class="header-fix-x">A12345</td>
+                                            <td class="header-fix-x-77">
                                                 <router-link
                                                     to="/admin/member/1"
                                                     >阿部　一子</router-link
@@ -184,8 +186,8 @@
                                             <td>-</td>
                                         </tr>
                                         <tr>
-                                            <td>A23456</td>
-                                            <td>
+                                            <td class="header-fix-x">A23456</td>
+                                            <td class="header-fix-x-77">
                                                 <router-link
                                                     to="/admin/member/2"
                                                 >
@@ -215,8 +217,8 @@
                                             <td>-</td>
                                         </tr>
                                         <tr>
-                                            <td>A34567</td>
-                                            <td>
+                                            <td class="header-fix-x">A34567</td>
+                                            <td class="header-fix-x-77">
                                                 <router-link
                                                     to="/admin/member/3"
                                                 >
@@ -246,8 +248,8 @@
                                             <td>-</td>
                                         </tr>
                                         <tr>
-                                            <td>A45678</td>
-                                            <td>
+                                            <td class="header-fix-x">A45678</td>
+                                            <td class="header-fix-x-77">
                                                 <router-link
                                                     to="/admin/member/4"
                                                 >
@@ -277,8 +279,8 @@
                                             <td>-</td>
                                         </tr>
                                         <tr>
-                                            <td>A56789</td>
-                                            <td>
+                                            <td class="header-fix-x">A56789</td>
+                                            <td class="header-fix-x-77">
                                                 <router-link
                                                     to="/admin/member/5"
                                                 >

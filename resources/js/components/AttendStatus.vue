@@ -20,8 +20,8 @@
                             </div>
                         </div>
                         <div class="card-body">
-                        <div class="table-responsive p-0">
-                            <table class="table table-bordered table-striped table-kintai table-hover">
+                        <div class="table-responsive p-0" style="height: 500px;">
+                            <table class="table table-head-fixed table-bordered table-striped table-kintai table-hover">
                                 <thead class="text-center text-white">
                                     <tr class="heavy-green">
                                         <th>日付</th>
@@ -60,6 +60,7 @@
                                     </tbody>
                             </table>
                         </div>
+                        <br>
                         <div class="table-responsive p-0">
                             <table class="table table-bordered text-white">
                                 <thead class="text-center">

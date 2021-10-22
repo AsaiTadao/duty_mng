@@ -7,7 +7,12 @@
                         ラテラル保育園 - 阿部 一子 {{ formatDate(new Date()) }}
                         {{ $gate.name }}
                     </div>
-
+                    <br>
+                    <div class="text-center mt-3">
+                        <h1 class="font-weight-bold mb-0">
+                            {{formatTime()}}
+                        </h1>
+                    </div>
                     <div
                         class="card-body d-flex flex-column justify-content-center align-items-center"
                     >
@@ -66,6 +71,12 @@ export default {
                 strDate += "（" + this.weeks[date.getDay()] + "）";
             }
             return strDate;
+        },
+        formatTime() {
+            var hour = new Date().getHours();
+            var minute = new Date().getMinutes();
+            var strTime = hour + ":" + minute;
+            return strTime;
         },
         attend() {
             //TODO: axios.post

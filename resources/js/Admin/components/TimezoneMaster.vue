@@ -5,6 +5,7 @@
                 <div class="card">
                     <div class="card-header calendar-title">
                         <h3 class="card-title mb-0">時間帯マスタ</h3>
+                        <h3 class="card-title mb-0 ml-5">ラテラル保育園</h3>
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -52,6 +53,7 @@
                                                     終了
                                                 </th>
                                                 <th></th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody class="text-center">
@@ -64,6 +66,14 @@
                                                 </td>
                                                 <td>
                                                     10:00
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <a href="#" class="mx-2">
@@ -84,6 +94,14 @@
                                                 <td>
                                                     16:00
                                                 </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
+                                                </td>
                                                 <td>
                                                     <a href="#" class="mx-2">
                                                         <i class="far fa-edit fa-lg"></i>
@@ -102,6 +120,14 @@
                                                 </td>
                                                 <td>
                                                     17:30
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <a href="#" class="mx-2">
@@ -122,6 +148,14 @@
                                                 <td>
                                                     19:00
                                                 </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
+                                                </td>
                                                 <td>
                                                     <a href="#" class="mx-2">
                                                         <i class="far fa-edit fa-lg"></i>
@@ -140,6 +174,174 @@
                                                 </td>
                                                 <td>
                                                     20:00
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                    <a href="#">
+                                                        <i class="far fa-trash-alt fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="next-year-table" role="tabpanel" aria-labelledby="next-year-tab">
+                                <div class="table-responsive p-0">
+                                    <table
+                                        class="table table-bordered table-striped table-master table-hover"
+                                    >
+                                        <thead class="text-center">
+                                            <tr class="dark-grey text-white">
+                                                <th>
+                                                    時間帯名
+                                                </th>
+                                                <th>
+                                                    開始
+                                                </th>
+                                                <th>
+                                                    終了
+                                                </th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            <tr draggable="true" @dragstart="start()"  @dragover="dragover()">
+                                                <td>
+                                                    A時間帯
+                                                </td>
+                                                <td>
+                                                    7:30
+                                                </td>
+                                                <td>
+                                                    10:00
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                    <a href="#">
+                                                        <i class="far fa-trash-alt fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr draggable="true" @dragstart="start()"  @dragover="dragover()">
+                                                <td>
+                                                    B時間帯
+                                                </td>
+                                                <td>
+                                                    8:00
+                                                </td>
+                                                <td>
+                                                    16:00
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                    <a href="#">
+                                                        <i class="far fa-trash-alt fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr draggable="true" @dragstart="start()"  @dragover="dragover()">
+                                                <td>
+                                                    C時間帯
+                                                </td>
+                                                <td>
+                                                    16:00
+                                                </td>
+                                                <td>
+                                                    17:30
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                    <a href="#">
+                                                        <i class="far fa-trash-alt fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr draggable="true" @dragstart="start()"  @dragover="dragover()">
+                                                <td>
+                                                    D時間帯
+                                                </td>
+                                                <td>
+                                                    17:30
+                                                </td>
+                                                <td>
+                                                    19:00
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                    <a href="#">
+                                                        <i class="far fa-trash-alt fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr draggable="true" @dragstart="start()"  @dragover="dragover()">
+                                                <td>
+                                                    E時間帯
+                                                </td>
+                                                <td>
+                                                    19:00
+                                                </td>
+                                                <td>
+                                                    20:00
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <a href="#" class="mx-2">
@@ -184,124 +386,13 @@
                                                 <td>
                                                     10:00
                                                 </td>
-                                                <td>
-                                                    <a href="#" class="mx-2">
-                                                        <i class="far fa-edit fa-lg"></i>
-                                                    </a>
-                                                    <a href="#">
-                                                        <i class="far fa-trash-alt fa-lg"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr draggable="true" @dragstart="start()"  @dragover="dragover()">
-                                                <td>
-                                                    B時間帯
-                                                </td>
-                                                <td>
-                                                    8:00
-                                                </td>
-                                                <td>
-                                                    16:00
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="mx-2">
-                                                        <i class="far fa-edit fa-lg"></i>
-                                                    </a>
-                                                    <a href="#">
-                                                        <i class="far fa-trash-alt fa-lg"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr draggable="true" @dragstart="start()"  @dragover="dragover()">
-                                                <td>
-                                                    C時間帯
-                                                </td>
-                                                <td>
-                                                    16:00
-                                                </td>
-                                                <td>
-                                                    17:30
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="mx-2">
-                                                        <i class="far fa-edit fa-lg"></i>
-                                                    </a>
-                                                    <a href="#">
-                                                        <i class="far fa-trash-alt fa-lg"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr draggable="true" @dragstart="start()"  @dragover="dragover()">
-                                                <td>
-                                                    D時間帯
-                                                </td>
-                                                <td>
-                                                    17:30
-                                                </td>
-                                                <td>
-                                                    19:00
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="mx-2">
-                                                        <i class="far fa-edit fa-lg"></i>
-                                                    </a>
-                                                    <a href="#">
-                                                        <i class="far fa-trash-alt fa-lg"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr draggable="true" @dragstart="start()"  @dragover="dragover()">
-                                                <td>
-                                                    E時間帯
-                                                </td>
-                                                <td>
-                                                    19:00
-                                                </td>
-                                                <td>
-                                                    20:00
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="mx-2">
-                                                        <i class="far fa-edit fa-lg"></i>
-                                                    </a>
-                                                    <a href="#">
-                                                        <i class="far fa-trash-alt fa-lg"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="next-year-table" role="tabpanel" aria-labelledby="next-year-tab">
-                                <div class="table-responsive p-0">
-                                    <table
-                                        class="table table-bordered table-striped table-master table-hover"
-                                    >
-                                        <thead class="text-center">
-                                            <tr class="dark-grey text-white">
-                                                <th>
-                                                    時間帯名
-                                                </th>
-                                                <th>
-                                                    開始
-                                                </th>
-                                                <th>
-                                                    終了
-                                                </th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="text-center">
-                                            <tr draggable="true" @dragstart="start()"  @dragover="dragover()">
-                                                <td>
-                                                    A時間帯
-                                                </td>
-                                                <td>
-                                                    7:30
-                                                </td>
-                                                <td>
-                                                    10:00
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <a href="#" class="mx-2">
@@ -322,6 +413,14 @@
                                                 <td>
                                                     16:00
                                                 </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
+                                                </td>
                                                 <td>
                                                     <a href="#" class="mx-2">
                                                         <i class="far fa-edit fa-lg"></i>
@@ -340,6 +439,14 @@
                                                 </td>
                                                 <td>
                                                     17:30
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <a href="#" class="mx-2">
@@ -360,6 +467,14 @@
                                                 <td>
                                                     19:00
                                                 </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
+                                                </td>
                                                 <td>
                                                     <a href="#" class="mx-2">
                                                         <i class="far fa-edit fa-lg"></i>
@@ -378,6 +493,14 @@
                                                 </td>
                                                 <td>
                                                     20:00
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <div class="d-flex align-items-center justify-content-center">
+                                                        <input type="radio" name="display" :value="1">
+                                                        <label class="mr-2 mb-0">表示</label>
+                                                        <input type="radio" name="display" :value="2">
+                                                        <label class="mr-2 mb-0">非表示</label>
+                                                    </div>
                                                 </td>
                                                 <td>
                                                     <a href="#" class="mx-2">
