@@ -87,7 +87,7 @@ export default [
                 name: "manager-shift-create",
                 components: { default: ManagerShiftCreate },
                 icon: "fas fa-edit",
-                anchor: "シフト作成"
+                anchor: "シフト計画"
             }
         ]
     },

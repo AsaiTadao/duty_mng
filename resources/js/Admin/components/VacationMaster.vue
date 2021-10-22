@@ -33,12 +33,21 @@
                                             休暇理由
                                         </th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
                                     <tr>
                                         <td>
                                             体調不良
+                                        </td>
+                                        <td style="width: 200px;">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <input type="radio" name="display" :value="1">
+                                                <label class="mr-2 mb-0">表示</label>
+                                                <input type="radio" name="display" :value="2">
+                                                <label class="mr-2 mb-0">非表示</label>
+                                            </div>
                                         </td>
                                         <td class="align-middle">
                                             <a href="#" class="mx-2">
@@ -53,6 +62,14 @@
                                         <td>
                                             私用
                                         </td>
+                                        <td style="width: 200px;">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <input type="radio" name="display" :value="1">
+                                                <label class="mr-2 mb-0">表示</label>
+                                                <input type="radio" name="display" :value="2">
+                                                <label class="mr-2 mb-0">非表示</label>
+                                            </div>
+                                        </td>
                                         <td class="align-middle">
                                             <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
@@ -65,6 +82,14 @@
                                     <tr>
                                         <td>
                                             育児休暇
+                                        </td>
+                                        <td style="width: 200px;">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <input type="radio" name="display" :value="1">
+                                                <label class="mr-2 mb-0">表示</label>
+                                                <input type="radio" name="display" :value="2">
+                                                <label class="mr-2 mb-0">非表示</label>
+                                            </div>
                                         </td>
                                         <td class="align-middle">
                                             <a href="#" class="mx-2">
@@ -79,6 +104,14 @@
                                         <td>
                                             慶弔休暇
                                         </td>
+                                        <td style="width: 200px;">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <input type="radio" name="display" :value="1">
+                                                <label class="mr-2 mb-0">表示</label>
+                                                <input type="radio" name="display" :value="2">
+                                                <label class="mr-2 mb-0">非表示</label>
+                                            </div>
+                                        </td>
                                         <td class="align-middle">
                                             <a href="#" class="mx-2">
                                                 <i class="far fa-edit fa-lg"></i>
@@ -91,6 +124,14 @@
                                     <tr>
                                         <td>
                                             リフレッシュ休暇
+                                        </td>
+                                        <td style="width: 200px;">
+                                            <div class="d-flex align-items-center justify-content-center">
+                                                <input type="radio" name="display" :value="1">
+                                                <label class="mr-2 mb-0">表示</label>
+                                                <input type="radio" name="display" :value="2">
+                                                <label class="mr-2 mb-0">非表示</label>
+                                            </div>
                                         </td>
                                         <td class="align-middle">
                                             <a href="#" class="mx-2">

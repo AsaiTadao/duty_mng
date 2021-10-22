@@ -27,9 +27,9 @@
                                 <div class="col-md-2">
                                     <select class="form-control">
                                         <option>本社・本部Grp</option>
-                                        <option>本社・本部Grp</option>
-                                        <option>本社・本部Grp</option>
-                                        <option>本社・本部Grp</option>
+                                        <option>保育園Grp</option>
+                                        <option>病児病後児施設Grp</option>
+                                        <option>放課後サービスGrp</option>
                                     </select>
                                 </div>
                             </div>
@@ -63,63 +63,13 @@
                                             </tr>
                                         </thead>
                                         <tbody class="text-center">
-                                            <tr>
-                                                <td>
-                                                    2021年4月
-                                                </td>
+                                            <tr v-for="month in months" :key="month">
+                                                <td>{{month}}</td>
                                                 <td>
                                                     21日
                                                 </td>
                                                 <td>
                                                     168時間
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="mx-2">
-                                                        <i class="far fa-edit fa-lg"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    2021年5月
-                                                </td>
-                                                <td>
-                                                    19日
-                                                </td>
-                                                <td>
-                                                    152時間
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="mx-2">
-                                                        <i class="far fa-edit fa-lg"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    2021年6月
-                                                </td>
-                                                <td>
-                                                    19日
-                                                </td>
-                                                <td>
-                                                    152時間
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="mx-2">
-                                                        <i class="far fa-edit fa-lg"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    2021年7月
-                                                </td>
-                                                <td>
-                                                    22日
-                                                </td>
-                                                <td>
-                                                    176時間
                                                 </td>
                                                 <td>
                                                     <a href="#" class="mx-2">
@@ -151,63 +101,13 @@
                                             </tr>
                                         </thead>
                                         <tbody class="text-center">
-                                            <tr>
-                                                <td>
-                                                    2022年4月
-                                                </td>
+                                            <tr v-for="month in nextMonths" :key="month">
+                                                <td>{{month}}</td>
                                                 <td>
                                                     21日
                                                 </td>
                                                 <td>
                                                     168時間
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="mx-2">
-                                                        <i class="far fa-edit fa-lg"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    2022年5月
-                                                </td>
-                                                <td>
-                                                    19日
-                                                </td>
-                                                <td>
-                                                    152時間
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="mx-2">
-                                                        <i class="far fa-edit fa-lg"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    2022年6月
-                                                </td>
-                                                <td>
-                                                    19日
-                                                </td>
-                                                <td>
-                                                    152時間
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="mx-2">
-                                                        <i class="far fa-edit fa-lg"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    2022年7月
-                                                </td>
-                                                <td>
-                                                    22日
-                                                </td>
-                                                <td>
-                                                    176時間
                                                 </td>
                                                 <td>
                                                     <a href="#" class="mx-2">
@@ -236,10 +136,12 @@
                                         <div class="form-group">
                                             <div class="form-row">
                                                 <div class="col-md-3">
-                                                    <input type="text" name="office_number"
-                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('hour') }"
-                                                    placeholder="業種グループ名入力">
-                                                    <has-error :form="form" field="hour"></has-error>
+                                                    <select class="form-control">
+                                                        <option>本社・本部Grp</option>
+                                                        <option>保育園Grp</option>
+                                                        <option>病児病後児施設Grp</option>
+                                                        <option>放課後サービスGrp</option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-md-1"></div>
                                                 <div class="col-md-6">
@@ -289,12 +191,15 @@
     </div>
 </template>
 <script>
+    import moment from 'moment';
     export default {
         data() {
             return {
                 editmode: false,
                 currentDate: new Date(),
                 days: [],
+                months:[],
+                nextMonths: [],
                 attends : [],
                 requests : [],
                 form: new Form({
@@ -312,13 +217,34 @@
         methods: {
             addSchedule(){
                 $("#addNew").modal("show");
-            }
+            },
+            getThisYearMonths() {
+                const date = this.currentDate;
+                // var firstMonth = new Date(date.getFullYear(), 4, 0);
+                // var lastMonth = new Date(date.getFullYear() + 1, 3, 0);
+                this.months = [];
+                for(let month = 1; month <= 12; month++) {
+                    this.months.push(moment(new Date(date.getFullYear(), 3+month, 0)).format('YYYY年 M月'));
+                }
+                console.log(this.months);
+            },
+            getNextYearMonths() {
+                const date = this.currentDate;
+                // var firstMonth = new Date(date.getFullYear(), 4, 0);
+                // var lastMonth = new Date(date.getFullYear() + 1, 3, 0);
+                this.nextMonths = [];
+                for(let month = 1; month <= 12; month++) {
+                    this.nextMonths.push(moment(new Date(date.getFullYear() +1, 3+month, 0)).format('YYYY年 M月'));
+                }
+                console.log(this.nextMonths);
+            },
         },
         mounted() {
 
         },
         created() {
-
+            this.getThisYearMonths();
+            this.getNextYearMonths();
         }
     }
 </script>

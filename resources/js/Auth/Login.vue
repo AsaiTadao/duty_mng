@@ -2,7 +2,7 @@
     <div class="login-page">
         <div class="login-box">
             <!-- /.login-logo -->
-            <div class="card card-outline card-primary">
+            <div class="card">
                 <div class="card-header text-center p-0">
                     <a href="#" class="h1"
                         ><img src="/images/logo.png" class="w-100"

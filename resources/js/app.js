@@ -120,6 +120,7 @@ Vue.prototype.$shift_type = [
 Vue.prototype.$rest_type = [
     { id: 1, name: "年次有休" },
     { id: 2, name: "特別休暇" },
+    { id: 3, name: "公休"},
 ];
 
 const app = new Vue({

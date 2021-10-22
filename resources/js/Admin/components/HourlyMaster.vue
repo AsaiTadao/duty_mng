@@ -5,6 +5,7 @@
                 <div class="card">
                     <div class="card-header calendar-title">
                         <h3 class="card-title mb-0">時給テーブルマスタ</h3>
+                        <h3 class="card-title mb-0 ml-5">ラテラル保育園</h3>
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">

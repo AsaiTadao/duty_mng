@@ -71,8 +71,8 @@
                                     <tr>
                                         <td>A1234567</td>
                                         <td>阿部　一子</td>
-                                        <td>AAAAA保育園</td>
-                                        <td>スタッフ</td>
+                                        <td>正社員</td>
+                                        <td>在籍中</td>
                                         <td rowspan="3" class="align-middle"><i class="fas fa-qrcode fa-lg"></i></td>
                                         <td rowspan="3" class="align-middle">
                                             <a href="#" class="mx-2">
@@ -94,7 +94,7 @@
                                         <td colspan="2">Abeitiko111</td>
                                     </tr>
                                     <tr>
-                                        <td class="align-middle pl-4"><i class="fas fa-square-full"></i>権限タイプ</td>
+                                        <td class="align-middle pl-4">権限タイプ</td>
                                         <td colspan="5" class="align-middle text-left">
                                             <div class="align-middle d-flex">
                                                 <div class="d-flex align-items-center mr-3">
@@ -121,7 +121,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="align-middle"><i class="fas fa-square-full"></i>残業手担</td>
+                                        <td class="align-middle">残業手当</td>
                                         <td colspan="5" class="align-middle text-left">
                                             <div class="align-middle d-flex">
                                                 <div class="d-flex align-items-center mr-3">
@@ -134,13 +134,13 @@
                                                 </div>
                                                 <div class="d-flex align-items-center mr-3">
                                                     <input class="mr-1" type="radio" name="zangyo" :value="3"/>
-                                                    <div class="mb-0">1日に8時間以上勤務した</div>
+                                                    <div class="mb-0">1日に8時間以上勤務した分</div>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="align-middle"><i class="fas fa-square-full"></i>給与控除</td>
+                                        <td class="align-middle">給与控除</td>
                                         <td colspan="5" class="align-middle text-left">
                                             <div class="align-middle d-flex">
                                                 <div class="d-flex align-items-center mr-3">
@@ -149,13 +149,13 @@
                                                 </div>
                                                 <div class="d-flex align-items-center mr-3">
                                                     <input class="mr-1" type="radio" name="kyuyo" :value="2"/>
-                                                    <div class="mb-0">シフト予定より勤務時間が小さい場合</div>
+                                                    <div class="mb-0">シフト予定より勤務時間が少ない場合</div>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="align-middle"><i class="fas fa-square-full"></i>申請期間</td>
+                                        <td class="align-middle">申請期間</td>
                                         <td colspan="5" class="align-middle text-left">
                                             <div class="align-middle d-flex">
                                                 <div class="d-flex align-items-center mr-3">
@@ -251,7 +251,7 @@
                                                     <input type="text" class="form-control" name="email" placeholder="メールアドレス">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <input type="text" class="form-control" name="email" placeholder="メールアドレス">
+                                                    <input type="text" class="form-control" name="email" placeholder="パスワード">
                                                 </div>
                                             </div>
                                         </div>

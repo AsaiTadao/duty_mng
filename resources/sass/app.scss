@@ -61,7 +61,7 @@
 .main-sidebar {
     background-color: $yellow !important;
     min-height: 100vh !important;
-    position: fixed!important;
+    position: fixed !important;
 }
 
 /* a.nav-link {
@@ -163,18 +163,25 @@ section.content {
 .table-master tbody tr:nth-of-type(even) {
     background-color: #e7e7e7;
 }
+.table-kintai {
+    border-collapse: separate !important;
+    border-spacing: 0;
+}
 .table-kintai tbody tr:nth-of-type(odd) {
     background-color: #d5e3cf;
 }
 .table-kintai tbody tr:nth-of-type(even) {
     background-color: #ebf1e9;
 }
+.table-kintai.table-head-fixed thead tr:nth-child(1) th {
+    background-color: #70ad47;
+}
 .table-bordered th,
 .table-bordered td {
-    border: 2px solid #ffffff;
+    border: 1px solid #ffffff;
 }
 .table thead th {
-    border-bottom: 2px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
 }
 .table th,
 .table td {
@@ -189,6 +196,81 @@ section.content {
 }
 .overflow-scroll-x {
     overflow-x: scroll;
+}
+.border-collapse-seperate {
+    border: none;
+    border-collapse: separate !important;
+    border-spacing: 0;
+}
+.header-fix-y th {
+    position: sticky;
+    top: 36px;
+    background-color: #70ad47;
+    z-index: 10;
+    outline: 1px solid white;
+}
+.header-fix-x {
+    position: sticky;
+    left: 0;
+    z-index: 11 !important;
+    //background-color: #d5e3cf;
+    outline: 1px solid white;
+}
+.header-fix-x-td {
+    position: sticky;
+    left: 0;
+    z-index: 11 !important;
+    //border: 2px solid white;
+    outline: 1px solid white;
+    //background-color: #ebf1e9;
+}
+.header-fix-x-68 {
+    position: sticky;
+    left: 68px;
+    z-index: 12 !important;
+    //border: 2px solid white;
+    outline: 1px solid white;
+    //background-color: #d5e3cf;
+}
+.header-fix-x-77 {
+    position: sticky;
+    left: 77px;
+    z-index: 12 !important;
+    //border: 2px solid white;
+    outline: 1px solid white;
+    //background-color: #d5e3cf;
+}
+.shift-fix-x {
+    position: sticky;
+    left: 0;
+    z-index: 11 !important;
+    outline: 1px solid black;
+    background-color: white;
+}
+.shift-th-x {
+    left: 0;
+    z-index: 12 !important;
+    outline: 1px solid black;
+    position: sticky;
+    background-color: #d5e3cf;
+}
+.padding-1px {
+    padding: 1px !important;
+}
+.table-black-bordered {
+    border: 1px solid black !important;
+}
+.table-black-bordered th,
+.table-black-bordered td {
+    border: 1px solid black !important;
+}
+tbody.header-fix-x-tr tr:nth-of-type(odd) > td {
+    background-color: #d5e3cf;
+    border: 1px solid white;
+}
+tbody.header-fix-x-tr tr:nth-of-type(even) > td {
+    background-color: #ebf1e9;
+    border: 1px solid white;
 }
 .shifttable-bordered th,
 .shifttable-bordered td {
@@ -232,9 +314,12 @@ nav.main-header {
     width: 100% !important;
 }
 @media (min-width: 768px) {
-    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav):not(.sidebar-collapse) .content-wrapper,
-    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav):not(.sidebar-collapse) .main-footer,
-    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav):not(.sidebar-collapse) .main-header {
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav):not(.sidebar-collapse)
+        .content-wrapper,
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav):not(.sidebar-collapse)
+        .main-footer,
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav):not(.sidebar-collapse)
+        .main-header {
         transition: 0.3s ease-in-out;
         margin-left: 250px !important;
         width: calc(100% - 250px) !important;
@@ -253,9 +338,12 @@ nav.main-header {
         margin-left: 4.6rem !important;
         width: calc(100% - 4.6rem) !important;
     }
-    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .content-wrapper,
-    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-footer,
-    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav) .main-header {
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav)
+        .content-wrapper,
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav)
+        .main-footer,
+    body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav)
+        .main-header {
         margin-left: 0;
         width: 100%;
     }
