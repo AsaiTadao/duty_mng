@@ -56,6 +56,11 @@
                                                 {{day.getDate()}}日
                                             </a>
                                         </th>
+                                        <th v-if="days.length === 30">
+                                            <a href="#" @click="openDayCalendar()">
+                                                31日
+                                            </a>
+                                        </th>
                                         <th class="align-middle heavy-green" rowspan="2">勤務予定<br>日数</th>
                                         <th class="align-middle heavy-green" rowspan="2">実働予定<br>時間</th>
                                     </tr>
@@ -65,6 +70,9 @@
                                             <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
                                             <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
                                             <div v-else>{{day|formatWeek}}</div>
+                                        </th>
+                                        <th v-if="days.length === 30">
+                                            <div>月</div>
                                         </th>
                                     </tr>
                                 </thead>
@@ -1559,7 +1567,7 @@
                 for(let day = firstDay; day <= lastDay; day++) {
                     this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
                 }
-                //console.log(this.days);
+                console.log(this.days.length);
 
             },
 
