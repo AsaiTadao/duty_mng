@@ -57,21 +57,6 @@
                 </router-link>
             </div>
             <div class="col-md-4">
-            </div>
-        </div>
-        <br>
-        <div class="row justify-content-center my-5">
-            <div class="col-md-4">
-                <router-link to="/admin/schedule-master">
-                    <div type="button" class="border-radius-15 border-color-green border-style-solid border-width-thin background-grey py-1">
-                        <h3 class="text-white text-center mb-0 mt-2">
-                            所定労働時間マスタ
-                        </h3>
-                        <div class="text-white text-center mb-2">月毎の登録｜編集｜削除</div>
-                    </div>
-                </router-link>
-            </div>
-            <div class="col-md-4">
                 <router-link to="/admin/vacation-master">
                     <div type="button" class="border-radius-15 border-color-green border-style-solid border-width-thin background-grey py-1">
                         <h3 class="text-white text-center mb-0 mt-2">
@@ -80,6 +65,22 @@
                         <div class="text-white text-center mb-2">休暇理由の登録｜編集｜削除</div>
                     </div>
                 </router-link>
+            </div>
+        </div>
+        <br>
+        <div class="row justify-content-center my-5">
+            <div class="col-md-4">
+                <!-- <router-link to="/admin/schedule-master">
+                    <div type="button" class="border-radius-15 border-color-green border-style-solid border-width-thin background-grey py-1">
+                        <h3 class="text-white text-center mb-0 mt-2">
+                            所定労働時間マスタ
+                        </h3>
+                        <div class="text-white text-center mb-2">月毎の登録｜編集｜削除</div>
+                    </div>
+                </router-link> -->
+            </div>
+            <div class="col-md-4">
+
             </div>
             <div class="col-md-4">
             </div>

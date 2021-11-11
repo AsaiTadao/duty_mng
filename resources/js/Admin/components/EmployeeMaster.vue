@@ -233,15 +233,17 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <select class="form-control">
-                                                        <option>本社・本部Grp</option>
-                                                        <option>保育園Grp</option>
-                                                        <option>病児病後児施設Grp</option>
-                                                        <option>放課後サービスGrp</option>
-                                                    </select>
+                                                    <input type="text" name="no"
+                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('hour') }"
+                                                    placeholder="No">
+                                                    <has-error :form="form" field="hour"></has-error>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="number" placeholder="No">
+                                                    <select class="form-control">
+                                                        <option>8時間</option>
+                                                        <option>7時間</option>
+                                                        <option>6時間</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
