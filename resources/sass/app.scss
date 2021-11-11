@@ -241,17 +241,21 @@ section.content {
     //background-color: #d5e3cf;
 }
 .shift-fix-x {
+    position: -webkit-sticky;
     position: sticky;
     left: 0;
     z-index: 11 !important;
-    outline: 1px solid black;
+    //outline: 1px solid black;
+    box-shadow: inset -1px 0 0 black, inset 1px 0 0 black;
     background-color: white;
 }
 .shift-th-x {
+    position: -webkit-sticky;
+    position: sticky;
     left: 0;
     z-index: 12 !important;
-    outline: 1px solid black;
-    position: sticky;
+    //outline: 1px solid black;
+    box-shadow: inset -1px 0 0 black, inset 1px 0 0 black;
     background-color: #d5e3cf;
 }
 .padding-1px {
