@@ -9,6 +9,7 @@
                     </div>
                     <br>
                     <div class="text-center mt-3">
+                        <h4>現在の時刻</h4>
                         <h1 class="font-weight-bold mb-0">
                             {{formatTime()}}
                         </h1>
@@ -73,8 +74,8 @@ export default {
             return strDate;
         },
         formatTime() {
-            var hour = new Date().getHours();
-            var minute = new Date().getMinutes();
+            var hour = ('0' + new Date().getHours()).slice(-2);
+            var minute = ('0' + new Date().getMinutes()).slice(-2);
             var strTime = hour + ":" + minute;
             return strTime;
         },

@@ -33,7 +33,7 @@
                                 <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="getResults(getThisMonthDate())">
                                     今月
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline" :hidden="isThisMonth()" @click="getResults(getNextMonthDate())">
+                                <button type="button" class="btn btn-sm btn-outline" @click="getResults(getNextMonthDate())">
                                     <i class="fas fa-caret-right fa-2x"></i>
                                 </button>
                                 <div class="form-group mx-4 mb-0">
@@ -882,11 +882,37 @@
                                 </label>
                                 <has-error :form="form" field="type"></has-error>
                             </div>
-                            <label>出勤①</label>
                             <div class="form-group">
-                                <input v-model="form.kintai_time1" type="text" name="kintai_time1"
-                                    class="form-control" :class="{ 'is-invalid': form.errors.has('kintai_time1') }">
-                                <has-error :form="form" field="kintai_time1"></has-error>
+                                <label>出勤①</label>
+                                <select class="form-control">
+                                    <option>正-A 8:00 ~ 18:00</option>
+                                    <option>正-B 8:00 ~ 18:00</option>
+                                    <option>正-C 8:00 ~ 18:00</option>
+                                    <option>正-D 8:00 ~ 18:00</option>
+                                </select>
+                                <div class="form-row align-items-center mt-3">
+                                    <div class="col-md-2">
+                                        <input v-model="form.hour" type="number" name="work_start_hour1"
+                                            class="form-control" :class="{ 'is-invalid': form.errors.has('hour') }">
+                                        <has-error :form="form" field="work_start_hour1"></has-error>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input v-model="form.minute" type="number" name="work_start_minute1"
+                                            class="form-control" :class="{ 'is-invalid': form.errors.has('minute') }">
+                                        <has-error :form="form" field="work_start_minute1"></has-error>
+                                    </div>
+                                    <div class="form-control-label">⇒</div>
+                                    <div class="col-md-2">
+                                        <input v-model="form.new_hour" type="number" name="work_start_new_hour"
+                                            class="form-control" :class="{ 'is-invalid': form.errors.has('new_hour') }">
+                                        <has-error :form="form" field="new_hour"></has-error>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input v-model="form.new_minute" type="number" name="work_start_new_minute"
+                                            class="form-control" :class="{ 'is-invalid': form.errors.has('new_minute') }">
+                                        <has-error :form="form" field="new_minute"></has-error>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label>休憩</label>
@@ -903,12 +929,12 @@
                                     </div>
                                     <div class="form-control-label">⇒</div>
                                     <div class="col-md-2">
-                                        <input v-model="form.new_hour" type="number" name="new_hour"
+                                        <input v-model="form.new_hour" type="number" name="work_start_new_hour1"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('new_hour') }">
                                         <has-error :form="form" field="new_hour"></has-error>
                                     </div>
                                     <div class="col-md-2">
-                                        <input v-model="form.new_minute" type="number" name="new_minute"
+                                        <input v-model="form.new_minute" type="number" name="work_start_new_minute1"
                                             class="form-control" :class="{ 'is-invalid': form.errors.has('new_minute') }">
                                         <has-error :form="form" field="new_minute"></has-error>
                                     </div>
@@ -916,9 +942,35 @@
                             </div>
                             <label>出勤②</label>
                             <div class="form-group">
-                                <input v-model="form.kintai_time2" type="text" name="kintai_time2"
-                                    class="form-control" :class="{ 'is-invalid': form.errors.has('kintai_time2') }">
-                                <has-error :form="form" field="kintai_time2"></has-error>
+                                <select class="form-control">
+                                    <option>正-A 8:00 ~ 18:00</option>
+                                    <option>正-B 8:00 ~ 18:00</option>
+                                    <option>正-C 8:00 ~ 18:00</option>
+                                    <option>正-D 8:00 ~ 18:00</option>
+                                </select>
+                                <div class="form-row align-items-center mt-3">
+                                    <div class="col-md-2">
+                                        <input v-model="form.hour" type="number" name="work_start_hour2"
+                                            class="form-control" :class="{ 'is-invalid': form.errors.has('hour') }">
+                                        <has-error :form="form" field="hour"></has-error>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input v-model="form.minute" type="number" name="work_start_minute2"
+                                            class="form-control" :class="{ 'is-invalid': form.errors.has('minute') }">
+                                        <has-error :form="form" field="minute"></has-error>
+                                    </div>
+                                    <div class="form-control-label">⇒</div>
+                                    <div class="col-md-2">
+                                        <input v-model="form.new_hour" type="number" name="work_start_new_hour2"
+                                            class="form-control" :class="{ 'is-invalid': form.errors.has('new_hour') }">
+                                        <has-error :form="form" field="new_hour"></has-error>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input v-model="form.new_minute" type="number" name="work_start_new_minute2"
+                                            class="form-control" :class="{ 'is-invalid': form.errors.has('new_minute') }">
+                                        <has-error :form="form" field="new_minute"></has-error>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label>休憩</label>
