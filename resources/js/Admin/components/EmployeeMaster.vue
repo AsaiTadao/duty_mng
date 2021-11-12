@@ -52,10 +52,10 @@
                                             エリア
                                         </th>
                                         <th>
-                                            業種グループ
+                                            本社グループ
                                         </th>
                                         <th>
-                                            本社グループ
+                                            勤務時間
                                         </th>
                                     </tr>
                                     <tr class="dark-grey text-white">
@@ -86,8 +86,8 @@
                                     <tr>
                                         <td>仙台本社</td>
                                         <td>東北エリア</td>
-                                        <td>本社・本部Grp</td>
                                         <td>1</td>
+                                        <td>8時間</td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">xxxxxxxxxx@gmail.com</td>

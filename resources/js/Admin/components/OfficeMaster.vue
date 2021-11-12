@@ -205,45 +205,32 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <div class="form-row">
-                                                <div class="col-md-3">
-                                                    <select class="form-control">
-                                                        <option>本社・本部Grp</option>
-                                                        <option>保育園Grp</option>
-                                                        <option>病児病後児施設Grp</option>
-                                                        <option>放課後サービスGrp</option>
-                                                    </select>
+                                            <div class="form-row align-items-center">
+                                                <div class="col-md-5">
+                                                    <input type="text" name="office_number"
+                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('hour') }"
+                                                    placeholder="事業所No入力">
+                                                    <has-error :form="form" field="hour"></has-error>
                                                 </div>
                                                 <div class="col-md-1"></div>
-                                                <div class="col-md-6">
-                                                    <div class="form-row">
-                                                        <div class="col-md-4">
-                                                            <input type="checkbox" name="type" :value="1">
-                                                            <label class="ml-auto">仙台本社</label>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <input type="checkbox" name="type" :value="2">
-                                                            <label class="ml-auto">沖縄本社</label>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <input type="checkbox" name="type" :value="3">
-                                                            <label class="ml-auto">埼玉支社</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="col-md-4">
-                                                            <input type="checkbox" name="type" :value="1">
-                                                            <label class="ml-auto">梅田あひる園</label>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <input type="checkbox" name="type" :value="2">
-                                                            <label class="ml-auto">福岡かえる園</label>
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <input type="checkbox" name="type" :value="3">
-                                                            <label class="ml-auto">福岡すずめ園</label>
-                                                        </div>
-                                                    </div>
+                                                <div class="col-md-5">
+                                                    <input type="text" name="office_name"
+                                                        class="form-control" :class="{ 'is-invalid': form.errors.has('minute') }"
+                                                    placeholder="事業所名入力">
+                                                    <has-error :form="form" field="minute"></has-error>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-row align-items-center">
+                                                <div class="col-md-5">
+                                                    <input v-model="form.type" type="radio" name="type" :value="1">
+                                                    <label class="ml-auto">休憩時間の控除：6時間以上の勤務で1時間を自動控除</label>
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-5">
+                                                    <input v-model="form.type" type="radio" name="type" :value="2">
+                                                    <label class="ml-auto">休憩時間の控除：シフトに登録した休憩時間を控除</label>
                                                 </div>
                                             </div>
                                         </div>
