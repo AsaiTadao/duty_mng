@@ -56,7 +56,7 @@ export default {
     mounted() {
         const userRoutes = routes[0];
         console.log("sidebar mounted session", this.session);
-        this.routes = userRoutes.children.filter(item => item.meta.guards.includes(this.roleId));
+        this.routes = userRoutes.children.filter(item => item.meta.guards.includes(this.roleId) && item.meta.menu);
         console.log(this.routes)
     }
 };

@@ -20,7 +20,8 @@ class YearSeeder extends Seeder
             Year::create([
                 'name'  =>  $i . '年度',
                 'start' =>  $i . '04',
-                'end'   =>  ($i + 1) . '03'
+                'end'   =>  ($i + 1) . '03',
+                'deadline'=>    30
             ]);
         }
     }

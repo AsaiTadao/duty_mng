@@ -18,52 +18,52 @@ class UserSettingSeeder extends Seeder
         $data = [
             [
                 'user_id'   =>  1,
-                'start_date'    =>  '1/1/2010',
-                'end_date'      =>  '3/31/2021',
+                'start_date'    =>  '2010-01-01',
+                'end_date'      =>  '2021-03-31',
             ],
             [
                 'user_id'   =>  1,
-                'start_date'    =>  '4/1/2021',
+                'start_date'    =>  '2021-04-01',
                 'end_date'      =>  null,
             ],
             [
                 'user_id'   =>  2,
-                'start_date'    =>  '1/1/2010',
-                'end_date'      =>  '3/31/2021',
+                'start_date'    =>  '2010-01-01',
+                'end_date'      =>  '2021-03-31',
             ],
             [
                 'user_id'   =>  2,
-                'start_date'    =>  '4/1/2021',
+                'start_date'    =>  '2021-04-01',
                 'end_date'      =>  null,
             ],
             [
                 'user_id'   =>  3,
-                'start_date'    =>  '1/1/2010',
-                'end_date'      =>  '3/31/2021',
+                'start_date'    =>  '2010-01-01',
+                'end_date'      =>  '2021-03-31',
             ],
             [
                 'user_id'   =>  3,
-                'start_date'    =>  '4/1/2021',
+                'start_date'    =>  '2021-04-01',
                 'end_date'      =>  null,
             ],
             [
                 'user_id'   =>  4,
-                'start_date'    =>  '1/1/2010',
-                'end_date'      =>  '3/31/2021',
+                'start_date'    =>  '2010-01-01',
+                'end_date'      =>  '2021-03-31',
             ],
             [
                 'user_id'   =>  4,
-                'start_date'    =>  '4/1/2021',
+                'start_date'    =>  '2021-04-01',
                 'end_date'      =>  null,
             ],
             [
                 'user_id'   =>  5,
-                'start_date'    =>  '1/1/2010',
-                'end_date'      =>  '3/31/2021',
+                'start_date'    =>  '2010-01-01',
+                'end_date'      =>  '2021-03-31',
             ],
             [
                 'user_id'   =>  5,
-                'start_date'    =>  '4/1/2021',
+                'start_date'    =>  '2021-04-01',
                 'end_date'      =>  null,
             ],
         ];

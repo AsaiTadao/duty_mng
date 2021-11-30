@@ -20,7 +20,16 @@ class DatabaseSeeder extends Seeder
             EmploymentStatusSeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+
+            OfficeSeeder::class,
+            UserSettingSeeder::class,
+            ChildSeeder::class,
+            YearSeeder::class,
+            ScheduledWorkingSeeder::class,
+            ReasonForVacationSeeder::class,
+            ApplicationClassSeeder::class,
+            OfficeScheduledWorkingSeeder::class
         ]);
     }
 }

@@ -27,6 +27,7 @@ class UserSeeder extends Seeder
         $user->id = 1;
         $user->save();
 
+        $user = new User;
         $user->fill([
             'name'  =>  'mgr001',
             'number'=>  'mgr001',
@@ -36,6 +37,7 @@ class UserSeeder extends Seeder
         $user->id = 2;
         $user->save();
 
+        $user = new User;
         $user->fill([
             'name'  =>  'office001',
             'number'=>  'office001',
@@ -45,6 +47,7 @@ class UserSeeder extends Seeder
         $user->id = 3;
         $user->save();
 
+        $user = new User;
         $user->fill([
             'name'  =>  'usera001',
             'number'=>  'usera001',
@@ -54,6 +57,7 @@ class UserSeeder extends Seeder
         $user->id = 4;
         $user->save();
 
+        $user = new User;
         $user->fill([
             'name'  =>  'userb001',
             'number'=>  'userb001',

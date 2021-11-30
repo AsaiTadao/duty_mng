@@ -91,7 +91,7 @@ const apiWrapper = (method, url, headers, data) => {
 
 export const apiErrorHandler = (error) => {
     requestErrorHandler(error, (e) => {
-        if (e.response && e.response.status === 401) {
+        if ((e.response && e.response.status === 401) || (e.status === 401)) {
             handleSignOut();
             return;
         }
