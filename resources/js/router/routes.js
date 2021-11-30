@@ -1,5 +1,16 @@
 import NotFound from "../pages/NotFound";
 import AttendStatus from '../pages/AttendStatus';
+import ManagerAttendStatus from "../pages/ManagerAttendStatus";
+import ManagerMonthlySummery from "../pages/ManagerMonthlySummery";
+import ManagerShiftCreate from "../pages/ManagerShiftCreate";
+import WorkTotal from "../pages/WorkTotal";
+import Master from "../pages/Master";
+import AreaMaster from "../pages/AreaMaster";
+import EmployeeMaster from "../pages/EmployeeMaster";
+import TimezoneMaster from "../pages/TimezoneMaster";
+import HourlyMaster from "../pages/HourlyMaster";
+import VacationMaster from "../pages/VacationMaster";
+import AdminSetting from "../pages/AdminSetting";
 import Login from "../pages/Login";
 import Stamp from '../pages/Stamp';
 import BaseLayout from '../layout/BaseLayout';
@@ -47,7 +58,7 @@ export default [
             {
                 path: "work-status",
                 name: "work-status",
-                components: { default: AttendStatus },
+                components: { default: ManagerAttendStatus },
                 meta: {
                     icon: "fas fa-file-alt",
                     anchor: "出勤状況",
@@ -62,7 +73,7 @@ export default [
             {
                 path: "monthly-summary",
                 name: "monthly-summary",
-                components: { default: AttendStatus },
+                components: { default: ManagerMonthlySummery },
                 meta: {
                     icon: "fas fa-file-alt",
                     anchor: "月間集計",
@@ -77,7 +88,7 @@ export default [
             {
                 path: "shift-create",
                 name: "shift-create",
-                components: { default: AttendStatus },
+                components: { default: ManagerShiftCreate },
                 meta: {
                     icon: "fas fa-file-alt",
                     anchor: "シフト計画",
@@ -93,7 +104,7 @@ export default [
             {
                 path: "work-total",
                 name: "work-total",
-                components: { default: AttendStatus },
+                components: { default: WorkTotal },
                 meta: {
                     icon: "fas fa-plus-square",
                     anchor: "勤務集計",
@@ -107,7 +118,7 @@ export default [
             {
                 path: "master",
                 name: "master",
-                components: { default: AttendStatus },
+                components: { default: Master },
                 meta: {
                     icon: "fas fa-network-wired",
                     anchor: "マスタ管理",
@@ -120,7 +131,7 @@ export default [
             {
                 path: "setting",
                 name: "setting",
-                components: { default: AttendStatus },
+                components: { default: AdminSetting },
                 meta: {
                     icon: "fas fa-cog",
                     anchor: "設定管理",
@@ -159,7 +170,7 @@ export default [
             {
                 path: "area-master",
                 name: "area-master",
-                components: { default: AttendStatus },
+                components: { default: AreaMaster },
                 meta: {
                     icon: "",
                     anchor: "エリアマスタ",
@@ -172,7 +183,7 @@ export default [
             {
                 path: "employee-master",
                 name: "employee-master",
-                components: { default: AttendStatus },
+                components: { default: EmployeeMaster },
                 meta: {
                     icon: "",
                     anchor: "社員マスタ",
@@ -185,7 +196,7 @@ export default [
             {
                 path: "timezone-master",
                 name: "timezone-master",
-                components: { default: AttendStatus },
+                components: { default: TimezoneMaster },
                 meta: {
                     icon: "",
                     anchor: "時間帯マスタ",
@@ -198,7 +209,7 @@ export default [
             {
                 path: "hourly-master",
                 name: "hourly-master",
-                components: { default: AttendStatus },
+                components: { default: HourlyMaster },
                 meta: {
                     icon: "",
                     anchor: "時給テーブルマスタ",
@@ -211,7 +222,7 @@ export default [
             {
                 path: "vacation-master",
                 name: "vacation-master",
-                components: { default: AttendStatus },
+                components: { default: VacationMaster },
                 meta: {
                     icon: "",
                     anchor: "休暇マスタ",

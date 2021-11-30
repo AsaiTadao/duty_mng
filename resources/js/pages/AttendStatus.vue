@@ -124,20 +124,20 @@
                                 <div class="form-row align-items-center">
                                     <div class="col-md-2">
                                         <input v-model="form.hour" type="number" name="hour"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('hour') }">
+                                            class="form-control">
                                     </div>
                                     <div class="col-md-2">
                                         <input v-model="form.minute" type="number" name="minute"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('minute') }">
+                                            class="form-control">
                                     </div>
                                     <div class="form-control-label">⇒</div>
                                     <div class="col-md-2">
                                         <input v-model="form.new_hour" type="number" name="new_hour"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('new_hour') }">
+                                            class="form-control">
                                     </div>
                                     <div class="col-md-2">
                                         <input v-model="form.new_minute" type="number" name="new_minute"
-                                            class="form-control" :class="{ 'is-invalid': form.errors.has('new_minute') }">
+                                            class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -146,7 +146,7 @@
                                 <i class="fas fa-square-full"></i>
                                 <label>申請理由</label>
                                 <input v-model="form.memo" type="text" name="memo"
-                                    class="form-control" :class="{ 'is-invalid': form.errors.has('memo') }">
+                                    class="form-control">
                             </div>
 
                         </div>
