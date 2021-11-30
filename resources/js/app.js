@@ -1,14 +1,21 @@
 require("./bootstrap");
+import moment from "moment";
+import App from "./App.vue";
+import VueI18n from 'vue-i18n';
+import Swal from "sweetalert2";
+/**
+ * Routes imports and assigning
+ */
+import VueRouter from "vue-router";
+import Vue from "vue";
+import store from "./store";
+import router from './router';
+import 'vue-loading-overlay/dist/vue-loading.css';
+
 
 window.Vue = require("vue").default;
 
-import { Form, HasError, AlertError } from "vform";
-window.Form = Form;
 
-import Gate from "./Gate";
-Vue.prototype.$gate = new Gate(window.user);
-
-import moment from "moment";
 moment.locale("ja", {
     weekdays: [
         "日曜日",
@@ -22,7 +29,6 @@ moment.locale("ja", {
     weekdaysShort: ["日", "月", "火", "水", "木", "金", "土"]
 });
 
-import Swal from "sweetalert2";
 
 const Toast = Swal.mixin({
     toast: true,
@@ -35,45 +41,21 @@ const Toast = Swal.mixin({
         toast.addEventListener("mouseleave", Swal.resumeTimer);
     }
 });
-window.Swal = Swal;
 window.Toast = Toast;
 
-import VueProgressBar from "vue-progressbar";
-import App from "./App.vue";
 
-Vue.use(VueProgressBar, {
-    color: "rgb(143, 255, 199)",
-    failedColor: "red",
-    height: "3px"
-});
-
-Vue.component(HasError.name, HasError);
-Vue.component(AlertError.name, AlertError);
-
-/**
- * Routes imports and assigning
- */
-import VueRouter from "vue-router";
-import routes from "./routes";
-import Vue from "vue";
-
+Vue.use(VueI18n);
 Vue.use(VueRouter);
 
-const router = new VueRouter({
-    mode: "history",
-    routes
+const messages = {
+    ja: {
+        ...require('./locales/ja.json')
+    }
+}
+const i18n = new VueI18n({
+    locale: 'ja',
+    messages
 });
-// Routes End
-
-// Components
-
-// const files = require.context('./components/', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component("pagination", require("laravel-vue-pagination"));
-Vue.component("home", require("./components/Home.vue"));
-
-Vue.component("not-found", require("./components/NotFound.vue").default);
 
 // Filter Section
 
@@ -126,5 +108,7 @@ Vue.prototype.$rest_type = [
 const app = new Vue({
     el: "#app",
     router,
-    render: h => h(App)
+    store: store,
+    render: h => h(App),
+    i18n
 });
