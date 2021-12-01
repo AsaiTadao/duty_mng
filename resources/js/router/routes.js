@@ -11,6 +11,7 @@ import TimezoneMaster from "../pages/TimezoneMaster";
 import HourlyMaster from "../pages/HourlyMaster";
 import VacationMaster from "../pages/VacationMaster";
 import AdminSetting from "../pages/AdminSetting";
+import OfficeMaster from "../pages/OfficeMaster";
 import Login from "../pages/Login";
 import Stamp from '../pages/Stamp';
 import BaseLayout from '../layout/BaseLayout';
@@ -157,7 +158,7 @@ export default [
             {
                 path: "office-master",
                 name: "office-master",
-                components: { default: AttendStatus },
+                components: { default: OfficeMaster },
                 meta: {
                     icon: "",
                     anchor: "事業所マスタ",
