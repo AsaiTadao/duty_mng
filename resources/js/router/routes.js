@@ -61,7 +61,7 @@ export default [
                 name: "work-status",
                 components: { default: ManagerAttendStatus },
                 meta: {
-                    icon: "fas fa-file-alt",
+                    icon: "fas fa-history",
                     anchor: "出勤状況",
                     menu: true,
                     guards: [
@@ -76,7 +76,7 @@ export default [
                 name: "monthly-summary",
                 components: { default: ManagerMonthlySummery },
                 meta: {
-                    icon: "fas fa-file-alt",
+                    icon: "fas fa-plus-square",
                     anchor: "月間集計",
                     menu: true,
                     guards: [
@@ -91,7 +91,7 @@ export default [
                 name: "shift-create",
                 components: { default: ManagerShiftCreate },
                 meta: {
-                    icon: "fas fa-file-alt",
+                    icon: "fas fa-edit",
                     anchor: "シフト計画",
                     menu: true,
                     guards: [
