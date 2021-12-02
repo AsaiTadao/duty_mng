@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\ConstantController;
 use App\Http\Controllers\API\V1\OfficeController;
+use App\Http\Controllers\API\V1\RegionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,5 +31,8 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::get('/office-master', [OfficeController::class, 'get'])->name('office_master.get');
         Route::post('/office-master', [OfficeController::class, 'create'])->name('office_master.create');
         Route::put('/office-master/{office}', [OfficeController::class, 'update'])->name('office_master.update');
+        Route::get('/region', [RegionController::class, 'get'])->name('region.get');
+        Route::post('/region', [RegionController::class, 'create'])->name('region.create');
+        Route::post('/region/{region}', [RegionController::class, 'update'])->name('region.update');
     });
 });
