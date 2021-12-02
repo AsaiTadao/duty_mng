@@ -12,8 +12,10 @@ class Office extends Model
 
     protected $fillable = [
         'name',
+        'number',
         'region_id',
         'industry_group_id',
         'office_group_id',
+        'rest_deduction_id'
     ];
 }

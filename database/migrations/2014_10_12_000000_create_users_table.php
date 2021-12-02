@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
 
             $table->foreignId('office_id')->nullable();
             $table->foreignId('role_id')->nullable();
+            $table->foreignId('employment_status_id')->nullable();
             $table->boolean('enrolled')->default(1);
             $table->string('qr', 100)->nullable();
             $table->softDeletes();

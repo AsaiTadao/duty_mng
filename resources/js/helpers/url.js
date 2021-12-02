@@ -15,7 +15,6 @@ export const serializeToQuery = (obj, prefix) => {
 };
 
 export const getUrlWithParam = (baseUrl, params) => {
-    console.log(baseUrl)
     const Url = new URL(baseUrl);
     Url.search = serializeToQuery(params);
     return Url.toString();

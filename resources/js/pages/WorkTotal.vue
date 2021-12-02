@@ -559,11 +559,7 @@ export default {
                     new Date(date.getFullYear(), date.getMonth(), day)
                 );
             }
-            console.log(this.days);
         }
-    },
-    mounted() {
-        console.log("User Component mounted.");
     },
     created() {
         this.displayDate = moment(this.displayDate).format('YYYY年 M月');

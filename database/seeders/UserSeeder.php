@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Constants\Roles;
+use App\Models\EmploymentStatus;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -22,7 +23,8 @@ class UserSeeder extends Seeder
             'name'  =>  'admin001',
             'number'    =>  'admin001',
             'password'  =>  Hash::make('admin001'),
-            'role_id'   =>  Roles::ADMIN
+            'role_id'   =>  Roles::ADMIN,
+            'employment_status_id'  =>  EmploymentStatus::NORMAL
         ]);
         $user->id = 1;
         $user->save();
@@ -33,6 +35,7 @@ class UserSeeder extends Seeder
             'number'=>  'mgr001',
             'password'=> Hash::make('mgr001'),
             'role_id' => Roles::REGION_MANAGER,
+            'employment_status_id'  =>  EmploymentStatus::NORMAL
         ]);
         $user->id = 2;
         $user->save();
@@ -43,6 +46,7 @@ class UserSeeder extends Seeder
             'number'=>  'office001',
             'password'=> Hash::make('office001'),
             'role_id' => Roles::OFFICE_MANAGER,
+            'employment_status_id'  =>  EmploymentStatus::NORMAL
         ]);
         $user->id = 3;
         $user->save();
@@ -52,7 +56,8 @@ class UserSeeder extends Seeder
             'name'  =>  'usera001',
             'number'=>  'usera001',
             'password'=> Hash::make('usera001'),
-            'role_id'=> Roles::USER_A
+            'role_id'=> Roles::USER_A,
+            'employment_status_id'  =>  EmploymentStatus::NORMAL
         ]);
         $user->id = 4;
         $user->save();
@@ -62,7 +67,8 @@ class UserSeeder extends Seeder
             'name'  =>  'userb001',
             'number'=>  'userb001',
             'password'=> Hash::make('userb001'),
-            'role_id'=> Roles::USER_B
+            'role_id'=> Roles::USER_B,
+            'employment_status_id'  =>  EmploymentStatus::PART_TIME
         ]);
         $user->id = 5;
         $user->save();

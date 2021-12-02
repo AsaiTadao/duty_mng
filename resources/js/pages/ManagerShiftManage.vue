@@ -361,8 +361,6 @@
                 for(let day = firstDay; day <= lastDay; day++) {
                     this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
                 }
-                console.log(this.days);
-
             },
             customFormatter(date) {
                 return moment(date).format('YYYY年 M月 D日 (ddd)');
@@ -373,9 +371,6 @@
             openWeekTable() {
                 this.showWeekTable = !this.showWeekTable;
             }
-        },
-        mounted() {
-            console.log('User Component mounted.')
         },
         created() {
             this.getResults(this.currentDate);

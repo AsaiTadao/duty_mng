@@ -107,7 +107,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label v-for="item in this.$request_type" :key="item.id" class="mr-2">
+                                <label v-for="item in applicationClasses" :key="item.id" class="mr-2">
                                     <input v-model="form.type" type="radio" name="type" :value="item.id">
                                     <label class="ml-auto">{{item.name}}</label>
                                 </label>
@@ -162,6 +162,7 @@
 </template>
 <script>
     import moment from 'moment';
+import { mapState } from 'vuex';
     export default {
         data () {
             return {
@@ -182,6 +183,11 @@
                     memo: '',
                 }
             }
+        },
+        computed: {
+            ...mapState({
+                applicationClasses: state => state.constants.applicationClasses
+            })
         },
         methods: {
             getWeekEnd(day) {
@@ -270,13 +276,8 @@
                 for(let day = firstDay; day <= lastDay; day++) {
                     this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
                 }
-                console.log(this.days);
-
             },
 
-        },
-        mounted() {
-            console.log('User Component mounted.')
         },
         created() {
             this.displayDate = moment(this.displayDate).format('YYYY年 M月');

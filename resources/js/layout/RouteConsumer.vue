@@ -17,7 +17,6 @@ export default {
         if (!matchedRoute) return;
 
         if (!matchedRoute.guards) return;
-        console.log({matchedRoute}, this.session.roleId);
         if (!matchedRoute.guards.includes(this.session.roleId)) {
             handleSignOut();
         }

@@ -884,7 +884,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group mb-0">
-                                <label v-for="item in this.$shift_type" :key="item.id" class="mr-2">
+                                <label v-for="item in employmentStatuses" :key="item.id" class="mr-2">
                                     <input type="radio" name="type" :value="item.id">
                                     <label class="ml-auto">{{item.name}}</label>
                                 </label>
@@ -977,7 +977,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-0">
-                                <label v-for="item in this.$rest_type" :key="item.id" class="mr-2">
+                                <label v-for="item in reasonForVacations" :key="item.id" class="mr-2">
                                     <input type="radio" name="type" :value="item.id">
                                     <label class="ml-auto">{{item.name}}</label>
                                 </label>
@@ -1423,6 +1423,7 @@
 </template>
 <script>
     import moment from 'moment';
+import { mapState } from 'vuex';
     export default {
         data () {
             return {
@@ -1443,6 +1444,12 @@
                 //     memo: '',
                 // })
             }
+        },
+        computed: {
+            ...mapState({
+                employmentStatuses: state => state.constants.employmentStatuses,
+                reasonForVacations: state => state.constants.reasonForVacations
+            })
         },
         methods: {
             getWeekEnd(day) {
@@ -1536,13 +1543,8 @@
                 for(let day = firstDay; day <= lastDay; day++) {
                     this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
                 }
-                console.log(this.days.length);
-
             },
 
-        },
-        mounted() {
-            console.log('User Component mounted.')
         },
         created() {
             this.displayDate = moment(this.displayDate).format('YYYY年 M月');

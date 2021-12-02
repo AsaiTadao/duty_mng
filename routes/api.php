@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\V1\AuthController;
+use App\Http\Controllers\API\V1\ConstantController;
+use App\Http\Controllers\API\V1\OfficeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +23,12 @@ Route::get('version', function () {
 
 Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/constants', [ConstantController::class, 'get']);
+
     Route::middleware(['auth:api'])->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
+        Route::get('/office-master', [OfficeController::class, 'get'])->name('office_master.get');
+        Route::post('/office-master', [OfficeController::class, 'create'])->name('office_master.create');
+        Route::put('/office-master/{office}', [OfficeController::class, 'update'])->name('office_master.update');
     });
 });

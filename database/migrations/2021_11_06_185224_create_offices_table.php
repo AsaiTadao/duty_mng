@@ -15,9 +15,10 @@ class CreateOfficesTable extends Migration
     {
         Schema::create('offices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('region_id');
-            $table->foreignId('industry_group_id');
-            $table->foreignId('office_group_id');
+            $table->foreignId('region_id')->nullable();
+            $table->foreignId('industry_group_id')->nullable();
+            $table->foreignId('office_group_id')->nullable();
+            $table->foreignId('rest_deduction_id');
             $table->string('name', 50);
             $table->string('number', 20)->nullable();
             $table->string('address', 200)->nullable();

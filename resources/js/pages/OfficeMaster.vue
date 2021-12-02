@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <button type="submit" class="btn btn-sm btn-primary" @click="addOffice()">
+                                <button type="submit" class="btn btn-sm btn-primary" @click="showMasterForm()">
                                         新規登録
                                 </button>
                             </div>
@@ -25,6 +25,7 @@
                         <br>
                         <div class="table-responsive p-0">
                             <table
+                                v-if="offices.length > 0"
                                 class="table table-bordered table-striped table-master table-hover"
                             >
                                 <thead class="text-center">
@@ -42,60 +43,39 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
-                                    <tr>
-                                        <td>
-                                            A123
-                                        </td>
-                                        <td>
-                                            ラテラルキッズ本社
-                                        </td>
-                                        <td class="align-middle" rowspan="2">
-                                            <a href="#" class="mx-2" @click="addSchedule()">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                        </td>
-                                        <td class="align-middle" rowspan="2">
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                         休憩時間の控除：6時間以上の勤務で1時間を自動控除
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            B456
-                                        </td>
-                                        <td>
-                                            いずみく保育園
-                                        </td>
-                                        <td class="align-middle" rowspan="2">
-                                            <a href="#" class="mx-2" @click="addSchedule()">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                        </td>
-                                        <td class="align-middle" rowspan="2">
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            休憩時間の控除：シフトに登録した休憩時間を控除
-                                        </td>
-                                    </tr>
+                                    <template v-for="office in offices">
+                                        <tr :key="office.id">
+                                            <td>
+                                                {{ office.number }}
+                                            </td>
+                                            <td>
+                                                {{ office.name }}
+                                            </td>
+                                            <td class="align-middle" rowspan="2">
+                                                <a href="#" class="mx-2" @click="addSchedule()">
+                                                    <i class="far fa-edit fa-lg"></i>
+                                                </a>
+                                            </td>
+                                            <td class="align-middle" rowspan="2">
+                                                <a href="#" class="mx-2" @click="onEditClicked(office.id)">
+                                                    <i class="far fa-edit fa-lg"></i>
+                                                </a>
+                                                <a href="#">
+                                                    <i class="far fa-trash-alt fa-lg"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr :key="office.id + '_rest_type'">
+                                            <td colspan="2">
+                                            休憩時間の控除：6時間以上の勤務で1時間を自動控除
+                                            </td>
+                                        </tr>
+                                    </template>
                                 </tbody>
                             </table>
+                            <div class="" v-else>
+                                {{ $t("No Offices") }}
+                            </div>
                         </div>
                         <!-- Modal -->
                         <div class="modal fade" id="addNewSchedule" tabindex="-1" role="dialog" aria-labelledby="addNewSchedule" aria-hidden="true">
@@ -193,51 +173,9 @@
                         </div>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNew" aria-hidden="true">
+                        <div class="modal fade" id="office-master-form" tabindex="-1" role="dialog" aria-labelledby="office-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">新規登録</h5>
-                                        <!-- <h5 class="modal-title" v-show="editmode">再申請</h5> -->
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <div class="form-row align-items-center">
-                                                <div class="col-md-5">
-                                                    <input type="text" name="office_number"
-                                                        class="form-control"
-                                                    placeholder="事業所No入力">
-                                                </div>
-                                                <div class="col-md-1"></div>
-                                                <div class="col-md-5">
-                                                    <input type="text" name="office_name"
-                                                        class="form-control"
-                                                    placeholder="事業所名入力">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="form-row align-items-center">
-                                                <div class="col-md-5">
-                                                    <input type="radio" name="type" :value="1">
-                                                    <label class="ml-auto">休憩時間の控除：6時間以上の勤務で1時間を自動控除</label>
-                                                </div>
-                                                <div class="col-md-1"></div>
-                                                <div class="col-md-5">
-                                                    <input type="radio" name="type" :value="2">
-                                                    <label class="ml-auto">休憩時間の控除：シフトに登録した休憩時間を控除</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                                        <button type="submit" class="btn btn-primary">登録</button>
-                                    </div>
-                                </div>
+                                <office-master-form :data="masterFormData" :show="masterFormShow" v-on:success="onOfficeSaved" />
                             </div>
                         </div>
                     </div>
@@ -248,7 +186,10 @@
 </template>
 <script>
     import moment from 'moment';
+import OfficeMasterForm from './OfficeMaster/OfficeMasterForm.vue';
+import api, { apiErrorHandler } from '../global/api';
     export default {
+  components: { OfficeMasterForm },
         data() {
             return {
                 editmode: false,
@@ -261,37 +202,44 @@
                 requests : [],
                 scheduleDates : [],
                 nextScheduleDates: [],
-                // form: new Form({
-                //     id : '',
-                //     date: '',
-                //     type : 0,
-                //     hour: '',
-                //     minute: '',
-                //     new_hour: '',
-                //     new_minute: '',
-                //     memo: '',
-                // })
+                masterFormData: {},
+                masterFormShow: false,
+                offices: [],
             }
         },
         methods: {
-            addOffice(){
-                $("#addNew").modal("show");
+            getOffices() {
+                api.get('office-master')
+                    .then(response => {
+                        this.offices = response;
+                    })
+                    .catch(e => apiErrorHandler(e));
+            },
+            onEditClicked(officeId) {
+                const office = this.offices.find(({id}) => officeId === id);
+                if (!office) return;
+                this.masterFormData = office;
+                this.showMasterForm();
+            },
+            onOfficeSaved() {
+                this.getOffices();
+                $("#office-master-form").modal('hide');
+            },
+            showMasterForm() {
+                $("#office-master-form").modal('show');
+
             },
             addSchedule(){
                 $("#addNewSchedule").modal("show");
             },
             getThisYearMonths() {
                 const date = this.currentDate;
-                // var firstMonth = new Date(date.getFullYear(), 4, 0);
-                // var lastMonth = new Date(date.getFullYear() + 1, 3, 0);
                 this.months = [];
                 for(let month = 1; month <= 12; month++) {
                     this.months.push(moment(new Date(date.getFullYear(), 3+month, 0)).format('YYYY年 M月'));
                     this.days.push(new Date(date.getFullYear(), 3+month, 0).getDate());
                     this.scheduleDates.push({days: new Date(date.getFullYear(), 3+month, 0).getDate(), month: moment(new Date(date.getFullYear(), 3+month, 0)).format('YYYY年 M月')});
                 }
-                console.log(this.scheduleDates);
-                console.log(this.months);
             },
             getNextYearMonths() {
                 const date = this.currentDate;
@@ -303,11 +251,10 @@
                     this.nextDays.push(new Date(date.getFullYear() +1, 3+month, 0).getDate());
                     this.nextScheduleDates.push({days: new Date(date.getFullYear()+1, 3+month, 0).getDate(), month: moment(new Date(date.getFullYear()+1, 3+month, 0)).format('YYYY年 M月')});
                 }
-                console.log(this.nextMonths);
             },
         },
         mounted() {
-
+            this.getOffices();
         },
         created() {
             this.getThisYearMonths();

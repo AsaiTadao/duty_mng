@@ -12,7 +12,6 @@ export default {
     },
     mutations: {
         setSession(state, payload) {
-            console.log("set session")
             state.info = payload
         }
     },

@@ -2,5 +2,9 @@
     <router-view />
 </template>
 <script>
-export default {};
+export default {
+    mounted() {
+        this.$store.dispatch('constants/fetchConstants');
+    }
+};
 </script>
