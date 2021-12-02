@@ -15,7 +15,7 @@ class CreateCodesTable extends Migration
     {
         Schema::create('codes', function (Blueprint $table) {
             $table->id();
-            $table->string('class', 50);
+            $table->string('group', 50);
             $table->string('key', 50);
             $table->string('value', 50);
 
