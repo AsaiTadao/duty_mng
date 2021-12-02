@@ -11,7 +11,6 @@ import Vue from "vue";
 import store from "./store";
 import router from './router';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import { EmploymentStatus, RestDeduction } from "./global/consts";
 
 
 window.Vue = require("vue").default;
@@ -87,33 +86,6 @@ Vue.filter("yesno", value =>
 
 // end Filter
 
-// Global variables
-Vue.prototype.$request_type = [
-    { id: 1, name: "遅刻" },
-    { id: 2, name: "早退" },
-    { id: 3, name: "その他" }
-];
-
-Vue.prototype.$shift_type = [
-    { id: 1, name: "正社員" },
-    { id: 2, name: "時短" },
-    { id: 3, name: "パート" },
-];
-
-Vue.prototype.$rest_type = [
-    { id: 1, name: "年次有休" },
-    { id: 2, name: "特別休暇" },
-    { id: 3, name: "公休"},
-];
-Vue.prototype.$EmploymentStatus = [
-    { id: EmploymentStatus.NORMAL, name: '正社員' },
-    { id: EmploymentStatus.SHORT_TIME, name: '時短社員' },
-    { id: EmploymentStatus.PART_TIME, name: 'パート' }
-]
-Vue.prototype.$RestDeduction = [
-    { id: RestDeduction.TYPE_1, name: '休憩時間の控除：6時間以上の勤務で1時間を自動控除'},
-    { id: RestDeduction.TYPE_2, name: '休憩時間の控除：シフトに登録した休憩時間を控除' }
-]
 const app = new Vue({
     el: "#app",
     router,
