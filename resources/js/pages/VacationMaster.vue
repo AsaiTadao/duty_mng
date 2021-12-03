@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <button type="submit" class="btn btn-sm btn-primary" @click="addVacation()">
+                                <button type="submit" class="btn btn-sm btn-primary" @click="onNewClicked()">
                                         新規登録
                                 </button>
                             </div>
@@ -37,141 +37,31 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
-                                    <tr>
-                                        <td>
-                                            体調不良
-                                        </td>
-                                        <td style="width: 200px;">
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <input type="radio" name="display" :value="1">
-                                                <label class="mr-2 mb-0">表示</label>
-                                                <input type="radio" name="display" :value="2">
-                                                <label class="mr-2 mb-0">非表示</label>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            私用
-                                        </td>
-                                        <td style="width: 200px;">
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <input type="radio" name="display" :value="1">
-                                                <label class="mr-2 mb-0">表示</label>
-                                                <input type="radio" name="display" :value="2">
-                                                <label class="mr-2 mb-0">非表示</label>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            育児休暇
-                                        </td>
-                                        <td style="width: 200px;">
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <input type="radio" name="display" :value="1">
-                                                <label class="mr-2 mb-0">表示</label>
-                                                <input type="radio" name="display" :value="2">
-                                                <label class="mr-2 mb-0">非表示</label>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            慶弔休暇
-                                        </td>
-                                        <td style="width: 200px;">
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <input type="radio" name="display" :value="1">
-                                                <label class="mr-2 mb-0">表示</label>
-                                                <input type="radio" name="display" :value="2">
-                                                <label class="mr-2 mb-0">非表示</label>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            リフレッシュ休暇
-                                        </td>
-                                        <td style="width: 200px;">
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <input type="radio" name="display" :value="1">
-                                                <label class="mr-2 mb-0">表示</label>
-                                                <input type="radio" name="display" :value="2">
-                                                <label class="mr-2 mb-0">非表示</label>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle">
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    <template>
+                                        <tr v-for="vacation in vacations" :key="vacation.id">
+                                            <td>
+                                                {{vacation.name}}
+                                            </td>
+                                            <td style="width: 200px;">
+                                                <enable-display-item :enable="vacation.enable" :id="vacation.id" v-on:success="onVacationEnabled"/>
+                                            </td>
+                                            <td class="align-middle">
+                                                <a href="#" class="mx-2" @click="onEditClicked(vacation.id)">
+                                                    <i class="far fa-edit fa-lg"></i>
+                                                </a>
+                                                <a href="#">
+                                                    <i class="far fa-trash-alt fa-lg"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </template>
                                 </tbody>
                             </table>
                         </div>
                         <!-- Modal -->
-                        <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNew" aria-hidden="true">
+                        <div class="modal fade" id="vacation-master-form" tabindex="-1" role="dialog" aria-labelledby="vacation-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">新規登録</h5>
-                                        <!-- <h5 class="modal-title" v-show="editmode">再申請</h5> -->
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <div class="form-row align-items-center">
-                                                <div class="col-md-10">
-                                                    <input type="text" name="office_number"
-                                                        class="form-control"
-                                                    placeholder="休暇理由">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                                        <button type="submit" class="btn btn-primary">登録</button>
-                                    </div>
-                                </div>
+                                <vacation-master-form :data="masterFormData" v-on:success="onVacationSaved"/>
                             </div>
                         </div>
                     </div>
@@ -181,7 +71,11 @@
     </div>
 </template>
 <script>
+import api, { apiErrorHandler } from '../global/api';
+import EnableDisplayItem from './VacationMaster/EnableDisplayItem.vue';
+import VacationMasterForm from './VacationMaster/VacationMasterForm.vue';
     export default {
+  components: { VacationMasterForm, EnableDisplayItem },
         data() {
             return {
                 editmode: false,
@@ -189,28 +83,44 @@
                 days: [],
                 attends : [],
                 requests : [],
-                // form: new Form({
-                //     id : '',
-                //     date: '',
-                //     type : 0,
-                //     hour: '',
-                //     minute: '',
-                //     new_hour: '',
-                //     new_minute: '',
-                //     memo: '',
-                // })
+                vacations: [],
+                masterFormData: {},
             }
         },
         methods: {
-            addVacation(){
-                $("#addNew").modal("show");
+            getVacations() {
+                api.get('reason-for-vacation')
+                    .then(response => {
+                        this.vacations = response;
+                    })
+                    .catch(e => apiErrorHandler(e));
+            },
+            onEditClicked(vacationId) {
+                const vacation = this.vacations.find(({id}) => vacationId === id);
+                if (!vacation) return;
+                this.masterFormData = vacation;
+                this.showMasterForm();
+            },
+            onVacationSaved() {
+                this.getVacations();
+                $("#vacation-master-form").modal('hide');
+            },
+            onVacationEnabled() {
+                this.getVacations();
+            },
+            onNewClicked() {
+                this.masterFormData = {};
+                this.showMasterForm();
+            },
+            showMasterForm() {
+                $("#vacation-master-form").modal('show');
             }
         },
         mounted() {
 
         },
         created() {
-
+            this.getVacations();
         }
     }
 </script>
