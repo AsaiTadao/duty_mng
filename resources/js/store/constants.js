@@ -6,7 +6,12 @@ export default {
         applicationClasses: [],
         reasonForVacations: [],
         employmentStatuses: [],
-        restDeductions: []
+        restDeductions: [],
+
+        overtimePayOptions: [],
+        salaryDeductionOptions: [],
+        applicationDeadlineOptions: [],
+        applicationStatusOptions: []
     },
     getters: {
         getApplicationClasses(state) {
@@ -21,11 +26,25 @@ export default {
     },
     mutations: {
         setConstants(state, payload) {
-            const { applicationClasses, reasonForVacations, employmentStatuses, restDeductions } = payload;
+            const {
+                applicationClasses,
+                reasonForVacations,
+                employmentStatuses,
+                restDeductions,
+
+                overtimePayOptions,
+                salaryDeductionOptions,
+                applicationDeadlineOptions,
+                applicationStatusOptions
+            } = payload;
             state.applicationClasses = applicationClasses;
             state.reasonForVacations = reasonForVacations;
             state.employmentStatuses = employmentStatuses;
             state.restDeductions = restDeductions;
+            state.salaryDeductionOptions = salaryDeductionOptions;
+            state.applicationDeadlineOptions = applicationDeadlineOptions;
+            state.applicationStatusOptions = applicationStatusOptions;
+            state.overtimePayOptions = overtimePayOptions
             return
         }
     },

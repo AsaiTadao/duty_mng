@@ -4,6 +4,7 @@ use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\ConstantController;
 use App\Http\Controllers\API\V1\OfficeController;
 use App\Http\Controllers\API\V1\RegionController;
+use App\Http\Controllers\API\V1\VacationReasonController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,5 +35,10 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::get('/region', [RegionController::class, 'get'])->name('region.get');
         Route::post('/region', [RegionController::class, 'create'])->name('region.create');
         Route::post('/region/{region}', [RegionController::class, 'update'])->name('region.update');
+
+        Route::get('/reason-for-vacation', [VacationReasonController::class, 'get'])->name('vacation_reason.get');
+        Route::post('/reason-for-vacation', [VacationReasonController::class, 'create'])->name('vacation_reason.create');
+        Route::put('/reason-for-vacation/status/{reasonForVacation}', [VacationReasonController::class, 'updateStatus']);
+        Route::post('/reason-for-vacation/{reasonForVacation}', [VacationReasonController::class, 'update']);
     });
 });

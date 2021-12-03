@@ -18,6 +18,7 @@ class CreateReasonForVacationsTable extends Migration
             $table->string('name', 50);
             $table->foreignId('create_user_id')->nullable();
             $table->foreignId('update_user_id')->nullable();
+            $table->boolean('enable')->default(1);
             $table->timestamps();
             $table->softDeletes();
 

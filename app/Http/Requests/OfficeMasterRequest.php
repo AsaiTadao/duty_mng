@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\RestDeduction;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class OfficeMasterRequest extends FormRequest {
