@@ -5,7 +5,7 @@ import ManagerMonthlySummery from "../pages/ManagerMonthlySummery";
 import ManagerShiftCreate from "../pages/ManagerShiftCreate";
 import WorkTotal from "../pages/WorkTotal";
 import Master from "../pages/Master";
-import AreaMaster from "../pages/AreaMaster";
+import RegionMaster from "../pages/RegionMaster";
 import EmployeeMaster from "../pages/EmployeeMaster";
 import TimezoneMaster from "../pages/TimezoneMaster";
 import HourlyMaster from "../pages/HourlyMaster";
@@ -169,9 +169,9 @@ export default [
                 }
             },
             {
-                path: "area-master",
-                name: "area-master",
-                components: { default: AreaMaster },
+                path: "region-master",
+                name: "region-master",
+                components: { default: RegionMaster },
                 meta: {
                     icon: "",
                     anchor: "エリアマスタ",

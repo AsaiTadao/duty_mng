@@ -14,7 +14,7 @@
                 </router-link>
             </div>
             <div class="col-md-4">
-                <router-link to="/area-master">
+                <router-link to="/region-master">
                     <div type="button" class="border-radius-15 border-color-green border-style-solid border-width-thin background-grey py-1">
                         <h3 class="text-white text-center mb-0 mt-2">
                             エリアマスタ
