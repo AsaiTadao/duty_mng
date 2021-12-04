@@ -218,7 +218,7 @@ import api, { apiErrorHandler } from '../global/api';
             onEditClicked(officeId) {
                 const office = this.offices.find(({id}) => officeId === id);
                 if (!office) return;
-                this.masterFormData = office;
+                this.masterFormData = {...office};
                 this.showMasterForm();
             },
             onOfficeSaved() {

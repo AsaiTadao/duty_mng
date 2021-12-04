@@ -15,10 +15,10 @@
                             class="form-control"
                             placeholder="事業所No入力"
                             v-model="data.number"
-                            :class="{'is-invalid' : form.errors().has('number')}"
+                            :class="{'is-invalid' : errors.number}"
                         />
-                        <span v-if="form.errors().has('number')" class="error invalid-feedback">
-                            {{ form.errors().get('number') }}
+                        <span class="error invalid-feedback">
+                            {{ errors.number }}
                         </span>
                     </div>
                     <div class="col-md-1"></div>
@@ -27,10 +27,10 @@
                             class="form-control"
                             placeholder="事業所名入力"
                             v-model="data.name"
-                            :class="{'is-invalid' : form.errors().has('name')}"
+                            :class="{'is-invalid' : errors.name}"
                         />
-                        <span v-if="form.errors().has('name')" class="error invalid-feedback">
-                            {{ form.errors().get('name') }}
+                        <span v-if="errors.name" class="error invalid-feedback">
+                            {{ errors.name }}
                         </span>
                     </div>
                 </div>
@@ -44,8 +44,8 @@
                         </div>
                         <div class="col-md-1" :key="restDeduction.id + '_space'"></div>
                     </template>
-                    <span v-if="form.errors().has('restDeductionId')" class="error invalid-feedback d-block">
-                        {{ form.errors().get('restDeductionId') }}
+                    <span v-if="errors.restDeductionId" class="error invalid-feedback d-block">
+                        {{ errors.restDeductionId }}
                     </span>
                 </div>
             </div>
@@ -58,7 +58,6 @@
 </template>
 <script>
 import { mapState } from 'vuex';
-import form from 'vuejs-form';
 import api, { apiErrorHandler } from '../../global/api';
 import actionLoading from '../../mixin/actionLoading';
 import { showSuccess } from '../../helpers/error';
@@ -74,44 +73,33 @@ import { showSuccess } from '../../helpers/error';
             })
         },
         watch: {
-            data : {
-                deep: true,
-                immediate: false,
-                handler: 'onFormChange'
-            }
+            data : function (){
+                this.errors = {
+                    name: '',
+                    number: '',
+                    restDeductionId: ''
+                };
+            },
         },
         data() {
             return {
-                form: form({
-                    id: null,
-                    number: '',
+                errors: {
                     name: '',
-                    restDeductionId: undefined
-                })
-                .rules({
-                    number: 'required',
-                    name: 'required',
-                    restDeductionId: 'required'
-                })
-                .messages({
-                    'number.required': 'Please input number',       // need trans
-                    'name.required': 'Please input name',    // need trans
-                    'restDeductionId.required': 'Please select rest deduction type'    // need trans
-                })
+                    number: '',
+                    restDeductionId: ''
+                }
             }
         },
-
         methods: {
             saveOffice() {
-                this.form.fill(this.data);
                 if (this.actionLoading) return;
-                if (this.form.validate().errors().any()) return;
+                if (!this.validate()) return;
                 this.setActionLoading();
                 let request;
                 if (this.data.id) {
-                    request = api.put('office-master/' + this.data.id, null, this.form.all());
+                    request = api.put('office-master/' + this.data.id, null, this.data);
                 } else {
-                    request = api.post('office-master', null, this.form.all());
+                    request = api.post('office-master', null, this.data);
                 }
                 request.then(() => {
                         showSuccess(this.$t("Successfully saved"));
@@ -122,8 +110,21 @@ import { showSuccess } from '../../helpers/error';
                         this.unsetActionLoading();
                     })
             },
-            onFormChange() {
-                this.form.errors().forget();
+            validate() {
+                let valid = true;
+                if (!this.data.number) {
+                    this.errors.number = 'Please input number';                            // need trans
+                    valid = false;
+                }
+                if (!this.data.name) {
+                    this.errors.name = 'Please input name';                                 // need trans
+                    valid = false;
+                }
+                if (!this.data.restDeductionId) {
+                    this.errors.restDeductionId = 'Please select rest deduction type'       // need trans
+                    valid = false;
+                }
+                return valid;
             }
         }
     }
