@@ -53,6 +53,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
 
             Route::get('/working-hours', [WorkingHourController::class, 'get']);
             Route::post('/working-hours', [WorkingHourController::class, 'create']);
+            Route::put('/working-hours/status/{workingHour}', [WorkingHourController::class, 'updateStatus']);
             Route::put('/working-hours/{workingHour}', [WorkingHourController::class, 'update']);
         });
     });

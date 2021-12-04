@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\WorkingHourQuery;
 use App\Http\Requests\WorkingHourRequest;
+use App\Http\Requests\WorkingHourStatusRequest;
 use App\Models\WorkingHour;
 
 class WorkingHourController extends BaseController
@@ -48,6 +49,14 @@ class WorkingHourController extends BaseController
             return $this->sendError(trans('working_hours.start_gt_end'));
         }
         $workingHour->fill($data);
+        $workingHour->save();
+        return $this->sendResponse();
+    }
+    public function updateStatus(WorkingHour $workingHour, WorkingHourStatusRequest $request)
+    {
+        $data = $request->validated();
+        $enable = $data['enable'];
+        $workingHour->enable = $enable;
         $workingHour->save();
         return $this->sendResponse();
     }
