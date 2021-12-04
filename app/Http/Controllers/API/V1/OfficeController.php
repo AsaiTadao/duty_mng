@@ -29,4 +29,10 @@ class OfficeController extends BaseController
         $office->save();
         return $this->sendResponse($office);
     }
+
+    public function delete(Office $office)
+    {
+        $office->delete();
+        return $this->sendResponse();
+    }
 }

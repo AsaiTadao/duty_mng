@@ -34,4 +34,10 @@ class VacationReasonController extends BaseController
         $reasonForVacation->save();
         return $this->sendResponse();
     }
+
+    public function delete(ReasonForVacation $reasonForVacation)
+    {
+        $reasonForVacation->delete();
+        return $this->sendResponse();
+    }
 }

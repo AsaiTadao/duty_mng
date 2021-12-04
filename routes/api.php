@@ -29,16 +29,22 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
 
     Route::middleware(['auth:api'])->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
+
         Route::get('/office-master', [OfficeController::class, 'get'])->name('office_master.get');
         Route::post('/office-master', [OfficeController::class, 'create'])->name('office_master.create');
         Route::put('/office-master/{office}', [OfficeController::class, 'update'])->name('office_master.update');
+        Route::delete('/office-master/{office}', [OfficeController::class, 'delete'])->name('office_master.delete');
+
         Route::get('/region', [RegionController::class, 'get'])->name('region.get');
         Route::post('/region', [RegionController::class, 'create'])->name('region.create');
         Route::post('/region/{region}', [RegionController::class, 'update'])->name('region.update');
+        Route::delete('/region/{region}', [RegionController::class, 'delete'])->name('region.delete');
 
         Route::get('/reason-for-vacation', [VacationReasonController::class, 'get'])->name('vacation_reason.get');
         Route::post('/reason-for-vacation', [VacationReasonController::class, 'create'])->name('vacation_reason.create');
         Route::put('/reason-for-vacation/status/{reasonForVacation}', [VacationReasonController::class, 'updateStatus']);
         Route::post('/reason-for-vacation/{reasonForVacation}', [VacationReasonController::class, 'update']);
+        Route::delete('/reason-for-vacation/{reasonForVacation}', [VacationReasonController::class, 'delete']);
+
     });
 });
