@@ -17,9 +17,10 @@ class CreateScheduledWorkingsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('year_id');
+            $table->foreignId('office_id');
             $table->tinyInteger('month', false, true);
-            $table->unsignedSmallInteger('scheduled_working_days')->nullable();
-            $table->unsignedSmallInteger('scheduled_working_hours')->nullable();
+            $table->unsignedSmallInteger('days')->nullable();
+            $table->unsignedSmallInteger('hours')->nullable();
             $table->softDeletes();
             $table->foreignId('create_user_id')->nullable();
             $table->foreignId('update_user_id')->nullable();
