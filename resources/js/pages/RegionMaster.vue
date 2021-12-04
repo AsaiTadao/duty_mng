@@ -63,7 +63,7 @@
                         <!-- Modal -->
                         <div class="modal fade" id="region-master-form" tabindex="-1" role="dialog" aria-labelledby="region-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <region-master-form :data="masterFormData" :offices="offices" v-on:success="onRegionSaved" />
+                                <region-master-form :data="masterFormData" :offices="offices" :selectedOffices="selectedOffices" v-on:success="onRegionSaved" />
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,8 @@ import RegionMasterForm from './RegionMaster/RegionMasterForm.vue';
                 },
                 masterFormShow: false,
                 regions: [],
-                offices: []
+                offices: [],
+                selectedOffices: [],
             }
         },
         methods: {
@@ -99,6 +100,7 @@ import RegionMasterForm from './RegionMaster/RegionMasterForm.vue';
                 api.get('region')
                     .then(response => {
                         this.regions = response;
+                        this.selectedOffices = response.reduce((accumulator, currentValue) => [...accumulator, ...currentValue.offices], []);
                     })
                     .catch(e => apiErrorHandler(e));
             },
@@ -114,6 +116,7 @@ import RegionMasterForm from './RegionMaster/RegionMasterForm.vue';
                 if (!region) return;
                 const offices = region.offices.map(({id}) => id);
                 this.masterFormData = {...region, offices};
+                console.log("oneditclick", this.masterFormData);
                 this.showMasterForm();
             },
             onNewClick() {

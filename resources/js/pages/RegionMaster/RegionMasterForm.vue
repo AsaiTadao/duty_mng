@@ -22,7 +22,9 @@
                         <div class="form-row">
                             <template v-for="office in offices">
                                 <div class="col-md-4" :key="office.id">
-                                    <input type="checkbox" name="office_name" :value="office.id" v-model="data.offices">
+                                    <input type="checkbox" name="office_name" :value="office.id" v-model="data.offices"
+                                    :disabled="selectedOffices.find(e => e.id === office.id) && !data.offices.includes(office.id)"
+                                    @click="onOfficeChange(office.id)">
                                     <label class="ml-auto">{{office.name}}</label>
                                 </div>
                             </template>
@@ -48,7 +50,8 @@ import { showSuccess } from '../../helpers/error';
         mixins: [actionLoading],
         props: {
             data: {},
-            offices: {}
+            offices: {},
+            selectedOffices: {},
         },
         watch: {
             data : {
@@ -75,7 +78,9 @@ import { showSuccess } from '../../helpers/error';
 
         methods: {
             saveRegion() {
+                console.log("onSaveRegion", this.data);
                 this.form.fill(this.data);
+                console.log("onSaveRegion", this.form.all());
                 if (this.actionLoading) return;
                 if (this.form.validate().errors().any()) return;
                 this.setActionLoading();
@@ -96,6 +101,12 @@ import { showSuccess } from '../../helpers/error';
             },
             onFormChange() {
                 this.form.errors().forget();
+            },
+            onOfficeChange(officeId) {
+                const index = this.selectedOffices.findIndex(item => item.id == officeId);
+                if(index != -1){
+                    this.selectedOffices.splice(index, 1);
+                }
             }
         }
     }
