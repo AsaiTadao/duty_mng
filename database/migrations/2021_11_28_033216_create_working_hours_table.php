@@ -20,6 +20,7 @@ class CreateWorkingHoursTable extends Migration
             $table->foreignId('employment_status_id')->nullable();
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
+            $table->boolean('enable')->default(1);
 
             $table->foreignId('create_user_id')->nullable();
             $table->foreignId('update_user_id')->nullable();
