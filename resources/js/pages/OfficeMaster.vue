@@ -185,7 +185,7 @@
     </div>
 </template>
 <script>
-    import moment from 'moment';
+import moment from 'moment';
 import OfficeMasterForm from './OfficeMaster/OfficeMasterForm.vue';
 import api, { apiErrorHandler } from '../global/api';
     export default {
