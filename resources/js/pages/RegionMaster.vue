@@ -80,16 +80,10 @@ import RegionMasterForm from './RegionMaster/RegionMasterForm.vue';
   components: { RegionMasterForm },
         data() {
             return {
-                editmode: false,
-                currentDate: new Date(),
-                days: [],
-                attends : [],
-                requests : [],
                 masterFormData: {
                     name: '',
                     offices: []
                 },
-                masterFormShow: false,
                 regions: [],
                 offices: [],
                 selectedOffices: [],
@@ -116,7 +110,6 @@ import RegionMasterForm from './RegionMaster/RegionMasterForm.vue';
                 if (!region) return;
                 const offices = region.offices.map(({id}) => id);
                 this.masterFormData = {...region, offices};
-                console.log("oneditclick", this.masterFormData);
                 this.showMasterForm();
             },
             onNewClick() {

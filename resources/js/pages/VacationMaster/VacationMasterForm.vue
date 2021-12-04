@@ -32,8 +32,6 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex';
-import form from 'vuejs-form';
 import api, { apiErrorHandler } from '../../global/api';
 import actionLoading from '../../mixin/actionLoading';
 import { showSuccess } from '../../helpers/error';

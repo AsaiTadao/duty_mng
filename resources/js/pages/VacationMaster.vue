@@ -74,15 +74,10 @@
 import api, { apiErrorHandler } from '../global/api';
 import EnableDisplayItem from './VacationMaster/EnableDisplayItem.vue';
 import VacationMasterForm from './VacationMaster/VacationMasterForm.vue';
-    export default {
+export default {
   components: { VacationMasterForm, EnableDisplayItem },
         data() {
             return {
-                editmode: false,
-                currentDate: new Date(),
-                days: [],
-                attends : [],
-                requests : [],
                 vacations: [],
                 masterFormData: {},
             }
@@ -117,10 +112,10 @@ import VacationMasterForm from './VacationMaster/VacationMasterForm.vue';
             }
         },
         mounted() {
-
+            this.getVacations();
         },
         created() {
-            this.getVacations();
+
         }
     }
 </script>

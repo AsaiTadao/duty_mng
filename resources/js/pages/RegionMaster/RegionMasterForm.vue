@@ -46,8 +46,6 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex';
-import form from 'vuejs-form';
 import api, { apiErrorHandler } from '../../global/api';
 import actionLoading from '../../mixin/actionLoading';
 import { showSuccess } from '../../helpers/error';
@@ -63,7 +61,6 @@ import { showSuccess } from '../../helpers/error';
             data : function (){
                     this.errors = {
                         name: '',
-                        offices: '',
                 };
             },
         },
@@ -71,7 +68,6 @@ import { showSuccess } from '../../helpers/error';
             return {
                 errors: {
                     name: '',
-                    offices: '',
                 }
             }
         },
@@ -100,10 +96,6 @@ import { showSuccess } from '../../helpers/error';
                 let valid = true;
                 if (!this.data.name) {
                     this.errors.name = 'Please input name';                                 // need trans
-                    valid = false;
-                }
-                if (this.data.offices.length == 0) {
-                    this.errors.offices = 'Please select one office at least'       // need trans
                     valid = false;
                 }
                 return valid;
