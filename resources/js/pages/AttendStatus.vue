@@ -1,5 +1,6 @@
 <template>
-    <attend-status-a v-if="this.session.roleId == 1"/>
+    <attend-status-a v-if="session.employmentStatusId == 1" />
+    <attend-status-c v-else-if="session.employmentStatusId == 3" />
 </template>
 <script>
 import moment from 'moment';

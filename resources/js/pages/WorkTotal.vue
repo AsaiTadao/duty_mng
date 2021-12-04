@@ -1,5 +1,6 @@
 <template>
-    <work-total-c v-if="this.session.roleId == 1" />
+    <work-total-b v-if="session.employmentStatusId == 1" />
+    <work-total-c v-else-if="session.employmentStatusId == 3" />
 </template>
 
 <script>

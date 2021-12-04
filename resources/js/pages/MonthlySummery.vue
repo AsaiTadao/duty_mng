@@ -1,5 +1,6 @@
 <template>
-    <monthly-summery-c v-if="this.session.roleId == 1" />
+    <monthly-summery-b v-if="session.employmentStatusId == 1" />
+    <monthly-summery-c v-else-if="session.employmentStatusId == 3" />
 </template>
 <script>
 import moment from 'moment';

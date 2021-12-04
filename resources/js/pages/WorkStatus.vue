@@ -1,5 +1,6 @@
 <template>
-    <work-status-a v-if="this.session.roleId == 1" />
+    <work-status-b v-if="session.employmentStatusId == 1" />
+    <work-status-a v-else-if="session.employmentStatusId == 3" />
 </template>
 <script>
     import Datepicker from "vuejs-datepicker";
