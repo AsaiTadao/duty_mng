@@ -51,7 +51,7 @@
                                                 <a href="#" class="mx-2" @click="onEditClicked(region.id)">
                                                     <i class="far fa-edit fa-lg"></i>
                                                 </a>
-                                                <a href="#">
+                                                <a href="#" @click="onRegionDeleteClick(region.id)">
                                                     <i class="far fa-trash-alt fa-lg"></i>
                                                 </a>
                                             </td>
@@ -75,8 +75,11 @@
 <script>
 import api, { apiErrorHandler } from '../global/api';
 import RegionMasterForm from './RegionMaster/RegionMasterForm.vue';
+import actionLoading from '../mixin/actionLoading';
+import { showSuccess } from '../helpers/error';
 
-    export default {
+export default {
+    mixins: [actionLoading],
   components: { RegionMasterForm },
         data() {
             return {
@@ -111,6 +114,20 @@ import RegionMasterForm from './RegionMaster/RegionMasterForm.vue';
                 const offices = region.offices.map(({id}) => id);
                 this.masterFormData = {...region, offices};
                 this.showMasterForm();
+            },
+            onRegionDeleteClick(regionId){
+                if (this.actionLoading) return;
+                if (!confirm(this.$t("Are you really delete this item"))) return;
+                this.setActionLoading();
+                api.delete('region/' + regionId)
+                    .then(() => {
+                        showSuccess(this.$t('Successfully deleted'));
+                        this.getRegions();
+                    })
+                    .catch(e => apiErrorHandler(e))
+                    .finally(() => {
+                        this.unsetActionLoading();
+                    })
             },
             onNewClick() {
                 this.masterFormData = {

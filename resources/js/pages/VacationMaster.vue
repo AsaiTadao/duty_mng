@@ -49,7 +49,7 @@
                                                 <a href="#" class="mx-2" @click="onEditClicked(vacation.id)">
                                                     <i class="far fa-edit fa-lg"></i>
                                                 </a>
-                                                <a href="#">
+                                                <a href="#" @click="onVacationDeleteClick(vacation.id)">
                                                     <i class="far fa-trash-alt fa-lg"></i>
                                                 </a>
                                             </td>
@@ -74,7 +74,11 @@
 import api, { apiErrorHandler } from '../global/api';
 import EnableDisplayItem from './VacationMaster/EnableDisplayItem.vue';
 import VacationMasterForm from './VacationMaster/VacationMasterForm.vue';
+import actionLoading from '../mixin/actionLoading';
+import { showSuccess } from '../helpers/error';
+
 export default {
+    mixins: [actionLoading],
   components: { VacationMasterForm, EnableDisplayItem },
         data() {
             return {
@@ -95,6 +99,20 @@ export default {
                 if (!vacation) return;
                 this.masterFormData = {...vacation};
                 this.showMasterForm();
+            },
+            onVacationDeleteClick(vacationId){
+                if (this.actionLoading) return;
+                if (!confirm(this.$t("Are you really delete this item"))) return;
+                this.setActionLoading();
+                api.delete('reason-for-vacation/' + vacationId)
+                    .then(() => {
+                        showSuccess(this.$t('Successfully deleted'));
+                        this.getVacations();
+                    })
+                    .catch(e => apiErrorHandler(e))
+                    .finally(() => {
+                        this.unsetActionLoading();
+                    })
             },
             onVacationSaved() {
                 this.getVacations();
