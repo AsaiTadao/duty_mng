@@ -98,7 +98,7 @@ import VacationMasterForm from './VacationMaster/VacationMasterForm.vue';
             onEditClicked(vacationId) {
                 const vacation = this.vacations.find(({id}) => vacationId === id);
                 if (!vacation) return;
-                this.masterFormData = vacation;
+                this.masterFormData = {...vacation};
                 this.showMasterForm();
             },
             onVacationSaved() {

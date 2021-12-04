@@ -15,8 +15,13 @@
                             name="vacation_name"
                             class="form-control"
                             placeholder="休暇理由"
-                            v-model="data.name">
+                            v-model="data.name"
+                            :class="{'is-invalid' : errors.name}">
+                            <span v-if="errors.name" class="error invalid-feedback">
+                                {{ errors.name }}
+                            </span>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -39,38 +44,30 @@ import { showSuccess } from '../../helpers/error';
             data: {}
         },
         watch: {
-            data : {
-                deep: true,
-                immediate: false,
-                handler: 'onFormChange'
-            }
+            data : function (){
+                this.errors = {
+                    name: '',
+                };
+            },
         },
         data() {
             return {
-                form: form({
-                    id: null,
-                    name: ''
-                })
-                .rules({
-                    name: 'required',
-                })
-                .messages({
-                    'name.required': 'Please input name',    // need trans
-                })
+                errors: {
+                    name: '',
+                }
             }
         },
 
         methods: {
             saveVacation() {
-                this.form.fill(this.data);
                 if (this.actionLoading) return;
-                if (this.form.validate().errors().any()) return;
+                if (!this.validate()) return;
                 this.setActionLoading();
                 let request;
                 if (this.data.id) {
-                    request = api.post('reason-for-vacation/' + this.data.id, null, this.form.all());
+                    request = api.post('reason-for-vacation/' + this.data.id, null, this.data);
                 } else {
-                    request = api.post('reason-for-vacation', null, this.form.all());
+                    request = api.post('reason-for-vacation', null, this.data);
                 }
                 request.then(() => {
                         showSuccess(this.$t("Successfully saved"));
@@ -81,8 +78,13 @@ import { showSuccess } from '../../helpers/error';
                         this.unsetActionLoading();
                     })
             },
-            onFormChange() {
-                this.form.errors().forget();
+            validate() {
+                let valid = true;
+                if (!this.data.name) {
+                    this.errors.name = 'Please input name';                                 // need trans
+                    valid = false;
+                }
+                return valid;
             }
         }
     }
