@@ -113,9 +113,6 @@ export default {
         },
         mounted() {
             this.getVacations();
-        },
-        created() {
-
         }
     }
 </script>

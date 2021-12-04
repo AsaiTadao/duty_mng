@@ -133,9 +133,6 @@ import RegionMasterForm from './RegionMaster/RegionMasterForm.vue';
         mounted() {
             this.getRegions();
             this.getOffices();
-        },
-        created() {
-
         }
     }
 </script>
