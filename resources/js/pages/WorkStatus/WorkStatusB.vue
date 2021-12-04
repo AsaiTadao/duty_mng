@@ -30,14 +30,10 @@
                                 <thead class="text-center text-white">
                                     <tr class="heavy-green">
                                         <th>氏名</th>
-                                        <th>出勤時間①</th>
-                                        <th>退勤時間①</th>
-                                        <th>遅刻[分数]</th>
-                                        <th>早退[分数]</th>
-                                        <th>出勤時間②</th>
-                                        <th>退勤時間②</th>
-                                        <th>遅刻[分数]</th>
-                                        <th>早退[分数]</th>
+                                        <th>出勤①</th>
+                                        <th>退勤①</th>
+                                        <th>出勤②</th>
+                                        <th>退勤②</th>
                                         <th>編集</th>
                                         <th>申請</th>
                                     </tr>
@@ -66,10 +62,6 @@
                                           <td>14:05</td>
                                           <td class="red">15分</td>
                                           <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
                                           <td>
                                             <a href="#">
                                                 <i class="fa fa-edit fa-lg black"></i>
@@ -87,10 +79,6 @@
                                           <td>16:00</td>
                                           <td>-</td>
                                           <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
                                           <td>
                                             <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
@@ -106,12 +94,8 @@
                                           <td>上野　三子</td>
                                           <td>7:29</td>
                                           <td>12:03</td>
-                                          <td>-</td>
-                                          <td>-</td>
                                           <td>14:04</td>
-                                          <td>-</td>
                                           <td class="red">15分</td>
-                                          <td>-</td>
                                           <td>
                                             <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
@@ -129,10 +113,6 @@
                                           <td>17:35</td>
                                           <td>-</td>
                                           <td>30分</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>-</td>
                                           <td>
                                             <a href="#">
                                                 <i class="fa fa-edit fa-lg blue"></i>
@@ -147,10 +127,6 @@
                                         <tr>
                                           <td>小野　五子</td>
                                           <td class="red">欠勤</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
                                           <td></td>
                                           <td></td>
                                           <td></td>

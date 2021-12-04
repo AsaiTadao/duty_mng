@@ -1,7 +1,7 @@
 import NotFound from "../pages/NotFound";
 import AttendStatus from '../pages/AttendStatus';
-import ManagerAttendStatus from "../pages/ManagerAttendStatus";
-import ManagerMonthlySummery from "../pages/ManagerMonthlySummery";
+import WorkStatus from "../pages/WorkStatus";
+import MonthlySummery from "../pages/MonthlySummery";
 import ManagerShiftCreate from "../pages/ManagerShiftCreate";
 import WorkTotal from "../pages/WorkTotal";
 import Master from "../pages/Master";
@@ -59,9 +59,9 @@ export default [
             {
                 path: "work-status",
                 name: "work-status",
-                components: { default: ManagerAttendStatus },
+                components: { default: WorkStatus },
                 meta: {
-                    icon: "fas fa-file-alt",
+                    icon: "fas fa-history",
                     anchor: "出勤状況",
                     menu: true,
                     guards: [
@@ -74,9 +74,9 @@ export default [
             {
                 path: "monthly-summary",
                 name: "monthly-summary",
-                components: { default: ManagerMonthlySummery },
+                components: { default: MonthlySummery },
                 meta: {
-                    icon: "fas fa-file-alt",
+                    icon: "fas fa-edit",
                     anchor: "月間集計",
                     menu: true,
                     guards: [
@@ -91,7 +91,7 @@ export default [
                 name: "shift-create",
                 components: { default: ManagerShiftCreate },
                 meta: {
-                    icon: "fas fa-file-alt",
+                    icon: "fas fa-calendar-alt",
                     anchor: "シフト計画",
                     menu: true,
                     guards: [
@@ -145,7 +145,7 @@ export default [
             {
                 path: "member/:id",
                 name: "member",
-                components: { default: AttendStatus },
+                components: { default: MonthlySummery },
                 meta: {
                     icon: "fas fa-cog",
                     anchor: "勤務集計-個別一覧",

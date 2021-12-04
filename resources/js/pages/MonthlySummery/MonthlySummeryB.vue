@@ -45,35 +45,26 @@
                                     <tr>
                                         <th rowspan="2" class="align-middle p-0" style="left: 0;z-index: 12 !important;outline: 1px solid white;">日付</th>
                                         <th rowspan="2" class="align-middle p-0" style="left: 68px;z-index: 13 !important;outline: 1px solid white;">曜日</th>
-                                        <th rowspan="2" class="align-middle">出勤時間<br>①</th>
-                                        <th rowspan="2" class="align-middle">退勤時間<br>①</th>
-                                        <th rowspan="2" class="align-middle p-0">遅刻[分数]</th>
-                                        <th rowspan="2" class="align-middle p-0">早退[分数]</th>
-                                        <th rowspan="2" class="align-middle">出勤時間<br>②</th>
-                                        <th rowspan="2" class="align-middle">退勤時間<br>②</th>
-                                        <th rowspan="2" class="align-middle p-0">遅刻[分数]</th>
-                                        <th rowspan="2" class="align-middle p-0">早退[分数]</th>
-                                        <th rowspan="2" class="align-middle">勤務<br>時間</th>
-                                        <th rowspan="2" class="align-middle">休憩<br>時間</th>
+                                        <th rowspan="2" class="align-middle">出勤①</th>
+                                        <th rowspan="2" class="align-middle">退勤①</th>
+                                        <th rowspan="2" class="align-middle">出勤②</th>
+                                        <th rowspan="2" class="align-middle">退勤②</th>
                                         <th rowspan="2" class="align-middle">実働<br>時間</th>
-                                        <th rowspan="2" class="align-middle">残業<br>時間</th>
+                                        <th rowspan="2" class="align-middle">休憩<br>時間</th>
+                                        <th rowspan="2" class="align-middle">残業外<br>労働時間</th>
                                         <th rowspan="2" class="align-middle">深夜<br>時間</th>
-                                        <th rowspan="2" class="align-middle p-0">シフト外出勤</th>
-                                        <th colspan="2" class="align-middle">代休</th>
-                                        <th rowspan="2" class="align-middle">連休有無</th>
+                                        <th rowspan="2" class="align-middle">連勤日</th>
                                         <th colspan="2">年次有休</th>
                                         <th colspan="2">特休有給</th>
                                         <th colspan="2">特休無給</th>
                                         <th colspan="2">その他無給</th>
-                                        <th rowspan="2" class="align-middle">欠勤日</th>
+                                        <th rowspan="2" class="align-middle">欠勤日数</th>
                                         <th rowspan="2" class="align-middle">休暇・欠勤理由</th>
                                         <th rowspan="2" class="align-middle">備考</th>
                                         <th rowspan="2" class="align-middle p-0">編集</th>
                                         <th rowspan="2" class="align-middle p-0">承認</th>
                                     </tr>
                                     <tr class="heavy-green header-fix-y">
-                                        <th>時間</th>
-                                        <th>日付</th>
                                         <th>時間</th>
                                         <th>日</th>
                                         <th>時間</th>
@@ -94,23 +85,15 @@
                                             <td>18:00</td>
                                             <td>-</td>
                                             <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
                                             <td>10:00</td>
                                             <td>1:00</td>
                                             <td>9:00</td>
+                                            <td>-</td>
                                             <td>-</td>
                                             <td></td>
                                             <td>9.00</td>
                                             <td>5.00</td>
                                             <td>9月1日</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -140,18 +123,15 @@
                             <table class="table table-bordered">
                                 <tbody class="text-center">
                                     <tr class="top-green text-white">
-                                        <th class="align-middle">勤務時間合計</th>
+                                        <th class="align-middle">勤務日数</th>
                                         <th class="align-middle">実働時間</th>
-                                        <th class="align-middle">所定労働時間</th>
-                                        <th class="align-middle">過不足時間</th>
-                                        <th class="align-middle">残業時間[平日]</th>
-                                        <th class="align-middle">残業時間[土曜]</th>
+                                        <th class="align-middle">残業外<br>労働時間</th>
+                                        <th class="align-middle">所定労働<br>時間-A</th>
+                                        <th class="align-middle">所定労働<br>時間-B</th>
+                                        <th class="align-middle">過不足<br>時間</th>
+                                        <th class="align-middle">残業時間</th>
                                         <th class="align-middle">深夜時間</th>
-                                        <th class="align-middle">遅刻[時間]</th>
-                                        <th class="align-middle">早退[時間]</th>
-                                        <th class="align-middle">シフト外勤務時間</th>
-                                        <th class="align-middle">代休時間</th>
-                                        <th class="align-middle">連勤時間</th>
+                                        <th class="align-middle">遅刻時間</th>
                                     </tr>
                                     <tr class="heavy-green text-white">
                                         <td>178時間</td>
@@ -163,9 +143,6 @@
                                         <td>3.25時間</td>
                                         <td>0.50時間</td>
                                         <td>1.25時間</td>
-                                        <td>9時間</td>
-                                        <td>5時間</td>
-                                        <td>8時間</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -174,15 +151,21 @@
                             <table class="table table-bordered">
                                 <tbody class="text-center">
                                     <tr class="top-green text-white">
-                                        <th class="align-middle">年次有休<br>[時間]</th>
-                                        <th class="align-middle">年次有休<br>[日]</th>
-                                        <th class="align-middle">特休有給<br>[時間]</th>
-                                        <th class="align-middle">特休有給<br>[日]</th>
-                                        <th class="align-middle">特休無給<br>[平日]</th>
-                                        <th class="align-middle">特休無給<br>[土曜]</th>
-                                        <th class="align-middle">その他無給<br>[時間]</th>
-                                        <th class="align-middle">その他無給<br>[日]</th>
-                                        <th class="align-middle">欠勤日数</th>
+                                        <th class="align-middle" colspan="2">年次有休</th>
+                                        <th class="align-middle" colspan="2">特休有給</th>
+                                        <th class="align-middle" colspan="2">特休無給</th>
+                                        <th class="align-middle" colspan="2">その他無給</th>
+                                        <th class="align-middle" rowspan="2">欠勤日数</th>
+                                    </tr>
+                                    <tr class="top-green text-white">
+                                        <th class="align-middle">時間</th>
+                                        <th class="align-middle">日数</th>
+                                        <th class="align-middle">時間</th>
+                                        <th class="align-middle">日数</th>
+                                        <th class="align-middle">時間</th>
+                                        <th class="align-middle">日数</th>
+                                        <th class="align-middle">時間</th>
+                                        <th class="align-middle">日数</th>
                                     </tr>
                                     <tr class="heavy-green text-white">
                                         <td>12時間</td>
