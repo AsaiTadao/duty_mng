@@ -1,0 +1,69 @@
+<template>
+    <tr>
+        <td>{{ schedule.year }}年 {{ schedule.month }}月</td>
+        <td >
+            <span v-if="!editMode && schedule.days">{{ schedule.days }}日</span>
+            <input v-if="editMode" type="text" v-model="days" :class="{'is-invalid' : error}"/>
+            <span v-if="editMode && error" class="error invalid-feedback">
+                {{ error }}
+            </span>
+        </td>
+        <td>
+            <a v-if="!editMode" href="#" class="mx-2" @click="onEditClick">
+                <i class="far fa-edit fa-lg"></i>
+            </a>
+            <div v-else class="d-flex justify-content-center mt-1">
+                <a href="#" class="mx-2" @click="onOk">
+                    <i class="far fa-check-circle fa-lg"></i>
+                </a>
+                <a href="#" class="mx-2" @click="onCancel">
+                    <i class="far fa-window-close fa-lg"></i>
+                </a>
+            </div>
+        </td>
+    </tr>
+</template>
+<script>
+import api from '../../global/api';
+export default {
+    props: {
+        officeId: null,
+        schedule: {}
+    },
+    data () {
+        return {
+            editMode: false,
+            days: null,
+            error: '',
+        }
+    },
+    mounted() {
+        this.days = this.schedule.days;
+    },
+    methods: {
+        onEditClick() {
+            this.editMode = !this.editMode;
+            if (this.editMode) {
+                this.days = this.schedule.days;
+            }
+        },
+        onOk() {
+            if (!this.days) {
+                this.error = this.$t('Please input days');
+                return
+            }
+            if (this.days > 31) {
+                this.error = this.$t('Please input valid days');
+                return
+            }
+            this.schedule.days = this.days;
+            this.editMode = false;
+        },
+        onCancel() {
+            this.editMode = false;
+            this.days = null;
+            this.error = '';
+        }
+    }
+}
+</script>

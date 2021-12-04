@@ -52,7 +52,7 @@
                                                 {{ office.name }}
                                             </td>
                                             <td class="align-middle" rowspan="2">
-                                                <a href="#" class="mx-2" @click="addSchedule()">
+                                                <a href="#" class="mx-2" @click="onScheduleEditClick(office.id)">
                                                     <i class="far fa-edit fa-lg"></i>
                                                 </a>
                                             </td>
@@ -60,7 +60,7 @@
                                                 <a href="#" class="mx-2" @click="onEditClicked(office.id)">
                                                     <i class="far fa-edit fa-lg"></i>
                                                 </a>
-                                                <a href="#">
+                                                <a href="#" @click="onOfficeDeleteClick(office.id)">
                                                     <i class="far fa-trash-alt fa-lg"></i>
                                                 </a>
                                             </td>
@@ -80,95 +80,10 @@
                         <!-- Modal -->
                         <div class="modal fade" id="addNewSchedule" tabindex="-1" role="dialog" aria-labelledby="addNewSchedule" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title"></h5>
-                                        <!-- <h5 class="modal-title" v-show="editmode">再申請</h5> -->
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" id="this-year-tab" data-toggle="pill" href="#this-year-table" role="tab" aria-controls="this-year-table" aria-selected="true">本年度</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" id="next-year-tab" data-toggle="pill" href="#next-year-table" role="tab" aria-controls="next-year-table" aria-selected="false">来年度</a>
-                                            </li>
-                                        </ul>
-                                        <div class="tab-content" id="custom-content-below-tabContent">
-                                            <div class="tab-pane fade show active" id="this-year-table" role="tabpanel" aria-labelledby="this-year-tab">
-                                                <div class="table-responsive p-0">
-                                                    <table
-                                                        class="table table-bordered table-striped table-master table-hover"
-                                                    >
-                                                        <thead class="text-center">
-                                                            <tr class="dark-grey text-white">
-                                                                <th>
-                                                                    年月
-                                                                </th>
-                                                                <th>
-                                                                    所定労働日数
-                                                                </th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="text-center">
-                                                            <tr v-for="schedule in scheduleDates" :key="schedule['month']">
-                                                                <td>{{schedule['month']}}</td>
-                                                                <td>
-                                                                    {{schedule['days']}}日
-                                                                </td>
-                                                                <td>
-                                                                    <a href="#" class="mx-2">
-                                                                        <i class="far fa-edit fa-lg"></i>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <div class="tab-pane fade" id="next-year-table" role="tabpanel" aria-labelledby="next-year-tab">
-                                                <div class="table-responsive p-0">
-                                                    <table
-                                                        class="table table-bordered table-striped table-master table-hover"
-                                                    >
-                                                        <thead class="text-center">
-                                                            <tr class="dark-grey text-white">
-                                                                <th>
-                                                                    年月
-                                                                </th>
-                                                                <th>
-                                                                    所定労働日数
-                                                                </th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="text-center">
-                                                            <tr v-for="nextSchedule in nextScheduleDates" :key="nextSchedule['month']">
-                                                                <td>{{nextSchedule['month']}}</td>
-                                                                <td>
-                                                                    {{nextSchedule['days']}}日
-                                                                </td>
-                                                                <td>
-                                                                    <a href="#" class="mx-2">
-                                                                        <i class="far fa-edit fa-lg"></i>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                                        <button type="submit" class="btn btn-primary">登録</button>
-                                    </div>
-                                </div>
+                                <schedule-working-form
+                                    :officeId="selectedScheduledWorkings.officeId"
+                                    :current="selectedScheduledWorkings.current"
+                                    :next="selectedScheduledWorkings.next" />
                             </div>
                         </div>
 
@@ -188,8 +103,12 @@
 import moment from 'moment';
 import OfficeMasterForm from './OfficeMaster/OfficeMasterForm.vue';
 import api, { apiErrorHandler } from '../global/api';
-    export default {
-  components: { OfficeMasterForm },
+import ScheduleWorkingForm from './OfficeMaster/ScheduleWorkingForm.vue';
+import actionLoading from '../mixin/actionLoading';
+import { showSuccess } from '../helpers/error';
+export default {
+    mixins: [actionLoading],
+  components: { OfficeMasterForm, ScheduleWorkingForm },
         data() {
             return {
                 editmode: false,
@@ -205,16 +124,15 @@ import api, { apiErrorHandler } from '../global/api';
                 masterFormData: {},
                 masterFormShow: false,
                 offices: [],
+
+                selectedScheduledWorkings: {
+                    current: [],
+                    next: [],
+                    officeId: null
+                }
             }
         },
         methods: {
-            getOffices() {
-                api.get('office-master')
-                    .then(response => {
-                        this.offices = response;
-                    })
-                    .catch(e => apiErrorHandler(e));
-            },
             onEditClicked(officeId) {
                 const office = this.offices.find(({id}) => officeId === id);
                 if (!office) return;
@@ -225,41 +143,51 @@ import api, { apiErrorHandler } from '../global/api';
                 this.getOffices();
                 $("#office-master-form").modal('hide');
             },
+            onScheduleEditClick(officeId){
+                if (this.actionLoading) return;
+                    this.setActionLoading();
+                    api.get('office-master/' + officeId + '/scheduled-working')
+                        .then((response) => {
+                            const {current, next} = response;
+                            this.selectedScheduledWorkings = {current, next, officeId};
+                            this.showScheduleForm();
+                        })
+                        .catch(e => apiErrorHandler(e))
+                        .finally(() => {
+                            this.unsetActionLoading();
+                        });
+            },
+            onOfficeDeleteClick(officeId){
+                if (this.actionLoading) return;
+                if (!confirm(this.$t("Are you really delete this item"))) return;
+                this.setActionLoading();
+                api.delete('office-master/' + officeId)
+                    .then(() => {
+                        showSuccess(this.$t('Successfully deleted'));
+                        this.getOffices();
+                    })
+                    .catch(e => apiErrorHandler(e))
+                    .finally(() => {
+                        this.unsetActionLoading();
+                    })
+            },
             showMasterForm() {
                 $("#office-master-form").modal('show');
-
             },
-            addSchedule(){
+            showScheduleForm(){
                 $("#addNewSchedule").modal("show");
             },
-            getThisYearMonths() {
-                const date = this.currentDate;
-                this.months = [];
-                for(let month = 1; month <= 12; month++) {
-                    this.months.push(moment(new Date(date.getFullYear(), 3+month, 0)).format('YYYY年 M月'));
-                    this.days.push(new Date(date.getFullYear(), 3+month, 0).getDate());
-                    this.scheduleDates.push({days: new Date(date.getFullYear(), 3+month, 0).getDate(), month: moment(new Date(date.getFullYear(), 3+month, 0)).format('YYYY年 M月')});
-                }
-            },
-            getNextYearMonths() {
-                const date = this.currentDate;
-                // var firstMonth = new Date(date.getFullYear(), 4, 0);
-                // var lastMonth = new Date(date.getFullYear() + 1, 3, 0);
-                this.nextMonths = [];
-                for(let month = 1; month <= 12; month++) {
-                    this.nextMonths.push(moment(new Date(date.getFullYear() +1, 3+month, 0)).format('YYYY年 M月'));
-                    this.nextDays.push(new Date(date.getFullYear() +1, 3+month, 0).getDate());
-                    this.nextScheduleDates.push({days: new Date(date.getFullYear()+1, 3+month, 0).getDate(), month: moment(new Date(date.getFullYear()+1, 3+month, 0)).format('YYYY年 M月')});
-                }
+            getOffices() {
+                api.get('office-master')
+                    .then(response => {
+                        this.offices = response;
+                    })
+                    .catch(e => apiErrorHandler(e));
             },
         },
         mounted() {
             this.getOffices();
         },
-        created() {
-            this.getThisYearMonths();
-            this.getNextYearMonths();
-        }
     }
 </script>
 <style scoped>

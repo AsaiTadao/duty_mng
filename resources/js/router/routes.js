@@ -76,7 +76,7 @@ export default [
                 name: "monthly-summary",
                 components: { default: MonthlySummery },
                 meta: {
-                    icon: "fas fa-edit",
+                    icon: "fas fa-plus-square",
                     anchor: "月間集計",
                     menu: true,
                     guards: [
@@ -91,7 +91,7 @@ export default [
                 name: "shift-create",
                 components: { default: ManagerShiftCreate },
                 meta: {
-                    icon: "fas fa-calendar-alt",
+                    icon: "fas fa-edit",
                     anchor: "シフト計画",
                     menu: true,
                     guards: [
