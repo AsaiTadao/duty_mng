@@ -15,19 +15,25 @@
                         class="form-control"
                         placeholder="エリア名入力"
                         v-model="data.name"
-                        :class="{'is-invalid' : form.errors().has('number')}">
+                        :class="{'is-invalid' : errors.name}">
+                        <span v-if="errors.name" class="error invalid-feedback">
+                            {{ errors.name }}
+                        </span>
                     </div>
                     <div class="col-md-1"></div>
                     <div class="col-md-6">
                         <div class="form-row">
                             <template v-for="office in offices">
-                                <div class="col-md-4" :key="office.id">
+                                <div class="col-md-4" :key="office.id" :class="{'is-invalid' : errors.offices}">
                                     <input type="checkbox" name="office_name" :value="office.id" v-model="data.offices"
                                     :disabled="selectedOffices.find(e => e.id === office.id) && !data.offices.includes(office.id)"
                                     @click="onOfficeChange(office.id)">
                                     <label class="ml-auto">{{office.name}}</label>
                                 </div>
                             </template>
+                            <span v-if="errors.offices" class="error invalid-feedback">
+                                {{ errors.offices }}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -54,41 +60,32 @@ import { showSuccess } from '../../helpers/error';
             selectedOffices: {},
         },
         watch: {
-            data : {
-                deep: true,
-                immediate: false,
-                handler: 'onFormChange'
-            }
+            data : function (){
+                    this.errors = {
+                        name: '',
+                        offices: '',
+                };
+            },
         },
         data() {
             return {
-                form: form({
-                    id: null,
+                errors: {
                     name: '',
-                    offices: []
-                })
-                .rules({
-                    name: 'required',
-                })
-                .messages({
-                    'name.required': 'Please input name',    // need trans
-                })
+                    offices: '',
+                }
             }
         },
 
         methods: {
             saveRegion() {
-                console.log("onSaveRegion", this.data);
-                this.form.fill(this.data);
-                console.log("onSaveRegion", this.form.all());
                 if (this.actionLoading) return;
-                if (this.form.validate().errors().any()) return;
+                if (!this.validate()) return;
                 this.setActionLoading();
                 let request;
                 if (this.data.id) {
-                    request = api.post('region/' + this.data.id, null, this.form.all());
+                    request = api.post('region/' + this.data.id, null, this.data);
                 } else {
-                    request = api.post('region', null, this.form.all());
+                    request = api.post('region', null, this.data);
                 }
                 request.then(() => {
                         showSuccess(this.$t("Successfully saved"));
@@ -99,8 +96,17 @@ import { showSuccess } from '../../helpers/error';
                         this.unsetActionLoading();
                     })
             },
-            onFormChange() {
-                this.form.errors().forget();
+            validate() {
+                let valid = true;
+                if (!this.data.name) {
+                    this.errors.name = 'Please input name';                                 // need trans
+                    valid = false;
+                }
+                if (this.data.offices.length == 0) {
+                    this.errors.offices = 'Please select one office at least'       // need trans
+                    valid = false;
+                }
+                return valid;
             },
             onOfficeChange(officeId) {
                 const index = this.selectedOffices.findIndex(item => item.id == officeId);
