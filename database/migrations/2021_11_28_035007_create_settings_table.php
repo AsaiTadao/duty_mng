@@ -16,7 +16,7 @@ class CreateSettingsTable extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->date('start_date');
+            $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->unsignedTinyInteger('fraction_commuting_time')->nullable();
             $table->unsignedTinyInteger('fraction_leave_time')->nullable();

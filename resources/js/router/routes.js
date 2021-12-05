@@ -10,7 +10,7 @@ import EmployeeMaster from "../pages/EmployeeMaster";
 import WorkingHoursMaster from "../pages/WorkingHoursMaster";
 import HourlyMaster from "../pages/HourlyMaster";
 import VacationMaster from "../pages/VacationMaster";
-import AdminSetting from "../pages/AdminSetting";
+import Setting from "../pages/Setting";
 import OfficeMaster from "../pages/OfficeMaster";
 import Login from "../pages/Login";
 import Stamp from '../pages/Stamp';
@@ -132,7 +132,7 @@ export default [
             {
                 path: "setting",
                 name: "setting",
-                components: { default: AdminSetting },
+                components: { default: Setting },
                 meta: {
                     icon: "fas fa-cog",
                     anchor: "設定管理",
