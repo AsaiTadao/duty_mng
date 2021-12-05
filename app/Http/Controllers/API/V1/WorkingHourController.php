@@ -6,6 +6,7 @@ use App\Http\Requests\WorkingHourQuery;
 use App\Http\Requests\WorkingHourRequest;
 use App\Http\Requests\WorkingHourStatusRequest;
 use App\Models\WorkingHour;
+use Illuminate\Support\Facades\DB;
 
 class WorkingHourController extends BaseController
 {
@@ -13,10 +14,13 @@ class WorkingHourController extends BaseController
     {
         $data = $query->validated();
 
-        $qb = WorkingHour::where([
-            ['employment_status_id', '=', $data['employment_status_id']]
-        ]);
-
+        $qb = WorkingHour::whereRaw('1=1');
+        if (!empty($data['employment_status_id']))
+        {
+            $qb->where([
+                ['employment_status_id', '=', $data['employment_status_id']]
+            ]);
+        }
         if (!empty($data['office_name'])) {
             $qb->whereHas('office', function ($query) use ($data) {
                 $query->where('name', 'like', '%' . $data['office_name'] . '%');
