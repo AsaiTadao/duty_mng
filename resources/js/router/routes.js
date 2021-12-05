@@ -7,7 +7,7 @@ import WorkTotal from "../pages/WorkTotal";
 import Master from "../pages/Master";
 import RegionMaster from "../pages/RegionMaster";
 import EmployeeMaster from "../pages/EmployeeMaster";
-import TimezoneMaster from "../pages/TimezoneMaster";
+import WorkingHoursMaster from "../pages/WorkingHoursMaster";
 import HourlyMaster from "../pages/HourlyMaster";
 import VacationMaster from "../pages/VacationMaster";
 import AdminSetting from "../pages/AdminSetting";
@@ -195,9 +195,9 @@ export default [
                 }
             },
             {
-                path: "timezone-master",
-                name: "timezone-master",
-                components: { default: TimezoneMaster },
+                path: "workinghours-master",
+                name: "workinghours-master",
+                components: { default: WorkingHoursMaster },
                 meta: {
                     icon: "",
                     anchor: "時間帯マスタ",

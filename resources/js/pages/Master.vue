@@ -37,7 +37,7 @@
         <br>
         <div class="row justify-content-center mt-5">
             <div class="col-md-4">
-                <router-link to="/timezone-master">
+                <router-link to="/workinghours-master">
                     <div type="button" class="border-radius-15 border-color-green border-style-solid border-width-thin background-grey py-1">
                         <h3 class="text-white text-center mb-0 mt-2">
                             勤務時間マスタ
