@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\OfficeMasterRequest;
+use App\Http\Requests\OfficeQuery;
 use App\Http\Requests\ScheduledWorkingRequest;
 use App\Models\Office;
 use App\Models\ScheduledWorking;
@@ -15,9 +16,16 @@ use Illuminate\Support\Facades\Hash;
 
 class OfficeController extends BaseController
 {
-    public function get()
+    public function get(OfficeQuery $request)
     {
-        $offices = Office::get();
+        $data = $request->validated();
+
+        $qb = Office::whereRaw('1=1');
+        if (!empty($data['region_id']))
+        {
+            $qb->where(['region_id' => $data['region_id']]);
+        }
+        $offices = $qb->get();
         return $this->sendResponse($offices->toArray());
     }
     public function create(OfficeMasterRequest $request)
