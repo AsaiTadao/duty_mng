@@ -53,4 +53,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserSetting::class);
     }
+    public function office()
+    {
+        return $this->belongsTo(Office::class);
+    }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\OfficeMasterRequest;
 use App\Models\ApplicationClass;
 use App\Models\Code;
 use App\Models\EmploymentStatus;
+use App\Models\OfficeGroup;
 use App\Models\ReasonForVacation;
 use App\Models\RestDeduction;
 
@@ -33,6 +34,8 @@ class ConstantController extends BaseController
             return $item['group'] === CodeGroups::APPLICATION_STATUS;
         });
 
+        $officeGroups = OfficeGroup::get();
+
         return $this->sendResponse([
             'application_classes'   =>  $applicationClasses,
             'reason_for_vacations'  =>  $reasonForVacations,
@@ -42,7 +45,8 @@ class ConstantController extends BaseController
             'overtime_pay_options'  =>  $overtimePayOptions,
             'salary_deduction_options'=>$salaryDeductionOptions,
             'application_deadline_options'=>    $applicationDeadlineOptions,
-            'application_status_options'  =>    $applicationStatusOptions
+            'application_status_options'  =>    $applicationStatusOptions,
+            'office_groups'         =>  $officeGroups,
         ]);
     }
 }

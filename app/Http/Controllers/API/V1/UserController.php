@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\PageQuery;
+use App\Http\Requests\RoleUpdateRequest;
 use App\Http\Requests\UserSettingRequest;
 use App\Models\User;
 use App\Models\UserSetting;
@@ -13,9 +14,29 @@ class UserController extends BaseController
     public function get(PageQuery $request)
     {
         $data = $request->validated();
-        $users = User::with('setting')->paginate($data['size']);
+        $users = User::with('setting', 'office', 'office.region')->paginate($data['size'])->items();
         // TODO
-        return $this->sendResponse($users->items());
+        $response = [];
+        foreach($users as $user)
+        {
+            $item = $user->toArray();
+            if (!empty($item['office']))
+            {
+                if (!empty($item['office']['region']))
+                {
+                    $item['region'] = [
+                        'id'    =>  $item['office']['region']['id'],
+                        'name'  =>  $item['office']['region']['name']
+                    ];
+                }
+                $item['office'] = [
+                    'id'    =>  $item['office']['id'],
+                    'name'  =>  $item['office']['name']
+                ];
+            }
+            $response[] = $item;
+        }
+        return $this->sendResponse($response);
     }
 
     public function updateSetting(User $user, UserSettingRequest $request)
@@ -48,5 +69,12 @@ class UserController extends BaseController
         return $this->sendResponse($setting);
     }
 
-    // public function updateRole(User $user, )
+    public function updateRole(User $user, RoleUpdateRequest $request)
+    {
+        $data = $request->validated();
+        $role_id = $data['role_id'];
+        $user->role_id = $role_id;
+        $user->save();
+        return $this->sendResponse($user);
+    }
 }

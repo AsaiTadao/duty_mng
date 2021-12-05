@@ -18,4 +18,13 @@ class Office extends Model
         'office_group_id',
         'rest_deduction_id'
     ];
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }
