@@ -32,7 +32,8 @@ class DatabaseSeeder extends Seeder
             OfficeScheduledWorkingSeeder::class,
             RestDeductionSeeder::class,
 
-            SettingSeeder::class
+            SettingSeeder::class,
+            CodeSeeder::class
         ]);
     }
 }

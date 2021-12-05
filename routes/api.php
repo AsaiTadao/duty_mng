@@ -6,6 +6,7 @@ use App\Http\Controllers\API\V1\HourlyWageController;
 use App\Http\Controllers\API\V1\OfficeController;
 use App\Http\Controllers\API\V1\RegionController;
 use App\Http\Controllers\API\V1\SettingController;
+use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\V1\VacationReasonController;
 use App\Http\Controllers\API\V1\WorkingHourController;
 use Illuminate\Http\Request;
@@ -66,6 +67,9 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
             Route::post('/hourly-wage', [HourlyWageController::class, 'create']);
             Route::put('/hourly-wage/{hourlyWage}', [HourlyWageController::class, 'update']);
             Route::delete('/hourly-wage/{hourlyWage}', [HourlyWageController::class, 'delete']);
+
+            Route::get('/users', [UserController::class, 'get']);
+            Route::put('/users/{user}/setting', [UserController::class, 'updateSetting']);
         });
     });
 });
