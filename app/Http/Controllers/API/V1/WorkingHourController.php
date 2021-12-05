@@ -39,8 +39,8 @@ class WorkingHourController extends BaseController
         {
             return $this->sendError(trans('working_hours.start_gt_end'));
         }
-        WorkingHour::create($data);
-        return $this->sendResponse();
+        $workingHour = WorkingHour::create($data);
+        return $this->sendResponse($workingHour);
     }
     public function update(WorkingHour $workingHour, WorkingHourRequest $request)
     {
@@ -54,7 +54,7 @@ class WorkingHourController extends BaseController
         }
         $workingHour->fill($data);
         $workingHour->save();
-        return $this->sendResponse();
+        return $this->sendResponse($workingHour);
     }
     public function updateStatus(WorkingHour $workingHour, WorkingHourStatusRequest $request)
     {
@@ -62,6 +62,11 @@ class WorkingHourController extends BaseController
         $enable = $data['enable'];
         $workingHour->enable = $enable;
         $workingHour->save();
+        return $this->sendResponse($workingHour);
+    }
+    public function delete(WorkingHour $workingHour)
+    {
+        $workingHour->delete();
         return $this->sendResponse();
     }
 }

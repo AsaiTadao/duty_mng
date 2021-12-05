@@ -57,6 +57,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
             Route::post('/working-hours', [WorkingHourController::class, 'create']);
             Route::put('/working-hours/status/{workingHour}', [WorkingHourController::class, 'updateStatus']);
             Route::put('/working-hours/{workingHour}', [WorkingHourController::class, 'update']);
+            Route::delete('/working-hours/{workingHour}', [WorkingHourController::class, 'delete']);
 
             Route::get('/setting', [SettingController::class, 'get']);
             Route::post('/setting', [SettingController::class, 'save']);
