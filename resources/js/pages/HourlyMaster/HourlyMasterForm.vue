@@ -25,16 +25,6 @@
                         {{ errors.name }}
                     </span>
                 </div>
-                <div class="col-md-3">
-                    <div class="d-flex align-items-center">
-                        <input type="radio" v-model="data.employmentStatusId" :value="1">
-                        <label class="mr-2 mb-0">正社員</label>
-                        <input type="radio" v-model="data.employmentStatusId" :value="2">
-                        <label class="mr-2 mb-0">時短社員</label>
-                        <input type="radio" v-model="data.employmentStatusId" :value="3">
-                        <label class="mr-2 mb-0">パート</label>
-                    </div>
-                </div>
                 <div class="col-md-1">
                     <input type="number" class="form-control" v-model="data.startTimeHour" min="0" max="24" :class="{'is-invalid' : errors.startTime}">
                     <span v-if="errors.startTime" class="error invalid-feedback">
@@ -66,7 +56,7 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-        <button type="submit" class="btn btn-primary" @click="saveWorkingHour">登録</button>
+        <button type="submit" class="btn btn-primary" @click="saveHourly">登録</button>
     </div>
 </div>
 </template>
@@ -82,17 +72,11 @@ import { showSuccess } from '../../helpers/error';
             data: {},
             offices: {},
         },
-        computed: {
-            ...mapState({
-                restDeductions: state => state.constants.restDeductions,
-            })
-        },
         watch: {
             data : function (){
                 this.errors = {
                     officeId: null,
                     name: '',
-                    employmentStatusId: null,
                     startTime: null,
                     endTime: null,
                 }
@@ -103,28 +87,27 @@ import { showSuccess } from '../../helpers/error';
                 errors: {
                     officeId: null,
                     name: '',
-                    startTime: null,
-                    endTime: null,
+                    startTime: '',
+                    endTime: '',
                 },
             }
         },
         methods: {
-            saveWorkingHour() {
+            saveHourly() {
                 if (this.actionLoading) return;
                 if (!this.validate()) return;
                 const requestData = {
                     'office_id': this.data.officeId,
                     'name': this.data.name,
                     'start_time': ("0" + this.data.startTimeHour).slice(-2) + ":" + ("0" + this.data.startTimeMinute).slice(-2),
-                    'end_time': ("0" + this.data.endTimeHour).slice(-2) + ":" + ("0" + this.data.endTimeMinute).slice(-2),
-                    'employment_status_id': this.data.employmentStatusId
+                    'end_time': ("0" + this.data.endTimeHour).slice(-2) + ":" + ("0" + this.data.endTimeMinute).slice(-2)
                 };
                 this.setActionLoading();
                 let request;
                 if (this.data.id) {
-                    request = api.put('working-hours/' + this.data.id, null, requestData);
+                    request = api.put('hourly-wage/' + this.data.id, null, requestData);
                 } else {
-                    request = api.post('working-hours', null, requestData);
+                    request = api.post('hourly-wage', null, requestData);
                 }
                 request.then(() => {
                         showSuccess(this.$t("Successfully saved"));
@@ -141,16 +124,12 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.officeId = 'Please select office';                            // need trans
                     valid = false;
                 }
-                if (!this.data.employmentStatusId) {
-                    this.errors.employmentStatusId = 'Please select employment';                            // need trans
-                    valid = false;
-                }
                 if (!this.data.name) {
                     this.errors.name = 'Please input name';                                 // need trans
                     valid = false;
                 }
                 if (!this.data.startTimeHour || !this.data.startTimeMinute) {
-                    this.errors.startTime = 'Please input startTime';                       // need trans
+                    this.errors.startTime = 'Please input startTime';                        // need trans
                     valid = false;
                 }
                 if (!this.data.endTimeHour || !this.data.endTimeMinute) {
