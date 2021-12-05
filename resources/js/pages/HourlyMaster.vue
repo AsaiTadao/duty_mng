@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <button type="submit" class="btn btn-sm btn-primary" @click="addHourly()">
+                                <button type="submit" class="btn btn-sm btn-primary" @click="onNewClick()">
                                         新規登録
                                 </button>
                             </div>
@@ -43,97 +43,21 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
-                                    <tr>
+                                    <tr v-for="hourly in hourlys" :key="hourly.id">
                                         <td>
-                                            A時間帯
+                                            {{ hourly.name }}
                                         </td>
                                         <td>
-                                            7:30
+                                            {{ hourly.startTime }}
                                         </td>
                                         <td>
-                                            10:00
+                                            {{ hourly.endTime }}
                                         </td>
                                         <td>
-                                            <a href="#" class="mx-2">
+                                            <a href="#" class="mx-2" @click="onEditClicked(hourly.id)">
                                                 <i class="far fa-edit fa-lg"></i>
                                             </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            B時間帯
-                                        </td>
-                                        <td>
-                                            8:00
-                                        </td>
-                                        <td>
-                                            16:00
-                                        </td>
-                                        <td>
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            C時間帯
-                                        </td>
-                                        <td>
-                                            16:00
-                                        </td>
-                                        <td>
-                                            17:30
-                                        </td>
-                                        <td>
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            D時間帯
-                                        </td>
-                                        <td>
-                                            17:30
-                                        </td>
-                                        <td>
-                                            19:00
-                                        </td>
-                                        <td>
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
-                                                <i class="far fa-trash-alt fa-lg"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            E時間帯
-                                        </td>
-                                        <td>
-                                            19:00
-                                        </td>
-                                        <td>
-                                            20:00
-                                        </td>
-                                        <td>
-                                            <a href="#" class="mx-2">
-                                                <i class="far fa-edit fa-lg"></i>
-                                            </a>
-                                            <a href="#">
+                                            <a href="#" @click="onHourlyDeleteClick(hourly.id)">
                                                 <i class="far fa-trash-alt fa-lg"></i>
                                             </a>
                                         </td>
@@ -142,59 +66,9 @@
                             </table>
                         </div>
                         <!-- Modal -->
-                        <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNew" aria-hidden="true">
+                        <div class="modal fade" id="hourly-master-form" tabindex="-1" role="dialog" aria-labelledby="hourly-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">新規登録</h5>
-                                        <!-- <h5 class="modal-title" v-show="editmode">再申請</h5> -->
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <div class="form-row align-items-center">
-                                                <div class="col-md-3">
-                                                    <select class="form-control">
-                                                        <option>ラテラル保育園</option>
-                                                        <option>仙台本社</option>
-                                                        <option>仙台本社</option>
-                                                        <option>仙台本社</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="form-row align-items-center">
-                                                <div class="col-md-3">
-                                                    <input type="text" class="form-control" name="time-zone" placeholder="時間帯名入力">
-                                                </div>
-                                                <div class="col-md-1"></div>
-                                                <div class="col-md-1">
-                                                    <input type="number" name="hour" class="form-control">
-                                                </div>
-                                                :
-                                                <div class="col-md-1">
-                                                    <input type="number" name="minute" class="form-control">
-                                                </div>
-                                                <div class="col-md-1"></div>
-                                                <div class="col-md-1">
-                                                    <input type="number" name="new_hour" class="form-control">
-                                                </div>
-                                                :
-                                                <div class="col-md-1">
-                                                    <input type="number" name="new_minute"
-                                                        class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-                                        <button type="submit" class="btn btn-primary">登録</button>
-                                    </div>
-                                </div>
+                                <hourly-master-form :data="masterFormData" :offices="offices" v-on:success="onHourlySaved" />
                             </div>
                         </div>
                     </div>
@@ -204,36 +78,91 @@
     </div>
 </template>
 <script>
-    export default {
+
+import api, { apiErrorHandler } from '../global/api';
+import actionLoading from '../mixin/actionLoading';
+import { showSuccess } from '../helpers/error';
+import HourlyMasterForm from './HourlyMaster/HourlyMasterForm.vue';
+
+export default {
+    mixins: [actionLoading],
+  components: { HourlyMasterForm },
         data() {
             return {
-                editmode: false,
-                currentDate: new Date(),
-                days: [],
-                attends : [],
-                requests : [],
-                // form: new Form({
-                //     id : '',
-                //     date: '',
-                //     type : 0,
-                //     hour: '',
-                //     minute: '',
-                //     new_hour: '',
-                //     new_minute: '',
-                //     memo: '',
-                // })
+                hourlys: [],
+                masterFormData: {
+                    name: '',
+                    officeId: 1,
+                    startTimeHour: null,
+                    startTimeMinute: null,
+                    endTimeHour: null,
+                    endTimeMinute: null,
+                },
+                offices: [],
             }
         },
         methods: {
-            addHourly(){
-                $("#addNew").modal("show");
+            onEditClicked(HourlyId) {
+                const hourly = this.hourlys.find(({id}) => HourlyId === id);
+                if (!hourly) return;
+                this.masterFormData = {
+                    startTimeHour:      hourly.startTime.split(':')[0],
+                    startTimeMinute:    hourly.startTime.split(':')[1],
+                    endTimeHour:        hourly.endTime.split(':')[0],
+                    endTimeMinute:      hourly.endTime.split(':')[1],
+                    ...hourly};
+                this.showMasterForm();
+            },
+            onHourlySaved() {
+                this.getHourlys();
+                $("#hourly-master-form").modal('hide');
+            },
+            getOffices() {
+                api.get('office-master')
+                    .then(response => {
+                        this.offices = response;
+                    })
+                    .catch(e => apiErrorHandler(e));
+            },
+            onHourlyDeleteClick(hourlyId){
+                if (this.actionLoading) return;
+                if (!confirm(this.$t("Are you really delete this item"))) return;
+                this.setActionLoading();
+                api.delete('hourly-wage/' + hourlyId)
+                    .then(() => {
+                        showSuccess(this.$t('Successfully deleted'));
+                        this.getHourlys();
+                    })
+                    .catch(e => apiErrorHandler(e))
+                    .finally(() => {
+                        this.unsetActionLoading();
+                    })
+            },
+            onNewClick() {
+                this.masterFormData = {
+                    name: '',
+                    officeId: 1,
+                    startTimeHour: null,
+                    startTimeMinute: null,
+                    endTimeHour: null,
+                    endTimeMinute: null,
+                };
+                this.showMasterForm();
+            },
+            showMasterForm() {
+                $("#hourly-master-form").modal('show');
+            },
+            getHourlys() {
+                api.get('hourly-wage')
+                    .then(response => {
+                        this.hourlys = response;
+                    })
+                    .catch(e => apiErrorHandler(e));
             }
         },
         mounted() {
-
-        },
-        created() {
-
+            this.getHourlys();
+            this.getOffices();
         }
     }
 </script>
