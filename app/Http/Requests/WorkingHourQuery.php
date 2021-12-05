@@ -9,7 +9,7 @@ class WorkingHourQuery extends FormRequest {
     public function rules() {
         return [
             'office_name'           =>  ['nullable', 'string', 'max:191'],
-            'employment_status_id'  =>  ['required', 'exists:employment_statuses,id']
+            'employment_status_id'  =>  ['nullable', 'exists:employment_statuses,id']
         ];
     }
 }
