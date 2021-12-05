@@ -1,13 +1,13 @@
 import NotFound from "../pages/NotFound";
 import AttendStatus from '../pages/AttendStatus';
-import ManagerAttendStatus from "../pages/ManagerAttendStatus";
-import ManagerMonthlySummery from "../pages/ManagerMonthlySummery";
+import WorkStatus from "../pages/WorkStatus";
+import MonthlySummery from "../pages/MonthlySummery";
 import ManagerShiftCreate from "../pages/ManagerShiftCreate";
 import WorkTotal from "../pages/WorkTotal";
 import Master from "../pages/Master";
 import RegionMaster from "../pages/RegionMaster";
 import EmployeeMaster from "../pages/EmployeeMaster";
-import TimezoneMaster from "../pages/TimezoneMaster";
+import WorkingHoursMaster from "../pages/WorkingHoursMaster";
 import HourlyMaster from "../pages/HourlyMaster";
 import VacationMaster from "../pages/VacationMaster";
 import Setting from "../pages/Setting";
@@ -59,7 +59,7 @@ export default [
             {
                 path: "work-status",
                 name: "work-status",
-                components: { default: ManagerAttendStatus },
+                components: { default: WorkStatus },
                 meta: {
                     icon: "fas fa-history",
                     anchor: "出勤状況",
@@ -74,7 +74,7 @@ export default [
             {
                 path: "monthly-summary",
                 name: "monthly-summary",
-                components: { default: ManagerMonthlySummery },
+                components: { default: MonthlySummery },
                 meta: {
                     icon: "fas fa-plus-square",
                     anchor: "月間集計",
@@ -145,7 +145,7 @@ export default [
             {
                 path: "member/:id",
                 name: "member",
-                components: { default: AttendStatus },
+                components: { default: MonthlySummery },
                 meta: {
                     icon: "fas fa-cog",
                     anchor: "勤務集計-個別一覧",
@@ -195,9 +195,9 @@ export default [
                 }
             },
             {
-                path: "timezone-master",
-                name: "timezone-master",
-                components: { default: TimezoneMaster },
+                path: "workinghours-master",
+                name: "workinghours-master",
+                components: { default: WorkingHoursMaster },
                 meta: {
                     icon: "",
                     anchor: "時間帯マスタ",

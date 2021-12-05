@@ -1,0 +1,340 @@
+<template>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header calendar-title">
+                        <h3 class="card-title mb-0">時間帯マスタ</h3>
+                        <h3 class="card-title mb-0 ml-5">ラテラル保育園</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <button type="submit" class="btn btn-sm btn-primary" @click="onNewClick()">
+                                        新規登録
+                                </button>
+                            </div>
+                            <div class="input-group w-auto">
+                                <input type="search" class="form-control form-control-sm" placeholder="事業所名" v-model="officeName">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-sm btn-default" @click="searchOffice()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="full-time-tab" data-toggle="pill" href="#this-year-table" role="tab" aria-controls="this-year-table" aria-selected="true">正社員</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="short-time-tab" data-toggle="pill" href="#next-year-table" role="tab" aria-controls="next-year-table" aria-selected="false">時短社員</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="part-time-tab" data-toggle="pill" href="#next-year-table" role="tab" aria-controls="next-year-table" aria-selected="false">パート</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="custom-content-below-tabContent">
+                            <div class="tab-pane fade show active" id="this-year-table" role="tabpanel" aria-labelledby="this-year-tab">
+                                <div class="table-responsive p-0">
+                                    <table
+                                        class="table table-bordered table-striped table-master table-hover"
+                                    >
+                                        <thead class="text-center">
+                                            <tr class="dark-grey text-white">
+                                                <th>
+                                                    時間帯名
+                                                </th>
+                                                <th>
+                                                    開始
+                                                </th>
+                                                <th>
+                                                    終了
+                                                </th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            <tr v-for="workingHour in workingHours['real']" :key="workingHour.id">
+                                                <td>
+                                                    {{workingHour.name}}
+                                                </td>
+                                                <td>
+                                                    {{workingHour.startTime}}
+                                                </td>
+                                                <td>
+                                                    {{workingHour.endTime}}
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <enable-display-item :enable="workingHour.enable" :id="workingHour.id" v-on:success="onWorkingHourEnabled"/>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2" @click="onEditClicked(workingHour.id)">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                    <a href="#" @click="onWorkingHourDeleteClick(workingHour.id)">
+                                                        <i class="far fa-trash-alt fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="next-year-table" role="tabpanel" aria-labelledby="next-year-tab">
+                                <div class="table-responsive p-0">
+                                    <table
+                                        class="table table-bordered table-striped table-master table-hover"
+                                    >
+                                        <thead class="text-center">
+                                            <tr class="dark-grey text-white">
+                                                <th>
+                                                    時間帯名
+                                                </th>
+                                                <th>
+                                                    開始
+                                                </th>
+                                                <th>
+                                                    終了
+                                                </th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            <tr v-for="workingHour in workingHours['time']" :key="workingHour.id">
+                                                <td>
+                                                    {{workingHour.name}}
+                                                </td>
+                                                <td>
+                                                    {{workingHour.startTime}}
+                                                </td>
+                                                <td>
+                                                    {{workingHour.endTime}}
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <enable-display-item :enable="workingHour.enable" :id="workingHour.id" v-on:success="onWorkingHourEnabled"/>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2" @click="onEditClicked(workingHour.id)">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                    <a href="#" @click="onWorkingHourDeleteClick(workingHour.id)">
+                                                        <i class="far fa-trash-alt fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="next-year-table" role="tabpanel" aria-labelledby="next-year-tab">
+                                <div class="table-responsive p-0">
+                                    <table
+                                        class="table table-bordered table-striped table-master table-hover"
+                                    >
+                                        <thead class="text-center">
+                                            <tr class="dark-grey text-white">
+                                                <th>
+                                                    時間帯名
+                                                </th>
+                                                <th>
+                                                    開始
+                                                </th>
+                                                <th>
+                                                    終了
+                                                </th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-center">
+                                            <tr v-for="workingHour in workingHours['part']" :key="workingHour.id">
+                                                <td>
+                                                    {{workingHour.name}}
+                                                </td>
+                                                <td>
+                                                    {{workingHour.startTime}}
+                                                </td>
+                                                <td>
+                                                    {{workingHour.endTime}}
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <enable-display-item :enable="workingHour.enable" :id="workingHour.id" v-on:success="onWorkingHourEnabled"/>
+                                                </td>
+                                                <td>
+                                                    <a href="#" class="mx-2" @click="onEditClicked(workingHour.id)">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                    <a href="#" @click="onWorkingHourDeleteClick(workingHour.id)">
+                                                        <i class="far fa-trash-alt fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="working-hours-master-form" tabindex="-1" role="dialog" aria-labelledby="working-hours-master-form" aria-hidden="true">
+                            <div class="modal-dialog modal-huge" role="document">
+                                <working-hours-master-form :data="masterFormData" :offices="offices" :show="masterFormShow" v-on:success="onWorkingHoursSaved" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+
+import api, { apiErrorHandler } from '../global/api';
+import actionLoading from '../mixin/actionLoading';
+import { showSuccess } from '../helpers/error';
+import WorkingHoursMasterForm from './WorkingHoursMaster/WorkingHoursMasterForm.vue';
+import EnableDisplayItem from './WorkingHoursMaster/EnableDisplayItem.vue';
+
+export default {
+        mixins: [actionLoading],
+  components: { WorkingHoursMasterForm, EnableDisplayItem },
+        data() {
+            return {
+                masterFormData: {
+                    name: '',
+                    officeId: 1,
+                    employmentStatusId: 1,
+                    startTimeHour: null,
+                    startTimeMinute: null,
+                    endTimeHour: null,
+                    endTimeMinute: null,
+                },
+                masterFormShow: false,
+                workingHours: {
+                    'real': [],
+                    'time': [],
+                    'part': [],
+                },
+                offices: [],
+                officeName: '',
+            }
+        },
+        methods: {
+            onEditClicked(workingHourId) {
+                const workingHourArray = Object.values(this.workingHours);
+                let workingHour = null;
+                for (var i=0; i< workingHourArray.length; i++) {
+                    workingHour = workingHourArray[i].find(
+                       ({id}) => workingHourId === id
+                    );
+                    if(workingHour) break;
+                }
+                if (!workingHour) return;
+                this.masterFormData = {
+                    startTimeHour: workingHour.startTime.split(':')[0],
+                    startTimeMinute: workingHour.startTime.split(':')[1],
+                    endTimeHour: workingHour.endTime.split(':')[0],
+                    endTimeMinute: workingHour.endTime.split(':')[1],
+                    ...workingHour,
+                };
+                this.showMasterForm();
+            },
+            onWorkingHoursSaved() {
+                this.getWorkingHours();
+                $("#working-hours-master-form").modal('hide');
+            },
+            getOffices() {
+                api.get('office-master')
+                    .then(response => {
+                        this.offices = response;
+                    })
+                    .catch(e => apiErrorHandler(e));
+            },
+            onWorkingHourDeleteClick(workingHourId){
+                if (this.actionLoading) return;
+                if (!confirm(this.$t("Are you really delete this item"))) return;
+                this.setActionLoading();
+                api.delete('working-hours/' + workingHourId)
+                    .then(() => {
+                        showSuccess(this.$t('Successfully deleted'));
+                        this.getWorkingHours();
+                    })
+                    .catch(e => apiErrorHandler(e))
+                    .finally(() => {
+                        this.unsetActionLoading();
+                    })
+            },
+            onNewClick() {
+                this.masterFormData = {
+                    name: '',
+                    officeId: 1,
+                    employmentStatusId: 1,
+                    startTimeHour: null,
+                    startTimeMinute: null,
+                    endTimeHour: null,
+                    endTimeMinute: null,
+                };
+                this.showMasterForm();
+            },
+            showMasterForm() {
+                $("#working-hours-master-form").modal('show');
+            },
+            getWorkingHours() {
+                api.get('working-hours', null, null)
+                    .then(response => {
+                        this.workingHours['real'] = [];
+                        this.workingHours['part'] = [];
+                        this.workingHours['time'] = [];
+                        response.forEach(element => {
+                            if(element.employmentStatusId == 1) {
+                                this.workingHours['real'].push(element);
+                            } else if(element.employmentStatusId == 2) {
+                                this.workingHours['part'].push(element);
+                            } else if(element.employmentStatusId == 3) {
+                                this.workingHours['time'].push(element);
+                            }
+                        });
+                    })
+                    .catch(e => apiErrorHandler(e));
+            },
+            searchOffice() {
+                api.get('working-hours', null, {office_name : this.officeName})
+                    .then(response => {
+                        this.workingHours['real'] = [];
+                        this.workingHours['part'] = [];
+                        this.workingHours['time'] = [];
+                        response.forEach(element => {
+                            if(element.employmentStatusId == 1) {
+                                this.workingHours['real'].push(element);
+                            } else if(element.employmentStatusId == 2) {
+                                this.workingHours['part'].push(element);
+                            } else if(element.employmentStatusId == 3) {
+                                this.workingHours['time'].push(element);
+                            }
+                        });
+                    })
+                    .catch(e => apiErrorHandler(e));
+            },
+            onWorkingHourEnabled() {
+                this.getWorkingHours();
+            },
+            dragover(){
+                var e = event;
+                e.preventDefault();
+
+                let children= Array.from(e.target.parentNode.parentNode.children);
+
+                if(children.indexOf(e.target.parentNode)>children.indexOf(this.row))
+                    e.target.parentNode.after(this.row);
+                else
+                    e.target.parentNode.before(this.row);
+            }
+        },
+        mounted() {
+            this.getWorkingHours();
+            this.getOffices();
+        }
+    }
+</script>
