@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\ConstantController;
+use App\Http\Controllers\API\V1\HourlyWageController;
 use App\Http\Controllers\API\V1\OfficeController;
 use App\Http\Controllers\API\V1\RegionController;
 use App\Http\Controllers\API\V1\SettingController;
@@ -59,6 +60,8 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
 
             Route::get('/setting', [SettingController::class, 'get']);
             Route::post('/setting', [SettingController::class, 'save']);
+
+            Route::get('/hourly-wage', [HourlyWageController::class, 'get']);
         });
     });
 });

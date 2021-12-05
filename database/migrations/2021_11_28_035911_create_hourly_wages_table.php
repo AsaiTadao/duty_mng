@@ -18,6 +18,7 @@ class CreateHourlyWagesTable extends Migration
             $table->string('name', 50);
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
+            $table->foreignId('office_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
