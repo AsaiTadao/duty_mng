@@ -30,7 +30,9 @@ class DatabaseSeeder extends Seeder
             ReasonForVacationSeeder::class,
             ApplicationClassSeeder::class,
             OfficeScheduledWorkingSeeder::class,
-            RestDeductionSeeder::class
+            RestDeductionSeeder::class,
+
+            SettingSeeder::class
         ]);
     }
 }

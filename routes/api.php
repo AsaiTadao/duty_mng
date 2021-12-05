@@ -4,6 +4,7 @@ use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\ConstantController;
 use App\Http\Controllers\API\V1\OfficeController;
 use App\Http\Controllers\API\V1\RegionController;
+use App\Http\Controllers\API\V1\SettingController;
 use App\Http\Controllers\API\V1\VacationReasonController;
 use App\Http\Controllers\API\V1\WorkingHourController;
 use Illuminate\Http\Request;
@@ -55,6 +56,9 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
             Route::post('/working-hours', [WorkingHourController::class, 'create']);
             Route::put('/working-hours/status/{workingHour}', [WorkingHourController::class, 'updateStatus']);
             Route::put('/working-hours/{workingHour}', [WorkingHourController::class, 'update']);
+
+            Route::get('/setting', [SettingController::class, 'get']);
+            Route::post('/setting', [SettingController::class, 'save']);
         });
     });
 });
