@@ -63,6 +63,9 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
             Route::post('/setting', [SettingController::class, 'save']);
 
             Route::get('/hourly-wage', [HourlyWageController::class, 'get']);
+            Route::post('/hourly-wage', [HourlyWageController::class, 'create']);
+            Route::put('/hourly-wage/{hourlyWage}', [HourlyWageController::class, 'update']);
+            Route::delete('/hourly-wage/{hourlyWage}', [HourlyWageController::class, 'delete']);
         });
     });
 });

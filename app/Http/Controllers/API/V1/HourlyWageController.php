@@ -14,7 +14,26 @@ class HourlyWageController extends BaseController
     }
     public function create(HourlyWageRequest $request)
     {
+        $user = auth()->user();
         $data = $request->validated();
-
+        $hourlyWage = new HourlyWage;
+        $hourlyWage->fill($data);
+        $hourlyWage->create_user_id = $user->id;
+        $hourlyWage->save();
+        return $this->sendResponse($hourlyWage);
+    }
+    public function update(HourlyWage $hourlyWage, HourlyWageRequest $request)
+    {
+        $user = auth()->user();
+        $data = $request->validated();
+        $hourlyWage->fill($data);
+        $hourlyWage->update_user_id = $user->id;
+        $hourlyWage->save();
+        return $this->sendResponse($hourlyWage);
+    }
+    public function delete(HourlyWage $hourlyWage)
+    {
+        $hourlyWage->delete();
+        return $this->sendResponse();
     }
 }
