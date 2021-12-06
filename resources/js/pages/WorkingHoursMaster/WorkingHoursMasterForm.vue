@@ -20,43 +20,41 @@
         <div class="form-group">
             <div class="form-row align-items-center">
                 <div class="col-md-3">
-                    <input type="text" class="form-control" name="time-zone" placeholder="時間帯名入力" v-model="data.name" :class="{'is-invalid' : errors.name}">
+                    <input type="text" class="form-control" name="time-zone" placeholder="時間帯名入力" v-model="data.name" :class="{'is-invalid' : errors.name}" @keyup="errors.name = null">
                     <span v-if="errors.name" class="error invalid-feedback">
                         {{ errors.name }}
                     </span>
                 </div>
                 <div class="col-md-3">
                     <div class="d-flex align-items-center">
-                        <input type="radio" v-model="data.employmentStatusId" :value="1">
-                        <label class="mr-2 mb-0">正社員</label>
-                        <input type="radio" v-model="data.employmentStatusId" :value="2">
-                        <label class="mr-2 mb-0">時短社員</label>
-                        <input type="radio" v-model="data.employmentStatusId" :value="3">
-                        <label class="mr-2 mb-0">パート</label>
+                        <template v-for="employmentStatus in employmentStatuses">
+                            <input type="radio" v-model="data.employmentStatusId" :value="employmentStatus.id" :key="employmentStatus.id">
+                            <label class="mr-2 mb-0" :key="employmentStatus.id+'label'">{{employmentStatus.name}}</label>
+                        </template>
                     </div>
                 </div>
                 <div class="col-md-1">
-                    <input type="number" class="form-control" v-model="data.startTimeHour" min="0" max="24" :class="{'is-invalid' : errors.startTime}">
+                    <input type="number" class="form-control" v-model="data.startTimeHour" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
                     <span v-if="errors.startTime" class="error invalid-feedback">
                         {{ errors.startTime }}
                     </span>
                 </div>
                 :
                 <div class="col-md-1">
-                    <input type="number" class="form-control" v-model="data.startTimeMinute" min="0" max="60" :class="{'is-invalid' : errors.startTime}">
+                    <input type="number" class="form-control" v-model="data.startTimeMinute" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
                     <span v-if="errors.startTime" class="error invalid-feedback">
                         {{ errors.startTime }}
                     </span>
                 </div>
                 <div class="col-md-1">
-                    <input type="number" class="form-control" v-model="data.endTimeHour" min="0" max="24" :class="{'is-invalid' : errors.endTime}">
+                    <input type="number" class="form-control" v-model="data.endTimeHour" min="0" max="24" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
                     <span v-if="errors.endTime" class="error invalid-feedback">
                         {{ errors.endTime }}
                     </span>
                 </div>
                 :
                 <div class="col-md-1">
-                    <input type="number" class="form-control" v-model="data.endTimeMinute" min="0" max="60" :class="{'is-invalid' : errors.endTime}">
+                    <input type="number" class="form-control" v-model="data.endTimeMinute" min="0" max="60" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
                     <span v-if="errors.endTime" class="error invalid-feedback">
                         {{ errors.endTime }}
                     </span>
@@ -85,10 +83,11 @@ import { showSuccess } from '../../helpers/error';
         computed: {
             ...mapState({
                 restDeductions: state => state.constants.restDeductions,
+                employmentStatuses: state => state.constants.employmentStatuses
             })
         },
         watch: {
-            data : function (){
+            ['data.id'] : function (){
                 this.errors = {
                     officeId: null,
                     name: '',
@@ -138,23 +137,23 @@ import { showSuccess } from '../../helpers/error';
             validate() {
                 let valid = true;
                 if (!this.data.officeId) {
-                    this.errors.officeId = 'Please select office';                            // need trans
+                    this.errors.officeId = this.$t('Please select office');                            // need trans
                     valid = false;
                 }
                 if (!this.data.employmentStatusId) {
-                    this.errors.employmentStatusId = 'Please select employment';                            // need trans
+                    this.errors.employmentStatusId = this.$t('Please select employment');                            // need trans
                     valid = false;
                 }
                 if (!this.data.name) {
-                    this.errors.name = 'Please input name';                                 // need trans
+                    this.errors.name = this.$t('Please input name');                                 // need trans
                     valid = false;
                 }
                 if (!this.data.startTimeHour || !this.data.startTimeMinute) {
-                    this.errors.startTime = 'Please input startTime';                       // need trans
+                    this.errors.startTime = this.$t('Please input startTime');                       // need trans
                     valid = false;
                 }
                 if (!this.data.endTimeHour || !this.data.endTimeMinute) {
-                    this.errors.endTime = 'Please input endTime';                            // need trans
+                    this.errors.endTime = this.$t('Please input endTime');                            // need trans
                     valid = false;
                 }
                 return valid;

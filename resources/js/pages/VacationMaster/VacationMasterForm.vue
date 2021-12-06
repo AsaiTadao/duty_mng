@@ -16,7 +16,8 @@
                             class="form-control"
                             placeholder="休暇理由"
                             v-model="data.name"
-                            :class="{'is-invalid' : errors.name}">
+                            :class="{'is-invalid' : errors.name}"
+                            @keyup="errors.name = null">
                             <span v-if="errors.name" class="error invalid-feedback">
                                 {{ errors.name }}
                             </span>
@@ -42,7 +43,7 @@ import { showSuccess } from '../../helpers/error';
             data: {}
         },
         watch: {
-            data : function (){
+            ['data.id'] : function (){
                 this.errors = {
                     name: '',
                 };
@@ -79,7 +80,7 @@ import { showSuccess } from '../../helpers/error';
             validate() {
                 let valid = true;
                 if (!this.data.name) {
-                    this.errors.name = 'Please input name';                                 // need trans
+                    this.errors.name = this.$t('Please input name');                                 // need trans
                     valid = false;
                 }
                 return valid;

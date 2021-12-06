@@ -10,27 +10,36 @@
         <div class="modal-body">
             <div class="form-group">
                 <div class="form-row align-items-center">
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <input type="text" name="office_number"
                             class="form-control"
                             placeholder="事業所No入力"
                             v-model="data.number"
                             :class="{'is-invalid' : errors.number}"
+                            @keyup="errors.number = null"
                         />
                         <span class="error invalid-feedback">
                             {{ errors.number }}
                         </span>
                     </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <input type="text" name="office_name"
                             class="form-control"
                             placeholder="事業所名入力"
                             v-model="data.name"
                             :class="{'is-invalid' : errors.name}"
+                            @keyup="errors.name = null"
                         />
                         <span v-if="errors.name" class="error invalid-feedback">
                             {{ errors.name }}
+                        </span>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" v-model="data.officeGroupId" :class="{'is-invalid' : errors.officeGroup}" @change="errors.officeGroup = null">
+                            <option v-for="officeGroup in officeGroups" :key="officeGroup.id" :value="officeGroup.id">{{officeGroup.name}}</option>
+                        </select>
+                        <span v-if="errors.officeGroup" class="error invalid-feedback">
+                            {{ errors.officeGroup }}
                         </span>
                     </div>
                 </div>
@@ -39,7 +48,7 @@
                 <div class="form-row align-items-center">
                     <template v-for="restDeduction in restDeductions">
                         <div class="col-md-5" :key="restDeduction.id">
-                            <input type="radio" name="type" :value="restDeduction.id" v-model="data.restDeductionId">
+                            <input type="radio" name="type" :value="restDeduction.id" v-model="data.restDeductionId" @change="errors.restDeduction = null">
                             <label class="ml-auto">{{ restDeduction.name }}</label>
                         </div>
                         <div class="col-md-1" :key="restDeduction.id + '_space'"></div>
@@ -70,13 +79,15 @@ import { showSuccess } from '../../helpers/error';
         computed: {
             ...mapState({
                 restDeductions: state => state.constants.restDeductions,
+                officeGroups:   state => state.constants.officeGroups,
             })
         },
         watch: {
-            data : function (){
+            ['data.id'] : function (){
                 this.errors = {
                     name: '',
                     number: '',
+                    officeGroup: '',
                     restDeductionId: ''
                 };
             },
@@ -86,6 +97,7 @@ import { showSuccess } from '../../helpers/error';
                 errors: {
                     name: '',
                     number: '',
+                    officeGroup: '',
                     restDeductionId: ''
                 }
             }
@@ -113,15 +125,19 @@ import { showSuccess } from '../../helpers/error';
             validate() {
                 let valid = true;
                 if (!this.data.number) {
-                    this.errors.number = 'Please input number';                            // need trans
+                    this.errors.number = this.$t('Please input number');                            // need trans
                     valid = false;
                 }
                 if (!this.data.name) {
-                    this.errors.name = 'Please input name';                                 // need trans
+                    this.errors.name = this.$t('Please input name');                                 // need trans
+                    valid = false;
+                }
+                if (!this.data.officeGroupId) {
+                    this.errors.officeGroup = this.$t('Please select officeGroup');                  // need trans
                     valid = false;
                 }
                 if (!this.data.restDeductionId) {
-                    this.errors.restDeductionId = 'Please select rest deduction type'       // need trans
+                    this.errors.restDeductionId = this.$t('Please select rest deduction type');       // need trans
                     valid = false;
                 }
                 return valid;

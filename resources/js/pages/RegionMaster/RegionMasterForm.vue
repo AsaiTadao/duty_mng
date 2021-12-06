@@ -15,7 +15,8 @@
                         class="form-control"
                         placeholder="エリア名入力"
                         v-model="data.name"
-                        :class="{'is-invalid' : errors.name}">
+                        :class="{'is-invalid' : errors.name}"
+                        @keyup="errors.name = null">
                         <span v-if="errors.name" class="error invalid-feedback">
                             {{ errors.name }}
                         </span>
@@ -27,7 +28,8 @@
                                 <div class="col-md-4" :key="office.id" :class="{'is-invalid' : errors.offices}">
                                     <input type="checkbox" name="office_name" :value="office.id" v-model="data.offices"
                                     :disabled="selectedOffices.find(e => e.id === office.id) && !data.offices.includes(office.id)"
-                                    @click="onOfficeChange(office.id)">
+                                    @click="onOfficeChange(office.id)"
+                                    @change="errors.offices = null">
                                     <label class="ml-auto">{{office.name}}</label>
                                 </div>
                             </template>
@@ -58,7 +60,7 @@ import { showSuccess } from '../../helpers/error';
             selectedOffices: {},
         },
         watch: {
-            data : function (){
+            ['data.id'] : function (){
                     this.errors = {
                         name: '',
                 };
@@ -95,7 +97,7 @@ import { showSuccess } from '../../helpers/error';
             validate() {
                 let valid = true;
                 if (!this.data.name) {
-                    this.errors.name = 'Please input name';                                 // need trans
+                    this.errors.name = this.$t('Please input name');                                 // need trans
                     valid = false;
                 }
                 return valid;
