@@ -87,7 +87,7 @@
                                     <tr :key="user.id+'1'">
                                         <td>{{user.office? user.office.name: ''}}</td>
                                         <td>{{user.region? user.region.name: ''}}</td>
-                                        <td>1</td>
+                                        <td>{{user.officeGroup? user.officeGroup.id: ''}}</td>
                                         <td>8時間</td>
                                     </tr>
                                     <tr :key="user.id+'2'">
@@ -191,8 +191,8 @@ import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
             return {
                 users: [],
                 masterFormData: {
-                    regionId: 1,
-                    officeGroupId: 1,
+                    regionId: null,
+                    officeGroupId: null,
                 },
                 offices: [],
                 regions: [],

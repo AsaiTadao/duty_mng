@@ -45,7 +45,7 @@
             <div class="form-group">
                 <div class="form-row align-items-center">
                     <div class="col-md-3">
-                        <select class="form-control" v-model="formData.regionId"  @change="setTempRegion(formData.regionId)" :class="{'is-invalid' : errors.regionId}">
+                        <select class="form-control" v-model="formData.regionId" :class="{'is-invalid' : errors.regionId}">
                             <option v-for="region in regions" :key="region.id" :value="region.id">{{region.name}}</option>
                         </select>
                         <span v-if="errors.regionId" class="error invalid-feedback">
@@ -58,12 +58,6 @@
                         </select>
                         <span v-if="errors.officeId" class="error invalid-feedback">
                             {{ errors.officeId }}
-                        </span>
-                    </div>
-                    <div class="col-md-3">
-                        <input type="text" class="form-control" placeholder="No" v-model="formData.officeGroupId" :class="{'is-invalid' : errors.officeGroupId}" @keyup="errors.officeGroupId = null">
-                        <span v-if="errors.officeGroupId" class="error invalid-feedback">
-                            {{ errors.officeGroupId }}
                         </span>
                     </div>
                     <div class="col-md-3">
@@ -132,8 +126,9 @@ import { showSuccess } from '../../helpers/error';
                     email: '',
                     password: '',
                     officeGroupId: null,
-
                 };
+                this.offices = [];
+                this.setOffices();
             },
             ['formData.regionId']: function () {
                 this.setOffices();
@@ -153,7 +148,6 @@ import { showSuccess } from '../../helpers/error';
                     officeGroupId: null,
                 },
                 offices: [],
-                tempRegionId:  1,
             }
         },
         methods: {
@@ -211,15 +205,11 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.officeId = this.$t('Please select office');
                     valid = false;
                 }
-                if (!this.formData.officeGroupId) {
-                    this.errors.officeGroupId = this.$t('Please input officeGroupId');
-                    valid = false;
-                }
                 if (!this.formData.email) {
                     this.errors.email = this.$t('Please input email');
                     valid = false;
                 }
-                if (!this.formData.password) {
+                if (!this.formData.password && !this.formData.id) {
                     this.errors.password = this.$t('Please input password');
                     valid = false;
                 }
@@ -231,19 +221,15 @@ import { showSuccess } from '../../helpers/error';
                     api.get('office-master', null, {'region_id': this.formData.regionId})
                     .then(response => {
                         this.offices = response;
-                    })
-                    .catch(e => apiErrorHandler(e));
-                } else {
-                    api.get('office-master', null, {'region_id': this.tempRegionId})
-                    .then(response => {
-                        this.offices = response;
+                        this.setFirstOffice();
                     })
                     .catch(e => apiErrorHandler(e));
                 }
             },
-            setTempRegion(regionId) {
-                this.errors.regionId = null;
-                this.tempRegionId = regionId;
+            setFirstOffice(){
+                if(this.offices.length){
+                    this.formData.officeId = this.offices[0].id;
+                }
             }
         }
     }

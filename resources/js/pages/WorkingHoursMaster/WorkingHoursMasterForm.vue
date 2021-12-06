@@ -27,12 +27,10 @@
                 </div>
                 <div class="col-md-3">
                     <div class="d-flex align-items-center">
-                        <input type="radio" v-model="data.employmentStatusId" :value="1">
-                        <label class="mr-2 mb-0">正社員</label>
-                        <input type="radio" v-model="data.employmentStatusId" :value="2">
-                        <label class="mr-2 mb-0">時短社員</label>
-                        <input type="radio" v-model="data.employmentStatusId" :value="3">
-                        <label class="mr-2 mb-0">パート</label>
+                        <template v-for="employmentStatus in employmentStatuses">
+                            <input type="radio" v-model="data.employmentStatusId" :value="employmentStatus.id" :key="employmentStatus.id">
+                            <label class="mr-2 mb-0" :key="employmentStatus.id+'label'">{{employmentStatus.name}}</label>
+                        </template>
                     </div>
                 </div>
                 <div class="col-md-1">
@@ -85,6 +83,7 @@ import { showSuccess } from '../../helpers/error';
         computed: {
             ...mapState({
                 restDeductions: state => state.constants.restDeductions,
+                employmentStatuses: state => state.constants.employmentStatuses
             })
         },
         watch: {

@@ -286,15 +286,15 @@ export default {
                 api.get('working-hours', null, null)
                     .then(response => {
                         this.workingHours['real'] = [];
-                        this.workingHours['part'] = [];
                         this.workingHours['time'] = [];
+                        this.workingHours['part'] = [];
                         response.forEach(element => {
                             if(element.employmentStatusId == 1) {
                                 this.workingHours['real'].push(element);
                             } else if(element.employmentStatusId == 2) {
-                                this.workingHours['part'].push(element);
-                            } else if(element.employmentStatusId == 3) {
                                 this.workingHours['time'].push(element);
+                            } else if(element.employmentStatusId == 3) {
+                                this.workingHours['part'].push(element);
                             }
                         });
                     })
@@ -310,9 +310,9 @@ export default {
                             if(element.employmentStatusId == 1) {
                                 this.workingHours['real'].push(element);
                             } else if(element.employmentStatusId == 2) {
-                                this.workingHours['part'].push(element);
-                            } else if(element.employmentStatusId == 3) {
                                 this.workingHours['time'].push(element);
+                            } else if(element.employmentStatusId == 3) {
+                                this.workingHours['part'].push(element);
                             }
                         });
                     })
