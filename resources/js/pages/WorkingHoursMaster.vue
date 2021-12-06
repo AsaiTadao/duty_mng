@@ -26,17 +26,17 @@
                         <br>
                         <ul class="nav nav-tabs" id="custom-content-below-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="full-time-tab" data-toggle="pill" href="#this-year-table" role="tab" aria-controls="this-year-table" aria-selected="true">正社員</a>
+                                <a class="nav-link active" id="full-time-tab" data-toggle="pill" href="#full-time-table" role="tab" aria-controls="full-time-table" aria-selected="true">正社員</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="short-time-tab" data-toggle="pill" href="#next-year-table" role="tab" aria-controls="next-year-table" aria-selected="false">時短社員</a>
+                                <a class="nav-link" id="short-time-tab" data-toggle="pill" href="#short-time-table" role="tab" aria-controls="short-time-table" aria-selected="false">時短社員</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="part-time-tab" data-toggle="pill" href="#next-year-table" role="tab" aria-controls="next-year-table" aria-selected="false">パート</a>
+                                <a class="nav-link" id="part-time-tab" data-toggle="pill" href="#part-time-table" role="tab" aria-controls="part-time-table" aria-selected="false">パート</a>
                             </li>
                         </ul>
                         <div class="tab-content" id="custom-content-below-tabContent">
-                            <div class="tab-pane fade show active" id="this-year-table" role="tabpanel" aria-labelledby="this-year-tab">
+                            <div class="tab-pane fade show active" id="full-time-table" role="tabpanel" aria-labelledby="full-time-table">
                                 <div class="table-responsive p-0">
                                     <table
                                         class="table table-bordered table-striped table-master table-hover"
@@ -83,7 +83,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="next-year-table" role="tabpanel" aria-labelledby="next-year-tab">
+                            <div class="tab-pane fade" id="short-time-table" role="tabpanel" aria-labelledby="short-time-table">
                                 <div class="table-responsive p-0">
                                     <table
                                         class="table table-bordered table-striped table-master table-hover"
@@ -130,7 +130,7 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="next-year-table" role="tabpanel" aria-labelledby="next-year-tab">
+                            <div class="tab-pane fade" id="part-time-table" role="tabpanel" aria-labelledby="part-time-table">
                                 <div class="table-responsive p-0">
                                     <table
                                         class="table table-bordered table-striped table-master table-hover"
@@ -146,6 +146,7 @@
                                                 <th>
                                                     終了
                                                 </th>
+                                                <th></th>
                                                 <th></th>
                                             </tr>
                                         </thead>

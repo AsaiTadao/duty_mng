@@ -222,13 +222,6 @@ import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
                 this.getUsers();
                 $("#user-master-form").modal('hide');
             },
-            getOffices() {
-                api.get('office-master')
-                    .then(response => {
-                        this.offices = response;
-                    })
-                    .catch(e => apiErrorHandler(e));
-            },
             getRegions() {
                 api.get('region')
                     .then(response => {
@@ -297,7 +290,6 @@ import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
         },
         mounted() {
             this.getUsers();
-            this.getOffices();
             this.getRegions();
         }
     }

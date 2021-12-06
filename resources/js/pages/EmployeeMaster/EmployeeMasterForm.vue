@@ -11,30 +11,30 @@
             <div class="form-group">
                 <div class="form-row align-items-center">
                     <div class="col-md-3">
-                        <input type="text" class="form-control" placeholder="社員No" v-model="formData.number" :class="{'is-invalid' : errors.number}">
+                        <input type="text" class="form-control" placeholder="社員No" v-model="formData.number" :class="{'is-invalid' : errors.number}" @keyup="errors.number = null">
                         <span v-if="errors.number" class="error invalid-feedback">
                             {{ errors.number }}
                         </span>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" placeholder="氏名" v-model="formData.name" :class="{'is-invalid' : errors.name}">
+                        <input type="text" class="form-control" placeholder="氏名" v-model="formData.name" :class="{'is-invalid' : errors.name}" @keyup="errors.name = null">
                         <span v-if="errors.name" class="error invalid-feedback">
                             {{ errors.name }}
                         </span>
                     </div>
                     <div class="col-md-3">
-                        <input type="radio" :value="1" v-model="formData.employmentStatusId" :class="{'is-invalid' : errors.employmentStatusId}">
+                        <input type="radio" :value="1" v-model="formData.employmentStatusId" :class="{'is-invalid' : errors.employmentStatusId}" @change="errors.employmentStatusId = null">
                         <label class="ml-auto">正社員</label>
-                        <input type="radio" :value="3" v-model="formData.employmentStatusId">
+                        <input type="radio" :value="3" v-model="formData.employmentStatusId" :class="{'is-invalid' : errors.employmentStatusId}" @change="errors.employmentStatusId = null">
                         <label class="ml-auto">パート</label>
                         <span v-if="errors.employmentStatusId" class="error invalid-feedback">
                             {{ errors.employmentStatusId }}
                         </span>
                     </div>
                     <div class="col-md-3">
-                        <input type="radio" :value="1" v-model="formData.enrolled" :class="{'is-invalid' : errors.enrolled}">
+                        <input type="radio" :value="1" v-model="formData.enrolled" :class="{'is-invalid' : errors.enrolled}" @change="errors.enrolled = null">
                         <label class="ml-auto">在籍中</label>
-                        <input type="radio" :value="0" v-model="formData.enrolled">
+                        <input type="radio" :value="0" v-model="formData.enrolled" :class="{'is-invalid' : errors.enrolled}" @change="errors.enrolled = null">
                         <label class="ml-auto">退職</label>
                         <span v-if="errors.enrolled" class="error invalid-feedback">
                             {{ errors.enrolled }}
@@ -53,7 +53,7 @@
                         </span>
                     </div>
                     <div class="col-md-3">
-                        <select class="form-control" v-model="formData.officeId" :class="{'is-invalid' : errors.officeId}">
+                        <select class="form-control" v-model="formData.officeId" :class="{'is-invalid' : errors.officeId}" @change="errors.officeId = null">
                             <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
                         </select>
                         <span v-if="errors.officeId" class="error invalid-feedback">
@@ -61,7 +61,7 @@
                         </span>
                     </div>
                     <div class="col-md-3">
-                        <input type="text" class="form-control" placeholder="No" v-model="formData.officeGroupId" :class="{'is-invalid' : errors.officeGroupId}">
+                        <input type="text" class="form-control" placeholder="No" v-model="formData.officeGroupId" :class="{'is-invalid' : errors.officeGroupId}" @keyup="errors.officeGroupId = null">
                         <span v-if="errors.officeGroupId" class="error invalid-feedback">
                             {{ errors.officeGroupId }}
                         </span>
@@ -78,13 +78,13 @@
             <div class="form-group">
                 <div class="form-row align-items-center">
                     <div class="col-md-6">
-                        <input type="text" class="form-control" placeholder="メールアドレス" v-model="formData.email" :class="{'is-invalid' : errors.email}">
+                        <input type="text" class="form-control" placeholder="メールアドレス" v-model="formData.email" :class="{'is-invalid' : errors.email}" @keyup="errors.email = null">
                         <span v-if="errors.email" class="error invalid-feedback">
                             {{ errors.email }}
                         </span>
                     </div>
                     <div class="col-md-6">
-                        <input type="password" class="form-control" placeholder="パスワード" v-model="formData.password" :class="{'is-invalid' : errors.password}">
+                        <input type="password" class="form-control" placeholder="パスワード" v-model="formData.password" :class="{'is-invalid' : errors.password}" @keyup="errors.password = null">
                         <span v-if="errors.password" class="error invalid-feedback">
                             {{ errors.password }}
                         </span>
@@ -106,13 +106,33 @@ import { showSuccess } from '../../helpers/error';
     export default {
         mixins: [actionLoading],
         props: {
-            formData: {},
+            formData: {
+                name: '',
+                number: '',
+                employmentStatusId: null,
+                enrolled: null,
+                regionId: null,
+                officeId: null,
+                email: '',
+                password: '',
+                officeGroupId: null,
+
+            },
             regions: [],
         },
         watch: {
-            formData : function (){
+            ['formData.id'] : function (){
                 this.errors = {
                     name: '',
+                    number: '',
+                    employmentStatusId: null,
+                    enrolled: null,
+                    regionId: null,
+                    officeId: null,
+                    email: '',
+                    password: '',
+                    officeGroupId: null,
+
                 };
             },
             ['formData.regionId']: function () {
@@ -123,6 +143,14 @@ import { showSuccess } from '../../helpers/error';
             return {
                 errors: {
                     name: '',
+                    number: '',
+                    employmentStatusId: null,
+                    enrolled: null,
+                    regionId: null,
+                    officeId: null,
+                    email: '',
+                    password: '',
+                    officeGroupId: null,
                 },
                 offices: [],
                 tempRegionId:  1,
@@ -160,39 +188,39 @@ import { showSuccess } from '../../helpers/error';
             validate() {
                 let valid = true;
                 if (!this.formData.name) {
-                    this.errors.name = 'Please input name';                                 // need trans
+                    this.errors.name = this.$t('Please input name');                                 // need trans
                     valid = false;
                 }
                 if (!this.formData.number) {
-                    this.errors.number = 'Please input number';                              //need trans
+                    this.errors.number = this.$t('Please input number');                              //need trans
                     valid = false;
                 }
                 if (!this.formData.enrolled) {
-                    this.errors.enrolled = 'Please select enrolled';
+                    this.errors.enrolled = this.$t('Please select enrolled');
                     valid = false;
                 }
                 if (!this.formData.employmentStatusId) {
-                    this.errors.employmentStatusId = 'Please select employmentStatusId';
+                    this.errors.employmentStatusId = this.$t('Please select employmentStatusId');
                     valid = false;
                 }
                 if (!this.formData.regionId) {
-                    this.errors.regionId = 'Please select region';
+                    this.errors.regionId = this.$t('Please select region');
                     valid = false;
                 }
                 if (!this.formData.officeId) {
-                    this.errors.officeId = 'Please select office';
+                    this.errors.officeId = this.$t('Please select office');
                     valid = false;
                 }
                 if (!this.formData.officeGroupId) {
-                    this.errors.officeGroupId = 'Please input officeGroupId';
+                    this.errors.officeGroupId = this.$t('Please input officeGroupId');
                     valid = false;
                 }
                 if (!this.formData.email) {
-                    this.errors.email = 'Please input email';
+                    this.errors.email = this.$t('Please input email');
                     valid = false;
                 }
                 if (!this.formData.password) {
-                    this.errors.enrolled = 'Please input password';
+                    this.errors.password = this.$t('Please input password');
                     valid = false;
                 }
                 console.log({valid});
@@ -214,6 +242,7 @@ import { showSuccess } from '../../helpers/error';
                 }
             },
             setTempRegion(regionId) {
+                this.errors.regionId = null;
                 this.tempRegionId = regionId;
             }
         }
