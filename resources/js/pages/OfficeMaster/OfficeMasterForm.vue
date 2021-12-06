@@ -10,7 +10,7 @@
         <div class="modal-body">
             <div class="form-group">
                 <div class="form-row align-items-center">
-                    <div class="col-md-5">
+                    <div class="col-md-3">
                         <input type="text" name="office_number"
                             class="form-control"
                             placeholder="事業所No入力"
@@ -21,8 +21,7 @@
                             {{ errors.number }}
                         </span>
                     </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <input type="text" name="office_name"
                             class="form-control"
                             placeholder="事業所名入力"
@@ -31,6 +30,14 @@
                         />
                         <span v-if="errors.name" class="error invalid-feedback">
                             {{ errors.name }}
+                        </span>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" v-model="data.officeGroupId" :class="{'is-invalid' : errors.officeGroup}">
+                            <option v-for="officeGroup in officeGroups" :key="officeGroup.id" :value="officeGroup.id">{{officeGroup.name}}</option>
+                        </select>
+                        <span v-if="errors.officeGroup" class="error invalid-feedback">
+                            {{ errors.officeGroup }}
                         </span>
                     </div>
                 </div>
@@ -70,6 +77,7 @@ import { showSuccess } from '../../helpers/error';
         computed: {
             ...mapState({
                 restDeductions: state => state.constants.restDeductions,
+                officeGroups:   state => state.constants.officeGroups,
             })
         },
         watch: {
@@ -77,6 +85,7 @@ import { showSuccess } from '../../helpers/error';
                 this.errors = {
                     name: '',
                     number: '',
+                    officeGroup: '',
                     restDeductionId: ''
                 };
             },
@@ -86,6 +95,7 @@ import { showSuccess } from '../../helpers/error';
                 errors: {
                     name: '',
                     number: '',
+                    officeGroup: '',
                     restDeductionId: ''
                 }
             }
@@ -118,6 +128,10 @@ import { showSuccess } from '../../helpers/error';
                 }
                 if (!this.data.name) {
                     this.errors.name = 'Please input name';                                 // need trans
+                    valid = false;
+                }
+                if (!this.data.officeGroupId) {
+                    this.errors.officeGroup = 'Please select officeGroup';                  // need trans
                     valid = false;
                 }
                 if (!this.data.restDeductionId) {

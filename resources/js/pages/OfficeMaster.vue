@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <button type="submit" class="btn btn-sm btn-primary" @click="showMasterForm()">
+                                <button type="submit" class="btn btn-sm btn-primary" @click="onNewClick()">
                                         新規登録
                                 </button>
                             </div>
@@ -170,6 +170,10 @@ export default {
                     .finally(() => {
                         this.unsetActionLoading();
                     })
+            },
+            onNewClick () {
+                this.masterFormData = {};
+                this.showMasterForm();
             },
             showMasterForm() {
                 $("#office-master-form").modal('show');
