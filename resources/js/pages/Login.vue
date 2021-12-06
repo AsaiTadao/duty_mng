@@ -65,10 +65,12 @@
 </template>
 <script>
 import form from 'vuejs-form';
-import api from '../global/api';
+import api, { apiErrorHandler } from '../global/api';
 import LocalStorage from '../helpers/localStorage';
+import actionLoading from '../mixin/actionLoading';
 
 export default {
+    mixins: [actionLoading],
     data() {
         return {
             form: form({
@@ -94,7 +96,9 @@ export default {
     },
     methods: {
         onSubmit() {
+            if (this.actionLoading) return;
             if (this.form.validate().errors().any()) return;
+            this.setActionLoading();
             api.post('login', null, this.form.all())
                 .then(({token, user}) => {
                     LocalStorage.saveToken(token);
@@ -102,7 +106,10 @@ export default {
                     this.$router.push({ name: 'stamp' })
                 })
                 .catch(e => {
-
+                    apiErrorHandler(e);
+                })
+                .finally(() => {
+                    this.unsetActionLoading();
                 })
         },
         onFormChange() {
