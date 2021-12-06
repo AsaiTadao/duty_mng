@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Constants\Roles;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\OfficeMasterRequest;
 use App\Http\Requests\OfficeQuery;
@@ -11,6 +12,8 @@ use App\Models\ScheduledWorking;
 use App\Models\User;
 use App\Models\Year;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,12 +21,24 @@ class OfficeController extends BaseController
 {
     public function get(OfficeQuery $request)
     {
+        if (!Gate::allows('get-offices')) {
+            abort(403);
+        }
+        $currentUser = auth()->user();
+
         $data = $request->validated();
 
         $qb = Office::whereRaw('1=1');
-        if (!empty($data['region_id']))
+        if ($currentUser->role_id === Roles::ADMIN)
         {
-            $qb->where(['region_id' => $data['region_id']]);
+            if (!empty($data['region_id']))
+            {
+                $qb->where(['region_id' => $data['region_id']]);
+            }
+        } else if ($currentUser->role_id === Roles::REGION_MANAGER && $currentUser->office->region_id) {
+            $qb->where(['region_id' => $currentUser->office->region_id]);
+        } else {
+            $qb->where(['id'    =>  $currentUser->office->id]);
         }
         $offices = $qb->get();
         return $this->sendResponse($offices->toArray());
@@ -79,6 +94,32 @@ class OfficeController extends BaseController
             'current'   =>  $currentYearSchedules,
             'next'      =>  $nextYearSchedules
         ]);
+    }
+
+    public function getScheduledWorkingMonth(Office $office, Request $request)
+    {
+        if (!Gate::allows('get-scheduled-working-office', $office)) {
+            abort(403);
+        }
+        $currentUser = auth()->user();
+
+        $monthReq = $request->input('month');
+        if (!$monthReq) {
+            return abort(422, 'Month is required');
+        }
+        $monthReq = (int) $monthReq;
+        $year = Year::where([
+            ['start', '<=', $monthReq],
+            ['end', '>=', $monthReq]
+        ])->first();
+
+        if ($year) {
+            return abort(404, 'Year data is empty');
+        }
+
+        $month = $monthReq % 100;
+        $scheduledWorking = ScheduledWorking::where(['office_id' => $office->id, 'year_id' => $year->id, 'month' => $month])->first();
+        return $this->sendResponse($scheduledWorking);
     }
     public function saveScheduleWorking(Office $office, ScheduledWorkingRequest $request)
     {
