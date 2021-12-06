@@ -37,6 +37,14 @@ class UserController extends BaseController
                     'name'  =>  $item['office']['name']
                 ];
             }
+            if (empty($item['setting']))
+            {
+                $item['setting'] = [
+                    'overtime_pay'      =>  null,
+                    'salary_deduction'  =>  null,
+                    'application_deadline'  =>  null,
+                ];
+            }
             $response[] = $item;
         }
         return $this->sendResponse($response);
@@ -58,6 +66,11 @@ class UserController extends BaseController
         }
         $user->save();
 
+        $setting = new UserSetting();
+        $setting->user_id = $user->id;
+        $setting->create_user_id = $currentUser->id;
+        $setting->save();
+
         return $this->sendResponse($user);
     }
     public function update(User $user, UserRequest $request)
@@ -72,6 +85,11 @@ class UserController extends BaseController
         $user->update_user_id = $currentUser->id;
         $user->save();
         return $this->sendResponse($user);
+    }
+    public function delete(User $user)
+    {
+        $user->delete();
+        return $this->sendResponse();
     }
 
     public function updateSetting(User $user, UserSettingRequest $request)
