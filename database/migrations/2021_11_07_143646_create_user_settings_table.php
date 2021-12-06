@@ -16,7 +16,7 @@ class CreateUserSettingsTable extends Migration
         Schema::create('user_settings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->date('start_date');
+            $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->tinyInteger('overtime_pay', false, true)->nullable();
             $table->tinyInteger('salary_deduction', false, true)->nullable();
