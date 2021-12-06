@@ -33,8 +33,11 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
 
     Route::middleware(['auth:api'])->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
+        Route::get('/office/{office}/scheduled-working-month', [OfficeController::class, 'getScheduledWorkingMonth']);
+
+        Route::get('/office-master', [OfficeController::class, 'get'])->name('office.get');
+
         Route::middleware(['can:admin-only'])->group(function() {
-            Route::get('/office-master', [OfficeController::class, 'get'])->name('office_master.get');
             Route::post('/office-master', [OfficeController::class, 'create'])->name('office_master.create');
             Route::put('/office-master/{office}', [OfficeController::class, 'update'])->name('office_master.update');
             Route::delete('/office-master/{office}', [OfficeController::class, 'delete'])->name('office_master.delete');
@@ -74,6 +77,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
 
             Route::post('/users', [UserController::class, 'create']);
             Route::put('/users/{user}', [UserController::class, 'update']);
+            Route::delete('/users/{user}', [UserController::class, 'delete']);
         });
     });
 });
