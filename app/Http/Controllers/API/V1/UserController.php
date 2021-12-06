@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Constants\Roles;
 use App\Http\Requests\PageQuery;
 use App\Http\Requests\RoleUpdateRequest;
+use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserSettingRequest;
 use App\Models\User;
 use App\Models\UserSetting;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends BaseController
 {
     public function get(PageQuery $request)
     {
         $data = $request->validated();
-        $users = User::with('setting', 'office', 'office.region')->paginate($data['size'])->items();
+        $users = User::with('setting', 'office', 'office.region')->orderByDesc('created_at')->paginate($data['size'])->items();
         // TODO
         $response = [];
         foreach($users as $user)
@@ -37,6 +40,38 @@ class UserController extends BaseController
             $response[] = $item;
         }
         return $this->sendResponse($response);
+    }
+    public function create(UserRequest $request)
+    {
+        $currentUser = auth()->user();
+        $data = $request->validated();
+        $user = new User();
+        $user->fill($data);
+        $user->password = Hash::make($data['password']);
+        $user->create_user_id = $currentUser->id;
+
+        if (!empty($data['role_id']))
+        {
+            $user->role_id = $data['role_id'];
+        } else {
+            $user->role_id = Roles::USER_B;
+        }
+        $user->save();
+
+        return $this->sendResponse($user);
+    }
+    public function update(User $user, UserRequest $request)
+    {
+        $currentUser = auth()->user();
+        $data = $request->validated();
+        $user->fill($data);
+        if (!empty($data['password']))
+        {
+            $user->password = Hash::make($data['password']);
+        }
+        $user->update_user_id = $currentUser->id;
+        $user->save();
+        return $this->sendResponse($user);
     }
 
     public function updateSetting(User $user, UserSettingRequest $request)

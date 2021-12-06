@@ -71,6 +71,9 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
             Route::get('/users', [UserController::class, 'get']);
             Route::put('/users/{user}/setting', [UserController::class, 'updateSetting']);
             Route::put('/users/{user}/role', [UserController::class, 'updateRole']);
+
+            Route::post('/users', [UserController::class, 'create']);
+            Route::put('/users/{user}', [UserController::class, 'update']);
         });
     });
 });
