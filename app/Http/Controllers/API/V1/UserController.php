@@ -7,6 +7,7 @@ use App\Http\Requests\PageQuery;
 use App\Http\Requests\RoleUpdateRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserSettingRequest;
+use App\Models\Office;
 use App\Models\User;
 use App\Models\UserSetting;
 use Illuminate\Support\Arr;
@@ -17,8 +18,7 @@ class UserController extends BaseController
     public function get(PageQuery $request)
     {
         $data = $request->validated();
-        $users = User::with('setting', 'office', 'office.region')->orderByDesc('created_at')->paginate($data['size'])->items();
-        // TODO
+        $users = User::with('setting', 'office', 'office.region', 'office.group')->orderByDesc('created_at')->paginate($data['size'])->items();
         $response = [];
         foreach($users as $user)
         {
@@ -30,6 +30,13 @@ class UserController extends BaseController
                     $item['region'] = [
                         'id'    =>  $item['office']['region']['id'],
                         'name'  =>  $item['office']['region']['name']
+                    ];
+                }
+                if (!empty($item['office']['group']))
+                {
+                    $item['office_group'] = [
+                        'id'    =>  $item['office']['group']['id'],
+                        'name'  =>  $item['office']['group']['name'],
                     ];
                 }
                 $item['office'] = [

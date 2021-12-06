@@ -27,4 +27,8 @@ class Office extends Model
     {
         return $this->hasMany(User::class);
     }
+    public function group()
+    {
+        return $this->belongsTo(OfficeGroup::class, 'office_group_id', 'id');
+    }
 }

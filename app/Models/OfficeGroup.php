@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class OfficeGroup extends Model
 {
     use HasFactory;
+
+    public function offices()
+    {
+        return $this->hasMany(Office::class);
+    }
 }
