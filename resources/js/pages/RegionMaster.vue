@@ -94,12 +94,17 @@ export default {
         },
         methods: {
             getRegions() {
+                if (this.actionLoading) return;
+                this.setActionLoading();
                 api.get('region')
                     .then(response => {
                         this.regions = response;
                         this.selectedOffices = response.reduce((accumulator, currentValue) => [...accumulator, ...currentValue.offices], []);
                     })
-                    .catch(e => apiErrorHandler(e));
+                    .catch(e => apiErrorHandler(e))
+                    .finally(() => {
+                    this.unsetActionLoading();
+                });
             },
             getOffices() {
                 api.get('office-master')

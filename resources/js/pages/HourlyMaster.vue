@@ -153,11 +153,16 @@ export default {
                 $("#hourly-master-form").modal('show');
             },
             getHourlys() {
+                if (this.actionLoading) return;
+                this.setActionLoading();
                 api.get('hourly-wage')
                     .then(response => {
                         this.hourlys = response;
                     })
-                    .catch(e => apiErrorHandler(e));
+                    .catch(e => apiErrorHandler(e))
+                    .finally(() => {
+                    this.unsetActionLoading();
+                });
             }
         },
         mounted() {

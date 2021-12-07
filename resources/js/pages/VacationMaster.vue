@@ -88,11 +88,16 @@ export default {
         },
         methods: {
             getVacations() {
+                if (this.actionLoading) return;
+                this.setActionLoading();
                 api.get('reason-for-vacation')
                     .then(response => {
                         this.vacations = response;
                     })
-                    .catch(e => apiErrorHandler(e));
+                    .catch(e => apiErrorHandler(e))
+                    .finally(() => {
+                    this.unsetActionLoading();
+                });
             },
             onEditClicked(vacationId) {
                 const vacation = this.vacations.find(({id}) => vacationId === id);
