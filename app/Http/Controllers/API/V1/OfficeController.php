@@ -136,7 +136,7 @@ class OfficeController extends BaseController
                 return $value->month === $schedule['month'];
             });
             if ($scheduleWorking) {
-                $scheduleWorking->days = $schedule['days'];
+                $scheduleWorking->days = $schedule['days']??null;
                 $scheduleWorking->save();
             } else {
                 $scheduleWorking = ScheduledWorking::create([
