@@ -6,6 +6,7 @@ use App\Http\Controllers\API\V1\HourlyWageController;
 use App\Http\Controllers\API\V1\OfficeController;
 use App\Http\Controllers\API\V1\RegionController;
 use App\Http\Controllers\API\V1\SettingController;
+use App\Http\Controllers\API\V1\ShiftController;
 use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\V1\VacationReasonController;
 use App\Http\Controllers\API\V1\WorkingHourController;
@@ -36,6 +37,8 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::get('/office/{office}/scheduled-working-month', [OfficeController::class, 'getScheduledWorkingMonth']);
 
         Route::get('/office-master', [OfficeController::class, 'get'])->name('office.get');
+        Route::post('/shift/{office}', [ShiftController::class, 'save'])->name('shift.create');
+        Route::get('/shift/{office}', [ShiftController::class, 'get'])->name('shift.get_by_office');
 
         Route::middleware(['can:admin-only'])->group(function() {
             Route::post('/office-master', [OfficeController::class, 'create'])->name('office_master.create');
@@ -78,6 +81,8 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
             Route::post('/users', [UserController::class, 'create']);
             Route::put('/users/{user}', [UserController::class, 'update']);
             Route::delete('/users/{user}', [UserController::class, 'delete']);
+
+
         });
     });
 });

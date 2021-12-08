@@ -31,7 +31,7 @@ class AuthServiceProvider extends ServiceProvider
         /**
          * Defining the user Roles
          */
-        Gate::define('admin-only', function ($user) {
+        Gate::define('admin-only', function (User $user) {
             return $user->role_id === Roles::ADMIN;
         });
         $userOfficeGuard = function(User $user, Office $office) {
@@ -46,9 +46,34 @@ class AuthServiceProvider extends ServiceProvider
             }
             return $office->id === $user_office->id;
         };
+
+        $shiftGuard = function(User $user, Office $office, $targetUser) use ($userOfficeGuard) {
+            if ($office->id !== $targetUser->office_id) return false;
+            if (!$userOfficeGuard($user, $office)) return false;
+
+            if ($user->role_id === Roles::USER_A)
+            {
+                return $user->id === $targetUser->id;
+            }
+            return true;
+        };
         Gate::define('get-scheduled-working-office', $userOfficeGuard);
+        /**
+         * check if $user can get shift plans of the $office
+         * @param Office $office
+         */
         Gate::define('get-shift-office', $userOfficeGuard);
 
+        /**
+         * check $authUser can handle $targetUser's shift
+         * @param Office $office
+         * @param User $targetUser
+         */
+        Gate::define('create-shift', $shiftGuard);
+
+        /**
+         * check if $user can get offices
+         */
         Gate::define('get-offices', function(User $user) {
             if ($user->role_id === Roles::ADMIN) return true;
             if ($user->role_id === Roles::USER_B) return false;
