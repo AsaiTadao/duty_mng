@@ -182,11 +182,16 @@ export default {
                 $("#addNewSchedule").modal("show");
             },
             getOffices() {
+                if (this.actionLoading) return;
+                this.setActionLoading();
                 api.get('office-master')
                     .then(response => {
                         this.offices = response;
                     })
-                    .catch(e => apiErrorHandler(e));
+                    .catch(e => apiErrorHandler(e))
+                    .finally(() => {
+                    this.unsetActionLoading();
+                });
             },
         },
         mounted() {

@@ -283,6 +283,8 @@ export default {
                 $("#working-hours-master-form").modal('show');
             },
             getWorkingHours() {
+                if (this.actionLoading) return;
+                this.setActionLoading();
                 api.get('working-hours', null, null)
                     .then(response => {
                         this.workingHours['real'] = [];
@@ -298,7 +300,10 @@ export default {
                             }
                         });
                     })
-                    .catch(e => apiErrorHandler(e));
+                    .catch(e => apiErrorHandler(e))
+                    .finally(() => {
+                    this.unsetActionLoading();
+                });
             },
             searchOffice() {
                 api.get('working-hours', null, {office_name : this.officeName})
