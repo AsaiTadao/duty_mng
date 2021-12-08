@@ -86,10 +86,10 @@ class OfficeController extends BaseController
 
     public function getScheduledWorkingMonth(Office $office, Request $request)
     {
-        if (!Gate::allows('get-scheduled-working-office', $office)) {
+        $currentUser = auth()->user();
+        if (!Gate::forUser($currentUser)->allows('get-scheduled-working-office', $office)) {
             abort(403);
         }
-        $currentUser = auth()->user();
 
         $monthReq = $request->input('month');
         if (!$monthReq) {
@@ -101,7 +101,7 @@ class OfficeController extends BaseController
             ['end', '>=', $monthReq]
         ])->first();
 
-        if ($year) {
+        if (!$year) {
             return abort(404, 'Year data is empty');
         }
 
