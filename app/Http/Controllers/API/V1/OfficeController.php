@@ -21,24 +21,12 @@ class OfficeController extends BaseController
 {
     public function get(OfficeQuery $request)
     {
-        if (!Gate::allows('get-offices')) {
-            abort(403);
-        }
-        $currentUser = auth()->user();
-
         $data = $request->validated();
 
         $qb = Office::whereRaw('1=1');
-        if ($currentUser->role_id === Roles::ADMIN)
+        if (!empty($data['region_id']))
         {
-            if (!empty($data['region_id']))
-            {
-                $qb->where(['region_id' => $data['region_id']]);
-            }
-        } else if ($currentUser->role_id === Roles::REGION_MANAGER && $currentUser->office->region_id) {
-            $qb->where(['region_id' => $currentUser->office->region_id]);
-        } else {
-            $qb->where(['id'    =>  $currentUser->office->id]);
+            $qb->where(['region_id' => $data['region_id']]);
         }
         $offices = $qb->get();
         return $this->sendResponse($offices->toArray());
@@ -148,6 +136,22 @@ class OfficeController extends BaseController
             }
         }
         return $this->sendResponse();
+    }
+
+    public function getUserCabableOffices()
+    {
+        $currentUser = auth()->user();
+        if (!Gate::forUser($currentUser)->allows('get-offices')) {
+            abort(403);
+        }
+        $qb = Office::whereRaw('1=1');
+        if ($currentUser->role_id === Roles::REGION_MANAGER) {
+            $qb->where(['region_id' => $currentUser->office->region->id]);
+        } else if ($currentUser->role_id === Roles::OFFICE_MANAGER || $currentUser->role_id === Roles::USER_A) {
+            $qb->where(['id'    =>  $currentUser->office->id]);
+        }
+        $offices = $qb->get();
+        return $this->sendResponse($offices);
     }
 
     private function formatScheduleWorkings($scheduleWorkingValues, $year)

@@ -57,15 +57,30 @@ class AuthServiceProvider extends ServiceProvider
             }
             return true;
         };
+
+        $userGuard = function(User $user, User $targetUser) {
+            if ($user->role_id === Roles::ADMIN || $user->id === $targetUser->id) return true;
+            if ($user->role_id === Roles::USER_A || $user->role_id === Roles::USER_B) return false;
+
+            if (!$user->office) return false;
+            if ($user->office->id === $targetUser->office_id) return true;
+            if ($user->role_id === Roles::OFFICE_MANAGER) return false;
+
+            // region manager
+            if (!$user->office->region || !$targetUser->office) return false;
+            return $user->office->region->id === $targetUser->office->id;
+        };
         Gate::define('get-scheduled-working-office', $userOfficeGuard);
         /**
          * check if $user can get shift plans of the $office
+         * @param User $user
          * @param Office $office
          */
         Gate::define('get-shift-office', $userOfficeGuard);
 
         /**
          * check $authUser can handle $targetUser's shift
+         * @param User $authUser
          * @param Office $office
          * @param User $targetUser
          */
@@ -79,6 +94,13 @@ class AuthServiceProvider extends ServiceProvider
             if ($user->role_id === Roles::USER_B) return false;
             $user_office = $user->office;
             if (!$user_office) return false;
+            if ($user->role_id === Roles::REGION_MANAGER && !$user->office->region) return false;
+            return true;
+        });
+
+        Gate::define('get-user-working-hours', function(User $user, User $targetUser) use ($userGuard) {
+            if (!$targetUser->office) return false;
+            if (!$userGuard($user, $targetUser)) return false;
             return true;
         });
     }

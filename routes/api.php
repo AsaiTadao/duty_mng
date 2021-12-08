@@ -34,13 +34,17 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
 
     Route::middleware(['auth:api'])->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
+
+        Route::get('/office/user-capable', [OfficeController::class, 'getUserCabableOffices']);
         Route::get('/office/{office}/scheduled-working-month', [OfficeController::class, 'getScheduledWorkingMonth']);
 
-        Route::get('/office-master', [OfficeController::class, 'get'])->name('office.get');
         Route::post('/shift/{office}', [ShiftController::class, 'save'])->name('shift.create');
         Route::get('/shift/{office}', [ShiftController::class, 'get'])->name('shift.get_by_office');
 
+        Route::get('/working-hours/user/{user}', [WorkingHourController::class, 'getWorkingHourWithUser'])->name('working_hour.user_cabable.get');
+
         Route::middleware(['can:admin-only'])->group(function() {
+            Route::get('/office-master', [OfficeController::class, 'get'])->name('office.get');
             Route::post('/office-master', [OfficeController::class, 'create'])->name('office_master.create');
             Route::put('/office-master/{office}', [OfficeController::class, 'update'])->name('office_master.update');
             Route::delete('/office-master/{office}', [OfficeController::class, 'delete'])->name('office_master.delete');
