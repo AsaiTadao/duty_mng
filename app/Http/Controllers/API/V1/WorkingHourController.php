@@ -5,8 +5,10 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Requests\WorkingHourQuery;
 use App\Http\Requests\WorkingHourRequest;
 use App\Http\Requests\WorkingHourStatusRequest;
+use App\Models\User;
 use App\Models\WorkingHour;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class WorkingHourController extends BaseController
 {
@@ -68,5 +70,20 @@ class WorkingHourController extends BaseController
     {
         $workingHour->delete();
         return $this->sendResponse();
+    }
+
+
+    public function getWorkingHourWithUser(User $user)
+    {
+        $currentUser = auth()->user();
+        if (!Gate::forUser($currentUser)->allows('get-user-working-hours', $user))
+        {
+            abort(403, trans("You are note allowed"));
+        }
+        $workingHours = WorkingHour::where([
+            'office_id'             =>  $user->office->id,
+            'employment_status_id'  =>  $user->employment_status_id
+        ])->get();
+        return $this->sendResponse($workingHours);
     }
 }
