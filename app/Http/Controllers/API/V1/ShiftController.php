@@ -87,7 +87,7 @@ class ShiftController extends BaseController
             $row['shifts'] = $shift;
             $response[] = $row;
         }
-        return response()->json($response);
+        return $this->sendResponse($response);
     }
 
     public function save(Office $office, ShiftRequest $request, ShiftProcessor $shiftProcessor)
