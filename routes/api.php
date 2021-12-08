@@ -43,6 +43,8 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
 
         Route::get('/working-hours/user/{user}', [WorkingHourController::class, 'getWorkingHourWithUser'])->name('working_hour.user_cabable.get');
 
+        Route::get('/reason-for-vacation/enable', [VacationReasonController::class, 'getEnable'])->name('vacation_reason.get_enable');
+
         Route::middleware(['can:admin-only'])->group(function() {
             Route::get('/office-master', [OfficeController::class, 'get'])->name('office.get');
             Route::post('/office-master', [OfficeController::class, 'create'])->name('office_master.create');

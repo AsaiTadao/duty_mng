@@ -15,6 +15,12 @@ class VacationReasonController extends BaseController
         $data = ReasonForVacation::get();
         return $this->sendResponse($data);
     }
+
+    public function getEnable()
+    {
+        $data = ReasonForVacation::where(['enable' => true])->get();
+        return $this->sendResponse($data);
+    }
     public function create(ReasonForVacationRequest $request)
     {
         $data = $request->validated();
