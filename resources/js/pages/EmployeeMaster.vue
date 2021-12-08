@@ -254,12 +254,17 @@ import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
                 $("#user-master-form").modal('show');
             },
             getUsers() {
+                if (this.actionLoading) return;
+                this.setActionLoading();
                 api.get('users', null, {page: 1, size: 100})
                     .then(response => {
                         console.log(response);
                         this.users = response;
                     })
-                    .catch(e => apiErrorHandler(e));
+                    .catch(e => apiErrorHandler(e))
+                    .finally(() => {
+                    this.unsetActionLoading();
+                });
             },
             setStatus(userId, statusKind, value) {
                 if (this.actionLoading) return;
