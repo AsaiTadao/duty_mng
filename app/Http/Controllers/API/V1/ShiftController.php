@@ -84,10 +84,15 @@ class ShiftController extends BaseController
             $employeeShifts = $shifts[$employee->id];
             for ($day = 1; $day <= $days; $day++)
             {
-                $employeeShift = $employeeShifts->filter(function ($employeeShift) use ($day) {
-                    return Carbon::parse($employeeShift->date)->day === $day;
+                $employeeShift = $employeeShifts->filter(function ($item) use ($day) {
+                    return Carbon::parse($item->date)->day === $day;
                 });
-                $shift[] = $employeeShift;
+                $items = [];
+                foreach ($employeeShift as $item)
+                {
+                    $items[] = $item;
+                }
+                $shift[] = $items;
             }
             $row['shifts'] = $shift;
             $response[] = $row;
