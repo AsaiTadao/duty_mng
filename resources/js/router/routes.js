@@ -2,7 +2,7 @@ import NotFound from "../pages/NotFound";
 import AttendStatus from '../pages/AttendStatus';
 import WorkStatus from "../pages/WorkStatus";
 import MonthlySummery from "../pages/MonthlySummery";
-import ManagerShiftCreate from "../pages/ManagerShiftCreate";
+import ShiftCreate from "../pages/ShiftCreate";
 import WorkTotal from "../pages/WorkTotal";
 import Master from "../pages/Master";
 import RegionMaster from "../pages/RegionMaster";
@@ -89,7 +89,7 @@ export default [
             {
                 path: "shift-create",
                 name: "shift-create",
-                components: { default: ManagerShiftCreate },
+                components: { default: ShiftCreate },
                 meta: {
                     icon: "fas fa-edit",
                     anchor: "シフト計画",
