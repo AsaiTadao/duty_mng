@@ -126,7 +126,7 @@ class ShiftProcessor
                 'vacation_reason_id'    =>  $vacationReasonId,
             ]);
             if (!empty($vacationReasonId)) {
-                return $shift;
+                return [$shift];
             }
             $shiftArr[] = $shift;
         }
