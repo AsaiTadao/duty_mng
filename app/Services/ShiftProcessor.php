@@ -26,15 +26,15 @@ class ShiftProcessor
         // }
 
         $shiftArr = [];
-        $workingHoursId = null;
-        $startTime = null;
-        $endTime = null;
-        $restStartTime = null;
-        $restEndTime = null;
-        $vacationReasonId = null;
 
         foreach ($shifts['shifts'] as $shiftData)
         {
+            $workingHoursId = null;
+            $startTime = null;
+            $endTime = null;
+            $restStartTime = null;
+            $restEndTime = null;
+            $vacationReasonId = null;
             if (empty($shiftData['vacation_reason_id']))
             {
                 // check start time end time consistency
