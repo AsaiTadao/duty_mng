@@ -41,7 +41,7 @@ class AuthController extends BaseController
     public function me()
     {
         $user = auth()->user();
-        $office = $user->office;
+        $user->office;
         return response()->json([
             'success'   =>  true,
             'data'      =>  $user
