@@ -23,8 +23,7 @@ class AuthController extends BaseController
             ]);
         }
 
-        if (!Hash::check($data['password'], $user->password))
-        {
+        if (!Hash::check($data['password'], $user->password)) {
             return response()->json([
                 'success'   =>  false,
                 'message'   =>  trans('auth.failed')
@@ -42,6 +41,7 @@ class AuthController extends BaseController
     public function me()
     {
         $user = auth()->user();
+        $user->office;
         return response()->json([
             'success'   =>  true,
             'data'      =>  $user
