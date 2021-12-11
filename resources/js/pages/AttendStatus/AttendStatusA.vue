@@ -20,7 +20,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                        <div class="table-responsive p-0" style="height: 500px;">
+                        <div class="table-responsive p-0" style="height: 500px;" @scroll="handleScroll()">
                             <table class="table table-head-fixed table-bordered table-striped table-kintai table-hover">
                                 <thead class="text-center text-white">
                                     <tr class="heavy-green">
@@ -61,34 +61,34 @@
                             </table>
                         </div>
                         <br>
-                        <div class="table-responsive p-0">
-                            <table class="table table-bordered text-white">
-                                <thead class="text-center">
-                                    <tr class="top-green">
-                                        <th>実働時間合計</th>
-                                        <th>残業外労働時間</th>
-                                        <th>所定労働時間</th>
-                                        <th>過不足時間</th>
-                                        <th>法定内残業時間</th>
-                                        <th>法定外残業時間</th>
-                                        <th>遅刻時間</th>
-                                        <th>早退時間</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-center">
-                                    <tr class="heavy-green">
-                                        <td>178時間</td>
-                                        <td>158時間</td>
-                                        <td>160時間</td>
-                                        <td>-2時間</td>
-                                        <td>1.5時間</td>
-                                        <td>0.5時間</td>
-                                        <td>0.25時間</td>
-                                        <td>0.5時間</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                            <div class="table-responsive p-0" id="sumTable">
+                                <table class="table table-bordered text-white">
+                                    <thead class="text-center">
+                                        <tr class="top-green">
+                                            <th>実働時間合計</th>
+                                            <th>残業外労働時間</th>
+                                            <th>所定労働時間</th>
+                                            <th>過不足時間</th>
+                                            <th>法定内残業時間</th>
+                                            <th>法定外残業時間</th>
+                                            <th>遅刻時間</th>
+                                            <th>早退時間</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-center">
+                                        <tr class="heavy-green">
+                                            <td>178時間</td>
+                                            <td>158時間</td>
+                                            <td>160時間</td>
+                                            <td>-2時間</td>
+                                            <td>1.5時間</td>
+                                            <td>0.5時間</td>
+                                            <td>0.25時間</td>
+                                            <td>0.5時間</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -172,6 +172,8 @@ import { mapState } from 'vuex';
                 days: [],
                 attends : [],
                 requests : [],
+                scrolling: false,
+                timer: null,
                 form: {
                     id : '',
                     date: '',
@@ -237,13 +239,6 @@ import { mapState } from 'vuex';
             requestModal(){
                 this.editmode = true;
                 this.firstdate = this.enddate;
-                // if(row = this.requests.find(request => request.date.getTime() == date.getTime())) {
-                //     this.editmode = true;
-                //     this.form.fill(row);
-                // } else {
-                //     this.editmode = false;
-                //     this.form.reset();
-                // }
                 $('#addNew').modal('show');
             },
             currentTime(){
@@ -277,13 +272,26 @@ import { mapState } from 'vuex';
                     this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
                 }
             },
-
+            handleScroll() {
+                if(this.timer !== null) {
+                    clearTimeout(this.timer);
+                    $("#sumTable").hide();
+                }
+                this.timer = setTimeout(function() {
+                    $("#sumTable").show();
+                }, 150);
+            },
         },
         created() {
             this.displayDate = moment(this.displayDate).format('YYYY年 M月');
             this.getResults(this.currentDate);
+            this.timer = null;
+        },
+        destroyed() {
+            //window.removeEventListener('scroll', this.handleScroll);
         }
     }
+
 </script>
 
 <style scoped>
