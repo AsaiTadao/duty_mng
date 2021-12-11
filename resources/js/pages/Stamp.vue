@@ -3,14 +3,17 @@
         <div class="row justify-content-center">
             <div class="col-md-10 home-panel">
                 <div class="card home-panel">
-                    <div class="card-header">
-                        ラテラル保育園 - 阿部 一子 {{ formatDate(new Date()) }}
+                    <div class="card-header" v-if="session.office">
+                        {{session.office.name}} - {{session.name}} {{ formatDate(new Date()) }}
+                    </div>
+                    <div class="card-header" v-else>
+                        {{session.name}} {{ formatDate(new Date()) }}
                     </div>
                     <br>
                     <div class="text-center mt-3">
                         <h4>現在の時刻</h4>
                         <h1 class="font-weight-bold mb-0">
-                            {{formatTime()}}
+                            {{ timeStamp }}
                         </h1>
                     </div>
                     <div
@@ -55,11 +58,19 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
     data() {
         return {
-            data: {}
+            data: {},
+            timeStamp: '',
         };
+    },
+    computed: {
+        ...mapState({
+            session: state =>  state.session.info,
+         }),
     },
     methods: {
         formatDate(date, showWeek = true) {
@@ -100,11 +111,15 @@ export default {
                 attended: false,
                 leaved: false
             };
+        },
+        getNow() {
+            this.timeStamp = this.formatTime();
         }
     },
     created() {
         this.weeks = ["日", "月", "火", "水", "木", "金", "土"];
         this.loadAttendance();
+        setInterval(this.getNow, 1000);
     },
 };
 </script>
