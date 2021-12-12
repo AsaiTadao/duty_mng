@@ -4,10 +4,10 @@
             <div class="col-md-10 home-panel">
                 <div class="card home-panel">
                     <div class="card-header" v-if="session.office">
-                        {{session.office.name}} - {{session.name}} {{ formatDate(new Date()) }}
+                        {{session.office.name}} - {{session.name}} {{ thisDate }}
                     </div>
                     <div class="card-header" v-else>
-                        {{session.name}} {{ formatDate(new Date()) }}
+                        {{session.name}} {{ thisDate }}
                     </div>
                     <br>
                     <div class="text-center mt-3">
@@ -65,6 +65,7 @@ export default {
         return {
             data: {},
             timeStamp: '',
+            thisDate: '',
         };
     },
     computed: {
@@ -116,8 +117,9 @@ export default {
             this.timeStamp = this.formatTime();
         }
     },
-    created() {
+    mounted() {
         this.weeks = ["日", "月", "火", "水", "木", "金", "土"];
+        this.thisDate = this.formatDate(new Date());
         this.loadAttendance();
         setInterval(this.getNow, 1000);
     },
