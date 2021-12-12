@@ -115,10 +115,11 @@ import { showSuccess } from '../../helpers/error';
                 }
                 request.then(() => {
                         showSuccess(this.$t("Successfully saved"));
+                        this.unsetActionLoading();
                         this.$emit('success');
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
+                        apiErrorHandler(e)
                         this.unsetActionLoading();
                     })
             },

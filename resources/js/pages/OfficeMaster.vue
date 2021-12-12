@@ -148,14 +148,15 @@ export default {
                     this.setActionLoading();
                     api.get('office-master/' + officeId + '/scheduled-working')
                         .then((response) => {
+                            this.unsetActionLoading();
                             const {current, next} = response;
                             this.selectedScheduledWorkings = {current, next, officeId};
                             this.showScheduleForm();
                         })
-                        .catch(e => apiErrorHandler(e))
-                        .finally(() => {
+                        .catch(e => {
+                            apiErrorHandler(e)
                             this.unsetActionLoading();
-                        });
+                        })
             },
             onOfficeDeleteClick(officeId){
                 if (this.actionLoading) return;
@@ -164,10 +165,11 @@ export default {
                 api.delete('office-master/' + officeId)
                     .then(() => {
                         showSuccess(this.$t('Successfully deleted'));
+                        this.unsetActionLoading();
                         this.getOffices();
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
+                        apiErrorHandler(e)
                         this.unsetActionLoading();
                     })
             },
@@ -190,8 +192,8 @@ export default {
                     })
                     .catch(e => apiErrorHandler(e))
                     .finally(() => {
-                    this.unsetActionLoading();
-                });
+                        this.unsetActionLoading();
+                    });
             },
         },
         mounted() {
