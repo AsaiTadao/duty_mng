@@ -32,13 +32,14 @@ import { showSuccess } from '../../helpers/error';
                 this.setActionLoading();
                 api.put('reason-for-vacation/status/' + this.id, null, {enable: this.enabled})
                     .then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t("Successfully saved"));
                         this.$emit('success');
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
+                        apiErrorHandler(e);
                         this.unsetActionLoading();
-                    })
+                    });
             }
         }
     }

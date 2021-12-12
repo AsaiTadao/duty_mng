@@ -101,16 +101,15 @@ export default {
             this.setActionLoading();
             api.post('login', null, this.form.all())
                 .then(({token, user}) => {
+                    this.unsetActionLoading();
                     LocalStorage.saveToken(token);
                     this.$store.commit('session/setSession', user);
                     this.$router.push({ name: 'stamp' })
                 })
                 .catch(e => {
-                    apiErrorHandler(e);
-                })
-                .finally(() => {
                     this.unsetActionLoading();
-                })
+                    apiErrorHandler(e);
+                });
         },
         onFormChange() {
             this.form.validate();

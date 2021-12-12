@@ -148,12 +148,13 @@ export default {
                     this.setActionLoading();
                     api.get('office-master/' + officeId + '/scheduled-working')
                         .then((response) => {
+                            this.unsetActionLoading();
                             const {current, next} = response;
                             this.selectedScheduledWorkings = {current, next, officeId};
                             this.showScheduleForm();
                         })
-                        .catch(e => apiErrorHandler(e))
-                        .finally(() => {
+                        .catch(e => {
+                            apiErrorHandler(e);
                             this.unsetActionLoading();
                         });
             },
@@ -163,13 +164,14 @@ export default {
                 this.setActionLoading();
                 api.delete('office-master/' + officeId)
                     .then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t('Successfully deleted'));
                         this.getOffices();
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
+                        apiErrorHandler(e);
                         this.unsetActionLoading();
-                    })
+                    });
             },
             onNewClick () {
                 this.masterFormData = {};
@@ -186,12 +188,13 @@ export default {
                 this.setActionLoading();
                 api.get('office-master')
                     .then(response => {
+                        this.unsetActionLoading();
                         this.offices = response;
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
-                    this.unsetActionLoading();
-                });
+                    .catch(e => {
+                        apiErrorHandler(e);
+                        this.unsetActionLoading();
+                    });
             },
         },
         mounted() {
