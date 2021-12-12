@@ -17,7 +17,7 @@
                 <select class="form-control" v-model="formData.workingHourId1" @change="setWorkingHourToInput1" :disabled="!!formData.vacationReasonId">
                     <option></option>
                     <option v-for="workingHour in workingHours" :key="workingHour.id" :value="workingHour.id">
-                        {{workingHour.name}} {{workingHour.start_time}} ~ {{workingHour.end_time}}
+                        {{workingHour.name}} {{workingHour.startTime}} ~ {{workingHour.endTime}}
                     </option>
                 </select>
                 <div class="form-row align-items-center mt-3">
@@ -77,7 +77,7 @@
                 <select class="form-control" v-model="formData.workingHourId2" @change="setWorkingHourToInput2" :disabled="formData.vacationReasonId !== 0">
                     <option></option>
                     <option v-for="workingHour in workingHours" :key="workingHour.id" :value="workingHour.id">
-                        {{workingHour.name}} {{workingHour.start_time}} ~ {{workingHour.end_time}}
+                        {{workingHour.name}} {{workingHour.startTime}} ~ {{workingHour.endTime}}
                     </option>
                 </select>
                 <div class="form-row align-items-center mt-3">
