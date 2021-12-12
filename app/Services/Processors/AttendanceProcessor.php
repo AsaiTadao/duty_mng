@@ -3,6 +3,7 @@
 namespace App\Services\Processors;
 
 use App\Models\Attendance;
+use Carbon\Carbon;
 
 class AttendanceProcessor
 {
@@ -22,7 +23,8 @@ class AttendanceProcessor
             if ($attendance->$commute_time) {
                 if ($attendance->$shift) {
                     // Carbon::now()->floatDiffInMinutes()
-                    $minutes = $attendance->$commute_time->floatDiffInMinutes($attendance->$shift->start_time, false);
+                    $minutes = Carbon::parse($attendance->$commute_time->format('Y-m-d') . ' ' . $attendance->$shift->start_time)
+                        ->floatDiffInMinutes($attendance->$commute_time, false);
 
                     if ($minutes > 0) {
                         $attendance->$behind_time = $minutes;
@@ -38,7 +40,8 @@ class AttendanceProcessor
 
             if ($attendance->$leave_time) {
                 if ($attendance->$shift) {
-                    $minutes = $attendance->$leave_time->floatDiffInMinutes($attendance->$shift->end_time, false);
+                    $minutes = Carbon::parse($attendance->$leave_time->format('Y-m-d') . ' ' . $attendance->$shift->end_time)
+                        ->floatDiffInMinutes($attendance->$leave_time, false);
                     if ($minutes < 0) {
                         $attendance->$leave_early = $minutes;
                     } else {
@@ -47,6 +50,8 @@ class AttendanceProcessor
                 } else {
                     $attendance->$leave_early = 0;
                 }
+            } else {
+                $attendance->$leave_early = 0;
             }
         }
     }

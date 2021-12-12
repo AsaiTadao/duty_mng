@@ -5,10 +5,10 @@ namespace App\Http\Controllers\API\V1;
 use App\Services\Processors\AttendanceProcessor;
 use App\Services\StampService;
 use Carbon\Carbon;
-use GrahamCampbell\ResultType\Result;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class ShiftController extends BaseController
+class StampController extends BaseController
 {
     protected $stampService;
     protected $attendanceProcessor;
@@ -20,10 +20,14 @@ class ShiftController extends BaseController
         $this->stampService = $stampService;
         $this->attendanceProcessor = $attendanceProcessor;
     }
-    public function commute()
+    public function commute(Request $request)
     {
         $user = auth()->user();
-        $stamp = Carbon::now();
+        if (config('app.env') === 'local' && $request->has('stamp')) {
+            $stamp = Carbon::parse($request->input('stamp'));
+        } else {
+            $stamp = Carbon::now();
+        }
         Log::info("[user " . $user->id . "] trying to commute stamp");
 
         $result = $this->stampService->commute($user, $stamp);
@@ -32,7 +36,8 @@ class ShiftController extends BaseController
             $this->stampService->getError();
             return $this->sendError($this->stampService->getError());
         }
-        [$attendance, $number] = $result;
+        $attendance = $result['attendance'];
+        $number = $result['number'];
         Log::info("[user " . $user->id . "] commute stamp number : " . $number);
 
         if (!$attendance->id) {
@@ -45,10 +50,14 @@ class ShiftController extends BaseController
         return $this->sendResponse();
     }
 
-    public function leave()
+    public function leave(Request $request)
     {
         $user = auth()->user();
-        $stamp = Carbon::now();
+        if (config('app.env') === 'local' && $request->has('stamp')) {
+            $stamp = Carbon::parse($request->input('stamp'));
+        } else {
+            $stamp = Carbon::now();
+        }
         Log::info("[user " . $user->id . "] trying to leave stamp");
         $attendance = $this->stampService->leave($user, $stamp);
         if (!$attendance) {
@@ -59,11 +68,14 @@ class ShiftController extends BaseController
         $attendance->save();
         return $this->sendResponse();
     }
-    public function getStatus()
+    public function status(Request $request)
     {
         $user = auth()->user();
-        $stamp = Carbon::now();
-
+        if (config('app.env') === 'local' && $request->has('stamp')) {
+            $stamp = Carbon::parse($request->input('stamp'));
+        } else {
+            $stamp = Carbon::now();
+        }
         $commuteEnabled = true;
         $result = $this->stampService->commute($user, $stamp);
         if (!$result) {

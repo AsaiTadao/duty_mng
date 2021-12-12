@@ -21,6 +21,18 @@ class Attendance extends Model
         'leave_time_3',
     ];
 
+    protected $fillable = [
+        'commuting_time_1',
+        'commuting_time_2',
+        'commuting_time_3',
+        'leave_time_1',
+        'leave_time_2',
+        'leave_time_3',
+        'year_id',
+        'month',
+        'day',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

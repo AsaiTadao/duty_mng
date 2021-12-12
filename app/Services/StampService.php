@@ -45,6 +45,7 @@ class StampService
         if (!$shifts->count()) {
             if (!$attendance->commuting_time_1 && !$attendance->leave_time_1) {
                 $this->log($user, "getMatchedShift return 1 postion");
+                $attendance->commuting_time_1 = $stamp;
                 return [
                     'attendance' =>  $attendance,
                     'number'    =>  1
@@ -52,6 +53,7 @@ class StampService
             }
             if (!$attendance->commuting_time_2 && !$attendance->leave_time_2) {
                 $this->log($user, "getMatchedShift return 2 postion");
+                $attendance->commuting_time_2 = $stamp;
                 return [
                     'attendance'    =>  $attendance,
                     'number'        =>  2
@@ -62,10 +64,11 @@ class StampService
             return null;
         }
         // boc: check if vaction
-        $vacationShifts = $shifts->whereNotNull('vacation_reason_id')->all();
+        $vacationShifts = $shifts->whereNotNull('vacation_reason_id');
         if ($vacationShifts->count()) {
             if (!$attendance->commuting_time_1 && !$attendance->leave_time_1) {
                 $this->log($user, "getMatchedShift return 5 postion");
+                $attendance->commuting_time_1 = $stamp;
                 return [
                     'attendance' =>  $attendance,
                     'number'    =>  1
@@ -73,6 +76,7 @@ class StampService
             }
             if (!$attendance->commuting_time_2 && !$attendance->leave_time_2) {
                 $this->log($user, "getMatchedShift return 6 postion");
+                $attendance->commuting_time_2 = $stamp;
                 return [
                     'attendance'    =>  $attendance,
                     'number'        =>  2
@@ -100,10 +104,12 @@ class StampService
                     continue;
                 }
                 $attendance->shift1()->associate($shift);
+
                 $this->log($user, "getMatchedShift return 8 postion");
+                $attendance->commuting_time_1 = $stamp;
                 return [
                     'attendance'    =>  $attendance,
-                    'number'        =>  $i,
+                    'number'        =>  1,
                 ];
             }
             if ($i === 2) {
@@ -120,9 +126,10 @@ class StampService
                 }
                 $attendance->shift2()->associate($shift);
                 $this->log($user, "getMatchedShift return 10 postion");
+                $attendance->commuting_time_2 = $stamp;
                 return [
                     'attendance' =>  $attendance,
-                    'number'    =>  $i,
+                    'number'    =>  2,
                 ];
             }
         }
@@ -134,6 +141,7 @@ class StampService
                 if ($stampTime < $shifts[0]->end_time) {
                     $attendance->shift1->associcate($shifts[0]);
                     $this->log($user, "getMatchedShift return 11 postion");
+                    $attendance->commuting_time_1 = $stamp;
                     return [
                         'attendance'    =>  $attendance,
                         'number'        =>  1
@@ -141,6 +149,7 @@ class StampService
                 }
             } else {
                 $this->log($user, "getMatchedShift return 12 postion");
+                $attendance->commuting_time_1 = $stamp;
                 return [
                     'attendance'    =>  $attendance,
                     'number'        =>  1
@@ -152,6 +161,7 @@ class StampService
                 if ($stampTime <= $shifts[0]->end_time) {
                     $attendance->shift1->associcate($shifts[0]);
                     $this->log($user, "getMatchedShift return 13 postion");
+                    $attendance->commuting_time_2 = $stamp;
                     return [
                         'attendance'    =>  $attendance,
                         'number'        =>  2
@@ -159,6 +169,7 @@ class StampService
                 }
             } else {
                 $this->log($user, "getMatchedShift return 14 postion");
+                $attendance->commuting_time_2 = $stamp;
                 return [
                     'attendance'    =>  $attendance,
                     'number'        =>  2
@@ -230,7 +241,11 @@ class StampService
             ->orderBy('start_time')
             ->get();
         if (!$attendance) {
-            $attendance = new Attendance();
+            $attendance = new Attendance([
+                'year_id'   =>  $year->id,
+                'month'     =>  $month,
+                'day'       =>  $day,
+            ]);
             $attendance->user()->associate($user);
         }
         return [$attendance, $shifts];
