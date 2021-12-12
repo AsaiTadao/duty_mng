@@ -476,13 +476,14 @@ import ShiftForm from './ShiftForm.vue';
                     request = api.post('region', null, this.data);
                 }
                 request.then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t("Successfully saved"));
                         this.$emit('success');
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
+                        apiErrorHandler(e);
                         this.unsetActionLoading();
-                    })
+                    });
             },
             validate() {
                 let valid = true;

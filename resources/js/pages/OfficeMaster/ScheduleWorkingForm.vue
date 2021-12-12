@@ -125,10 +125,13 @@ export default {
                 schedules: data,
             })
             .then(() => {
+                this.unsetActionLoading();
                 showSuccess(this.$t('Successfully saved'));
             })
-            .catch(e => apiErrorHandler(e))
-            .finally(() => this.unsetActionLoading())
+            .catch(e => {
+                apiErrorHandler(e);
+                this.unsetActionLoading();
+            });
         }
     }
 }

@@ -179,16 +179,15 @@ import ShiftForm from './ShiftCreate/ShiftForm.vue';
                 this.setActionLoading();
                 api.get('shift/' + this.officeId, null, {month: this.selectedMonth})
                     .then(response => {
+                        this.unsetActionLoading();
                         this.shifts = response;
                         this.officeName = this.offices[this.officeId - 1].name;
                         this.getShoteiTime();
                     })
                     .catch(e => {
-                        console.error(e)
-                        apiErrorHandler(e)
-                    })
-                    .finally(() =>
-                    this.unsetActionLoading());
+                        this.unsetActionLoading();
+                        apiErrorHandler(e);
+                    });
             },
             getOffices() {
                 api.get('office/user-capable')

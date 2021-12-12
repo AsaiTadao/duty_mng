@@ -114,14 +114,15 @@ import { showSuccess } from '../../helpers/error';
                     request = api.post('office-master', null, this.data);
                 }
                 request.then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t("Successfully saved"));
                         this.unsetActionLoading();
                         this.$emit('success');
                     })
                     .catch(e => {
-                        apiErrorHandler(e)
+                        apiErrorHandler(e);
                         this.unsetActionLoading();
-                    })
+                    });
             },
             validate() {
                 let valid = true;

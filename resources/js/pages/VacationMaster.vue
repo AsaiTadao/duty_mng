@@ -92,11 +92,12 @@ export default {
                 this.setActionLoading();
                 api.get('reason-for-vacation')
                     .then(response => {
+                        this.unsetActionLoading();
                         this.vacations = response;
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
-                    this.unsetActionLoading();
+                    .catch(e => {
+                        this.unsetActionLoading();
+                        apiErrorHandler(e)
                 });
             },
             onEditClicked(vacationId) {
@@ -111,13 +112,14 @@ export default {
                 this.setActionLoading();
                 api.delete('reason-for-vacation/' + vacationId)
                     .then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t('Successfully deleted'));
                         this.getVacations();
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
                         this.unsetActionLoading();
-                    })
+                        apiErrorHandler(e);
+                    });
             },
             onVacationSaved() {
                 this.getVacations();

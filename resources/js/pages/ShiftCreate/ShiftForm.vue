@@ -17,7 +17,7 @@
                 <select class="form-control" v-model="formData.workingHourId1" @change="setWorkingHourToInput1" :disabled="!!formData.vacationReasonId">
                     <option></option>
                     <option v-for="workingHour in workingHours" :key="workingHour.id" :value="workingHour.id">
-                        {{workingHour.name}} {{workingHour.start_time}} ~ {{workingHour.end_time}}
+                        {{workingHour.name}} {{workingHour.startTime}} ~ {{workingHour.endTime}}
                     </option>
                 </select>
                 <div class="form-row align-items-center mt-3">
@@ -77,7 +77,7 @@
                 <select class="form-control" v-model="formData.workingHourId2" @change="setWorkingHourToInput2" :disabled="formData.vacationReasonId !== 0">
                     <option></option>
                     <option v-for="workingHour in workingHours" :key="workingHour.id" :value="workingHour.id">
-                        {{workingHour.name}} {{workingHour.start_time}} ~ {{workingHour.end_time}}
+                        {{workingHour.name}} {{workingHour.startTime}} ~ {{workingHour.endTime}}
                     </option>
                 </select>
                 <div class="form-row align-items-center mt-3">
@@ -243,13 +243,14 @@ import { showSuccess } from '../../helpers/error';
                     request = api.post('region', null, this.data);
                 }
                 request.then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t("Successfully saved"));
                         this.$emit('success');
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
+                        apiErrorHandler(e);
                         this.unsetActionLoading();
-                    })
+                    });
             },
             validate() {
                 let valid = true;
@@ -443,8 +444,8 @@ import { showSuccess } from '../../helpers/error';
                 let request;
                 request = api.post('shift/' + this.officeId, null, requestData);
                 request.then(() => {
-                        showSuccess(this.$t("Successfully saved"));
                         this.unsetActionLoading();
+                        showSuccess(this.$t("Successfully saved"));
                         this.$emit('success');
                     })
                     .catch(e => {

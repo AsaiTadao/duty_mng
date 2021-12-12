@@ -259,13 +259,14 @@ export default {
                 this.setActionLoading();
                 api.delete('working-hours/' + workingHourId)
                     .then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t('Successfully deleted'));
                         this.getWorkingHours();
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
                         this.unsetActionLoading();
-                    })
+                        apiErrorHandler(e)
+                    });
             },
             onNewClick() {
                 this.masterFormData = {
@@ -287,6 +288,7 @@ export default {
                 this.setActionLoading();
                 api.get('working-hours', null, null)
                     .then(response => {
+                        this.unsetActionLoading();
                         this.workingHours['real'] = [];
                         this.workingHours['time'] = [];
                         this.workingHours['part'] = [];
@@ -300,10 +302,10 @@ export default {
                             }
                         });
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
-                    this.unsetActionLoading();
-                });
+                    .catch(e => {
+                        this.unsetActionLoading();
+                        apiErrorHandler(e);
+                    });
             },
             searchOffice() {
                 api.get('working-hours', null, {office_name : this.officeName})
