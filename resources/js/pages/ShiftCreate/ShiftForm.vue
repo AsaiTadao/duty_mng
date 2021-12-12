@@ -84,9 +84,9 @@
                     <div class="col-md-5">
                         <div class="d-flex is-invalid">
                             <input type="number" v-model="formData.startTimeHour2" class="form-control mr-2" :class="{'is-invalid' : errors.startTime2}"
-                            @change="() => {errors.startTime2=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="24">
+                            @change="() => {formData.workingHourId2 = null; errors.startTime2=null;}" :disabled="formData.vacationReasonId !== 0" min="0" max="24">
                             <input type="number" v-model="formData.startTimeMin2" class="form-control" :class="{'is-invalid' : errors.startTime2}"
-                            @change="() => {errors.startTime2=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="60">
+                            @change="() => {formData.workingHourId2 = null; errors.startTime2=null;}" :disabled="formData.vacationReasonId !== 0" min="0" max="60">
                         </div>
                         <span v-if="errors.startTime2" class="error invalid-feedback">
                             {{ errors.startTime2 }}
@@ -96,9 +96,9 @@
                     <div class="col-md-5">
                         <div class="d-flex is-invalid">
                             <input type="number" v-model="formData.endTimeHour2" class="form-control mr-2" :class="{'is-invalid' : errors.endTime2}"
-                            @change="() => {errors.endTime2=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="24">
+                            @change="() => {formData.workingHourId2 = null; errors.endTime2=null;}" :disabled="formData.vacationReasonId !== 0" min="0" max="24">
                             <input type="number" v-model="formData.endTimeMin2" class="form-control" :class="{'is-invalid' : errors.endTime2}"
-                            @change="() => {errors.endTime2=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="60">
+                            @change="() => {formData.workingHourId2 = null; errors.endTime2=null;}" :disabled="formData.vacationReasonId !== 0" min="0" max="60">
                         </div>
                         <span v-if="errors.endTime2" class="error invalid-feedback">
                             {{ errors.endTime2 }}
@@ -305,14 +305,14 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.endTime2 = this.$t('Please input time');                                 // need trans
                     valid = false;
                 }
-                if (this.formData.startTimeHour1 + ":" + this.formData.startTimeMin1 < this.formData.startTimeHour2 + ":" + this.formData.startTimeMin2) {
-                    if(this.formData.endTimeHour1 + ":" + this.formData.endTimeMin1 > this.formData.startTimeHour2 + ":" + this.formData.startTimeMin2) {
+                if (this.formData.startTimeHour1 + ":" + this.formData.startTimeMin1 <= this.formData.startTimeHour2 + ":" + this.formData.startTimeMin2) {
+                    if(this.formData.endTimeHour1 + ":" + this.formData.endTimeMin1 >= this.formData.startTimeHour2 + ":" + this.formData.startTimeMin2) {
                         this.errors.startTime2 = this.$t('Please select other time in order to avoid time overlap');                                 // need trans
                         valid = false;
                     }
                 }
-                if (this.formData.startTimeHour1 + ":" + this.formData.startTimeMin1 > this.formData.startTimeHour2 + ":" + this.formData.startTimeMin2) {
-                    if(this.formData.endTimeHour1 + ":" + this.formData.endTimeMin1 < this.formData.endTimeHour2 + ":" + this.formData.endTimeMin2) {
+                if (this.formData.startTimeHour1 + ":" + this.formData.startTimeMin1 >= this.formData.startTimeHour2 + ":" + this.formData.startTimeMin2) {
+                    if(this.formData.endTimeHour1 + ":" + this.formData.endTimeMin1 <= this.formData.endTimeHour2 + ":" + this.formData.endTimeMin2) {
                         this.errors.startTime1 = this.$t('Please select other time in order to avoid time overlap');                                 // need trans
                         valid = false;
                     }
