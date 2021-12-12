@@ -243,13 +243,14 @@ import { showSuccess } from '../../helpers/error';
                     request = api.post('region', null, this.data);
                 }
                 request.then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t("Successfully saved"));
                         this.$emit('success');
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
+                        apiErrorHandler(e);
                         this.unsetActionLoading();
-                    })
+                    });
             },
             validate() {
                 let valid = true;
@@ -443,8 +444,8 @@ import { showSuccess } from '../../helpers/error';
                 let request;
                 request = api.post('shift/' + this.officeId, null, requestData);
                 request.then(() => {
-                        showSuccess(this.$t("Successfully saved"));
                         this.unsetActionLoading();
+                        showSuccess(this.$t("Successfully saved"));
                         this.$emit('success');
                     })
                     .catch(e => {

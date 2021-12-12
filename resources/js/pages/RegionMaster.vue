@@ -98,13 +98,14 @@ export default {
                 this.setActionLoading();
                 api.get('region')
                     .then(response => {
+                        this.unsetActionLoading();
                         this.regions = response;
                         this.selectedOffices = response.reduce((accumulator, currentValue) => [...accumulator, ...currentValue.offices], []);
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
-                    this.unsetActionLoading();
-                });
+                    .catch(e => {
+                        apiErrorHandler(e);
+                        this.unsetActionLoading();
+                    });
             },
             getOffices() {
                 api.get('office-master')
@@ -126,12 +127,13 @@ export default {
                 this.setActionLoading();
                 api.delete('region/' + regionId)
                     .then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t('Successfully deleted'));
                         this.getRegions();
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
                         this.unsetActionLoading();
+                        apiErrorHandler(e)
                     })
             },
             onNewClick() {

@@ -235,13 +235,14 @@ import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
                 this.setActionLoading();
                 api.delete('users/' + hourlyId)
                     .then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t('Successfully deleted'));
                         this.getUsers();
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
+                        apiErrorHandler(e);
                         this.unsetActionLoading();
-                    })
+                    });
             },
             onNewClick() {
                 this.masterFormData = {
@@ -258,39 +259,41 @@ import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
                 this.setActionLoading();
                 api.get('users', null, {page: 1, size: 100})
                     .then(response => {
-                        console.log(response);
+                        this.unsetActionLoading();
                         this.users = response;
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
-                    this.unsetActionLoading();
-                });
+                    .catch(e => {
+                        apiErrorHandler(e);
+                        this.unsetActionLoading();
+                    });
             },
             setStatus(userId, statusKind, value) {
                 if (this.actionLoading) return;
                 this.setActionLoading();
                 api.put('users/' + userId + '/setting', null, {[statusKind]: value})
                     .then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t("Successfully saved"));
                         this.getUsers();
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
+                        apiErrorHandler(e);
                         this.unsetActionLoading();
-                    })
+                    });
             },
             setRole(userId, value) {
                 if (this.actionLoading) return;
                 this.setActionLoading();
                 api.put('users/' + userId + '/role', null, {'role_id': value})
                     .then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t("Successfully saved"));
                         this.getUsers();
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
+                        apiErrorHandler(e);
                         this.unsetActionLoading();
-                    })
+                    });
             }
         },
         mounted() {

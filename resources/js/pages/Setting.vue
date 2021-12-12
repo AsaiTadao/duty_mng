@@ -146,22 +146,26 @@ export default {
             this.setActionLoading();
             api.post('setting', null, this.form)
                 .then(() => {
+                    this.unsetActionLoading();
                     showSuccess(this.$t("Successfully saved"));
                 })
-                .catch(e => apiErrorHandler(e))
-                .finally(() => this.unsetActionLoading());
+                .catch(e => {
+                    apiErrorHandler(e);
+                    this.unsetActionLoading();
+                });
         },
         fetchSetting() {
             if (this.actionLoading) return;
             this.setActionLoading();
             api.get('setting')
                 .then(response => {
+                    this.unsetActionLoading();
                     this.form = response;
                 })
-                .catch(e => apiErrorHandler(e))
-                .finally(() => {
+                .catch(e => {
                     this.unsetActionLoading();
-                })
+                    apiErrorHandler(e)
+                });
         },
         validate() {
             let valid = true;

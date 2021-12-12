@@ -130,13 +130,14 @@ export default {
                 this.setActionLoading();
                 api.delete('hourly-wage/' + hourlyId)
                     .then(() => {
+                        this.unsetActionLoading();
                         showSuccess(this.$t('Successfully deleted'));
                         this.getHourlys();
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
+                    .catch(e => {
+                        apiErrorHandler(e);
                         this.unsetActionLoading();
-                    })
+                    });
             },
             onNewClick() {
                 this.masterFormData = {
@@ -157,12 +158,13 @@ export default {
                 this.setActionLoading();
                 api.get('hourly-wage')
                     .then(response => {
+                        this.unsetActionLoading();
                         this.hourlys = response;
                     })
-                    .catch(e => apiErrorHandler(e))
-                    .finally(() => {
-                    this.unsetActionLoading();
-                });
+                    .catch(e => {
+                        apiErrorHandler(e);
+                        this.unsetActionLoading();
+                    });
             }
         },
         mounted() {
