@@ -8,7 +8,7 @@ use App\Http\Requests\Shift\ShiftRequest;
 use App\Models\Office;
 use App\Models\ShiftPlan;
 use App\Models\User;
-use App\Services\ShiftProcessor;
+use App\Services\Processors\ShiftProcessor;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -30,11 +30,10 @@ class ShiftController extends BaseController
         $month = $month % 100;
 
         $qb = DB::table('shift_plans')
-                ->join('users', 'shift_plans.user_id', '=', 'users.id')
-                ->leftJoin('working_hours', 'shift_plans.working_hours_id', '=', 'working_hours.id');
+            ->join('users', 'shift_plans.user_id', '=', 'users.id')
+            ->leftJoin('working_hours', 'shift_plans.working_hours_id', '=', 'working_hours.id');
         $employeeQb = User::whereRaw('1=1');
-        if ($user->role_id === Roles::USER_A)
-        {
+        if ($user->role_id === Roles::USER_A) {
             $qb->where(['users.id' => $user->id]);
             $employeeQb->where(['id' => $user->id]);
         } else {
@@ -70,11 +69,9 @@ class ShiftController extends BaseController
         $employees = $employeeQb->get();
 
         $response = [];
-        foreach($employees as $employee)
-        {
+        foreach ($employees as $employee) {
             $row = $employee->toArray();
-            if (empty($shifts[$employee->id]))
-            {
+            if (empty($shifts[$employee->id])) {
                 $shift = array_fill(0, $days, []);
                 $row['shifts'] = $shift;
                 continue;
@@ -82,14 +79,12 @@ class ShiftController extends BaseController
 
             $shift = [];
             $employeeShifts = $shifts[$employee->id];
-            for ($day = 1; $day <= $days; $day++)
-            {
+            for ($day = 1; $day <= $days; $day++) {
                 $employeeShift = $employeeShifts->filter(function ($item) use ($day) {
                     return Carbon::parse($item->date)->day === $day;
                 });
                 $items = [];
-                foreach ($employeeShift as $item)
-                {
+                foreach ($employeeShift as $item) {
                     $items[] = $item;
                 }
                 $shift[] = $items;

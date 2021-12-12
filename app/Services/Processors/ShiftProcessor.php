@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Processors;
 
 use App\Models\ShiftPlan;
 use App\Models\WorkingHour;
@@ -27,29 +27,25 @@ class ShiftProcessor
 
         $shiftArr = [];
 
-        foreach ($shifts['shifts'] as $shiftData)
-        {
+        foreach ($shifts['shifts'] as $shiftData) {
             $workingHoursId = null;
             $startTime = null;
             $endTime = null;
             $restStartTime = null;
             $restEndTime = null;
             $vacationReasonId = null;
-            if (empty($shiftData['vacation_reason_id']))
-            {
+            if (empty($shiftData['vacation_reason_id'])) {
                 // check start time end time consistency
                 $startTime = null;
                 $endTime = null;
-                if (!empty($shiftData['working_hours_id']))
-                {
+                if (!empty($shiftData['working_hours_id'])) {
                     $workingHour = WorkingHour::where([
                         'id' => $shiftData['working_hours_id'],
                         'enable' => true,
                         'employment_status_id' => $user->employment_status_id
                     ])->first();
 
-                    if (!$workingHour)
-                    {
+                    if (!$workingHour) {
                         $this->error = trans('Working hour is not enabled');
                         return false;
                     }
@@ -57,33 +53,28 @@ class ShiftProcessor
                     $endTime = $workingHour->end_time;
                     $workingHoursId = $shiftData['working_hours_id'];
                 } else {
-                    if (empty($shiftData['start_time']) || empty($shiftData['end_time']))
-                    {
+                    if (empty($shiftData['start_time']) || empty($shiftData['end_time'])) {
                         $this->error = trans('Please input start time and end time');
                         return false;
                     }
                     $startTime = $shiftData['start_time'];
                     $endTime = $shiftData['end_time'];
                 }
-                if ($startTime >= $endTime)
-                {
+                if ($startTime >= $endTime) {
                     $this->error = trans("Start time is bigger than end time");
                     return false;
                 }
 
                 // check rest time consistency
-                if (!empty($shiftData['rest_start_time']) || !empty($shiftData['rest_end_time']))
-                {
+                if (!empty($shiftData['rest_start_time']) || !empty($shiftData['rest_end_time'])) {
                     if (
                         (empty($shiftData['rest_start_time']) && !empty($shiftData['rest_end_time'])) ||
                         (!empty($shiftData['rest_start_time']) && empty($shiftData['rest_end_time']))
-                    )
-                    {
+                    ) {
                         $this->error = trans("Please input valid rest time");
                         return false;
                     }
-                    if ($shiftData['rest_start_time'] >= $shiftData['rest_end_time'])
-                    {
+                    if ($shiftData['rest_start_time'] >= $shiftData['rest_end_time']) {
                         $this->error = trans("Rest start time is bigger than rest end time");
                         return false;
                     }
@@ -92,8 +83,7 @@ class ShiftProcessor
                         $shiftData['rest_start_time'] > $endTime ||
                         $shiftData['rest_end_time'] < $startTime ||
                         $shiftData['rest_end_time'] > $endTime
-                    )
-                    {
+                    ) {
                         $this->error = trans('Rest time is not in the work time period');
                         return false;
                     }
@@ -121,7 +111,7 @@ class ShiftProcessor
                 'working_hours_id' =>   $workingHoursId,
                 'start_time'    =>  $startTime,
                 'end_time'      =>  $endTime,
-                'rest_start_time'=> $restStartTime,
+                'rest_start_time' => $restStartTime,
                 'rest_end_time' =>  $restEndTime,
                 'vacation_reason_id'    =>  $vacationReasonId,
             ]);
@@ -130,29 +120,22 @@ class ShiftProcessor
             }
             $shiftArr[] = $shift;
         }
-        if (count($shiftArr) > 1)
-        {
-            for ($i = 0; $i < count($shiftArr); $i++)
-            {
+        if (count($shiftArr) > 1) {
+            for ($i = 0; $i < count($shiftArr); $i++) {
                 $shift = $shiftArr[$i];
-                for ($j = $i + 1; $j < count($shiftArr); $j++)
-                {
+                for ($j = $i + 1; $j < count($shiftArr); $j++) {
                     $targetShift = $shiftArr[$j];
                     if (
-                        (
-                            $shift->start_time >= $targetShift->start_time &&
+                        ($shift->start_time >= $targetShift->start_time &&
                             $shift->startTime <= $targetShift->end_time
                         ) ||
-                        (
-                            $shift->endTime >= $targetShift->start_time &&
+                        ($shift->endTime >= $targetShift->start_time &&
                             $shift->endTime <= $targetShift->end_time
                         ) ||
-                        (
-                            $shift->startTime <= $targetShift->start_time &&
+                        ($shift->startTime <= $targetShift->start_time &&
                             $shift->endTime >= $targetShift->end_time
                         )
-                    )
-                    {
+                    ) {
                         $this->error = trans("Work time is overlapped with other shifts");
                         return false;
                     }
@@ -167,17 +150,14 @@ class ShiftProcessor
      */
     public function save($shifts, $user, $date)
     {
-        if (is_array($shifts))
-        {
+        if (is_array($shifts)) {
             $shifts = collect($shifts);
         }
         $needDeleteShiftQb = ShiftPlan::where(['user_id' => $user->id])
-                                ->whereDate('date', $date);
-        if ($shifts->count())
-        {
+            ->whereDate('date', $date);
+        if ($shifts->count()) {
             $ids = $shifts->whereNotNull('id')->pluck('id')->all();
-            if (count($ids))
-            {
+            if (count($ids)) {
                 $needDeleteShiftQb->whereNotIn('id', $ids);
             }
         }
