@@ -17,8 +17,7 @@ class WorkingHourController extends BaseController
         $data = $query->validated();
 
         $qb = WorkingHour::whereRaw('1=1');
-        if (!empty($data['employment_status_id']))
-        {
+        if (!empty($data['employment_status_id'])) {
             $qb->where([
                 ['employment_status_id', '=', $data['employment_status_id']]
             ]);
@@ -37,8 +36,7 @@ class WorkingHourController extends BaseController
         $startTime = $data['start_time'];
         $endTime = $data['end_time'];
 
-        if ($startTime > $endTime)
-        {
+        if ($startTime > $endTime) {
             return $this->sendError(trans('working_hours.start_gt_end'));
         }
         $workingHour = WorkingHour::create($data);
@@ -50,8 +48,7 @@ class WorkingHourController extends BaseController
         $startTime = $data['start_time'];
         $endTime = $data['end_time'];
 
-        if ($startTime > $endTime)
-        {
+        if ($startTime > $endTime) {
             return $this->sendError(trans('working_hours.start_gt_end'));
         }
         $workingHour->fill($data);
@@ -76,13 +73,13 @@ class WorkingHourController extends BaseController
     public function getWorkingHourWithUser(User $user)
     {
         $currentUser = auth()->user();
-        if (!Gate::forUser($currentUser)->allows('get-user-working-hours', $user))
-        {
+        if (!Gate::forUser($currentUser)->allows('get-user-working-hours', $user)) {
             abort(403, trans("You are note allowed"));
         }
         $workingHours = WorkingHour::where([
             'office_id'             =>  $user->office->id,
-            'employment_status_id'  =>  $user->employment_status_id
+            'employment_status_id'  =>  $user->employment_status_id,
+            'enable'                =>  true
         ])->get();
         return $this->sendResponse($workingHours);
     }
