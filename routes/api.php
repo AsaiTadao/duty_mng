@@ -7,6 +7,7 @@ use App\Http\Controllers\API\V1\OfficeController;
 use App\Http\Controllers\API\V1\RegionController;
 use App\Http\Controllers\API\V1\SettingController;
 use App\Http\Controllers\API\V1\ShiftController;
+use App\Http\Controllers\API\V1\StampController;
 use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\V1\VacationReasonController;
 use App\Http\Controllers\API\V1\WorkingHourController;
@@ -45,7 +46,11 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
 
         Route::get('/reason-for-vacation/enable', [VacationReasonController::class, 'getEnable'])->name('vacation_reason.get_enable');
 
-        Route::middleware(['can:admin-only'])->group(function() {
+        Route::get('/stamp/status', [StampController::class, 'status'])->name('stamp.status');
+        Route::post('/stamp/commute', [StampController::class, 'commute'])->name('stamp.commute');
+        Route::post('/stamp/leave', [StampController::class, 'leave'])->name('stamp.leave');
+
+        Route::middleware(['can:admin-only'])->group(function () {
             Route::get('/office-master', [OfficeController::class, 'get'])->name('office.get');
             Route::post('/office-master', [OfficeController::class, 'create'])->name('office_master.create');
             Route::put('/office-master/{office}', [OfficeController::class, 'update'])->name('office_master.update');
@@ -87,8 +92,6 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
             Route::post('/users', [UserController::class, 'create']);
             Route::put('/users/{user}', [UserController::class, 'update']);
             Route::delete('/users/{user}', [UserController::class, 'delete']);
-
-
         });
     });
 });
