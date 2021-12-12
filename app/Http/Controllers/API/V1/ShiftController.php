@@ -74,6 +74,7 @@ class ShiftController extends BaseController
             if (empty($shifts[$employee->id])) {
                 $shift = array_fill(0, $days, []);
                 $row['shifts'] = $shift;
+                $response[] = $row;
                 continue;
             }
 
