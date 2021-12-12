@@ -67,7 +67,8 @@
                                         </tr>
                                         <tr :key="office.id + '_rest_type'">
                                             <td colspan="2">
-                                            休憩時間の控除：6時間以上の勤務で1時間を自動控除
+                                            <!-- 休憩時間の控除：6時間以上の勤務で1時間を自動控除 -->
+                                            {{ getRestDeductionLabel(office.restDeductionId) }}
                                             </td>
                                         </tr>
                                     </template>
@@ -100,12 +101,12 @@
     </div>
 </template>
 <script>
-import moment from 'moment';
 import OfficeMasterForm from './OfficeMaster/OfficeMasterForm.vue';
 import api, { apiErrorHandler } from '../global/api';
 import ScheduleWorkingForm from './OfficeMaster/ScheduleWorkingForm.vue';
 import actionLoading from '../mixin/actionLoading';
 import { showSuccess } from '../helpers/error';
+import { mapState } from 'vuex';
 export default {
     mixins: [actionLoading],
   components: { OfficeMasterForm, ScheduleWorkingForm },
@@ -131,6 +132,11 @@ export default {
                     officeId: null
                 }
             }
+        },
+        computed: {
+            ... mapState({
+                restDeductions: state =>  state.constants.restDeductions,
+            }),
         },
         methods: {
             onEditClicked(officeId) {
@@ -197,6 +203,11 @@ export default {
                         this.unsetActionLoading();
                     });
             },
+            getRestDeductionLabel(restDeductionId) {
+                const restDeduction = this.restDeductions.find(({id}) => id === restDeductionId);
+                if (!restDeduction) return '';
+                return restDeduction.name;
+            }
         },
         mounted() {
             this.getOffices();
