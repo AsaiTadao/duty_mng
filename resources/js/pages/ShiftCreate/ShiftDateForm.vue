@@ -421,7 +421,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="shiftEditForm" tabindex="-1" role="dialog" aria-labelledby="shiftEditForm" aria-hidden="true" style="z-index: 10000;">
+        <!-- <div class="modal fade" id="shiftEditForm" tabindex="-1" role="dialog" aria-labelledby="shiftEditForm" aria-hidden="true" style="z-index: 10000;">
             <div class="modal-dialog" role="document">
                 <shift-form :employee="selectedEmployee"
                             :workingHours="capableWorkingHours"
@@ -432,7 +432,7 @@
                             v-on:success="onShiftSaved"
                 />
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
