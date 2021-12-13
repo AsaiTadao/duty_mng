@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Models\Attendance;
+use App\Models\StampLog;
 use App\Services\Processors\AttendanceProcessor;
 use App\Services\StampService;
 use Carbon\Carbon;
@@ -29,6 +31,10 @@ class StampController extends BaseController
             $stamp = Carbon::now();
         }
         Log::info("[user " . $user->id . "] trying to commute stamp");
+        StampLog::create([
+            'user_id'   =>  $user->id,
+            'type'      =>  Attendance::TYPE_COMMUTE
+        ]);
 
         $result = $this->stampService->commute($user, $stamp);
         if (!$result) {
@@ -59,6 +65,12 @@ class StampController extends BaseController
             $stamp = Carbon::now();
         }
         Log::info("[user " . $user->id . "] trying to leave stamp");
+
+        StampLog::create([
+            'user_id'   =>  $user->id,
+            'type'      =>  Attendance::TYPE_LEAVE
+        ]);
+
         $attendance = $this->stampService->leave($user, $stamp);
         if (!$attendance) {
             Log::error("[user " . $user->id . "] commute stamp error : " . $this->stampService->getError());
