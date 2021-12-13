@@ -275,10 +275,10 @@ import { mapState } from 'vuex';
             handleScroll() {
                 if(this.timer !== null) {
                     clearTimeout(this.timer);
-                    $("#sumTable").hide();
+                    $("#sumTable").fadeOut(400);
                 }
                 this.timer = setTimeout(function() {
-                    $("#sumTable").show();
+                    $("#sumTable").fadeIn(400);
                 }, 150);
             },
         },
