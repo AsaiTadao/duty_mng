@@ -24,18 +24,18 @@ class CreateAttendancesTable extends Migration
 
             $table->dateTime('commuting_time_1')->nullable();
             $table->dateTime('leave_time_1')->nullable();
-            $table->float('behind_time_1', 4, 2)->nullable();
-            $table->float('leave_early_1', 4, 2)->nullable();
+            $table->float('behind_time_1', 6, 2)->nullable();
+            $table->float('leave_early_1', 6, 2)->nullable();
 
             $table->dateTime('commuting_time_2')->nullable();
-            $table->float('behind_time_2', 4, 2)->nullable();
+            $table->float('behind_time_2', 6, 2)->nullable();
             $table->dateTime('leave_time_2')->nullable();
-            $table->float('leave_early_2', 4, 2)->nullable();
+            $table->float('leave_early_2', 6, 2)->nullable();
 
             $table->dateTime('commuting_time_3')->nullable();
-            $table->float('behind_time_3', 4, 2)->nullable();
+            $table->float('behind_time_3', 6, 2)->nullable();
             $table->dateTime('leave_time_3')->nullable();
-            $table->float('leave_early_3', 4, 2)->nullable();
+            $table->float('leave_early_3', 6, 2)->nullable();
 
             $table->foreignId('year_id')->nullable();
             $table->unsignedTinyInteger('month')->nullable();

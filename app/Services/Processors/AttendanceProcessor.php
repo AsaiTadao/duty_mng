@@ -22,10 +22,8 @@ class AttendanceProcessor
 
             if ($attendance->$commute_time) {
                 if ($attendance->$shift) {
-                    // Carbon::now()->floatDiffInMinutes()
                     $minutes = Carbon::parse($attendance->$commute_time->format('Y-m-d') . ' ' . $attendance->$shift->start_time)
                         ->floatDiffInMinutes($attendance->$commute_time, false);
-
                     if ($minutes > 0) {
                         $attendance->$behind_time = $minutes;
                     } else {
@@ -40,9 +38,12 @@ class AttendanceProcessor
 
             if ($attendance->$leave_time) {
                 if ($attendance->$shift) {
-                    $minutes = Carbon::parse($attendance->$leave_time->format('Y-m-d') . ' ' . $attendance->$shift->end_time)
-                        ->floatDiffInMinutes($attendance->$leave_time, false);
-                    if ($minutes < 0) {
+                    $minutes = $attendance->$leave_time
+                        ->floatDiffInMinutes(
+                            Carbon::parse($attendance->$leave_time->format('Y-m-d') . ' ' . $attendance->$shift->end_time),
+                            false
+                        );
+                    if ($minutes > 0) {
                         $attendance->$leave_early = $minutes;
                     } else {
                         $attendance->$leave_early = 0;

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Attendance;
 use App\Models\ShiftPlan;
+use App\Models\User;
 use App\Models\Year;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -155,11 +156,10 @@ class StampService
                     'number'        =>  1
                 ];
             }
-        }
-        if (!$attendance->commuting_time_2 && !$attendance->leave_time_2) {
+        } else if (!$attendance->commuting_time_2 && !$attendance->leave_time_2) {
             if (!empty($shifts[1])) {
-                if ($stampTime <= $shifts[0]->end_time) {
-                    $attendance->shift1->associcate($shifts[0]);
+                if ($stampTime > $shifts[0]->end_time) {
+                    $attendance->shift1->associcate($shifts[1]);
                     $this->log($user, "getMatchedShift return 13 postion");
                     $attendance->commuting_time_2 = $stamp;
                     return [
@@ -168,16 +168,28 @@ class StampService
                     ];
                 }
             } else {
-                $this->log($user, "getMatchedShift return 14 postion");
-                $attendance->commuting_time_2 = $stamp;
-                return [
-                    'attendance'    =>  $attendance,
-                    'number'        =>  2
-                ];
+                if (!empty($shifts[0])) {
+                    if ($stampTime > $shifts[0]->end_time ) {
+                        $this->log($user, "getMatchedShift return 14 postion");
+                        $attendance->commuting_time_2 = $stamp;
+                        return [
+                            'attendance'    =>  $attendance,
+                            'number'        =>  2
+                        ];
+                    }
+                } else {
+                    $this->log($user, "getMatchedShift return 15 postion");
+                    $attendance->commuting_time_2 = $stamp;
+                    return [
+                        'attendance'    =>  $attendance,
+                        'number'        =>  2
+                    ];
+                }
             }
         }
         // eoc: check beyond shifts
-        $this->log($user, "getMatchedShift return 15 postion");
+        $this->error = "Invalid stamp request";
+        $this->log($user, "getMatchedShift return 16 postion");
         return null;
     }
 
@@ -187,20 +199,31 @@ class StampService
      * @return Attendance $attendance
      * null: error
      */
-    public function leave($user, $stamp)
+    public function leave(User $user, Carbon $stamp)
     {
         [$attendance, $shifts] = $this->getAttendanceShifts($user, $stamp);
 
         if ($attendance->leave_time_2) {
             $this->error = "Trying to leave stamp 3 or more times";
+            $this->log($user, "leave : return position 1");
             return false;
         }
         if ($attendance->commuting_time_2 || $attendance->leave_time_1) {
+            if ($attendance->commuting_time_2 && $stamp->lte($attendance->commuting_time_2)) {
+                $this->error = "Invalid leave stamp request";
+                $this->log($user, "leave : return position 2");
+                return false;
+            }
             $attendance->leave_time_2 = $stamp;
             return $attendance;
         }
 
         if ($shifts->count() === 0 || $shifts->count() === 1) {
+            if ($attendance->commuting_time_1 && $stamp->lte($attendance->commuting_time_1)) {
+                $this->error = "Invalid leave stamp request";
+                $this->log($user, "leave : return position 3");
+                return false;
+            }
             $attendance->leave_time_1 = $stamp;
             return $attendance;
         }
@@ -210,10 +233,16 @@ class StampService
             $diffWitSecond = Carbon::parse($stamp->format('Y-m-d') . ' ' . $shifts[1]->end_time)->floatDiffInMinutes($stamp);
             if ($diffWitSecond < $diffWithFirst) {
                 $attendance->leave_time_2 = $stamp;
+                $this->log($user, "leave : return position 4");
                 return $attendance;
             }
         }
+        if ($attendance->commuting_time_1 && $stamp->lte($attendance->commuting_time_1)) {
+            $this->error = "Invalid leave stamp request";
+            $this->log($user, "leave : return position 5");
+        }
         $attendance->leave_time_1 = $stamp;
+        $this->log($user, "leave : return position 6");
         return $attendance;
     }
 
