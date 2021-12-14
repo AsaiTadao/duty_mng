@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Attendance extends Model
 {
@@ -49,5 +50,26 @@ class Attendance extends Model
     public function shift3()
     {
         return $this->belongsTo(ShiftPlan::class, 'shift_3_id');
+    }
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
+    public function year()
+    {
+        return $this->belongsTo(Year::class);
+    }
+    public function getDateAttritube()
+    {
+        $year = $this->year;
+        if (!$year) return null;
+        $month = $this->attributes['month'];
+
+        $yearNumber = floor($year->start / 100);
+        if ($month < $year->start % 100) {
+            $yearNumber = floor($year->end / 100);
+        }
+        return Carbon::parse($yearNumber . '-' . sprintf('%02d', $month) . '-' . sprintf('%02d', $this->attributes['day']));
     }
 }

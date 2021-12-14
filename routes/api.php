@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\ApplicationController;
 use App\Http\Controllers\API\V1\AttendanceStatusController;
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\ConstantController;
@@ -54,6 +55,9 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
 
         Route::get('/attend/{office}', [WorkStatusController::class, 'get'])->name('attend.work_status');
         Route::get('/attendance/status', [AttendanceStatusController::class, 'index'])->name('attendance.status.index');
+        Route::post('/application', [ApplicationController::class, 'create'])->name('application.create');
+        Route::put('/application/{application}', [ApplicationController::class, 'update'])->name('application.update');
+        Route::put('/application/approve/{application}', [ApplicationController::class, 'approve'])->name('application.approve');
 
         Route::middleware(['can:admin-only'])->group(function () {
             Route::get('/office-master', [OfficeController::class, 'get'])->name('office.get');

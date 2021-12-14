@@ -17,7 +17,7 @@ class CreateApplicationsTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('attendance_id')->nullable();
-            $table->unsignedInteger('class')->nullable();
+            $table->foreignId('application_class_id')->nullable()->constrained('application_classes')->nullOnDelete();
             $table->unsignedTinyInteger('status')->nullable();
             $table->dateTime('application_datetime')->nullable();
             $table->dateTime('approval_datetime')->nullable();
