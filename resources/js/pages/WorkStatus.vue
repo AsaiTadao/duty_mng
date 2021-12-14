@@ -1,6 +1,5 @@
 <template>
-    <work-status-b v-if="session.employmentStatusId == 1" /> <!-- 正社員で 出勤状況確認 -->
-    <work-status-a v-else-if="session.employmentStatusId == 3" />　<!-- パート社員で 出勤状況確認 -->
+    <work-status-b /> <!-- 正社員で 出勤状況確認 -->
 </template>
 
 <script>
@@ -22,16 +21,6 @@
                 days: [],
                 attends : [],
                 requests : [],
-                // form: new Form({
-                //     id : '',
-                //     date: '',
-                //     type : 0,
-                //     hour: '',
-                //     minute: '',
-                //     new_hour: '',
-                //     new_minute: '',
-                //     memo: '',
-                // }),
                 ja: ja,
             }
         },
