@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Constants\Roles;
+use App\Models\Application;
 use App\Models\Office;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -102,6 +103,32 @@ class AuthServiceProvider extends ServiceProvider
             if (!$targetUser->office) return false;
             if (!$userGuard($user, $targetUser)) return false;
             return true;
+        });
+
+        $applicationGuard = function (User $user, Application $application) {
+            if ($user->role_id === Roles::ADMIN) return true;
+            if ($user->role_id === Roles::USER_A || $user->role_id === Roles::USER_B) {
+                if ($application->is_approved) return false;
+                return $user->id === $application->user_id;
+            }
+
+            if (!$application->user || !$application->user->office) return false;
+
+            $user_office = $user->office;
+            if (!$user_office) return false;
+            if ($user->role_id === Roles::REGION_MANAGER) {
+                if (!$user->office->region) return false;
+                return $user->office->region->id === $application->user->office->region_id;
+            }
+            if ($user->role_id === Roles::OFFICE_MANAGER) {
+                return $application->user->office_id === $user_office->id;
+            }
+        };
+
+        Gate::define('update-application', $applicationGuard);
+        Gate::define('approve-application', function (User $user, Application $application) use ($applicationGuard) {
+            if ($user->role_id === Roles::USER_A || $user->role_id === Roles::USER_B) return false;
+            return $applicationGuard($user, $application);
         });
     }
 }

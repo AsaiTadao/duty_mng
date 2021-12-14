@@ -37,7 +37,9 @@ class AttendanceTotalService
             'user_id'   =>  $user->id,
             'year_id'   =>  $year->id,
             'month'     =>  $monthNumber,
-        ])->get();
+        ])
+        ->with('applications')
+        ->get();
 
         $shifts = ShiftPlan::where([
             'user_id'   =>  $user->id
@@ -79,6 +81,16 @@ class AttendanceTotalService
             if (!$attendance) {
                 $attendanceItems[$day] = [];
                 continue;
+            }
+            if (
+                !$attendance->commuting_time_1
+                && !$attendance->commuting_time_2
+                && !$attendance->commuting_time_3
+                && !$attendance->leave_time_1
+                && !$attendance->leave_time_2
+                && !$attendance->leave_time_3
+            ) {
+                $attendanceItems[$day] = [];
             }
             $shiftExisting = $shifts->first(function ($value, $key) use ($yearNumber, $monthNumber, $day) {
                 // return $value->date->year === $yearNumber && $value->date->month === $monthNumber && $value->date->day === $day;
@@ -207,7 +219,7 @@ class AttendanceTotalService
                 'office_id' =>  $user->office->id,
                 ])->first();
             if ($scheduled_working) {
-                $attendanceTotal->scheduled_working_hours_a = $user->working_hours * $scheduled_working->days;   // 所定労働時間マスタで登録した事業所毎の日数×社員マスタに登録した個々人の勤務時間で算出
+                $attendanceTotal->scheduled_working_hours_a = 60 * $user->working_hours * $scheduled_working->days;   // 所定労働時間マスタで登録した事業所毎の日数×社員マスタに登録した個々人の勤務時間で算出
                 $attendanceTotal->excess_and_deficiency_time = $attendanceTotal->scheduled_working_hours_a - $attendanceTotal->scheduled_working_hours_b; // 過不足時間 = 登録した所定労働時間－計算した所定労働時間
             }
         }
