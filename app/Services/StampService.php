@@ -6,7 +6,7 @@ use App\Models\Attendance;
 use App\Models\ShiftPlan;
 use App\Models\User;
 use App\Models\Year;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class StampService
@@ -246,7 +246,7 @@ class StampService
         return $attendance;
     }
 
-    private function getAttendanceShifts($user, $stamp)
+    private function getAttendanceShifts($user, Carbon $stamp)
     {
         $yearNumber = $stamp->year;
         $month = $stamp->month;
@@ -274,6 +274,7 @@ class StampService
                 'year_id'   =>  $year->id,
                 'month'     =>  $month,
                 'day'       =>  $day,
+                'day_of_week'=> $stamp->dayOfWeek
             ]);
             $attendance->user()->associate($user);
         }

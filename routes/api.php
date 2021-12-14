@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\AttendanceStatusController;
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\ConstantController;
 use App\Http\Controllers\API\V1\HourlyWageController;
@@ -49,6 +50,8 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::get('/stamp/status', [StampController::class, 'status'])->name('stamp.status');
         Route::post('/stamp/commute', [StampController::class, 'commute'])->name('stamp.commute');
         Route::post('/stamp/leave', [StampController::class, 'leave'])->name('stamp.leave');
+
+        Route::get('/attendance/status', [AttendanceStatusController::class, 'index'])->name('attendance.status.index');
 
         Route::middleware(['can:admin-only'])->group(function () {
             Route::get('/office-master', [OfficeController::class, 'get'])->name('office.get');

@@ -9,7 +9,7 @@ use App\Models\Office;
 use App\Models\ShiftPlan;
 use App\Models\User;
 use App\Services\Processors\ShiftProcessor;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;

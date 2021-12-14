@@ -6,7 +6,7 @@ use App\Models\Attendance;
 use App\Models\StampLog;
 use App\Services\Processors\AttendanceProcessor;
 use App\Services\StampService;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 

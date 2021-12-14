@@ -11,7 +11,7 @@ use App\Models\Office;
 use App\Models\ScheduledWorking;
 use App\Models\User;
 use App\Models\Year;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;

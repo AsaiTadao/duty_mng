@@ -4,7 +4,7 @@ namespace App\Services\Processors;
 
 use App\Models\ShiftPlan;
 use App\Models\WorkingHour;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
 class ShiftProcessor
 {

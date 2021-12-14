@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Office extends Model
 {
@@ -30,5 +31,11 @@ class Office extends Model
     public function group()
     {
         return $this->belongsTo(OfficeGroup::class, 'office_group_id', 'id');
+    }
+
+    public function getIsHeadquarterAttribute()
+    {
+        if (!$this->attributes['name']) return false;
+        return Str::endsWith($this->attributes['name'], '本社');
     }
 }
