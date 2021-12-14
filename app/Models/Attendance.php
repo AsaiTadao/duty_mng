@@ -32,6 +32,7 @@ class Attendance extends Model
         'year_id',
         'month',
         'day',
+        'day_of_week'
     ];
 
     public function user()

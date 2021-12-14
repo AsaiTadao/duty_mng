@@ -253,7 +253,7 @@
             },
             changeTimeFormat(date) {
                 if(date) {
-                    return moment(date).tz('Asia/Tokyo').format('hh:mm');
+                    return moment(date).tz('Asia/Tokyo').format('HH:mm');
                 } else {
                     return "-";
                 }

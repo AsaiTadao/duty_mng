@@ -79,7 +79,6 @@ class WorkStatusController extends BaseController
         $yearNumber = $createTime->year;
         $month = $createTime->month;
         $day = $createTime->day;
-
         $year = Year::where([
             ['start', '<=',  $yearNumber * 100 + $month],
             ['end', '>=', $yearNumber * 100 + $month]
@@ -102,10 +101,10 @@ class WorkStatusController extends BaseController
         }
 
         $attendance->user_id = $userId;
-        $attendance->commuting_time_1 = isset($data['commuting_time_1'])  ? $data['commuting_time_1'] : null;
-        $attendance->leave_time_1 = isset($data['leave_time_1']) ? $data['leave_time_1'] : null;
-        $attendance->commuting_time_2 = isset($data['commuting_time_2']) ? $data['commuting_time_2'] : null;
-        $attendance->leave_time_2 = isset($data['leave_time_2']) ? $data['leave_time_2'] : null;
+        $attendance->commuting_time_1 = $data['commuting_time_1']??null;
+        $attendance->leave_time_1 = $data['leave_time_1']??null;
+        $attendance->commuting_time_2 = $data['commuting_time_2']??null;
+        $attendance->leave_time_2 = $data['leave_time_2']??null;
 
         $attendance->create_user_id = $currentUser->id;
         $attendance->save();

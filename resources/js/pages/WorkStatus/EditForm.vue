@@ -204,15 +204,15 @@ import moment from 'moment-timezone';
                     this.formData.endTimeHour1 && this.formData.endTimeMin1)) {
                     // requestData['behind_time_1'] = this.formData.behindTime1 ? this.formData.behindTime1 : null;
                     // requestData['leave_early_1'] = this.formData.leaveEarly1 ? this.formData.leaveEarly1 : null;
-                    requestData['leave_time_1'] = moment(this.workStatus.leaveTime1 ? this.workStatus.leaveTime1 : this.date).tz('Asia/Tokyo').format('YYYY-MM-DD') + ' ' + this.formData.endTimeHour1 + ':' + this.formData.endTimeMin1 + ':00';
-                    requestData['commuting_time_1'] = moment(this.workStatus.commutingTime1 ? this.workStatus.commutingTime1 : this.date).tz('Asia/Tokyo').format('YYYY-MM-DD') + ' ' + this.formData.startTimeHour1 + ':' + this.formData.startTimeMin1 + ':00';
+                    requestData['leave_time_1'] = moment(this.workStatus.leaveTime1 ? this.workStatus.leaveTime1 : this.date).format('YYYY-MM-DD') + ' ' + this.formData.endTimeHour1 + ':' + this.formData.endTimeMin1 + ':00';
+                    requestData['commuting_time_1'] = moment(this.workStatus.commutingTime1 ? this.workStatus.commutingTime1 : this.date).format('YYYY-MM-DD') + ' ' + this.formData.startTimeHour1 + ':' + this.formData.startTimeMin1 + ':00';
                 }
                 if((this.formData.startTimeHour2 && this.formData.startTimeMin2 &&
                     this.formData.endTimeHour2 && this.formData.endTimeMin2)) {
                     // requestData['behind_time_2'] = this.formData.behindTime2 ? this.formData.behindTime2 : null;
                     // requestData['leave_early_2'] = this.formData.leaveEarly2 ? this.formData.leaveEarly2 : null;
-                    requestData['leave_time_2'] = moment(this.workStatus.leaveTime2 ? this.workStatus.leaveTime2 : this.date).tz('Asia/Tokyo').format('YYYY-MM-DD') + ' ' + this.formData.endTimeHour2 + ':' + this.formData.endTimeMin2 + ':00';
-                    requestData['commuting_time_2'] = moment(this.workStatus.commutingTime2 ? this.workStatus.commutingTime2 : this.date).tz('Asia/Tokyo').format('YYYY-MM-DD') + ' ' + this.formData.startTimeHour2 + ':' + this.formData.startTimeMin2 + ':00';
+                    requestData['leave_time_2'] = moment(this.workStatus.leaveTime2 ? this.workStatus.leaveTime2 : this.date).format('YYYY-MM-DD') + ' ' + this.formData.endTimeHour2 + ':' + this.formData.endTimeMin2 + ':00';
+                    requestData['commuting_time_2'] = moment(this.workStatus.commutingTime2 ? this.workStatus.commutingTime2 : this.date).format('YYYY-MM-DD') + ' ' + this.formData.startTimeHour2 + ':' + this.formData.startTimeMin2 + ':00';
                 }
 
                 this.setActionLoading();
@@ -238,15 +238,15 @@ import moment from 'moment-timezone';
                 this.initializeFormData();
 
                 if (this.workStatus) {
-                    this.formData.startTimeHour1 = this.workStatus.commutingTime1 ? moment(this.workStatus.commutingTime1).tz('Asia/Tokyo').format('hh') : '';
+                    this.formData.startTimeHour1 = this.workStatus.commutingTime1 ? moment(this.workStatus.commutingTime1).tz('Asia/Tokyo').format('HH') : '';
                     this.formData.startTimeMin1 = this.workStatus.commutingTime1 ? moment(this.workStatus.commutingTime1).tz('Asia/Tokyo').format('mm') : '';
-                    this.formData.endTimeHour1 = this.workStatus.leaveTime1 ? moment(this.workStatus.leaveTime1).tz('Asia/Tokyo').format('hh') : '';
+                    this.formData.endTimeHour1 = this.workStatus.leaveTime1 ? moment(this.workStatus.leaveTime1).tz('Asia/Tokyo').format('HH') : '';
                     this.formData.endTimeMin1 = this.workStatus.leaveTime1 ? moment(this.workStatus.leaveTime1).tz('Asia/Tokyo').format('mm') : '';
                     // this.formData.behindTime1 = this.workStatus.behindTime1 ? this.workStatus.behindTime1 : '';
                     // this.formData.leaveEarly1 = this.workStatus.leaveEarly1 ? this.workStatus.leaveEarly1 : '';
-                    this.formData.startTimeHour2 = this.workStatus.commutingTime2 ? moment(this.workStatus.commutingTime2).tz('Asia/Tokyo').format('hh') : '';
+                    this.formData.startTimeHour2 = this.workStatus.commutingTime2 ? moment(this.workStatus.commutingTime2).tz('Asia/Tokyo').format('HH') : '';
                     this.formData.startTimeMin2 = this.workStatus.commutingTime2 ? moment(this.workStatus.commutingTime2).tz('Asia/Tokyo').format('mm') : '';
-                    this.formData.endTimeHour2 = this.workStatus.leaveTime2 ? moment(this.workStatus.leaveTime2).tz('Asia/Tokyo').format('hh') : '';
+                    this.formData.endTimeHour2 = this.workStatus.leaveTime2 ? moment(this.workStatus.leaveTime2).tz('Asia/Tokyo').format('HH') : '';
                     this.formData.endTimeMin2 = this.workStatus.leaveTime2 ? moment(this.workStatus.leaveTime2).tz('Asia/Tokyo').format('mm') : '';
                     // this.formData.behindTime2 = this.workStatus.behindTime2 ? this.workStatus.behindTime2 : '';
                     // this.formData.leaveEarly2 = this.workStatus.leaveEarly2 ? this.workStatus.leaveEarly2 : '';
