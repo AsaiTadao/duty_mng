@@ -1,7 +1,8 @@
 <template>
-    <work-status-b v-if="session.employmentStatusId == 1" />
-    <work-status-a v-else-if="session.employmentStatusId == 3" />
+    <work-status-b v-if="session.employmentStatusId == 1" /> <!-- 正社員で 出勤状況確認 -->
+    <work-status-a v-else-if="session.employmentStatusId == 3" />　<!-- パート社員で 出勤状況確認 -->
 </template>
+
 <script>
     import Datepicker from "vuejs-datepicker";
     import { ja } from 'vuejs-datepicker/dist/locale';

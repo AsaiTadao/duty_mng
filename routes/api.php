@@ -54,6 +54,9 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::post('/stamp/leave', [StampController::class, 'leave'])->name('stamp.leave');
 
         Route::get('/attend/{office}', [WorkStatusController::class, 'get'])->name('attend.work_status');
+        Route::post('/attend', [WorkStatusController::class, 'create'])->name('attend.work_status.create');
+        Route::put('/attend/{attendance}', [WorkStatusController::class, 'update'])->name('attend.work_status.update');
+
         Route::get('/attendance/status', [AttendanceStatusController::class, 'index'])->name('attendance.status.index');
         Route::post('/application', [ApplicationController::class, 'create'])->name('application.create');
         Route::put('/application/{application}', [ApplicationController::class, 'update'])->name('application.update');

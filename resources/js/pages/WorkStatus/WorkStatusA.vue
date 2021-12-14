@@ -5,7 +5,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title">
-                            <h3 class="card-title mb-0">ラテラル保育園</h3>
+                            <h3 class="card-title mb-0">{{officeName}}</h3>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <datepicker
                                 :language="ja"
@@ -17,9 +17,8 @@
                                     <i class="fas fa-calendar-alt fa-2x"></i>
                                 </button>
                                 <div class="form-group mx-4 mb-0">
-                                    <select class="form-control">
-                                        <option>ラテラル保育園</option>
-                                        <option>ラテラルキッズ本社</option>
+                                    <select class="form-control" v-model="officeId">
+                                        <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -230,7 +229,11 @@
 <script>
     import Datepicker from "vuejs-datepicker";
     import { ja } from 'vuejs-datepicker/dist/locale';
-    import moment from 'moment'
+    import moment from 'moment';
+    import { mapState } from 'vuex';
+    import actionLoading from '../../mixin/actionLoading';
+    import api, { apiErrorHandler } from '../../global/api';
+
     export default {
         components: {
             Datepicker,
@@ -243,20 +246,22 @@
                 days: [],
                 attends : [],
                 requests : [],
-                // form: new Form({
-                //     id : '',
-                //     date: '',
-                //     type : 0,
-                //     hour: '',
-                //     minute: '',
-                //     new_hour: '',
-                //     new_minute: '',
-                //     memo: '',
-                // }),
+                offices: [],
+                officeName: '',
+                officeId: 1,
+                selectedDate: '',
                 ja: ja,
             }
         },
         methods: {
+            getOffices() {
+                api.get('office/user-capable')
+                    .then(response => {
+                        this.offices = response;
+                        this.officeName = this.offices[this.officeId - 1].name;
+                    })
+                    .catch(e => apiErrorHandler(e))
+            },
             isThisMonth() {
                 const today = new Date();
                 return this.currentDate.getFullYear() == today.getFullYear() && this.currentDate.getMonth() == today.getMonth();
@@ -347,6 +352,9 @@
         created() {
             this.getResults(this.currentDate);
             this.todayDate = this.getCurrentDate().toString();
+        },
+        mounted() {
+            this.getOffices();
         }
     }
 </script>
