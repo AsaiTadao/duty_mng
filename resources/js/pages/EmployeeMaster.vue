@@ -88,7 +88,7 @@
                                         <td>{{user.office? user.office.name: ''}}</td>
                                         <td>{{user.region? user.region.name: ''}}</td>
                                         <td>{{user.officeGroup? user.officeGroup.id: ''}}</td>
-                                        <td>8時間</td>
+                                        <td>{{ user.workingHours ? (user.workingHours + '時間') : '' }}</td>
                                     </tr>
                                     <tr :key="user.id+'2'">
                                         <td colspan="2">{{user.email}}</td>

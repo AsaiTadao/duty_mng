@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\AttendanceStatusController;
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\ConstantController;
 use App\Http\Controllers\API\V1\HourlyWageController;
@@ -11,7 +12,7 @@ use App\Http\Controllers\API\V1\StampController;
 use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\V1\VacationReasonController;
 use App\Http\Controllers\API\V1\WorkingHourController;
-use App\Http\Controllers\API\V1\AttendController;
+use App\Http\Controllers\API\V1\WorkStatusController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,7 +52,9 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::post('/stamp/commute', [StampController::class, 'commute'])->name('stamp.commute');
         Route::post('/stamp/leave', [StampController::class, 'leave'])->name('stamp.leave');
 
-        Route::get('/attend/{office}', [AttendController::class, 'get'])->name('attend.work_status');
+        Route::get('/attend/{office}', [WorkStatusController::class, 'get'])->name('attend.work_status');
+        Route::get('/attendance/status', [AttendanceStatusController::class, 'index'])->name('attendance.status.index');
+
         Route::middleware(['can:admin-only'])->group(function () {
             Route::get('/office-master', [OfficeController::class, 'get'])->name('office.get');
             Route::post('/office-master', [OfficeController::class, 'create'])->name('office_master.create');

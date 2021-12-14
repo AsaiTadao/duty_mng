@@ -61,11 +61,15 @@
                         </span>
                     </div>
                     <div class="col-md-3">
-                        <select class="form-control">
-                            <option>8時間</option>
-                            <option>7時間</option>
-                            <option>6時間</option>
+                        <select class="form-control" v-model="formData.workingHours" :class="{'is-invalid' : errors.workingHours}">
+                            <option :value="null">{{ $t('Please select working hour') }}</option>
+                            <option :value="8">8時間</option>
+                            <option :value="7">7時間</option>
+                            <option :value="6">6時間</option>
                         </select>
+                        <span v-if="errors.workingHours" class="error invalid-feedback">
+                            {{ errors.workingHours }}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -110,7 +114,7 @@ import { showSuccess } from '../../helpers/error';
                 email: '',
                 password: '',
                 officeGroupId: null,
-
+                workingHours: 8
             },
             regions: [],
         },
@@ -126,6 +130,7 @@ import { showSuccess } from '../../helpers/error';
                     email: '',
                     password: '',
                     officeGroupId: null,
+                    workingHours: null
                 };
                 this.offices = [];
                 this.setOffices();
@@ -161,7 +166,8 @@ import { showSuccess } from '../../helpers/error';
                     'enrolled': this.formData.enrolled,
                     'office_id': this.formData.officeId,
                     'email': this.formData.email,
-                    'password': this.formData.password
+                    'password': this.formData.password,
+                    'workingHours': this.formData.workingHours
                 };
                 this.setActionLoading();
                 let request;
@@ -214,7 +220,10 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.password = this.$t('Please input password');
                     valid = false;
                 }
-                console.log({valid});
+                if (!this.formData.workingHours) {
+                    this.errors.workingHours = this.$t('Please select working hour');
+                    valid = false;
+                }
                 return valid;
             },
             setOffices() {

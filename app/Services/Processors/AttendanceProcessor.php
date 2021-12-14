@@ -3,7 +3,7 @@
 namespace App\Services\Processors;
 
 use App\Models\Attendance;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 
 class AttendanceProcessor
 {
