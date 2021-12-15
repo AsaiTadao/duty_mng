@@ -41,12 +41,12 @@
                 </thead>
                 <tbody class="text-center">
                     <tr class="heavy-green">
-                        <td>{{total.totalWorkingHours}}</td>
-                        <td>{{total.actualWorkingHoursWeekdays}}</td>
-                        <td>{{total.scheduledWorkingHoursA}}</td>
-                        <td>{{total.scheduledWorkingHoursB}}</td>
-                        <td>{{total.excessAndDeficiencyTime}}</td>
-                        <td>{{total.overtimeHoursWeekdays + total.overtimeHoursSaturday}}</td>
+                        <td>{{(total.totalWorkingHours / 60).toFixed(2)}}</td>
+                        <td>{{(total.actualWorkingHoursWeekdays / 60).toFixed(2)}}</td>
+                        <td>{{(total.scheduledWorkingHoursA).toFixed(2)}}</td>
+                        <td>{{(total.scheduledWorkingHoursB).toFixed(2)}}</td>
+                        <td>{{(total.excessAndDeficiencyTime).toFixed(2)}}</td>
+                        <td>{{((total.overtimeHoursWeekdays + total.overtimeHoursSaturday) / 60).toFixed(2)}}</td>
                     </tr>
                 </tbody>
             </table>
