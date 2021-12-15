@@ -356,7 +356,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label
-                                    v-for="item in this.$request_type"
+                                    v-for="item in applicationClasses"
                                     :key="item.id"
                                     class="mr-2"
                                 >
@@ -442,6 +442,7 @@
 </template>
 <script>
 import moment from 'moment';
+import { mapState } from 'vuex';
 export default {
     data() {
         return {
@@ -451,17 +452,12 @@ export default {
             days: [],
             attends: [],
             requests: [],
-            // form: new Form({
-            //     id: "",
-            //     date: "",
-            //     type: 0,
-            //     hour: "",
-            //     minute: "",
-            //     new_hour: "",
-            //     new_minute: "",
-            //     memo: ""
-            // })
         };
+    },
+    computed: {
+        ...mapState({
+            applicationClasses: state => state.constants.applicationClasses
+        })
     },
     methods: {
         isThisMonth() {

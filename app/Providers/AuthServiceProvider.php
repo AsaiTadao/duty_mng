@@ -37,7 +37,7 @@ class AuthServiceProvider extends ServiceProvider
         });
         $userOfficeGuard = function(User $user, Office $office) {
             if ($user->role_id === Roles::ADMIN) return true;
-            if ($user->role_id === Roles::USER_B) return false;
+            if ($user->role_id === Roles::USER_B || $user->role_id === Roles::USER_A) return false;
             $user_office = $user->office;
             if (!$user_office) return false;
 
@@ -49,13 +49,13 @@ class AuthServiceProvider extends ServiceProvider
         };
 
         $shiftGuard = function(User $user, Office $office, $targetUser) use ($userOfficeGuard) {
-            if ($office->id !== $targetUser->office_id) return false;
-            if (!$userOfficeGuard($user, $office)) return false;
-
+            if ($user->role_id === Roles::USER_B) return false;
             if ($user->role_id === Roles::USER_A)
             {
                 return $user->id === $targetUser->id;
             }
+            if (!$userOfficeGuard($user, $office)) return false;
+            // if ($office->id !== $targetUser->office_id) return false;
             return true;
         };
 
@@ -130,5 +130,11 @@ class AuthServiceProvider extends ServiceProvider
             if ($user->role_id === Roles::USER_A || $user->role_id === Roles::USER_B) return false;
             return $applicationGuard($user, $application);
         });
+        Gate::define('get-user-summary', function(User $user, User $targetUser) use ($userGuard) {
+            if ($user->id === $targetUser->id) return true;
+            return $userGuard($user, $targetUser);
+        });
+
+        Gate::define('get-office-work-total', $userOfficeGuard);
     }
 }

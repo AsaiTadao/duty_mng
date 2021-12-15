@@ -57,9 +57,24 @@ class AttendanceTotalService
         $attendanceTotal->year_id = $year->id;
         $attendanceTotal->month = $monthNumber;
 
+        $attendanceTotal->working_days = 0;
+        $attendanceTotal->total_working_hours = 0;
+        $attendanceTotal->actual_working_hours_weekdays = 0;
+        $attendanceTotal->overtime_hours_weekdays = 0;
+        $attendanceTotal->scheduled_working_hours_b = 0;
+        $attendanceTotal->overtime_hours_statutory = 0;
+        $attendanceTotal->overtime_hours_non_statutory = 0;
+        $attendanceTotal->midnight_overtime = 0;
+        $attendanceTotal->behind_time = 0;
+        $attendanceTotal->leave_early = 0;
+        $attendanceTotal->off_shift_working_hours = 0;
+        $attendanceTotal->actual_working_hours_saturday = 0;
+        $attendanceTotal->overtime_hours_saturday = 0;
+        $attendanceTotal->scheduled_working_hours_a = 0;
+        $attendanceTotal->excess_and_deficiency_time = 0;
+
         for($day = 1; $day <= $daysInMonth; $day++)
         {
-            Log::info("pos 1");
             $work_hours = 0;                        // 総出勤時間
             $rest_hours = 0;                        // 休憩時間
             $over_shift_time = 0;                   // シフトの時間を超えた時間

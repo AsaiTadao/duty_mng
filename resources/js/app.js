@@ -34,7 +34,7 @@ const Toast = Swal.mixin({
     toast: true,
     position: "top-end",
     showConfirmButton: false,
-    timer: 3000,
+    timer: 5000,
     timerProgressBar: true,
     onOpen: toast => {
         toast.addEventListener("mouseenter", Swal.stopTimer);
@@ -86,13 +86,6 @@ Vue.filter("yesno", value =>
 
 // end Filter
 
-// Global variables
-Vue.prototype.$request_type = [
-    { id: 1, name: "遅刻" },
-    { id: 2, name: "早退" },
-    { id: 3, name: "残業" },
-    { id: 4, name: "その他" }
-];
 const app = new Vue({
     el: "#app",
     router,
