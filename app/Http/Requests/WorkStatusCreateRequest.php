@@ -10,10 +10,10 @@ class WorkStatusCreateRequest extends FormRequest {
         return [
             'user_id' =>  ['required', 'exists:users,id'],
             'date'      =>  ['required', 'date_format:Y-m-d'],
-            'commuting_time_1' => ['nullable'],
-            'leave_time_1'     => ['nullable'],
-            'commuting_time_2' => ['nullable'],
-            'leave_time_2'     => ['nullable']
+            'commuting_time_1' => ['nullable', 'date_format:Y-m-d H:i:s'],
+            'leave_time_1'     => ['nullable', 'date_format:Y-m-d H:i:s'],
+            'commuting_time_2' => ['nullable', 'date_format:Y-m-d H:i:s'],
+            'leave_time_2'     => ['nullable', 'date_format:Y-m-d H:i:s']
         ];
     }
 }

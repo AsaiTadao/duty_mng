@@ -25,13 +25,19 @@ class WorkStatusController extends BaseController
         $user = auth()->user();
         // Todo need to guard
         $data = $request;
-        $month = sprintf('%02d', explode("-", $data['date'])[1]);
-        $yearId = explode("-", $data['date'])[0] . '04';
-        $day = sprintf('%02d', explode("-", $data['date'])[2]);
 
-        $year = Year::where('start', $yearId)->get()[0]->id;
+        $createTime = Carbon::parse($data['date']);
+
+        $yearNumber = $createTime->year;
+        $month = $createTime->month;
+        $day = $createTime->day;
+        $year = Year::where([
+            ['start', '<=',  $yearNumber * 100 + $month],
+            ['end', '>=', $yearNumber * 100 + $month]
+        ])->first();
+
         $employeeQb = User::where('office_id', $office->id);
-        $attends = Attendance::where('year_id', $year)
+        $attends = Attendance::where('year_id', $year->id)
                                 ->where('month', $month)
                                 ->where('day', $day)
                                 ->orderBy('attendances.day')
