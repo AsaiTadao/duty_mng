@@ -29,7 +29,7 @@ class AuthController extends BaseController
                 'message'   =>  trans('auth.failed')
             ]);
         }
-
+        $user->office;
         return response()->json([
             'success'   =>  true,
             'data'      =>  [
