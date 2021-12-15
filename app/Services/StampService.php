@@ -284,19 +284,8 @@ class StampService
 
     public function matchShiftToAttendance(Attendance &$attendance)
     {
-        $year_id = $attendance->year_id;
-        $month = $attendance->month;
-        $day = $attendance->day;
-        $year = Year::where(['id' => $year_id])->first();
-
-        $yearNumber = floor($year->start / 100);
-        $monthNumber = $year->start % 100;
-
-        if ($month < $monthNumber) {
-            $yearNumber++;
-        }
-        $dateString = $yearNumber . '-' . sprintf('%02d', $month) . '-'. sprintf('%02d', $day);
-        $date = Carbon::parse($dateString);
+        $date = $attendance->date;
+        $dateString = $date->format('Y-m-d');
         $shifts = ShiftPlan::where(['user_id' => $attendance->user_id, 'date' => $date])->orderBy('start_time')->get();
         if ($shifts->count() === 0) return;
 

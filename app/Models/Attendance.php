@@ -61,7 +61,7 @@ class Attendance extends Model
     {
         return $this->belongsTo(Year::class);
     }
-    public function getDateAttritube()
+    public function getDateAttribute()
     {
         $year = $this->year;
         if (!$year) return null;
