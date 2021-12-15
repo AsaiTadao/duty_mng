@@ -11,6 +11,7 @@ use App\Models\Office;
 use App\Models\User;
 use App\Models\UserSetting;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends BaseController
@@ -136,5 +137,13 @@ class UserController extends BaseController
         $user->role_id = $role_id;
         $user->save();
         return $this->sendResponse($user);
+    }
+
+    public function getUsers(Office $office)
+    {
+        if (!Gate::allows('get-office-users', $office)) {
+            abort(403);
+        }
+        return $this->sendResponse($office->users);
     }
 }

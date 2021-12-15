@@ -135,6 +135,14 @@ class AuthServiceProvider extends ServiceProvider
             return $userGuard($user, $targetUser);
         });
 
-        Gate::define('get-office-work-total', $userOfficeGuard);
+        Gate::define('get-office-work-total', function(User $user, Office $office) use ($userOfficeGuard) {
+            if ($user->role_id === Roles::USER_A || $user->role_id === Roles::USER_B || $user->role_id === Roles::OFFICE_MANAGER) return false;
+            return $userOfficeGuard($user, $office);
+        });
+
+        Gate::define('get-office-users', function(User $user, Office $office) use ($userOfficeGuard) {
+            if ($user->role_id === Roles::USER_A || $user->role_id === Roles::USER_B) return false;
+            return $userOfficeGuard($user, $office);
+        });
     }
 }

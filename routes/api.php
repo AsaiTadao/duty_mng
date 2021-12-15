@@ -65,6 +65,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::put('/application/approve/{application}', [ApplicationController::class, 'approve'])->name('application.approve');
         Route::get('/monthly-summary/{user}', [MonthlySummaryController::class, 'get'])->name('monthly_summary.get');
         Route::get('/work-total/{office}', [WorkTotalController::class, 'get'])->name('work_total.get');
+        Route::get('/office/{office}/users', [UserController::class, 'getUsers'])->name('office.users');
 
         Route::middleware(['can:admin-only'])->group(function () {
             Route::get('/office-master', [OfficeController::class, 'get'])->name('office.get');
