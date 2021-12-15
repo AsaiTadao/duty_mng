@@ -5,6 +5,7 @@ use App\Http\Controllers\API\V1\AttendanceStatusController;
 use App\Http\Controllers\API\V1\AuthController;
 use App\Http\Controllers\API\V1\ConstantController;
 use App\Http\Controllers\API\V1\HourlyWageController;
+use App\Http\Controllers\API\V1\MonthlySummaryController;
 use App\Http\Controllers\API\V1\OfficeController;
 use App\Http\Controllers\API\V1\RegionController;
 use App\Http\Controllers\API\V1\SettingController;
@@ -56,6 +57,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::post('/application', [ApplicationController::class, 'create'])->name('application.create');
         Route::put('/application/{application}', [ApplicationController::class, 'update'])->name('application.update');
         Route::put('/application/approve/{application}', [ApplicationController::class, 'approve'])->name('application.approve');
+        Route::get('/monthly-summary/{user}', [MonthlySummaryController::class, 'get'])->name('monthly_summary.get');
 
         Route::middleware(['can:admin-only'])->group(function () {
             Route::get('/office-master', [OfficeController::class, 'get'])->name('office.get');
