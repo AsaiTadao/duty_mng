@@ -11,14 +11,18 @@ use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\WorkStatusCreateRequest;
 use App\Http\Requests\WorkStatusUpdateRequest;
+use App\Services\Processors\AttendanceProcessor;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class WorkStatusController extends BaseController
 {
     protected $stampService;
-    public function __construct(StampService $stampService) {
+    protected $attendanceProcessor;
+
+    public function __construct(StampService $stampService, AttendanceProcessor $attendanceProcessor) {
         $this->stampService = $stampService;
+        $this->attendanceProcessor = $attendanceProcessor;
     }
     public function get(Office $office, Request $request)
     {
@@ -68,6 +72,7 @@ class WorkStatusController extends BaseController
 
     public function update(Attendance $attendance, WorkStatusUpdateRequest $request)
     {
+        $currentUser = auth()->user();
         if (!$attendance->user) {
             abort(404, "Invalid attendance");
         }
@@ -75,7 +80,16 @@ class WorkStatusController extends BaseController
             abort(403, "You are not allowed");
         }
         $data = $request->validated();
-        $attendance->fill($data);
+
+        $attendance->commuting_time_1 = empty($data['commuting_time_1']) ? null : Carbon::parse($data['commuting_time_1']);
+        $attendance->leave_time_1 = empty($data['leave_time_1']) ? null : Carbon::parse($data['leave_time_1']);
+        $attendance->commuting_time_2 = empty($data['commuting_time_2']) ? null : Carbon::parse($data['commuting_time_2']);
+        $attendance->leave_time_2 = empty($data['leave_time_2']) ? null : Carbon::parse($data['leave_time_2']);
+
+        $this->stampService->matchShiftToAttendance($attendance);
+        $this->attendanceProcessor->process($attendance);
+
+        $attendance->update_user_id = $currentUser->id;
         $attendance->save();
         return $this->sendResponse($attendance);
     }
@@ -121,10 +135,14 @@ class WorkStatusController extends BaseController
         }
 
         $attendance->user_id = $userId;
-        $attendance->commuting_time_1 = $data['commuting_time_1']??null;
-        $attendance->leave_time_1 = $data['leave_time_1']??null;
-        $attendance->commuting_time_2 = $data['commuting_time_2']??null;
-        $attendance->leave_time_2 = $data['leave_time_2']??null;
+        $attendance->commuting_time_1 = empty($data['commuting_time_1']) ? null : Carbon::parse($data['commuting_time_1']);
+        $attendance->leave_time_1 = empty($data['leave_time_1']) ? null : Carbon::parse($data['leave_time_1']);
+        $attendance->commuting_time_2 = empty($data['commuting_time_2']) ? null : Carbon::parse($data['commuting_time_2']);
+        $attendance->leave_time_2 = empty($data['leave_time_2']) ? null : Carbon::parse($data['leave_time_2']);
+
+
+        $this->stampService->matchShiftToAttendance($attendance);
+        $this->attendanceProcessor->process($attendance);
 
         $attendance->create_user_id = $currentUser->id;
         $attendance->save();

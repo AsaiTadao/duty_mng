@@ -282,6 +282,88 @@ class StampService
         return [$attendance, $shifts];
     }
 
+    public function matchShiftToAttendance(Attendance &$attendance)
+    {
+        $year_id = $attendance->year_id;
+        $month = $attendance->month;
+        $day = $attendance->day;
+        $year = Year::where(['id' => $year_id])->first();
+
+        $yearNumber = floor($year->start / 100);
+        $monthNumber = $year->start % 100;
+
+        if ($month < $monthNumber) {
+            $yearNumber++;
+        }
+        $dateString = $yearNumber . '-' . sprintf('%02d', $month) . '-'. sprintf('%02d', $day);
+        $date = Carbon::parse($dateString);
+        $shifts = ShiftPlan::where(['user_id' => $attendance->user_id, 'date' => $date])->orderBy('start_time')->get();
+        if ($shifts->count() === 0) return;
+
+        if ($attendance->commuting_time_1 && $attendance->leave_time_1)
+        {
+            $overlapped = 0;
+            $selectedIndex = -1;
+            foreach($shifts as $i => $shift)
+            {
+                if ($overlapped < calcOverlappedPeriod(
+                    $attendance->commuting_time_1,
+                    $attendance->leave_time_1,
+                    Carbon::parse($dateString . ' ' . $shift->start_time),
+                    Carbon::parse($dateString . ' ' . $shift->end_time)
+                )) {
+                    $selectedIndex = $i;
+                }
+            }
+            if ($selectedIndex >= 0) {
+                $attendance->shift_1_id = $shifts[$selectedIndex]->id;
+                unset($shifts[$selectedIndex]);
+            }
+        }
+        if ($attendance->commuting_time_2 && $attendance->leave_time_2 && !empty($shifts[1]))
+        {
+            $overlapped = 0;
+            $selectedIndex = -1;
+            foreach($shifts as $i => $shift)
+            {
+                if ($overlapped < calcOverlappedPeriod(
+                    $attendance->commuting_time_1,
+                    $attendance->leave_time_1,
+                    Carbon::parse($dateString . ' ' . $shift->start_time),
+                    Carbon::parse($dateString . ' ' . $shift->end_time)
+                )) {
+                    $selectedIndex = $i;
+                }
+            }
+            if ($selectedIndex >= 0) {
+                $attendance->shift_1_id = $shifts[$selectedIndex]->id;
+                unset($shifts[$selectedIndex]);
+            }
+        }
+        if ($attendance->commuting_time_3 && $attendance->leave_time_3 && !empty($shifts[2]))
+        {
+            $overlapped = 0;
+            $selectedIndex = -1;
+            foreach($shifts as $i => $shift)
+            {
+                if ($overlapped < calcOverlappedPeriod(
+                    $attendance->commuting_time_1,
+                    $attendance->leave_time_1,
+                    Carbon::parse($dateString . ' ' . $shift->start_time),
+                    Carbon::parse($dateString . ' ' . $shift->end_time)
+                )) {
+                    $selectedIndex = $i;
+                }
+            }
+            if ($selectedIndex >= 0) {
+                $attendance->shift_1_id = $shifts[$selectedIndex]->id;
+                unset($shifts[$selectedIndex]);
+            }
+        }
+    }
+
+
+
     private function log($user, $message)
     {
         if ($this->logEnabled) {
