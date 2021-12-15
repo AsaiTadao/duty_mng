@@ -1,34 +1,59 @@
 <template>
-    <attend-status-a v-if="session.employmentStatusId == 1" />
-    <attend-status-c v-else-if="session.employmentStatusId == 3" />
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header calendar-title">
+                            <h3 class="card-title mb-0">{{officeName}}</h3>
+                            <div class="card-tools calendar-center flex-grow-1">
+                                <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
+                                    <i class="fas fa-caret-left fa-2x"></i>
+                                </button>
+                                <div class="mx-2">{{displayDate}}</div>
+                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="getResults(getThisMonthDate())">
+                                    今月
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline" :hidden="isThisMonth()" @click="getResults(getNextMonthDate())">
+                                    <i class="fas fa-caret-right fa-2x"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <attend-status-a v-if="session.employmentStatusId == 1 && !isHonShya(session.office.name)" :attendance="attendance" :total="total" :month="month"/>
+                        <attend-status-b v-else-if="session.employmentStatusId == 1 && isHonShya(session.office.name)" :attendance="attendance" :total="total" :month="month"/>
+                        <attend-status-c v-else-if="session.employmentStatusId == 3" :attendance="attendance" :total="total" :month="month"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>
+
 <script>
 import moment from 'moment';
 import { mapState } from 'vuex';
+import api, { apiErrorHandler } from '../global/api';
 import AttendStatusA from './AttendStatus/AttendStatusA.vue';
 import AttendStatusB from './AttendStatus/AttendStatusB.vue';
 import AttendStatusC from './AttendStatus/AttendStatusC.vue';
+import actionLoading from '../mixin/actionLoading';
+import { showSuccess } from '../helpers/error';
 
 export default {
     components: { AttendStatusA, AttendStatusB, AttendStatusC },
+    mixins: [actionLoading],
     data () {
         return {
             editmode: false,
             currentDate: new Date(),
             displayDate: new Date(),
             days: [],
-            attends : [],
-            requests : [],
-            form: {
-                id : '',
-                date: '',
-                type : 0,
-                hour: '',
-                minute: '',
-                new_hour: '',
-                new_minute: '',
-                memo: '',
-            }
+            attendance: {},
+            total: {},
+            selectedMonth: '',
+            month: new Date('YYYY-MM'),
+            officeName: '',
+            offices: [],
         }
     },
     computed: {
@@ -38,6 +63,20 @@ export default {
         }),
     },
     methods: {
+        getAttendance() {
+            if (this.actionLoading) return;
+                this.setActionLoading();
+                api.get('attendance/status', null, {month: this.selectedMonth})
+                    .then(response => {
+                        this.unsetActionLoading();
+                        this.attendance = response.attendance;
+                        this.total = response.total;
+                    })
+                    .catch(e => {
+                        apiErrorHandler(e);
+                        this.unsetActionLoading();
+                    });
+        },
         getWeekEnd(day) {
             const weekDay = moment(day).format("ddd");;
             if (weekDay === '土'){
@@ -48,6 +87,13 @@ export default {
                 return 0;
             }
         },
+        isHonShya(officeName) {
+            if(officeName.indexOf('本社') !== -1) {
+                return true;
+            } else {
+                return false;
+            }
+        },
         isThisMonth() {
             const today = new Date();
             return this.currentDate.getFullYear() == today.getFullYear() && this.currentDate.getMonth() == today.getMonth();
@@ -55,44 +101,29 @@ export default {
         getThisMonthDate() {
             const date = new Date();
             this.displayDate = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY年 M月');
+            this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYYMM');
+            this.month = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY-MM');
+            this.getAttendance();
             return new Date(date.getFullYear(), date.getMonth(), 1);
         },
         getNextMonthDate() {
             const date = this.currentDate;
             this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY年 M月');
+            this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYYMM');
+            this.month = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY-MM');
+            this.getAttendance();
             return new Date(date.getFullYear(), date.getMonth() + 1, 1);
         },
         getPrevMonthDate() {
             const date = this.currentDate;
             this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY年 M月');
+            this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYYMM');
+            this.month = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY-MM');
+            this.getAttendance();
             return new Date(date.getFullYear(), date.getMonth() - 1, 1);
         },
         getResults(month_date) {
-            this.loadAttends(month_date);
-            this.loadRequests(month_date);
             this.updateTable(month_date);
-        },
-        createRequest(){
-            $('#addNew').modal('hide');
-            //TODO: this.form.post
-            this.loadRequests();
-        },
-        updateRequest(){
-            $('#addNew').modal('hide');
-            //TODO: this.form.post
-            this.loadRequests();
-        },
-        requestModal(){
-            this.editmode = true;
-            this.firstdate = this.enddate;
-            // if(row = this.requests.find(request => request.date.getTime() == date.getTime())) {
-            //     this.editmode = true;
-            //     this.form.fill(row);
-            // } else {
-            //     this.editmode = false;
-            //     this.form.reset();
-            // }
-            $('#addNew').modal('show');
         },
         currentTime(){
             var today = new Date();
@@ -101,20 +132,6 @@ export default {
             return month + "月" + day + "日 "
             + today.getHours() + ":"
             + today.getMinutes();
-        },
-        loadAttends(date){
-            //TODO: axios.get
-            this.attends = [
-                {
-                    date: new Date('2021/09/01'),
-                },
-            ];
-        },
-        loadRequests(date){
-            //TODO: axios.get
-            this.requests = {
-
-            };
         },
         updateTable(date){
             this.currentDate = date;
@@ -128,8 +145,14 @@ export default {
 
     },
     created() {
+        this.selectedMonth = moment(this.displayDate).format('YYYYMM');
+        this.month = moment(this.displayDate).format('YYYY-MM');
         this.displayDate = moment(this.displayDate).format('YYYY年 M月');
+    },
+    mounted() {
+        this.getAttendance();
         this.getResults(this.currentDate);
+        this.officeName = this.session.office.name;
     }
 }
 </script>

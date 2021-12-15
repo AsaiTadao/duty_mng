@@ -246,7 +246,7 @@ class StampService
         return $attendance;
     }
 
-    private function getAttendanceShifts($user, Carbon $stamp)
+    public function getAttendanceShifts($user, Carbon $stamp)
     {
         $yearNumber = $stamp->year;
         $month = $stamp->month;
@@ -263,6 +263,7 @@ class StampService
             'year_id'   =>  $year->id,
             'month'     =>  $month,
             'day'       =>  $day,
+            'user_id'   =>  $user->id
         ])->first();
 
         $shifts = ShiftPlan::where(['user_id' => $user->id])

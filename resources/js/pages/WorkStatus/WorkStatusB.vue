@@ -5,21 +5,22 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title">
-                            <h3 class="card-title mb-0">ラテラル保育園</h3>
+                            <h3 class="card-title mb-0">{{officeName}}</h3>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <datepicker
                                 :language="ja"
                                 :format="customFormatter"
                                 ref="programaticOpen"
-                                :placeholder="todayDate">
+                                :placeholder="todayDate"
+                                @selected="getAttendanceData"
+                                v-model="selectedDate">
                                 </datepicker>
                                 <button type="button" class="btn btn-sm btn-outline mx-2" @click="openDatePicker()">
                                     <i class="fas fa-calendar-alt fa-2x"></i>
                                 </button>
                                 <div class="form-group mx-4 mb-0">
-                                    <select class="form-control">
-                                        <option>ラテラル保育園</option>
-                                        <option>ラテラルキッズ本社</option>
+                                    <select class="form-control" v-model="officeId" @change="getAttendanceData(selectedDate)">
+                                        <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -32,114 +33,37 @@
                                         <th>氏名</th>
                                         <th>出勤①</th>
                                         <th>退勤①</th>
+                                        <th>遅刻</th>
+                                        <th>早退</th>
                                         <th>出勤②</th>
                                         <th>退勤②</th>
+                                        <th>遅刻</th>
+                                        <th>早退</th>
                                         <th>編集</th>
                                         <th>申請</th>
                                     </tr>
                                 </thead>
                                     <tbody class="text-center">
-                                        <!-- <tr v-for="day in days" :key="day.getDate()">
-                                            <td>{{day.getDate()}}日</td>
-                                            <td>{{day|formatWeek}}</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                        <tr v-for="attend in attends" :key="attend.id">
+                                            <td>{{attend.user.name}}</td>
+                                            <td>{{attend.attend ? changeTimeFormat(attend.attend.commutingTime1) : '-'}}</td>
+                                            <td>{{attend.attend ? changeTimeFormat(attend.attend.leaveTime1) : '-'}}</td>
+                                            <td>{{attend.attend && !isHonShya(attend.user.officeId) && !isNormalStaff(attend.user.employmentStatusId) ? attend.attend.behindTime1 : '-'}}</td>
+                                            <td>{{attend.attend && !isHonShya(attend.user.officeId) && !isNormalStaff(attend.user.employmentStatusId) ? attend.attend.leaveEarly1 : '-'}}</td>
+                                            <td>{{attend.attend ? changeTimeFormat(attend.attend.commutingTime2) : '-'}}</td>
+                                            <td>{{attend.attend ? changeTimeFormat(attend.attend.leaveTime2) : '-'}}</td>
+                                            <td>{{attend.attend && !isHonShya(attend.user.officeId) && !isNormalStaff(attend.user.employmentStatusId) ? attend.attend.behindTime2 : '-'}}</td>
+                                            <td>{{attend.attend && !isHonShya(attend.user.officeId) && !isNormalStaff(attend.user.employmentStatusId) ? attend.attend.leaveEarly2 : '-'}}</td>
                                             <td>
-                                                <a href="#" @click="requestModal(row)">
-                                                    <i class="fa fa-edit blue"></i>
+                                                <a href="#" @click="onEditClicked(attend.attend, attend.user.id)">
+                                                    <i class="fa fa-edit fa-lg blue"></i>
                                                 </a>
                                             </td>
-                                        </tr> -->
-                                        <tr>
-                                          <td>阿部　一子</td>
-                                          <td>8:05</td>
-                                          <td>14:05</td>
-                                          <td class="red">15分</td>
-                                          <td>-</td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg black"></i>
-                                            </a>
-                                          </td>
-                                          <td>
-                                            <a href="#" @click="requestModal()">
-                                                <i class="far fa-envelope fa-lg orange"></i>
-                                            </a>
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>伊藤　二子</td>
-                                          <td>7:55</td>
-                                          <td>16:00</td>
-                                          <td>-</td>
-                                          <td>-</td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td>
-                                            <!-- <a href="#" @click="requestModal()">
-                                                <i class="far fa-envelope fa-lg orange"></i>
-                                            </a> -->
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>上野　三子</td>
-                                          <td>7:29</td>
-                                          <td>12:03</td>
-                                          <td>14:04</td>
-                                          <td class="red">15分</td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td>
-                                            <!-- <a href="#" @click="requestModal()">
-                                                <i class="far fa-envelope fa-lg orange"></i>
-                                            </a> -->
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>遠藤　四子</td>
-                                          <td>9:55</td>
-                                          <td>17:35</td>
-                                          <td>-</td>
-                                          <td>30分</td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td>
-                                            <!-- <a href="#" @click="requestModal()">
-                                                <i class="far fa-envelope fa-lg orange"></i>
-                                            </a> -->
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>小野　五子</td>
-                                          <td class="red">欠勤</td>
-                                          <td></td>
-                                          <td></td>
-                                          <td></td>
-                                          <td>
-                                            <a href="#">
-                                                <i class="fa fa-edit fa-lg blue"></i>
-                                            </a>
-                                          </td>
-                                          <td>
-                                            <a href="#" @click="requestModal()">
-                                                <i class="far fa-envelope fa-lg orange"></i>
-                                            </a>
-                                          </td>
+                                            <td>
+                                                <a href="#" @click="requestModal()">
+                                                    <i class="far fa-envelope fa-lg orange"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     </tbody>
                             </table>
@@ -150,54 +74,9 @@
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNew" aria-hidden="true">
+            <div class="modal fade" id="attend-edit-form" tabindex="-1" role="dialog" aria-labelledby="attend-edit-form" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">申請</h5>
-                            <!-- <h5 class="modal-title" v-show="editmode">再申請</h5> -->
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <i class="fas fa-square-full"></i>
-                                <label>申請者</label>
-                                <div>阿部 一子</div>
-                            </div>
-                            <div class="form-group">
-                                <i class="fas fa-square-full"></i>
-                                <label>申請日時</label>
-                                <div>8月2日 8:11</div>
-                            </div>
-                            <div class="form-group">
-                                <i class="fas fa-square-full"></i>
-                                <label>修正時間</label>
-                                <div>遅刻</div>
-                                <div class="form-row align-items-center">
-                                    <div class="col-md-1">
-                                        <div>8:05</div>
-                                    </div>
-                                    <div class="form-control-label">⇒</div>
-                                    <div class="col-md-1">
-                                        <div>8:00</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <i class="fas fa-square-full"></i>
-                                <label>申請理由</label>
-                                <div>雨天によるJR遅延のため</div>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">承認</button>
-                            <button type="submit" class="btn btn-warning">却下</button>
-                        </div>
-                    </div>
+                    <edit-form :workStatus="selectedAttend" :userId="selectedUser" :date="selectedDate" v-on:success="onWorkStatusSaved"></edit-form>
                 </div>
             </div>
         </div>
@@ -206,11 +85,17 @@
 <script>
     import Datepicker from "vuejs-datepicker";
     import { ja } from 'vuejs-datepicker/dist/locale';
-    import moment from 'moment'
+    import moment from 'moment-timezone';
+    import { mapState } from 'vuex';
+    import actionLoading from '../../mixin/actionLoading';
+    import api, { apiErrorHandler } from '../../global/api';
+    import EditForm from './EditForm.vue';
+
     export default {
         components: {
-            Datepicker,
+            Datepicker, EditForm,
         },
+        mixins: [actionLoading],
         data () {
             return {
                 editmode: false,
@@ -218,21 +103,76 @@
                 todayDate: "",
                 days: [],
                 attends : [],
+                selectedAttend : null,
+                selectedUser: null,
                 requests : [],
-                // form: new Form({
-                //     id : '',
-                //     date: '',
-                //     type : 0,
-                //     hour: '',
-                //     minute: '',
-                //     new_hour: '',
-                //     new_minute: '',
-                //     memo: '',
-                // }),
+                offices: [],
+                officeName: '',
+                officeId: 1,
+                selectedDate: new Date(),
                 ja: ja,
             }
         },
         methods: {
+            getOffices() {
+                api.get('office/user-capable')
+                    .then(response => {
+                        this.offices = response;
+                        this.officeName = this.offices[this.officeId - 1].name;
+                    })
+                    .catch(e => apiErrorHandler(e))
+            },
+            onEditClicked(attend, userId) {
+                if(!attend) return;
+                console.log({attend});
+                this.selectedAttend = attend;
+                this.selectedUser = userId;
+                this.showEditForm();
+            },
+            showEditForm() {
+                $("#attend-edit-form").modal('show');
+            },
+            isHonShya(officeId) {
+                let name = this.offices[officeId - 1].name;
+                if(name.indexOf('本社') !== -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            isNormalStaff(employmentStatusId) {
+                if(employmentStatusId === 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            getAttendanceData(date) {
+                if(this.actionLoading) return;
+                this.setActionLoading();
+                if(date){
+                    this.selectedDate = date;
+                } else {
+                    this.selectedDate = new Date();
+                }
+                this.selectedDate = moment(this.selectedDate).format('YYYY-MM-DD');
+                console.log(this.selectedDate);
+                api.get('attend/' + this.officeId, null, {date: this.selectedDate})
+                    .then(response => {
+                        this.unsetActionLoading();
+                        this.attends = response;
+                        console.log(this.attends);
+                        this.officeName = this.offices[this.officeId - 1].name;
+                    })
+                    .catch(e => {
+                        this.unsetActionLoading();
+                        apiErrorHandler(e);
+                    });
+            },
+            onWorkStatusSaved() {
+              this.getAttendanceData(this.selectedDate);
+              $("#attend-edit-form").modal('hide');
+            },
             isThisMonth() {
                 const today = new Date();
                 return this.currentDate.getFullYear() == today.getFullYear() && this.currentDate.getMonth() == today.getMonth();
@@ -247,8 +187,8 @@
             },
             getResults(month_date) {
                 // this.$Progress.start();
-                this.loadAttends(month_date);
-                this.loadRequests(month_date);
+                // this.loadAttends(month_date);
+                // this.loadRequests(month_date);
                 this.updateTable(month_date);
                 // this.$Progress.finish();
             },
@@ -275,11 +215,6 @@
                 $('#addNew').modal('show');
             },
             getCurrentDate(){
-                // var today = new Date();
-                // var year = today.getFullYear();
-                // var month = today.getMonth();
-                // var day = today.getDate();
-                // var dayweek = today.getDay();
                 return moment().format('YYYY年 M月 D日 (ddd)');
             },
             currentTime(){
@@ -316,13 +251,25 @@
             customFormatter(date) {
                 return moment(date).format('YYYY年 M月 D日 (ddd)');
             },
+            changeTimeFormat(date) {
+                if(date) {
+                    return moment(date).tz('Asia/Tokyo').format('HH:mm');
+                } else {
+                    return "-";
+                }
+            },
             openDatePicker(){
                 this.$refs.programaticOpen.showCalendar();
             }
         },
         created() {
+
+        },
+        mounted() {
             this.getResults(this.currentDate);
             this.todayDate = this.getCurrentDate().toString();
+            this.getOffices();
+            this.getAttendanceData(this.currentDate);
         }
     }
 </script>

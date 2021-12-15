@@ -14,6 +14,7 @@ use App\Http\Controllers\API\V1\StampController;
 use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\V1\VacationReasonController;
 use App\Http\Controllers\API\V1\WorkingHourController;
+use App\Http\Controllers\API\V1\WorkStatusController;
 use App\Http\Controllers\API\V1\WorkTotalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -53,6 +54,10 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::get('/stamp/status', [StampController::class, 'status'])->name('stamp.status');
         Route::post('/stamp/commute', [StampController::class, 'commute'])->name('stamp.commute');
         Route::post('/stamp/leave', [StampController::class, 'leave'])->name('stamp.leave');
+
+        Route::get('/attend/{office}', [WorkStatusController::class, 'get'])->name('attend.work_status');
+        Route::post('/attend', [WorkStatusController::class, 'create'])->name('attend.work_status.create');
+        Route::put('/attend/{attendance}', [WorkStatusController::class, 'update'])->name('attend.work_status.update');
 
         Route::get('/attendance/status', [AttendanceStatusController::class, 'index'])->name('attendance.status.index');
         Route::post('/application', [ApplicationController::class, 'create'])->name('application.create');

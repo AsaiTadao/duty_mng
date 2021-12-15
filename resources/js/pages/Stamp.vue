@@ -23,13 +23,13 @@
                             <button
                                 type="button"
                                 class="btn btn-large px-5"
-                                :disabled="data.attended"
+                                :disabled="!data.commuteEnabled"
                                 :class="[
-                                    data.attended
+                                    !data.commuteEnabled
                                         ? 'btn-secondary'
                                         : 'btn-danger'
                                 ]"
-                                @click="attend()"
+                                @click="commute()"
                             >
                                 出　　勤
                             </button>
@@ -39,9 +39,9 @@
                             <button
                                 type="button"
                                 class="btn btn-large px-5"
-                                :disabled="data.leaved || !data.attended"
+                                :disabled="!data.leaveEnabled || data.commuteEnabled"
                                 :class="
-                                    data.leaved || !data.attended
+                                    !data.commuteEnabled || data.leaveEnabled
                                         ? 'btn-secondary'
                                         : 'btn-danger'
                                 "
@@ -58,12 +58,18 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { mapState } from 'vuex';
+import api, { apiErrorHandler } from '../global/api';
+import { showSuccess } from '../helpers/error';
 
 export default {
     data() {
         return {
-            data: {},
+            data: {
+                commuteEnabled: false,
+                leaveEnabled: false,
+            },
             timeStamp: '',
             thisDate: '',
         };
@@ -90,38 +96,43 @@ export default {
             var strTime = hour + ":" + minute;
             return strTime;
         },
-        attend() {
-            //TODO: axios.post
-            // loadAttendance();
-            this.data = {
-                attended: true,
-                leaved: false
-            };
-        },
-        leave() {
-            //TODO: axios.post
-            // loadAttendance();
-            this.data = {
-                attended: true,
-                leaved: true
-            };
-        },
-        loadAttendance() {
-            //TODO: axios.get
-            this.data = {
-                attended: false,
-                leaved: false
-            };
-        },
         getNow() {
             this.timeStamp = this.formatTime();
+        },
+        updateStatus() {
+            const stampTime = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
+            api.get('stamp/status', null, {stamp: stampTime})
+                .then(response => {
+                    this.data = response;
+                })
+                .catch(e => apiErrorHandler(e));
+        },
+        commute() {
+            const stampTime = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
+            api.post('stamp/commute', null, {stamp: stampTime})
+                .then(response => {
+                   showSuccess(this.$t('Successfully stamped'));
+                    this.updateStatus();
+                })
+                .catch(e => apiErrorHandler(e));
+        },
+        leave() {
+            const stampTime = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
+            api.post('stamp/leave', null, {stamp: stampTime})
+                .then(response => {
+                    showSuccess(this.$t('Successfully stamped'));
+                    this.updateStatus();
+                })
+                .catch(e => apiErrorHandler(e));
         }
     },
     mounted() {
         this.weeks = ["日", "月", "火", "水", "木", "金", "土"];
         this.thisDate = this.formatDate(new Date());
-        this.loadAttendance();
-        setInterval(this.getNow, 1000);
+        this.getNow();
+        this.updateStatus();
+        setInterval(this.getNow, 60000);
+        setInterval(this.updateStatus, 60000);
     },
 };
 </script>
