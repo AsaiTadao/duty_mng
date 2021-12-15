@@ -11,7 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\WorkStatusCreateRequest;
 use App\Http\Requests\WorkStatusUpdateRequest;
-
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class WorkStatusController extends BaseController
@@ -22,8 +22,9 @@ class WorkStatusController extends BaseController
     }
     public function get(Office $office, Request $request)
     {
-        $user = auth()->user();
-        // Todo need to guard
+        if (!Gate::allows('get-office-work-status', $office)) {
+            abort(403, "You are not allowed");
+        }
         $data = $request;
 
         $createTime = Carbon::parse($data['date']);
@@ -67,7 +68,12 @@ class WorkStatusController extends BaseController
 
     public function update(Attendance $attendance, WorkStatusUpdateRequest $request)
     {
-        // Todo need to guard
+        if (!$attendance->user) {
+            abort(404, "Invalid attendance");
+        }
+        if (!Gate::allows('update-user-work-status', $attendance->user)) {
+            abort(403, "You are not allowed");
+        }
         $data = $request->validated();
         $attendance->fill($data);
         $attendance->save();
@@ -77,10 +83,18 @@ class WorkStatusController extends BaseController
     public function create(WorkStatusCreateRequest $request)
     {
         $currentUser = auth()->user();
-        // Todo need to guard
         $data = $request->validated();
         $stamp = $data['date'];
         $userId = $data['user_id'];
+
+        $user = User::find($userId);
+        if (!$user) {
+            abort(404, "No such user");
+        }
+        if (!Gate::allows('update-user-work-status', $user)) {
+            abort(403, "You are not allowed");
+        }
+
         $createTime = Carbon::parse($stamp);
         $yearNumber = $createTime->year;
         $month = $createTime->month;

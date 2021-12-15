@@ -144,5 +144,16 @@ class AuthServiceProvider extends ServiceProvider
             if ($user->role_id === Roles::USER_A || $user->role_id === Roles::USER_B) return false;
             return $userOfficeGuard($user, $office);
         });
+
+        Gate::define('get-office-work-status', function(User $user, Office $office) use ($userOfficeGuard) {
+            if ($user->role_id === Roles::USER_A || $user->role_id === Roles::USER_B) return false;
+            return $userOfficeGuard($user, $office);
+        });
+        Gate::define('update-user-work-status', function(User $user, User $targetUser) use ($userGuard){
+            if ($user->role_id === Roles::USER_A || $user->role_id === Roles::USER_B) return false;
+            if ($user->role_id === Roles::ADMIN) return true;
+            if ($user->id === $targetUser->id) return false;
+            return $userGuard($user, $targetUser);
+        });
     }
 }
