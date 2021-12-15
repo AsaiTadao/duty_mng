@@ -67,8 +67,8 @@ export default {
     data() {
         return {
             data: {
-                commuteEnabled: true,
-                leaveEnabled: true,
+                commuteEnabled: false,
+                leaveEnabled: false,
             },
             timeStamp: '',
             thisDate: '',
