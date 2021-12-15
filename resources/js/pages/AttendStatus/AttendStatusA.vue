@@ -25,12 +25,12 @@
                             <td v-else>{{getDate(index)|formatWeek}}</td>
                             <td>{{changeTimeFormat(dayAttendance.commutingTime1)}}</td>
                             <td>{{changeTimeFormat(dayAttendance.leaveTime1)}}</td>
-                            <td>{{dayAttendance.behindTime1}}</td>
-                            <td>{{dayAttendance.leaveEarly1}}</td>
+                            <td>{{notZero(dayAttendance.behindTime1)}}</td>
+                            <td>{{notZero(dayAttendance.leaveEarly1)}}</td>
                             <td>{{changeTimeFormat(dayAttendance.commutingTime2)}}</td>
                             <td>{{changeTimeFormat(dayAttendance.leaveTime2)}}</td>
-                            <td>{{dayAttendance.behindTime2}}</td>
-                            <td>{{dayAttendance.leaveEarly2}}</td>
+                            <td>{{notZero(dayAttendance.behindTime2)}}</td>
+                            <td>{{notZero(dayAttendance.leaveEarly2)}}</td>
                             <td>
                                 <a href="#" @click="requestApp(dayAttendance.applications, dayAttendance.id, index)">
                                 <i class="far fa-envelope fa-lg orange"></i>
@@ -128,6 +128,13 @@ import ApplicationForm from './ApplicationForm.vue';
                     return 2;
                 } else {
                     return 0;
+                }
+            },
+            notZero(number) {
+                if(number > 0) {
+                    return number;
+                } else {
+                    return '-';
                 }
             },
             currentTime(){
