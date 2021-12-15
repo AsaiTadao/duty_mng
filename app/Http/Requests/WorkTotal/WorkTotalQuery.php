@@ -10,7 +10,6 @@ class WorkTotalQuery extends FormRequest {
     public function rules() {
         return [
             'month'     => ['required', 'numeric', 'min:202001', 'max:210012'],
-            'office_id' => ['required', 'exists:offices,id']
         ];
     }
 }

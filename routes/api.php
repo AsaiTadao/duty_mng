@@ -14,6 +14,7 @@ use App\Http\Controllers\API\V1\StampController;
 use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\V1\VacationReasonController;
 use App\Http\Controllers\API\V1\WorkingHourController;
+use App\Http\Controllers\API\V1\WorkTotalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +59,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::put('/application/{application}', [ApplicationController::class, 'update'])->name('application.update');
         Route::put('/application/approve/{application}', [ApplicationController::class, 'approve'])->name('application.approve');
         Route::get('/monthly-summary/{user}', [MonthlySummaryController::class, 'get'])->name('monthly_summary.get');
+        Route::get('/work-total/{office}', [WorkTotalController::class, 'get'])->name('work_total.get');
 
         Route::middleware(['can:admin-only'])->group(function () {
             Route::get('/office-master', [OfficeController::class, 'get'])->name('office.get');
