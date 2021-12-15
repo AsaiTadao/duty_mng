@@ -48,12 +48,12 @@
                                             <td>{{attend.user.name}}</td>
                                             <td>{{attend.attend ? changeTimeFormat(attend.attend.commutingTime1) : '-'}}</td>
                                             <td>{{attend.attend ? changeTimeFormat(attend.attend.leaveTime1) : '-'}}</td>
-                                            <td>{{attend.attend && !isHonShya(attend.user.officeId) && !isNormalStaff(attend.user.employmentStatusId) ? attend.attend.behindTime1 : '-'}}</td>
-                                            <td>{{attend.attend && !isHonShya(attend.user.officeId) && !isNormalStaff(attend.user.employmentStatusId) ? attend.attend.leaveEarly1 : '-'}}</td>
+                                            <td>{{attend.attend && isHonShya(attend.user.officeId) && isNormalStaff(attend.user.employmentStatusId) ? '-' : notZero(attend.attend.behindTime1)}}</td>
+                                            <td>{{attend.attend && isHonShya(attend.user.officeId) && isNormalStaff(attend.user.employmentStatusId) ? '-' : notZero(attend.attend.leaveEarly1)}}</td>
                                             <td>{{attend.attend ? changeTimeFormat(attend.attend.commutingTime2) : '-'}}</td>
                                             <td>{{attend.attend ? changeTimeFormat(attend.attend.leaveTime2) : '-'}}</td>
-                                            <td>{{attend.attend && !isHonShya(attend.user.officeId) && !isNormalStaff(attend.user.employmentStatusId) ? attend.attend.behindTime2 : '-'}}</td>
-                                            <td>{{attend.attend && !isHonShya(attend.user.officeId) && !isNormalStaff(attend.user.employmentStatusId) ? attend.attend.leaveEarly2 : '-'}}</td>
+                                            <td>{{attend.attend && isHonShya(attend.user.officeId) && isNormalStaff(attend.user.employmentStatusId) ? '-' : notZero(attend.attend.behindTime2)}}</td>
+                                            <td>{{attend.attend && isHonShya(attend.user.officeId) && isNormalStaff(attend.user.employmentStatusId) ? '-' : notZero(attend.attend.leaveEarly2)}}</td>
                                             <td>
                                                 <a href="#" @click="onEditClicked(attend.attend, attend.user.id)">
                                                     <i class="fa fa-edit fa-lg blue"></i>
@@ -135,6 +135,7 @@
             isHonShya(officeId) {
                 let name = this.offices[officeId - 1].name;
                 if(name.indexOf('本社') !== -1) {
+                    console.log("is Honshya!!!");
                     return true;
                 } else {
                     return false;
@@ -142,9 +143,17 @@
             },
             isNormalStaff(employmentStatusId) {
                 if(employmentStatusId === 1) {
+                    console.log("isNormalStaff");
                     return true;
                 } else {
                     return false;
+                }
+            },
+            notZero(number) {
+                if(number > 0) {
+                    return number;
+                } else {
+                    return '-';
                 }
             },
             getAttendanceData(date) {

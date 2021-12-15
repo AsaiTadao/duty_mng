@@ -112,6 +112,13 @@ import ApplicationForm from './ApplicationForm.vue';
                     return 0;
                 }
             },
+            notZero(number) {
+                if(number > 0) {
+                    return number;
+                } else {
+                    return '-';
+                }
+            },
             currentTime(){
                 var today = new Date();
                 var month = today.getMonth() + 1;
