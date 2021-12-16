@@ -25,7 +25,7 @@ class AttendanceStatusController extends BaseController
             } else {
                 $item = $attendance;
             }
-            $attendanceItems[] = array_merge($item, $attendanceMetaItems[$i]);
+            $attendanceItems[$i] = array_merge($item, $attendanceMetaItems[$i]);
         }
 
         return $this->sendResponse([
