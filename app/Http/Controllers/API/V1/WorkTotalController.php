@@ -21,7 +21,7 @@ class WorkTotalController extends BaseController
         $totals = [];
         foreach($users as $user)
         {
-            [$attendances, $attendanceTotal] = $attendanceTotalService->calculateAttendanceTotal($user, $data['month']);
+            [$attendances, $attendanceTotal, $attendanceMetaItems] = $attendanceTotalService->calculateAttendanceTotal($user, $data['month']);
             $item = $user->toArray();
             $item['total'] = $attendanceTotal;
 

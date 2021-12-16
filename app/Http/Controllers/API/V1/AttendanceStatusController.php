@@ -14,10 +14,22 @@ class AttendanceStatusController extends BaseController
         $currentUser = auth()->user();
 
         $data = $request->validated();
-        [$attendances, $attendanceTotal] = $service->calculateAttendanceTotal($currentUser, $data['month']);
+        [$attendances, $attendanceTotal, $attendanceMetaItems] = $service->calculateAttendanceTotal($currentUser, $data['month']);
+
+        $attendanceItems = [];
+        foreach($attendances as $i => $attendance)
+        {
+            if (!is_array($attendance))
+            {
+                $item = $attendance->toArray();
+            } else {
+                $item = $attendance;
+            }
+            $attendanceItems[] = array_merge($item, $attendanceMetaItems[$i]);
+        }
 
         return $this->sendResponse([
-            'attendance'    =>  $attendances,
+            'attendance'    =>  $attendanceItems,
             'total'         =>  $attendanceTotal
         ]);
     }

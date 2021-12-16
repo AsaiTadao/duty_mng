@@ -16,10 +16,17 @@ class MonthlySummaryController extends BaseController
         }
         $data = $request->validated();
 
-        [$attendances, $attendanceTotal] = $attendanceTotalService->calculateAttendanceTotal($currentUser, $data['month']);
+        [$attendances, $attendanceTotal, $attendanceMetaItems] = $attendanceTotalService->calculateAttendanceTotal($currentUser, $data['month']);
+
+        $attendanceItems = [];
+        foreach($attendances as $i => $attendance)
+        {
+            $item = $attendance->toArray();
+            $attendanceItems[] = array_merge($item, $attendanceMetaItems[$i]);
+        }
 
         return $this->sendResponse([
-            'attendance'    =>  $attendances,
+            'attendance'    =>  $attendanceItems,
             'total'         =>  $attendanceTotal
         ]);
     }

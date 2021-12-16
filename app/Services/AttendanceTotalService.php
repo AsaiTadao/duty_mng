@@ -39,6 +39,7 @@ class AttendanceTotalService
             'month'     =>  $monthNumber,
         ])
         ->with('applications')
+        ->with('shift1', 'shift2', 'shift3')
         ->get();
 
         $shifts = ShiftPlan::where([
@@ -73,6 +74,8 @@ class AttendanceTotalService
         $attendanceTotal->scheduled_working_hours_a = 0;
         $attendanceTotal->excess_and_deficiency_time = 0;
 
+        $attendanceItems = [];
+        $attendanceMetaItems = [];
         for($day = 1; $day <= $daysInMonth; $day++)
         {
             $work_hours = 0;                        // 総出勤時間
@@ -95,17 +98,8 @@ class AttendanceTotalService
 
             if (!$attendance) {
                 $attendanceItems[$day] = [];
+                $attendanceMetaItems[$day] = [];
                 continue;
-            }
-            if (
-                !$attendance->commuting_time_1
-                && !$attendance->commuting_time_2
-                && !$attendance->commuting_time_3
-                && !$attendance->leave_time_1
-                && !$attendance->leave_time_2
-                && !$attendance->leave_time_3
-            ) {
-                $attendanceItems[$day] = [];
             }
             $shiftExisting = $shifts->first(function ($value, $key) use ($yearNumber, $monthNumber, $day) {
                 // return $value->date->year === $yearNumber && $value->date->month === $monthNumber && $value->date->day === $day;
@@ -177,9 +171,7 @@ class AttendanceTotalService
             // boc: calc off_shift_working_hours
             if ($user->employment_status_id === EmploymentStatus::NORMAL) {
                 if (!$shiftExisting) {
-                    $off_shift_working_hours = $work_hours;
-                } else {
-                    $off_shift_working_hours = $over_shift_time;
+                    $off_shift_working_hours = $work_hours - $rest_hours;
                 }
             } else {
                 $off_shift_working_hours = !$shiftExisting ? 0 : $over_shift_time;
@@ -193,7 +185,7 @@ class AttendanceTotalService
 
             // boc: calc actual_working_hours
             if ($user->employment_status_id === EmploymentStatus::NORMAL) {
-                $actual_working_hours = $total_working_hours - $off_shift_working_hours;
+                $actual_working_hours = $total_working_hours - $off_shift_working_hours - $over_shift_time;
             } else {
                 $actual_working_hours = $total_working_hours - $overtime_hours_non_statutory;
             }
@@ -201,7 +193,16 @@ class AttendanceTotalService
             $scheduled_working_hours_b = $total_working_hours + ($overtime_working_hours + $behind_time + $leave_early);
 
             // put together into attendanceTotal
-            $attendanceTotal->working_days++;   // 勤務日数
+            if (
+                !$attendance->commuting_time_1
+                && !$attendance->commuting_time_2
+                && !$attendance->commuting_time_3
+                && !$attendance->leave_time_1
+                && !$attendance->leave_time_2
+                && !$attendance->leave_time_3
+            ) {
+                $attendanceTotal->working_days++;   // 勤務日数
+            }
             $attendanceTotal->total_working_hours += $total_working_hours;
             if ($attendance->day_of_week === 0 || $attendance->day_of_week === 6) {
                 $attendanceTotal->actual_working_hours_saturday += $actual_working_hours;
@@ -223,6 +224,15 @@ class AttendanceTotalService
             // TODO [#LK-35] calc vacation days
 
             $attendanceItems[$day] = $attendance;
+            $attendanceMetaItems[$day] = [
+                'working_hours' =>  $total_working_hours,
+                'rest_hours'    =>  $rest_hours,
+                'actual_working_hours'=>    $actual_working_hours,
+                'overtime_hours_statutory'=>$overtime_hours_statutory,
+                'overtime_hours_non_statutory'=>    $overtime_hours_non_statutory,
+                'midnight_overtime' =>  $midnight_overtime,
+                'off_shift_working_hours'   =>  $off_shift_working_hours
+            ];
         }
         // eoc: days foreach
 
@@ -233,13 +243,14 @@ class AttendanceTotalService
                 'month'     =>  $monthNumber,
                 'office_id' =>  $user->office->id,
                 ])->first();
+
             if ($scheduled_working) {
                 $attendanceTotal->scheduled_working_hours_a = 60 * $user->working_hours * $scheduled_working->days;   // 所定労働時間マスタで登録した事業所毎の日数×社員マスタに登録した個々人の勤務時間で算出
                 $attendanceTotal->excess_and_deficiency_time = $attendanceTotal->scheduled_working_hours_a - $attendanceTotal->scheduled_working_hours_b; // 過不足時間 = 登録した所定労働時間－計算した所定労働時間
             }
         }
 
-        return [$attendanceItems, $attendanceTotal];
+        return [$attendanceItems, $attendanceTotal, $attendanceMetaItems];
     }
 
     public function calcMidnightTime(Carbon $start, Carbon $end)
