@@ -20,7 +20,8 @@ class CreateAttendanceTotalsTable extends Migration
             $table->foreignId('year_id');
             $table->unsignedTinyInteger('month');
             $table->float('working_days')->nullable();
-            $table->float('total_working_days', 4)->nullable();
+            $table->float('total_working_hours')->nullable();
+            $table->float('total_rest_hours')->nullable();
             $table->float('actual_working_hours_weekdays')->nullable();
             $table->float('actual_working_hours_saturday')->nullable();
             $table->float('scheduled_working_hours_a')->nullable();
