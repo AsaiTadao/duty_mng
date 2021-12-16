@@ -135,13 +135,17 @@
             </div>
             <div class="form-group mb-0">
                 <label class="mr-2">
-                    <input type="radio" v-model="formData.vacationReasonId" :value="0">
+                    <input type="radio" v-model="formData.vacationReasonId" :value="this.$vacationId">
                     <label class="ml-auto">勤務</label>
                 </label>
-                <label v-for="item in vacations" :key="item.id" class="mr-2">
+                <label class="mr-2">
+                    <input type="radio" v-model="formData.vacationReasonId" :value="this.$vacationId">
+                    <label class="ml-auto">year vacation</label>
+                </label>
+                <!-- <label v-for="item in vacations" :key="item.id" class="mr-2">
                     <input type="radio" v-model="formData.vacationReasonId" :value="item.id">
                     <label class="ml-auto">{{item.name}}</label>
-                </label>
+                </label> -->
             </div>
         </div>
         <div class="modal-footer">

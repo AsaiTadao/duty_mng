@@ -86,6 +86,14 @@ Vue.filter("yesno", value =>
 
 // end Filter
 
+Vue.prototype.$vacationId = {
+    WORK: 0,
+    ANNUAL_PAID: 1,
+    SPECIAL_PAID: 2,
+    SPECIAL_UNPAID: 3,
+    OTHER_UNPAID: 4,
+};
+
 const app = new Vue({
     el: "#app",
     router,
