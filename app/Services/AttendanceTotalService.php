@@ -260,7 +260,6 @@ class AttendanceTotalService
             }
             // eoc: calc actual_working_hours
 
-            $scheduled_working_hours_b = $total_working_hours + ($overtime_working_hours + $behind_time + $leave_early);
 
             $substitute_holiday_time = $attendance->substitute_time;
             $annual_paid_time = $attendance->annual_paid_time;
@@ -268,6 +267,8 @@ class AttendanceTotalService
             $other_unpaid_time = $attendance->other_unpaid_time;
             $special_unpaid_time = $attendance->special_unpaid_time;
 
+            $scheduled_working_hours_b = $total_working_hours + ($overtime_working_hours + $behind_time + $leave_early +
+            $annual_paid_time + $special_paid_time + $other_unpaid_time + $special_unpaid_time);
             // put together into attendanceTotal
             if (
                 $attendance->commuting_time_1
