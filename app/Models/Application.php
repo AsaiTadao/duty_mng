@@ -9,6 +9,10 @@ class Application extends Model
 {
     use HasFactory;
 
+    const STATUS_PENDING = 1;
+    const STATUS_APPROVED = 2;
+    const STATUS_REJECTED = 3;
+
     protected $fillable = [
         'attendance_id',
         'application_class_id',
@@ -32,6 +36,7 @@ class Application extends Model
     }
     public function getIsApprovedAttribute()
     {
-        return !empty($this->attributes['approval_datetime']);
+        if (empty($this->attributes['status'])) return false;
+        return $this->attributes['status'] === self::STATUS_APPROVED;
     }
 }
