@@ -19,7 +19,7 @@ class ChangeShiftPlansTable extends Migration
             $table->time('end_time')->nullable();
             $table->time('rest_start_time')->nullable();
             $table->time('rest_end_time')->nullable();
-            $table->foreignId('vacation_reason_id')->nullable()->constrained('reason_for_vacations')->nullOnDelete();
+            $table->tinyInteger('vacation_reason_id')->nullable();
         });
     }
 

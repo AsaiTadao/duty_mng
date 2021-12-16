@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Constants\VacationReason;
 use App\Models\Attendance;
 use App\Models\ShiftPlan;
 use App\Models\User;
@@ -65,7 +66,7 @@ class StampService
             return null;
         }
         // boc: check if vaction
-        $vacationShifts = $shifts->whereNotNull('vacation_reason_id');
+        $vacationShifts = $shifts->whereNotNull('vacation_reason_id')->where('vacation_reason_id', '!=', VacationReason::WORK);
         if ($vacationShifts->count()) {
             if (!$attendance->commuting_time_1 && !$attendance->leave_time_1) {
                 $this->log($user, "getMatchedShift return 5 postion");

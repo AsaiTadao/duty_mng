@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Shift;
 
+use App\Constants\VacationReason;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ShiftRequest extends FormRequest {
@@ -17,7 +18,12 @@ class ShiftRequest extends FormRequest {
             'shifts.*.end_time' =>  ['nullable', 'date_format:H:i'],
             'shifts.*.rest_start_time'=> ['nullable', 'date_format:H:i'],
             'shifts.*.rest_end_time'=>  ['nullable', 'date_format:H:i'],
-            'shifts.*.vacation_reason_id'=> ['nullable', 'exists:reason_for_vacations,id'],
+            'shifts.*.vacation_reason_id'=> ['nullable',
+                    'in:' . VacationReason::WORK .','
+                    . VacationReason::ANNUAL_PAID .','
+                    . VacationReason::SPECIAL_PAID .','
+                    . VacationReason::SPECIAL_UNPAID .','
+                    . VacationReason::OTHER_UNPAID ],
         ];
     }
 }

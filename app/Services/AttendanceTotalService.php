@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Constants\VacationReason;
 use App\Models\Attendance;
 use App\Models\AttendanceTotal;
 use App\Models\EmploymentStatus;
@@ -109,15 +110,67 @@ class AttendanceTotalService
 
             $attendance = $attendances->firstWhere('day', $day);
 
-            if (!$attendance) {
-                $attendanceItems[$day] = [];
-                $attendanceMetaItems[$day] = [];
-                continue;
-            }
-            $shiftExisting = $shifts->first(function ($value, $key) use ($yearNumber, $monthNumber, $day) {
-                // return $value->date->year === $yearNumber && $value->date->month === $monthNumber && $value->date->day === $day;
+            $dayShifts = $shifts->filter(function ($value, $key) use ($yearNumber, $monthNumber, $day) {
                 return $value->date->format('Y-m-d') === $yearNumber . '-' . sprintf('%02d', $monthNumber) . '-' . sprintf('%02d', $day);
             });
+
+            $shiftExisting = ($dayShifts->count() > 0);
+            if (!$attendance) {
+                if (!$shiftExisting) {
+                    $attendanceItems[$day] = [];
+                    $attendanceMetaItems[$day] = [];
+                    continue;
+                } else {
+                    $workShifts = $dayShifts->filter(function ($value, $key) {
+                        return !$value->vacation_reason_id || $value->vacation_reason_id === VacationReason::WORK;
+                    });
+                    if ($workShifts->count())
+                    {
+                        $attendanceTotal->absence_days++;
+                        $attendanceItems[$day] = [];
+                        $attendanceMetaItems[$day] = [
+                            'absent'    =>  true,
+                        ];
+                        continue;
+                    }
+                    $attendanceMetaItems[$day] = [];
+                    $vacation_time = $user->working_hours * 60;
+
+                    if ($dayShifts->first()->vacation_reason_id === VacationReason::ANNUAL_PAID)
+                    {
+                        $attendanceItems[$day] = [
+                            'annual_paid_time'  =>  $vacation_time
+                        ];
+                        $attendanceTotal->annual_paid_time += $vacation_time;
+                        $attendanceTotal->annual_paid_days++;
+                    }
+                    if ($dayShifts->first()->vacation_reason_id === VacationReason::SPECIAL_PAID)
+                    {
+                        $attendanceItems[$day] = [
+                            'special_paid_time'  =>  $vacation_time
+                        ];
+                        $attendanceTotal->special_paid_time += $vacation_time;
+                        $attendanceTotal->special_paid_days++;
+                    }
+                    if ($dayShifts->first()->vacation_reason_id === VacationReason::SPECIAL_UNPAID)
+                    {
+                        $attendanceItems[$day] = [
+                            'special_unpaid_time'  =>  $vacation_time
+                        ];
+                        $attendanceTotal->special_unpaid_time += $vacation_time;
+                        $attendanceTotal->special_unpaid_days++;
+                    }
+                    if ($dayShifts->first()->vacation_reason_id === VacationReason::OTHER_UNPAID)
+                    {
+                        $attendanceItems[$day] = [
+                            'other_unpaid_days'  =>  $vacation_time
+                        ];
+                        $attendanceTotal->other_unpaid_time += $vacation_time;
+                        $attendanceTotal->other_unpaid_days++;
+                    }
+                    continue;
+                }
+            }
 
             // boc: shift foreach
             for ($i = 1; $i < 3; $i++)
@@ -216,15 +269,13 @@ class AttendanceTotalService
 
             // put together into attendanceTotal
             if (
-                !$attendance->commuting_time_1
-                && !$attendance->commuting_time_2
-                && !$attendance->commuting_time_3
-                && !$attendance->leave_time_1
-                && !$attendance->leave_time_2
-                && !$attendance->leave_time_3
+                $attendance->commuting_time_1
+                || $attendance->commuting_time_2
+                || $attendance->commuting_time_3
+                || $attendance->leave_time_1
+                || $attendance->leave_time_2
+                || $attendance->leave_time_3
             ) {
-                $attendanceTotal->absence_days++;
-            } else {
                 $attendanceTotal->working_days++;   // 勤務日数
             }
             $attendanceTotal->total_working_hours += $total_working_hours;
@@ -245,7 +296,6 @@ class AttendanceTotalService
             $attendanceTotal->off_shift_working_hours += ($off_shift_working_hours - $substitute_holiday_time);
             //TODO [#LK-40] calc consecutive work
 
-            // TODO [#LK-35] calc vacation days
             $attendanceTotal->substitute_holiday_time += $substitute_holiday_time;
             $attendanceTotal->annual_paid_time += $annual_paid_time;
             $attendanceTotal->special_paid_time += $special_paid_time;

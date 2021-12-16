@@ -2,6 +2,7 @@
 
 namespace App\Services\Processors;
 
+use App\Constants\VacationReason;
 use App\Models\ShiftPlan;
 use App\Models\WorkingHour;
 use Illuminate\Support\Carbon;
@@ -34,7 +35,7 @@ class ShiftProcessor
             $restStartTime = null;
             $restEndTime = null;
             $vacationReasonId = null;
-            if (empty($shiftData['vacation_reason_id'])) {
+            if ($shiftData['vacation_reason_id'] === VacationReason::WORK) {
                 // check start time end time consistency
                 $startTime = null;
                 $endTime = null;
