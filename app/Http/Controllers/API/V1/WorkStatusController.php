@@ -45,7 +45,6 @@ class WorkStatusController extends BaseController
         $attends = Attendance::where('year_id', $year->id)
                                 ->where('month', $month)
                                 ->where('day', $day)
-                                ->orderBy('attendances.day')
                                 ->get()
                                 ->groupBy('user_id');
 
