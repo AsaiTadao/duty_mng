@@ -21,7 +21,12 @@ class MonthlySummaryController extends BaseController
         $attendanceItems = [];
         foreach($attendances as $i => $attendance)
         {
-            $item = $attendance->toArray();
+            if (!is_array($attendance))
+            {
+                $item = $attendance->toArray();
+            } else {
+                $item = $attendance;
+            }
             $attendanceItems[] = array_merge($item, $attendanceMetaItems[$i]);
         }
 
