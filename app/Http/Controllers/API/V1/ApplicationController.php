@@ -22,7 +22,7 @@ class ApplicationController extends BaseController
 
         $attendance = null;
         if (!empty($data['attendance_id'])) {
-            $attendance = Attendance::where(['id' => $data['attendance_id'], 'user_id' => $currentUser->id])->get();
+            $attendance = Attendance::where(['id' => $data['attendance_id'], 'user_id' => $currentUser->id])->first();
         }
         if (!$attendance) {
             $applicationDate = Carbon::parse($data['application_date']);
