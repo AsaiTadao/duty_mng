@@ -74,6 +74,18 @@ class AttendanceTotalService
         $attendanceTotal->scheduled_working_hours_a = 0;
         $attendanceTotal->excess_and_deficiency_time = 0;
 
+        $attendanceTotal->substitute_holiday_time = 0;
+        $attendanceTotal->consecutive_working_hours = 0;
+        $attendanceTotal->annual_paid_time = 0;
+        $attendanceTotal->annual_paid_days = 0;
+        $attendanceTotal->special_paid_time = 0;
+        $attendanceTotal->special_paid_days = 0;
+        $attendanceTotal->special_unpaid_time = 0;
+        $attendanceTotal->special_unpaid_days = 0;
+        $attendanceTotal->other_unpaid_time = 0;
+        $attendanceTotal->other_unpaid_days = 0;
+        $attendanceTotal->absence_days = 0;
+
         $attendanceItems = [];
         $attendanceMetaItems = [];
         for($day = 1; $day <= $daysInMonth; $day++)
@@ -92,6 +104,7 @@ class AttendanceTotalService
             $excess_and_deficiency_time = 0;        // 過不足時間
             $scheduled_working_hours_b = 0;         // 【計算】所定労働時間
             $off_shift_working_hours = 0;           // シフト外勤務時間
+            $substitute_holiday_time = 0;           // 代休時間
 
 
             $attendance = $attendances->firstWhere('day', $day);
@@ -150,6 +163,8 @@ class AttendanceTotalService
 
                 $midnight_overtime += $this->calcMidnightTime($attendance->$commuting_time_i, $attendance->$leave_time_i);
             }
+            // eoc: shift foreach
+
             $total_working_hours = $work_hours - $rest_hours;
             // boc: calc overtime_working_hours
             if ($user->employment_status_id === EmploymentStatus::NORMAL) {
@@ -189,8 +204,15 @@ class AttendanceTotalService
             } else {
                 $actual_working_hours = $total_working_hours - $overtime_hours_non_statutory;
             }
+            // eoc: calc actual_working_hours
 
             $scheduled_working_hours_b = $total_working_hours + ($overtime_working_hours + $behind_time + $leave_early);
+
+            $substitute_holiday_time = $attendance->substitute_time;
+            $annual_paid_time = $attendance->annual_paid_time;
+            $special_paid_time = $attendance->special_paid_time;
+            $other_unpaid_time = $attendance->other_unpaid_time;
+            $special_unpaid_time = $attendance->special_unpaid_time;
 
             // put together into attendanceTotal
             if (
@@ -201,6 +223,8 @@ class AttendanceTotalService
                 && !$attendance->leave_time_2
                 && !$attendance->leave_time_3
             ) {
+                $attendanceTotal->absence_days++;
+            } else {
                 $attendanceTotal->working_days++;   // 勤務日数
             }
             $attendanceTotal->total_working_hours += $total_working_hours;
@@ -218,10 +242,27 @@ class AttendanceTotalService
             $attendanceTotal->midnight_overtime += $midnight_overtime;
             $attendanceTotal->behind_time += $behind_time;
             $attendanceTotal->leave_early += $leave_early;
-            $attendanceTotal->off_shift_working_hours += $off_shift_working_hours;
+            $attendanceTotal->off_shift_working_hours += ($off_shift_working_hours - $substitute_holiday_time);
             //TODO [#LK-40] calc consecutive work
 
             // TODO [#LK-35] calc vacation days
+            $attendanceTotal->substitute_holiday_time += $substitute_holiday_time;
+            $attendanceTotal->annual_paid_time += $annual_paid_time;
+            $attendanceTotal->special_paid_time += $special_paid_time;
+            $attendanceTotal->special_unpaid_time += $special_unpaid_time;
+            $attendanceTotal->other_unpaid_time += $other_unpaid_time;
+            if ($annual_paid_time) {
+                $attendanceTotal->annual_paid_days++;
+            }
+            if ($special_paid_time) {
+                $attendanceTotal->special_paid_days++;
+            }
+            if ($special_unpaid_time) {
+                $attendanceTotal->special_unpaid_days++;
+            }
+            if ($other_unpaid_time) {
+                $attendanceTotal->other_unpaid_days++;
+            }
 
             $attendanceItems[$day] = $attendance;
             $attendanceMetaItems[$day] = [
@@ -246,7 +287,7 @@ class AttendanceTotalService
 
             if ($scheduled_working) {
                 $attendanceTotal->scheduled_working_hours_a = 60 * $user->working_hours * $scheduled_working->days;   // 所定労働時間マスタで登録した事業所毎の日数×社員マスタに登録した個々人の勤務時間で算出
-                $attendanceTotal->excess_and_deficiency_time = $attendanceTotal->scheduled_working_hours_a - $attendanceTotal->scheduled_working_hours_b; // 過不足時間 = 登録した所定労働時間－計算した所定労働時間
+                $attendanceTotal->excess_and_deficiency_time = $attendanceTotal->scheduled_working_hours_b - $attendanceTotal->scheduled_working_hours_a; // 過不足時間 = 登録した所定労働時間－計算した所定労働時間
             }
         }
 

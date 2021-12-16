@@ -16,13 +16,9 @@ class AddVacationFieldsToAttendancesTable extends Migration
         Schema::table('attendances', function (Blueprint $table) {
             //
             $table->float('annual_paid_time', 4, 2)->nullable();
-            $table->float('annual_paid_days', 4, 2)->nullable();
             $table->float('special_paid_time', 6, 2)->nullable();
-            $table->float('special_paid_days', 4, 2)->nullable();
             $table->float('special_unpaid_time', 6, 2)->nullable();
-            $table->float('special_unpaid_days', 4, 2)->nullable();
             $table->float('other_unpaid_time', 6, 2)->nullable();
-            $table->float('other_unpaid_days', 4, 2)->nullable();
             $table->float('substitute_time', 4,2)->nullable();
             $table->integer('substitute_day')->nullable();
         });
@@ -38,13 +34,9 @@ class AddVacationFieldsToAttendancesTable extends Migration
         Schema::table('attendances', function (Blueprint $table) {
             //
             $table->dropColumn('annual_paid_time');
-            $table->dropColumn('annual_paid_days');
             $table->dropColumn('special_paid_time');
-            $table->dropColumn('special_paid_days');
             $table->dropColumn('special_unpaid_time');
-            $table->dropColumn('special_unpaid_days');
             $table->dropColumn('other_unpaid_time');
-            $table->dropColumn('other_unpaid_days');
             $table->dropColumn('substitute_time');
             $table->dropColumn('substitute_day');
         });
