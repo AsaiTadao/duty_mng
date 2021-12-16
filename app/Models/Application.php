@@ -22,8 +22,14 @@ class Application extends Model
         'reason_id',
     ];
 
+    protected $dates = [
+        'time_before_correction',
+        'time_after_correction'
+    ];
+
     protected $appends = [
-        'is_approved'
+        'is_approved',
+        'is_rejected'
     ];
 
     public function user()
@@ -38,5 +44,10 @@ class Application extends Model
     {
         if (empty($this->attributes['status'])) return false;
         return $this->attributes['status'] === self::STATUS_APPROVED;
+    }
+    public function getIsRejectedAttribute()
+    {
+        if (empty($this->attributes['status'])) return false;
+        return $this->attributes['status'] === self::STATUS_REJECTED;
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Requests\ApplicationRequest;
 use App\Models\Application;
 use App\Models\Attendance;
 use App\Models\Year;
+use App\Services\AttendancePipleline;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Gate;
 
@@ -77,17 +78,38 @@ class ApplicationController extends BaseController
         $application->save();
         return $this->sendResponse($application);
     }
-    public function approve(Application $application)
+    public function approve(Application $application, AttendancePipleline $attendancePipleline)
     {
         if (!Gate::allows('approve-application', $application)) {
             return abort(403, "You are not allowed");
         }
         $currentUser = auth()->user();
-        if ($application->is_approved) return $this->sendError("Already approved", [], 202);
+        if ($application->is_approved) return $this->sendError("Already approved", [], 404);
+        if ($application->is_rejected) return $this->sendError("Already rejected", [], 404);
         $application->approval_datetime = Carbon::now();
         $application->status = Application::STATUS_APPROVED;
         $application->update_user_id = $currentUser->id;
         $application->save();
+
+        $attendance = $application->attendance;
+        $attendancePipleline->process($attendance);
+        $attendance->save();
+        return $this->sendResponse($application);
+    }
+
+    public function reject(Application $application)
+    {
+        if (!Gate::allows('approve-application', $application)) {
+            return abort(403, "You are not allowed");
+        }
+        $currentUser = auth()->user();
+        if ($application->is_approved) return $this->sendError("Already approved", [], 404);
+        if ($application->is_rejected) return $this->sendError("Already rejected", [], 404);
+        $application->approval_datetime = Carbon::now();
+        $application->status = Application::STATUS_REJECTED;
+        $application->update_user_id = $currentUser->id;
+        $application->save();
+
         return $this->sendResponse($application);
     }
 }
