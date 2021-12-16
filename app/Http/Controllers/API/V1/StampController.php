@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\V1;
 
 use App\Models\Attendance;
 use App\Models\StampLog;
-use App\Services\Processors\AttendanceProcessor;
+use App\Services\AttendancePipleline;
 use App\Services\StampService;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Log;
 class StampController extends BaseController
 {
     protected $stampService;
-    protected $attendanceProcessor;
+    protected $attendancePipeline;
 
     public function __construct(
         StampService $stampService,
-        AttendanceProcessor $attendanceProcessor
+        AttendancePipleline $attendancePipeline
     ) {
         $this->stampService = $stampService;
-        $this->attendanceProcessor = $attendanceProcessor;
+        $this->attendancePipeline = $attendancePipeline;
     }
     public function commute(Request $request)
     {
@@ -51,7 +51,7 @@ class StampController extends BaseController
         } else {
             $attendance->update_user_id = $user->id;
         }
-        $this->attendanceProcessor->process($attendance);
+        $this->attendancePipeline->process($attendance);
         $attendance->save();
         return $this->sendResponse();
     }
@@ -76,7 +76,7 @@ class StampController extends BaseController
             Log::error("[user " . $user->id . "] commute stamp error : " . $this->stampService->getError());
             return $this->sendError($this->stampService->getError());
         }
-        $this->attendanceProcessor->process($attendance);
+        $this->attendancePipeline->process($attendance);
         $attendance->save();
         return $this->sendResponse();
     }

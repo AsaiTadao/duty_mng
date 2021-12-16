@@ -295,13 +295,15 @@ class StampService
             $selectedIndex = -1;
             foreach($shifts as $i => $shift)
             {
-                if ($overlapped < calcOverlappedPeriod(
+                $tmp = calcOverlappedPeriod(
                     $attendance->commuting_time_1,
                     $attendance->leave_time_1,
                     Carbon::parse($dateString . ' ' . $shift->start_time),
                     Carbon::parse($dateString . ' ' . $shift->end_time)
-                )) {
+                );
+                if ($overlapped < $tmp) {
                     $selectedIndex = $i;
+                    $overlapped = $tmp;
                 }
             }
             if ($selectedIndex >= 0) {
@@ -315,13 +317,15 @@ class StampService
             $selectedIndex = -1;
             foreach($shifts as $i => $shift)
             {
-                if ($overlapped < calcOverlappedPeriod(
+                $tmp = calcOverlappedPeriod(
                     $attendance->commuting_time_1,
                     $attendance->leave_time_1,
                     Carbon::parse($dateString . ' ' . $shift->start_time),
                     Carbon::parse($dateString . ' ' . $shift->end_time)
-                )) {
+                );
+                if ($overlapped < $tmp) {
                     $selectedIndex = $i;
+                    $overlapped = $tmp;
                 }
             }
             if ($selectedIndex >= 0) {
@@ -335,13 +339,15 @@ class StampService
             $selectedIndex = -1;
             foreach($shifts as $i => $shift)
             {
-                if ($overlapped < calcOverlappedPeriod(
+                $tmp = calcOverlappedPeriod(
                     $attendance->commuting_time_1,
                     $attendance->leave_time_1,
                     Carbon::parse($dateString . ' ' . $shift->start_time),
                     Carbon::parse($dateString . ' ' . $shift->end_time)
-                )) {
+                );
+                if ($overlapped < $tmp) {
                     $selectedIndex = $i;
+                    $overlapped = $tmp;
                 }
             }
             if ($selectedIndex >= 0) {

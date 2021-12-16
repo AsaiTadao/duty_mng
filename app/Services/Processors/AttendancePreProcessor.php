@@ -5,7 +5,10 @@ namespace App\Services\Processors;
 use App\Models\Attendance;
 use Illuminate\Support\Carbon;
 
-class AttendanceProcessor
+/**
+ * calculate behind time, leave early based on the commuting and leave time
+ */
+class AttendancePreProcessor
 {
     protected $error;
 

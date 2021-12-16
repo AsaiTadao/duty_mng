@@ -11,18 +11,18 @@ use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\WorkStatusCreateRequest;
 use App\Http\Requests\WorkStatusUpdateRequest;
-use App\Services\Processors\AttendanceProcessor;
+use App\Services\AttendancePipleline;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 
 class WorkStatusController extends BaseController
 {
     protected $stampService;
-    protected $attendanceProcessor;
+    protected $attendancePipleline;
 
-    public function __construct(StampService $stampService, AttendanceProcessor $attendanceProcessor) {
+    public function __construct(StampService $stampService, AttendancePipleline $attendancePipleline) {
         $this->stampService = $stampService;
-        $this->attendanceProcessor = $attendanceProcessor;
+        $this->attendancePipleline = $attendancePipleline;
     }
     public function get(Office $office, Request $request)
     {
@@ -87,7 +87,7 @@ class WorkStatusController extends BaseController
         $attendance->leave_time_2 = empty($data['leave_time_2']) ? null : Carbon::parse($data['leave_time_2']);
 
         $this->stampService->matchShiftToAttendance($attendance);
-        $this->attendanceProcessor->process($attendance);
+        $this->attendancePipleline->process($attendance);
 
         $attendance->update_user_id = $currentUser->id;
         $attendance->save();
@@ -142,7 +142,7 @@ class WorkStatusController extends BaseController
 
 
         $this->stampService->matchShiftToAttendance($attendance);
-        $this->attendanceProcessor->process($attendance);
+        $this->attendancePipleline->process($attendance);
 
         $attendance->create_user_id = $currentUser->id;
         $attendance->save();
