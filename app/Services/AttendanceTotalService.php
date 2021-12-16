@@ -61,6 +61,7 @@ class AttendanceTotalService
 
         $attendanceTotal->working_days = 0;
         $attendanceTotal->total_working_hours = 0;
+        $attendanceTotal->total_rest_hours = 0;
         $attendanceTotal->actual_working_hours_weekdays = 0;
         $attendanceTotal->overtime_hours_weekdays = 0;
         $attendanceTotal->scheduled_working_hours_b = 0;
@@ -287,6 +288,8 @@ class AttendanceTotalService
                 $attendanceTotal->overtime_hours_weekdays += $overtime_working_hours;
             }
 
+            $attendanceTotal->total_rest_hours += $rest_hours;
+
             $attendanceTotal->scheduled_working_hours_b += $scheduled_working_hours_b;
             $attendanceTotal->overtime_hours_statutory += $overtime_hours_statutory;
             $attendanceTotal->overtime_hours_non_statutory += $overtime_hours_non_statutory;
@@ -322,7 +325,8 @@ class AttendanceTotalService
                 'overtime_hours_statutory'=>$overtime_hours_statutory,
                 'overtime_hours_non_statutory'=>    $overtime_hours_non_statutory,
                 'midnight_overtime' =>  $midnight_overtime,
-                'off_shift_working_hours'   =>  $off_shift_working_hours
+                'off_shift_working_hours'   =>  $off_shift_working_hours,
+                'rest_hours'        =>  $rest_hours
             ];
         }
         // eoc: days foreach

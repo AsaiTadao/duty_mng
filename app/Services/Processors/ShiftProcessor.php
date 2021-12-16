@@ -35,7 +35,7 @@ class ShiftProcessor
             $restStartTime = null;
             $restEndTime = null;
             $vacationReasonId = null;
-            if ($shiftData['vacation_reason_id'] === VacationReason::WORK) {
+            if (empty($shiftData['vacation_reason_id']) || $shiftData['vacation_reason_id'] === VacationReason::WORK) {
                 // check start time end time consistency
                 $startTime = null;
                 $endTime = null;
@@ -104,7 +104,6 @@ class ShiftProcessor
             } else {
                 $shift = new ShiftPlan();
             }
-
             $shift->fill([
                 'day_of_week'   =>  $date->dayOfWeek,
                 'date'          =>  $date->format('Y-m-d'),
