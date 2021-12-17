@@ -34,6 +34,7 @@ class Attendance extends Model
         'day',
         'day_of_week',
         'substitute_time',
+        'substitute_day',
         'annual_paid_time',
         'special_paid_time',
         'special_unpaid_time',
