@@ -287,7 +287,7 @@ class StampService
     {
         $date = $attendance->date;
         $dateString = $date->format('Y-m-d');
-        $shifts = ShiftPlan::where(['user_id' => $attendance->user_id, 'date' => $date])->orderBy('start_time')->get();
+        $shifts = ShiftPlan::where(['user_id' => $attendance->user_id])->whereDate('date', $date)->orderBy('start_time')->get();
         if ($shifts->count() === 0) return;
 
         if ($attendance->commuting_time_1 && $attendance->leave_time_1)

@@ -86,6 +86,15 @@ class ApplicationController extends BaseController
         $currentUser = auth()->user();
         if ($application->is_approved) return $this->sendError("Already approved", [], 404);
         if ($application->is_rejected) return $this->sendError("Already rejected", [], 404);
+
+        if (!$application->attendance)
+        {
+            abort(404, "This application is not attached to the attendance");
+        }
+        if ($application->attendance->is_approved)
+        {
+            abort(404, "This item is already approved");
+        }
         $application->approval_datetime = Carbon::now();
         $application->status = Application::STATUS_APPROVED;
         $application->update_user_id = $currentUser->id;

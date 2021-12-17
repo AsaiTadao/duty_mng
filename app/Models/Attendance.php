@@ -35,6 +35,10 @@ class Attendance extends Model
         'day_of_week'
     ];
 
+    protected $appends = [
+        'is_approved'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -72,5 +76,10 @@ class Attendance extends Model
             $yearNumber = floor($year->end / 100);
         }
         return Carbon::parse($yearNumber . '-' . sprintf('%02d', $month) . '-' . sprintf('%02d', $this->attributes['day']));
+    }
+
+    public function getIsApprovedAttribute()
+    {
+        return !empty($this->attributes['approved_at']);
     }
 }

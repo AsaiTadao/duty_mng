@@ -19,7 +19,7 @@ class AddVacationFieldsToAttendancesTable extends Migration
             $table->float('special_paid_time', 6, 2)->nullable();
             $table->float('special_unpaid_time', 6, 2)->nullable();
             $table->float('other_unpaid_time', 6, 2)->nullable();
-            $table->float('substitute_time', 4,2)->nullable();
+            $table->float('substitute_time', 6,2)->nullable();
             $table->integer('substitute_day')->nullable();
         });
     }

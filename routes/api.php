@@ -64,6 +64,10 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::put('/application/{application}', [ApplicationController::class, 'update'])->name('application.update');
         Route::put('/application/approve/{application}', [ApplicationController::class, 'approve'])->name('application.approve');
         Route::put('/application/reject/{application}', [ApplicationController::class, 'reject'])->name('application.reject');
+
+        Route::put('/monthly-summary/attendances/approve', [MonthlySummaryController::class, 'approve'])->name('monthly_summary.attendance.approve');
+        Route::post('/monthly-summary/attendances', [MonthlySummaryController::class, 'saveAttendance'])->name('monthly_summary.attendance.save');
+
         Route::get('/monthly-summary/{user}', [MonthlySummaryController::class, 'get'])->name('monthly_summary.get');
         Route::get('/work-total/{office}', [WorkTotalController::class, 'get'])->name('work_total.get');
         Route::get('/office/{office}/users', [UserController::class, 'getUsers'])->name('office.users');

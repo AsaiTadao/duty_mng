@@ -1,9 +1,16 @@
 <?php
 namespace App\Http\Controllers\API\V1;
 
+use App\Http\Requests\MonthlySummary\AttendanceApproveRequest;
+use App\Http\Requests\MonthlySummary\AttendanceRequest;
 use App\Http\Requests\MonthlySummary\MonthlySummaryQuery;
+use App\Models\Attendance;
 use App\Models\User;
+use App\Models\Year;
+use App\Services\AttendancePipleline;
 use App\Services\AttendanceTotalService;
+use App\Services\StampService;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Gate;
 
 class MonthlySummaryController extends BaseController
@@ -35,5 +42,145 @@ class MonthlySummaryController extends BaseController
             'total'         =>  $attendanceTotal
         ]);
     }
+    public function saveAttendance(AttendanceRequest $request, StampService $stampService, AttendancePipleline $attendancePipleline)
+    {
+        $currentUser = auth()->user();
+        $data = $request->validated();
+        $userId = $data['user_id'];
+        $user = User::where(['id' => $userId])->first();
 
+        if (!Gate::forUser($currentUser)->allows('update-user-work-status', $user))
+        {
+            abort(403, "You are not allowed");
+        }
+        if (!empty($data['substitute_time']) && empty($data['']))
+        $date = Carbon::parse($data['date']);
+        $monthValue = $date->year * 100 + $date->month;
+        $year = Year::where([
+            ['start', '<=', $monthValue],
+            ['end', '>=', $monthValue]
+        ])->first();
+        $attendance = Attendance::where([
+            'year_id'   =>  $year->id,
+            'month'     =>  $date->month,
+            'day'       =>  $date->day,
+            'user_id'   =>  $user->id
+        ])->first();
+        if (!$attendance) {
+            $attendance = new Attendance([
+                'year_id'   =>  $year->id,
+                'month'     =>  $date->month,
+                'day'       =>  $date->day,
+                'day_of_week'=> $date->dayOfWeek
+            ]);
+            $attendance->user()->associate($user);
+            $attendance->create_user_id = $currentUser->id;
+        } else {
+            if ($attendance->is_approved) {
+                abort(404, "This item is already approved");
+            }
+        }
+
+        if (!empty($data['commuting_time_1']))
+        {
+            $commuting_time_1 = Carbon::parse($data['date'] . ' ' .$data['commuting_time_1'] . ':00');
+            $attendance->commuting_time_1 = $commuting_time_1;
+        }
+        if (!empty($data['commuting_time_2']))
+        {
+            $commuting_time_2 = Carbon::parse($data['date'] . ' ' .$data['commuting_time_2'] . ':00');
+            $attendance->commuting_time_2 = $commuting_time_2;
+        }
+        if (!empty($data['leave_time_1']))
+        {
+            $leave_time_1 = Carbon::parse($data['date'] . ' ' .$data['leave_time_1'] . ':00');
+            $attendance->leave_time_1 = $leave_time_1;
+        }
+        if (!empty($data['leave_time_2']))
+        {
+            $leave_time_2 = Carbon::parse($data['date'] . ' ' .$data['leave_time_2'] . ':00');
+            $attendance->leave_time_2 = $leave_time_2;
+        }
+        $attendance->substitute_time = $data['substitute_time']??null;
+        $attendance->annual_paid_time = $data['annual_paid_time']??null;
+        $attendance->special_paid_time = $data['special_paid_time']??null;
+        $attendance->special_unpaid_time = $data['special_unpaid_time']??null;
+        $attendance->other_unpaid_time = $data['other_unpaid_time']??null;
+        $attendance->reason_for_vacation_id = $data['reason_for_vacation_id']??null;
+        $attendance->remark = $data['remark']??null;
+        $attendance->update_user_id = $currentUser->id;
+
+        $stampService->matchShiftToAttendance($attendance);
+        $attendancePipleline->process($attendance);
+        $attendance->save();
+
+        return response()->json($attendance);
+    }
+    public function approve(AttendanceApproveRequest $request)
+    {
+        $currentUser = auth()->user();
+        $data = $request->validated();
+        $userId = $data['user_id'];
+        $user = User::where(['id' => $userId])->first();
+        if (!$user)
+        {
+            abort(404);
+        }
+        if (!Gate::forUser($currentUser)->allows('update-user-work-status', $user))
+        {
+            abort(403, "You are not allowed");
+        }
+
+        $monthValue = $data['month'];
+        $year = Year::where([
+            ['start', '<=', $monthValue],
+            ['end', '>=', $monthValue]
+        ])->first();
+
+        if (!$year)
+        {
+            abort(422, "Invalid month");
+        }
+        $month = $monthValue % 100;
+
+        $days = $data['days'];
+
+        $attendances = Attendance::where('user_id', $user->id)
+                ->where(['year_id' => $year->id, 'month' => $month])
+                ->whereIn('day', $days)
+                ->whereNull('approved_at')
+                ->get();
+        // if ($attendances->count() === 0)
+        // {
+        //     return $this->sendResponse();
+        // }
+        $now = Carbon::now();
+
+        $savedDays = [];
+        foreach ($attendances as $attendance)
+        {
+            $savedDays[] = $attendance->day;
+            if ($attendance->is_approved) continue;
+            $attendance->approved_at = $now;
+            $attendance->approve_user_id = $currentUser->id;
+            $attendance->save();
+        }
+
+        foreach ($days as $day)
+        {
+            if (in_array($day, $savedDays))
+            {
+                continue;
+            }
+            $attendance = new Attendance([
+                'year_id'   =>  $year->id,
+                'month'     =>  $month,
+                'day'       =>  $day,
+            ]);
+            $attendance->day_of_week = $attendance->date->dayOfWeek;
+            $attendance->user()->associate($currentUser);
+            $attendance->save();
+        }
+        return $this->sendResponse();
+    }
 }
