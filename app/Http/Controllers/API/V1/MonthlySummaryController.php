@@ -108,6 +108,7 @@ class MonthlySummaryController extends BaseController
         $attendance->special_unpaid_time = $data['special_unpaid_time']??null;
         $attendance->other_unpaid_time = $data['other_unpaid_time']??null;
         $attendance->reason_for_vacation_id = $data['reason_for_vacation_id']??null;
+        $attendance->substitute_day = $data['substitute_day']??null;
         $attendance->remark = $data['remark']??null;
         $attendance->update_user_id = $currentUser->id;
 

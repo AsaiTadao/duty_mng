@@ -33,14 +33,14 @@ class Attendance extends Model
         'month',
         'day',
         'day_of_week',
-        'substitute_time',
-        'substitute_day',
-        'annual_paid_time',
-        'special_paid_time',
-        'special_unpaid_time',
-        'other_unpaid_time',
-        'reason_for_vacation_id',
-        'remark'
+        // 'substitute_time',
+        // 'substitute_day',
+        // 'annual_paid_time',
+        // 'special_paid_time',
+        // 'special_unpaid_time',
+        // 'other_unpaid_time',
+        // 'reason_for_vacation_id',
+        // 'remark'
     ];
 
     protected $appends = [
