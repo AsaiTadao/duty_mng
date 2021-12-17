@@ -135,12 +135,24 @@
             </div>
             <div class="form-group mb-0">
                 <label class="mr-2">
-                    <input type="radio" v-model="formData.vacationReasonId" :value="this.$vacationId">
+                    <input type="radio" v-model="formData.vacationReasonId" :value="$vacationId.WORK">
                     <label class="ml-auto">勤務</label>
                 </label>
                 <label class="mr-2">
-                    <input type="radio" v-model="formData.vacationReasonId" :value="this.$vacationId">
-                    <label class="ml-auto">year vacation</label>
+                    <input type="radio" v-model="formData.vacationReasonId" :value="$vacationId.ANNUAL_PAID">
+                    <label class="ml-auto">年次有休</label>
+                </label>
+                <label class="mr-2">
+                    <input type="radio" v-model="formData.vacationReasonId" :value="$vacationId.SPECIAL_PAID">
+                    <label class="ml-auto">特休有給</label>
+                </label>
+                <label class="mr-2">
+                    <input type="radio" v-model="formData.vacationReasonId" :value="$vacationId.SPECIAL_UNPAID">
+                    <label class="ml-auto">特休無給</label>
+                </label>
+                <label class="mr-2">
+                    <input type="radio" v-model="formData.vacationReasonId" :value="$vacationId.OTHER_UNPAID">
+                    <label class="ml-auto">その他無給</label>
                 </label>
                 <!-- <label v-for="item in vacations" :key="item.id" class="mr-2">
                     <input type="radio" v-model="formData.vacationReasonId" :value="item.id">
