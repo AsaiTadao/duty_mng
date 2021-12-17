@@ -5,7 +5,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title">
-                            <h3 class="card-title mb-0">ラテラル保育園</h3>
+                            <h3 class="card-title mb-0">{{officeName}}</h3>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <button
                                     type="button"
@@ -31,9 +31,8 @@
                                     <i class="fas fa-caret-right fa-2x"></i>
                                 </button>
                                 <div class="form-group mx-4 mb-0">
-                                    <select class="form-control">
-                                        <option>ラテラル保育園</option>
-                                        <option>ラテラルキッズ本社</option>
+                                    <select class="form-control" v-model="officeId" @change="selectOffice()">
+                                        <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -100,6 +99,36 @@
                                                 rowspan="2"
                                                 class="align-middle"
                                             >
+                                                残業外<br>労働時間[平日]
+                                            </th>
+                                            <th
+                                                rowspan="2"
+                                                class="align-middle"
+                                            >
+                                                残業外<br>労働時間[土曜]
+                                            </th>
+                                            <th
+                                                rowspan="2"
+                                                class="align-middle"
+                                            >
+                                                残業時間
+                                            </th>
+                                            <th
+                                                rowspan="2"
+                                                class="align-middle"
+                                            >
+                                                残業時間<br>[平日]
+                                            </th>
+                                            <th
+                                                rowspan="2"
+                                                class="align-middle"
+                                            >
+                                                残業時間<br>[土曜]
+                                            </th>
+                                            <th
+                                                rowspan="2"
+                                                class="align-middle"
+                                            >
                                                 法定内<br>残業時間
                                             </th>
                                             <th
@@ -155,159 +184,120 @@
                                         </tr>
                                     </thead>
                                     <tbody class="text-center header-fix-x-tr">
-                                        <tr>
-                                            <td class="header-fix-x">A12345</td>
+                                        <tr v-for="member in total" :key="member.id">
+                                            <td class="header-fix-x">{{member.number}}</td>
                                             <td class="header-fix-x-77">
                                                 <router-link
-                                                    to="/member/1"
-                                                    >阿部　一子</router-link
-                                                >
-                                            </td>
-                                            <td>12</td>
-                                            <td>72.50</td>
-                                            <td>30分</td>
-                                            <td>-</td>
-                                            <td>6.00</td>
-                                            <td>66.50</td>
-                                            <td>0.50</td>
-                                            <td>1</td>
-                                            <td>3.00</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-x">A23456</td>
-                                            <td class="header-fix-x-77">
-                                                <router-link
-                                                    to="/member/2"
-                                                >
-                                                    伊藤　二子
+                                                    :to="{name: 'monthly-summary', query: {userId: member.id, officeId: officeId, month: month}}"
+                                                    >{{member.name}}
                                                 </router-link>
                                             </td>
-                                            <td>8</td>
-                                            <td>40.25</td>
-                                            <td>-</td>
-                                            <td>15分</td>
-                                            <td>-</td>
-                                            <td>40.25</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>1</td>
-                                            <td>4.00</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-x">A34567</td>
-                                            <td class="header-fix-x-77">
-                                                <router-link
-                                                    to="/member/3"
-                                                >
-                                                    上野　三子
-                                                </router-link>
-                                            </td>
-                                            <td>10</td>
-                                            <td>70.00</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>2.50</td>
-                                            <td>67.50</td>
-                                            <td>1.25</td>
-                                            <td>-</td>
-                                            <td>4.50</td>
-                                            <td>1</td>
-                                            <td>-</td>
-                                            <td>2</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-x">A45678</td>
-                                            <td class="header-fix-x-77">
-                                                <router-link
-                                                    to="/member/4"
-                                                >
-                                                    遠藤　四子
-                                                </router-link>
-                                            </td>
-                                            <td>11</td>
-                                            <td>92.75</td>
-                                            <td>15分</td>
-                                            <td>-</td>
-                                            <td>5.00</td>
-                                            <td>87.75</td>
-                                            <td>2.75</td>
-                                            <td>1</td>
-                                            <td>8</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-x">A56789</td>
-                                            <td class="header-fix-x-77">
-                                                <router-link
-                                                    to="/member/5"
-                                                >
-                                                    小野　五子
-                                                </router-link>
-                                            </td>
-                                            <td>9</td>
-                                            <td>42.00</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>42.00</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>2.50</td>
-                                            <td>1</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
-                                            <td>-</td>
+                                            <td>{{member.total.workingDays}}日</td>
+                                            <td>{{(member.total.totalWorkingHours / 60).toFixed(2)}}</td>
+                                            <template v-if="isHonShya(member.office.name) && isNormalStaff(member.employmentStatusId)">
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{member.total.restTime}}</td>
+                                                <td>{{((member.total.actualWorkingHoursWeekdays + member.total.actualWorkingHoursSaturday) / 60).toFixed(2)}}</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{(member.total.midnightOvertime / 60).toFixed(2)}}</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{(member.total.annualPaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.annualPaidDays}}日</td>
+                                                <td>{{(member.total.specialPaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.specialPaidDays}}日</td>
+                                                <td>{{(member.total.specialUnpaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.specialUnpaidDays}}日</td>
+                                                <td>{{(member.total.otherUnpaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.otherUnpaidDays}}日</td>
+                                                <td>{{member.total.absenceDays}}日</td>
+                                            </template>
+                                            <template v-else-if="isHonShya(member.office.name) && !isNormalStaff(member.employmentStatusId)">
+                                                <td>{{member.total.behindTime}}分</td>
+                                                <td>{{member.total.leaveEarly}}分</td>
+                                                <td>{{member.total.restTime}}</td>
+                                                <td>-</td>
+                                                <td>{{(member.total.actualWorkingHoursWeekdays / 60).toFixed(2) }}</td>
+                                                <td>{{(member.total.actualWorkingHoursSaturday / 60).toFixed(2)}}</td>
+                                                <td>-</td>
+                                                <td>{{(member.total.overtimeHoursWeekdays / 60).toFixed(2)}}</td>
+                                                <td>{{(member.total.overtimeHoursSaturday / 60).toFixed(2)}}</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{(member.total.midnightOvertime / 60).toFixed(2)}}</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{(member.total.consecutiveWorkingHours / 60).toFixed(2)}}</td>
+                                                <td>{{(member.total.annualPaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.annualPaidDays}}日</td>
+                                                <td>{{(member.total.specialPaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.specialPaidDays}}日</td>
+                                                <td>{{(member.total.specialUnpaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.specialUnpaidDays}}日</td>
+                                                <td>{{(member.total.otherUnpaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.otherUnpaidDays}}日</td>
+                                                <td>{{member.total.absenceDays}}日</td>
+                                            </template>
+                                            <template v-else-if="!isHonShya(member.office.name) && !isNormalStaff(member.employmentStatusId)">
+                                                <td>{{member.total.behindTime}}分</td>
+                                                <td>{{member.total.leaveEarly}}分</td>
+                                                <td>{{member.total.restTime}}</td>
+                                                <td>-</td>
+                                                <td>{{(member.total.actualWorkingHoursWeekdays / 60).toFixed(2) }}</td>
+                                                <td>{{(member.total.actualWorkingHoursSaturday / 60).toFixed(2)}}</td>
+                                                <td>-</td>
+                                                <td>{{(member.total.overtimeHoursWeekdays / 60).toFixed(2)}}</td>
+                                                <td>{{(member.total.overtimeHoursSaturday / 60).toFixed(2)}}</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{(member.total.midnightOvertime / 60).toFixed(2)}}</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{(member.total.consecutiveWorkingHours / 60).toFixed(2)}}</td>
+                                                <td>{{(member.total.annualPaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.annualPaidDays}}日</td>
+                                                <td>{{(member.total.specialPaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.specialPaidDays}}日</td>
+                                                <td>{{(member.total.specialUnpaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.specialUnpaidDays}}日</td>
+                                                <td>{{(member.total.otherUnpaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.otherUnpaidDays}}日</td>
+                                                <td>{{member.total.absenceDays}}日</td>
+                                            </template>
+                                            <template v-else-if="!isHonShya(member.office.name) && isNormalStaff(member.employmentStatusId)">
+                                                <td>{{member.total.behindTime}}分</td>
+                                                <td>{{member.total.leaveEarly}}分</td>
+                                                <td>{{member.total.restTime}}</td>
+                                                <td>{{((member.total.actualWorkingHoursWeekdays + member.total.actualWorkingHoursSaturday) / 60).toFixed(2)}}</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>-</td>
+                                                <td>{{(member.total.overtimeHoursNonStatutory / 60).toFixed(2)}}</td>
+                                                <td>{{(member.total.overtimeHoursStatutory / 60).toFixed(2)}}</td>
+                                                <td>{{(member.total.midnightOvertime / 60).toFixed(2)}}</td>
+                                                <td>{{(member.total.offShiftWorkingHours / 60).toFixed(2)}}</td>
+                                                <td>{{(member.total.substituteHolidayTime / 60).toFixed(2)}}</td>
+                                                <td>{{(member.total.consecutiveWorkingHours / 60).toFixed(2)}}</td>
+                                                <td>{{(member.total.annualPaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.annualPaidDays}}日</td>
+                                                <td>{{(member.total.specialPaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.specialPaidDays}}日</td>
+                                                <td>{{(member.total.specialUnpaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.specialUnpaidDays}}日</td>
+                                                <td>{{(member.total.otherUnpaidTime / 60).toFixed(2)}}</td>
+                                                <td>{{member.total.otherUnpaidDays}}日</td>
+                                                <td>{{member.total.absenceDays}}日</td>
+                                            </template>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -329,129 +319,27 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Modal -->
-            <div
-                class="modal fade"
-                id="addNew"
-                tabindex="-1"
-                role="dialog"
-                aria-labelledby="addNew"
-                aria-hidden="true"
-            >
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">申請</h5>
-                            <!-- <h5 class="modal-title" v-show="editmode">再申請</h5> -->
-                            <button
-                                type="button"
-                                class="close"
-                                data-dismiss="modal"
-                                aria-label="Close"
-                            >
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label
-                                    v-for="item in applicationClasses"
-                                    :key="item.id"
-                                    class="mr-2"
-                                >
-                                    <input
-                                        type="radio"
-                                        name="type"
-                                        :value="item.id"
-                                    />
-                                    <label class="ml-auto">{{
-                                        item.name
-                                    }}</label>
-                                </label>
-                            </div>
-
-                            <div class="form-group">
-                                <i class="fas fa-square-full"></i>
-                                <label>申請日時</label>
-                                <div>{{ currentTime() }}</div>
-                            </div>
-                            <div class="form-group">
-                                <i class="fas fa-square-full"></i>
-                                <label>修正時間</label>
-                                <div class="form-row align-items-center">
-                                    <div class="col-md-2">
-                                        <input
-                                            type="number"
-                                            name="hour"
-                                            class="form-control"
-                                        />
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input
-                                            type="number"
-                                            name="minute"
-                                            class="form-control"
-                                        />
-                                    </div>
-                                    <div class="form-control-label">⇒</div>
-                                    <div class="col-md-2">
-                                        <input
-                                            type="number"
-                                            name="new_hour"
-                                            class="form-control"
-                                        />
-                                    </div>
-                                    <div class="col-md-2">
-                                        <input
-                                            type="number"
-                                            name="new_minute"
-                                            class="form-control"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <i class="fas fa-square-full"></i>
-                                <label>申請理由</label>
-                                <input
-                                    type="text"
-                                    name="memo"
-                                    class="form-control"
-                                />
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-dismiss="modal"
-                            >
-                                閉じる
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                                申請
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 </template>
 <script>
 import moment from 'moment';
 import { mapState } from 'vuex';
+import actionLoading from '../../mixin/actionLoading';
+import api, { apiErrorHandler } from '../../global/api';
 export default {
+    mixins: [actionLoading],
     data() {
         return {
             editmode: false,
             currentDate: new Date(),
             displayDate: new Date(),
-            days: [],
-            attends: [],
-            requests: [],
+            total: {},
+            selectedMonth: '',
+            month: new Date('YYYY-MM'),
+            offices: [],
+            officeName: '',
+            officeId: 1,
         };
     },
     computed: {
@@ -460,6 +348,35 @@ export default {
         })
     },
     methods: {
+        getOffices() {
+                api.get('office/user-capable')
+                    .then(response => {
+                        this.offices = response;
+                        this.officeName = this.offices[this.officeId - 1].name;
+                        if(this.offices && this.offices.length > 0) {
+                            this.officeId = this.offices[0].id;
+                            this.getTotalData();
+                        }
+                    })
+                    .catch(e => apiErrorHandler(e))
+        },
+        getTotalData() {
+                if(this.actionLoading) return;
+                this.setActionLoading();
+                api.get('work-total/' + this.officeId, null, {month: this.selectedMonth})
+                    .then(response => {
+                        this.unsetActionLoading();
+                        this.total = response;
+                    })
+                    .catch(e => {
+                        this.unsetActionLoading();
+                        apiErrorHandler(e);
+                    });
+        },
+        selectOffice() {
+            this.officeName = this.offices[this.officeId - 1].name;
+            this.getTotalData();
+        },
         isThisMonth() {
             const today = new Date();
             return (
@@ -468,48 +385,31 @@ export default {
             );
         },
         getThisMonthDate() {
-                const date = new Date();
-                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY年 M月');
-                return new Date(date.getFullYear(), date.getMonth(), 1);
+            const date = new Date();
+            this.displayDate = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY年 M月');
+            this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYYMM');
+            this.month = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY-MM');
+            this.getTotalData();
+            return new Date(date.getFullYear(), date.getMonth(), 1);
         },
         getNextMonthDate() {
             const date = this.currentDate;
             this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY年 M月');
+            this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYYMM');
+            this.month = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY-MM');
+            this.getTotalData();
             return new Date(date.getFullYear(), date.getMonth() + 1, 1);
         },
         getPrevMonthDate() {
             const date = this.currentDate;
             this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY年 M月');
+            this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYYMM');
+            this.month = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY-MM');
+            this.getTotalData();
             return new Date(date.getFullYear(), date.getMonth() - 1, 1);
         },
         getResults(month_date) {
-            //this.$Progress.start();
-            this.loadAttends(month_date);
-            this.loadRequests(month_date);
             this.updateTable(month_date);
-            //this.$Progress.finish();
-        },
-        createRequest() {
-            $("#addNew").modal("hide");
-            //TODO: this.form.post
-            this.loadRequests();
-        },
-        updateRequest() {
-            $("#addNew").modal("hide");
-            //TODO: this.form.post
-            this.loadRequests();
-        },
-        requestModal() {
-            this.editmode = true;
-            this.firstdate = this.enddate;
-            // if(row = this.requests.find(request => request.date.getTime() == date.getTime())) {
-            //     this.editmode = true;
-            //     this.form.fill(row);
-            // } else {
-            //     this.editmode = false;
-            //     this.form.reset();
-            // }
-            $("#addNew").modal("show");
         },
         currentTime() {
             var today = new Date();
@@ -525,17 +425,27 @@ export default {
                 today.getMinutes()
             );
         },
-        loadAttends(date) {
-            //TODO: axios.get
-            this.attends = [
-                {
-                    date: new Date("2021/09/01")
-                }
-            ];
+        isHonShya(name) {
+            //let name = this.offices[officeId - 1].name;
+            if(name.indexOf('本社') !== -1) {
+                return true;
+            } else {
+                return false;
+            }
         },
-        loadRequests(date) {
-            //TODO: axios.get
-            this.requests = {};
+        isNormalStaff(employmentStatusId) {
+            if(employmentStatusId === 1) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        notZero(number) {
+            if(number > 0) {
+                return number;
+            } else {
+                return '-';
+            }
         },
         updateTable(date) {
             this.currentDate = date;
@@ -558,8 +468,14 @@ export default {
         }
     },
     created() {
+
+    },
+    mounted() {
+        this.selectedMonth = moment(this.displayDate).format('YYYYMM');
+        this.month = moment(this.displayDate).format('YYYY-MM');
         this.displayDate = moment(this.displayDate).format('YYYY年 M月');
         this.getResults(this.currentDate);
+        this.getOffices();
     }
 };
 </script>
