@@ -29,9 +29,9 @@
                                 </div>
                             </div>
                         </div>
-                            <monthly-summery-a v-if="selectedUser.employmentStatusId == 1 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month"/>
-                            <monthly-summery-b v-else-if="selectedUser.employmentStatusId == 2 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month"/>
-                            <monthly-summery-c v-else-if="selectedUser.employmentStatusId == 3 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month"/>
+                            <monthly-summery-a v-if="selectedUser.employmentStatusId == 1 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month" v-on:success="onEditSaved" />
+                            <monthly-summery-b v-else-if="selectedUser.employmentStatusId == 2 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month" v-on:success="onEditSaved" />
+                            <monthly-summery-c v-else-if="selectedUser.employmentStatusId == 3 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month" v-on:success="onEditSaved" />
                     </div>
                 </div>
             </div>
@@ -187,6 +187,9 @@ export default {
             updateTable(date){
                 this.currentDate = date;
             },
+            onEditSaved() {
+                this.getAttendance();
+            }
 
         },
         mounted() {
