@@ -307,12 +307,6 @@
             </table>
         </div>
         <button class="btn btn-primary float-right">承認済み</button>
-        <!-- Modal -->
-        <div class="modal fade" id="addNew" tabindex="-1" role="dialog" aria-labelledby="addNew" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <edit-form />
-            </div>
-        </div>
     </div>
 </template>
 <script>
@@ -320,10 +314,8 @@ import moment from 'moment';
 import { mapState } from 'vuex';
 import api, { apiErrorHandler } from '../../global/api';
 import actionLoading from '../../mixin/actionLoading';
-import EditForm from './EditForm.vue';
 
     export default {
-        components: { EditForm },
         props: {
             attendance: {},
             total: {},
