@@ -15,7 +15,7 @@ class AddVacationFieldsToAttendancesTable extends Migration
     {
         Schema::table('attendances', function (Blueprint $table) {
             //
-            $table->float('annual_paid_time', 4, 2)->nullable();
+            $table->float('annual_paid_time', 6, 2)->nullable();
             $table->float('special_paid_time', 6, 2)->nullable();
             $table->float('special_unpaid_time', 6, 2)->nullable();
             $table->float('other_unpaid_time', 6, 2)->nullable();
