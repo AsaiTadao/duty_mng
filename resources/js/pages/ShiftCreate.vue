@@ -55,8 +55,8 @@
                                                 {{day.getDate()}}日
                                             </a>
                                         </th>
-                                        <th class="align-middle heavy-green" rowspan="2">勤務予定<br>日数</th>
-                                        <th class="align-middle heavy-green" rowspan="2">実働予定<br>時間</th>
+                                        <th class="align-middle heavy-green" rowspan="4">勤務予定<br>日数</th>
+                                        <th class="align-middle heavy-green" rowspan="4">実働予定<br>時間</th>
                                     </tr>
                                     <tr class="light-green">
                                         <th class="align-middle shift-th-x">曜日</th>
@@ -68,6 +68,7 @@
                                     </tr>
                                 </thead>
                                     <tbody class="text-center">
+
                                         <tr v-for="shift in shifts" :key="shift.id">
                                             <td class="shift-fix-x">
                                                 {{shift.name}}
@@ -124,6 +125,7 @@
                 <div class="modal-dialog modal-huge" role="document">
                     <shift-date-form
                         :date="selectedDate"
+                        :shifts="dateSelectedShift"
                         v-on:success="onShiftSaved"/>
                 </div>
             </div>
@@ -160,6 +162,8 @@ import ShiftForm from './ShiftCreate/ShiftForm.vue';
                 capableWorkingHours: [],
                 selectedShift: [],
                 enabledVacations:[],
+
+                dateSelectedShift: [],
             }
         },
         watch: {
@@ -310,7 +314,10 @@ import ShiftForm from './ShiftCreate/ShiftForm.vue';
                 $('#shiftForm').modal('show');
             },
             openDayShiftPopup(dayIndex){
-
+                this.selectedDate = this.selectedMonth.slice(0,4) + '-' + this.selectedMonth.slice(4) + '-' + ('0' + (dayIndex + 1)).slice(-2);
+                for(let em = 0; em < this.shifts.length; em++) {
+                    this.dateSelectedShift[em] = {...this.shifts[em], shifts: [...this.shifts[em].shifts[dayIndex]]};
+                }
                 $('#shiftDateForm').modal('show');
             },
             currentTime(){
