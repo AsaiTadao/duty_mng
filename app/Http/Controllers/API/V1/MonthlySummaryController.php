@@ -115,7 +115,7 @@ class MonthlySummaryController extends BaseController
         $attendancePipleline->process($attendance);
         $attendance->save();
 
-        return response()->json($attendance);
+        return $this->sendResponse($attendance);
     }
     public function approve(AttendanceApproveRequest $request, AttendanceTotalService $attendanceTotalService)
     {
