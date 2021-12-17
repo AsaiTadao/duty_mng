@@ -10,24 +10,24 @@
             <div class="form-group">
                 <i class="fas fa-square-full"></i>
                 <label>申請者</label>
-                <div>阿部 一子</div>
+                <div>{{userName}}</div>
             </div>
             <div class="form-group">
                 <i class="fas fa-square-full"></i>
                 <label>申請日時</label>
-                <div>8月2日 8:11</div>
+                <div>{{getAppDate()}}</div>
             </div>
             <div class="form-group">
                 <i class="fas fa-square-full"></i>
                 <label>修正時間</label>
-                <div>遅刻</div>
+                <div>{{getAppName()}}</div>
                 <div class="form-row align-items-center">
-                    <div class="col-md-1">
-                        <div>8:05</div>
+                    <div class="col-md-1 mr-2">
+                        <div>{{getTime(application.timeBeforeCorrection)}}</div>
                     </div>
                     <div class="form-control-label">⇒</div>
                     <div class="col-md-1">
-                        <div>8:00</div>
+                        <div>{{getTime(application.timeAfterCorrection)}}</div>
                     </div>
                 </div>
             </div>
@@ -35,18 +35,20 @@
             <div class="form-group">
                 <i class="fas fa-square-full"></i>
                 <label>申請理由</label>
-                <div>雨天によるJR遅延のため</div>
+                <div>{{application.reason}}</div>
             </div>
 
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary">承認</button>
-            <button type="submit" class="btn btn-warning">却下</button>
+            <button type="button" class="btn btn-primary" @click="approve()" v-if="!application.isApproved && !application.isRejected">承認</button>
+            <button type="submit" class="btn btn-warning" @click="reject()"  v-if="!application.isApproved && !application.isRejected">却下</button>
         </div>
     </div>
 </template>
 <script>
 
+import moment from 'moment-timezone';
+import { mapState } from 'vuex';
 import api, { apiErrorHandler } from '../../global/api';
 import actionLoading from '../../mixin/actionLoading';
 import { showSuccess } from '../../helpers/error';
@@ -54,78 +56,61 @@ import { showSuccess } from '../../helpers/error';
     export default {
         mixins: [actionLoading],
         props: {
-            formData: {
-                name: '',
-                number: '',
-                employmentStatusId: null,
-                enrolled: null,
-                regionId: null,
-                officeId: null,
-                email: '',
-                password: '',
-                officeGroupId: null,
-                workingHours: 8
-            },
-            regions: [],
+            application: {},
+            userName: '',
+        },
+        computed: {
+            ...mapState({
+                applicationClasses: state => state.constants.applicationClasses
+            }),
         },
         watch: {
-            ['formData.id'] : function (){
-                this.errors = {
-                    name: '',
-                    number: '',
-                    employmentStatusId: null,
-                    enrolled: null,
-                    regionId: null,
-                    officeId: null,
-                    email: '',
-                    password: '',
-                    officeGroupId: null,
-                    workingHours: null
-                };
-                this.offices = [];
-                this.setOffices();
-            },
-            ['formData.regionId']: function () {
-                this.setOffices();
-            }
+
         },
         data() {
             return {
                 errors: {
-                    name: '',
-                    number: '',
-                    employmentStatusId: null,
-                    enrolled: null,
-                    regionId: null,
-                    officeId: null,
-                    email: '',
-                    password: '',
-                    officeGroupId: null,
                 },
                 offices: [],
             }
         },
         methods: {
-            saveUser() {
+            approve() {
                 if (this.actionLoading) return;
-                if (!this.validate()) return;
-                const requestData = {
-                    'name': this.formData.name,
-                    'number': this.formData.number,
-                    'employment_status_id': this.formData.employmentStatusId,
-                    'enrolled': this.formData.enrolled,
-                    'office_id': this.formData.officeId,
-                    'email': this.formData.email,
-                    'password': this.formData.password,
-                    'workingHours': this.formData.workingHours
-                };
+                // if (!this.validate()) return;
                 this.setActionLoading();
                 let request;
-                if (this.formData.id) {
-                    request = api.put('users/' + this.formData.id, null, requestData);
-                } else {
-                    request = api.post('users', null, requestData);
+                request = api.put('application/approve/' + this.application.id);
+                request.then(() => {
+                        this.unsetActionLoading();
+                        showSuccess(this.$t("Successfully saved"));
+                        this.$emit('success');
+                    })
+                    .catch(e => {
+                        apiErrorHandler(e);
+                        this.unsetActionLoading();
+                    });
+            },
+            getAppName() {
+                let app;
+                app = this.applicationClasses.find(app => app.id === this.application.applicationClassId);
+                if(app) {
+                    return app.name;
                 }
+                return null;
+            },
+            getAppDate() {
+                return moment(this.application.applicationDatetime).format("MM月DD日 HH:mm");
+            },
+            getTime(time) {
+                return moment(time).tz('Asia/Tokyo').format('HH:mm');
+            },
+            reject() {
+                if (this.actionLoading) return;
+                // if (!this.validate()) return;
+                this.setActionLoading();
+                let request;
+                request = api.put('application/reject/' + this.application.id);
                 request.then(() => {
                         this.unsetActionLoading();
                         showSuccess(this.$t("Successfully saved"));
@@ -142,31 +127,8 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.name = this.$t('Please input name');                                 // need trans
                     valid = false;
                 }
-                if (!this.formData.number) {
-                    this.errors.number = this.$t('Please input number');                              //need trans
-                    valid = false;
-                }
-                if (!this.formData.enrolled) {
-                    this.errors.enrolled = this.$t('Please select enrolled');
-                    valid = false;
-                }
                 return valid;
             },
-            setOffices() {
-                if(this.formData.regionId)  {
-                    api.get('office-master', null, {'region_id': this.formData.regionId})
-                    .then(response => {
-                        this.offices = response;
-                        this.setFirstOffice();
-                    })
-                    .catch(e => apiErrorHandler(e));
-                }
-            },
-            setFirstOffice(){
-                if(this.offices.length){
-                    this.formData.officeId = this.offices[0].id;
-                }
-            }
         }
     }
 </script>

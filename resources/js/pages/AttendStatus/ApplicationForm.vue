@@ -132,7 +132,7 @@ import { showSuccess } from '../../helpers/error';
                 };
                 this.setActionLoading();
                 let request;
-                if (this.applications) {
+                if (this.applications && this.applications.length > 0) {
                     request = api.put('application/' + this.applications[0].id, null, requestData);
                 } else {
                     requestData['application_date'] = this.getDate(this.dayIndex);

@@ -59,11 +59,16 @@
                                                     <i class="fa fa-edit fa-lg blue"></i>
                                                 </a>
                                             </td>
-                                            <td>
-                                                <a href="#" @click="requestModal()">
-                                                    <i class="far fa-envelope fa-lg orange"></i>
-                                                </a>
-                                            </td>
+                                            <template v-if="attend.attend.applications && attend.attend.applications.length > 0">
+                                                <td>
+                                                    <a href="#" @click="onApprove(attend.attend.applications[0], attend.user.name)">
+                                                        <i class="far fa-envelope fa-lg orange"></i>
+                                                    </a>
+                                                </td>
+                                            </template>
+                                            <template v-else>
+                                                <td></td>
+                                            </template>
                                         </tr>
                                     </tbody>
                             </table>
@@ -79,6 +84,12 @@
                     <edit-form :workStatus="selectedAttend" :userId="selectedUser" :date="selectedDate" v-on:success="onWorkStatusSaved"></edit-form>
                 </div>
             </div>
+            <!--Modal -->
+            <div class="modal fade" id="app-aprove-form" tabindex="-1" role="dialog" aria-labelledby="app-aprove-form" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <apply-form :application="selectedApp" :userName="selectedAppUserName"></apply-form>
+                </div>
+            </div>
         </div>
     </section>
 </template>
@@ -90,10 +101,11 @@
     import actionLoading from '../../mixin/actionLoading';
     import api, { apiErrorHandler } from '../../global/api';
     import EditForm from './EditForm.vue';
+    import ApplyForm from './ApplyForm.vue';
 
     export default {
         components: {
-            Datepicker, EditForm,
+            Datepicker, EditForm, ApplyForm,
         },
         mixins: [actionLoading],
         data () {
@@ -111,6 +123,8 @@
                 officeId: 1,
                 selectedDate: new Date(),
                 ja: ja,
+                selectedApp: {},
+                selectedAppUserName: '',
             }
         },
         methods: {
@@ -211,17 +225,11 @@
                 //TODO: this.form.post
                 this.loadRequests();
             },
-            requestModal(){
+            onApprove(application, userName){
                 this.editmode = true;
-                this.firstdate = this.enddate;
-                // if(row = this.requests.find(request => request.date.getTime() == date.getTime())) {
-                //     this.editmode = true;
-                //     this.form.fill(row);
-                // } else {
-                //     this.editmode = false;
-                //     this.form.reset();
-                // }
-                $('#addNew').modal('show');
+                this.selectedApp = application;
+                this.selectedAppUserName = userName;
+                $('#app-aprove-form').modal('show');
             },
             getCurrentDate(){
                 return moment().format('YYYY年 M月 D日 (ddd)');
