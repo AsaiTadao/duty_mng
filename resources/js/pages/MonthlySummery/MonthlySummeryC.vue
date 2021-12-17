@@ -264,6 +264,11 @@
     import moment from 'moment';
 import { mapState } from 'vuex';
     export default {
+        props: {
+            attendance: {},
+            total: {},
+            month: '',
+        },
         data () {
             return {
                 editmode: false,

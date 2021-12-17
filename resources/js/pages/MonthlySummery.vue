@@ -1,15 +1,55 @@
 <template>
-    <monthly-summery-b v-if="session.employmentStatusId == 1" />
-    <monthly-summery-c v-else-if="session.employmentStatusId == 3" />
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header calendar-title">
+                            <h3 class="card-title mb-0">{{officeName}}</h3>
+                            <div class="card-tools calendar-center flex-grow-1">
+                                <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
+                                    <i class="fas fa-caret-left fa-2x"></i>
+                                </button>
+                                <div class="mx-2">{{displayDate}}</div>
+                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="getResults(getThisMonthDate())">
+                                    今月
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline" :hidden="isThisMonth()" @click="getResults(getNextMonthDate())">
+                                    <i class="fas fa-caret-right fa-2x"></i>
+                                </button>
+                                <div class="form-group mx-4 mb-0">
+                                    <select class="form-control" v-model="userId" @change="selectUser()">
+                                        <option v-for="user in users" :key="user.id" :value="user.id">{{user.name}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mx-4 mb-0">
+                                    <select class="form-control" v-model="officeId" @change="selectOffice()">
+                                        <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                            <monthly-summery-a v-if="selectedUser.employmentStatusId == 1 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month"/>
+                            <monthly-summery-b v-else-if="selectedUser.employmentStatusId == 2 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month"/>
+                            <monthly-summery-c v-else-if="selectedUser.employmentStatusId == 3 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>
 <script>
 import moment from 'moment';
 import { mapState } from 'vuex';
+import api, { apiErrorHandler } from '../global/api';
 import MonthlySummeryA from './MonthlySummery/MonthlySummeryA.vue';
 import MonthlySummeryB from './MonthlySummery/MonthlySummeryB.vue';
 import MonthlySummeryC from './MonthlySummery/MonthlySummeryC.vue';
+import actionLoading from '../mixin/actionLoading';
+
 export default {
   components: { MonthlySummeryA, MonthlySummeryB, MonthlySummeryC },
+  mixins: [actionLoading],
         data () {
             return {
                 editmode: false,
@@ -17,15 +57,92 @@ export default {
                 displayDate: new Date(),
                 days: [],
                 attends : [],
-                requests : [],
+                attendance: {},
+                total: {},
+                selectedMonth: '',
+                month: new Date(),
+                officeName: '',
+                offices: [],
+                officeId: null,
+                users: [],
+                selectedUser: {},
+                userId: null,
             }
         },
         computed: {
             ...mapState({
                 session: state => state.session.info
             }),
+
         },
         methods: {
+            getAttendance() {
+                if (this.actionLoading) return;
+                    this.setActionLoading();
+                    api.get('monthly-summary/' + this.userId, null, {month: this.selectedMonth})
+                        .then(response => {
+                            this.unsetActionLoading();
+                            this.attendance = response.attendance;
+                            this.total = response.total;
+                        })
+                        .catch(e => {
+                            apiErrorHandler(e);
+                            this.unsetActionLoading();
+                        });
+            },
+            getOffices() {
+                api.get('office/user-capable')
+                    .then(response => {
+                        this.offices = response;
+                        if (!this.offices.length) return;
+
+                        let office = this.offices.find(office => office.id === this.officeId)
+                        console.log({office})
+                        if (!office) {
+                            this.officeId = this.offices[0].id;
+                            office = this.offices[0]
+                        }
+                        this.officeName = office.name;
+                        this.getUsers();
+                    })
+                    .catch(e => apiErrorHandler(e))
+            },
+            selectOffice() {
+                this.getUsers();
+                let office = this.offices.find(office => office.id === this.officeId)
+                if(!office) {
+                    return;
+                }
+                this.officeName = office.name;
+            },
+            selectUser() {
+                this.selectedUser = this.users.find(item => item.id === this.userId);
+                this.getAttendance();
+            },
+            getUsers() {
+                api.get('office/' + this.officeId + '/users')
+                    .then(response => {
+                        this.users = response;
+                        if(!this.users || this.users.length === 0) return;
+                        let user = this.users.find(user => user.id === this.userId);
+                        console.log({user});
+                        if(!user) {
+                            this.userId = this.users[0].id;
+                            this.selectedUser = this.users[0];
+                        } else {
+                            this.selectedUser = user;
+                        }
+                        this.getAttendance();
+                    })
+                    .catch(e => apiErrorHandler(e))
+            },
+            isHonShya(officeName) {
+                if(officeName.indexOf('本社') !== -1) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
             getWeekEnd(day) {
                 const weekDay = moment(day).format("ddd");;
                 if (weekDay === '土'){
@@ -42,83 +159,52 @@ export default {
             },
             getThisMonthDate() {
                 const date = new Date();
-                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY年 M月');
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY年 MM月');
+                this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYYMM');
+                this.month = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY-MM');
+                this.getAttendance();
                 return new Date(date.getFullYear(), date.getMonth(), 1);
             },
             getNextMonthDate() {
                 const date = this.currentDate;
-                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY年 M月');
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY年 MM月');
+                this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYYMM');
+                this.month = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY-MM');
+                this.getAttendance();
                 return new Date(date.getFullYear(), date.getMonth() + 1, 1);
             },
             getPrevMonthDate() {
                 const date = this.currentDate;
-                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY年 M月');
+                this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY年 MM月');
+                this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYYMM');
+                this.month = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY-MM');
+                this.getAttendance();
                 return new Date(date.getFullYear(), date.getMonth() - 1, 1);
             },
             getResults(month_date) {
-                //this.$Progress.start();
-                this.loadAttends(month_date);
-                this.loadRequests(month_date);
                 this.updateTable(month_date);
-                //this.$Progress.finish();
-            },
-            createRequest(){
-                $('#addNew').modal('hide');
-                //TODO: this.form.post
-                this.loadRequests();
-            },
-            updateRequest(){
-                $('#addNew').modal('hide');
-                //TODO: this.form.post
-                this.loadRequests();
-            },
-            requestModal(){
-                this.editmode = true;
-                this.firstdate = this.enddate;
-                // if(row = this.requests.find(request => request.date.getTime() == date.getTime())) {
-                //     this.editmode = true;
-                //     this.form.fill(row);
-                // } else {
-                //     this.editmode = false;
-                //     this.form.reset();
-                // }
-                $('#addNew').modal('show');
-            },
-            currentTime(){
-                var today = new Date();
-                var month = today.getMonth() + 1;
-                var day = today.getDate();
-                return month + "月" + day + "日 "
-                + today.getHours() + ":"
-                + today.getMinutes();
-            },
-            loadAttends(date){
-                //TODO: axios.get
-                this.attends = [
-                    {
-                        date: new Date('2021/09/01'),
-                    },
-                ];
-            },
-            loadRequests(date){
-                //TODO: axios.get
-                this.requests = {
-
-                };
             },
             updateTable(date){
                 this.currentDate = date;
-                var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDate();
-                var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-                this.days = [];
-                for(let day = firstDay; day <= lastDay; day++) {
-                    this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
-                }
             },
 
         },
-        created() {
-            this.displayDate = moment(this.displayDate).format('YYYY年 M月');
+        mounted() {
+            this.month = moment().format('YYYY') + '-' + moment().format('MM');
+            const userId = this.$route.query.userId;
+            const officeId = this.$route.query.officeId;
+            const month = this.$route.query.month;
+            this.userId = parseInt(userId);
+            this.officeId = parseInt(officeId);
+            if(month) {
+                this.month = month;
+            }
+            this.currentDate = new Date(this.month.split('-')[0], this.month.split('-')[1], 0);
+            this.selectedMonth = moment(this.month, "YYYY-MM").format('YYYYMM');
+            this.month = moment(this.month, "YYYY-MM").format('YYYY-MM');
+            this.displayDate = moment(this.month, "YYYY-MM").format('YYYY年 MM月');
+            this.getOffices();
+
             this.getResults(this.currentDate);
         }
     }
