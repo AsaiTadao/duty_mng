@@ -19,6 +19,7 @@ class AttendanceTotalService
      * calculate $user's attendance total of $month
      * @param User $user
      * @param int $month // format : YYYYMM
+     * @return [$attendanceItems, $attendanceTotal, $attendanceMetaItems]
      */
     public function calculateAttendanceTotal(User $user, $month)
     {

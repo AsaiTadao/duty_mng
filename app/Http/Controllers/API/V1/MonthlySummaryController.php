@@ -5,6 +5,7 @@ use App\Http\Requests\MonthlySummary\AttendanceApproveRequest;
 use App\Http\Requests\MonthlySummary\AttendanceRequest;
 use App\Http\Requests\MonthlySummary\MonthlySummaryQuery;
 use App\Models\Attendance;
+use App\Models\AttendanceTotal;
 use App\Models\User;
 use App\Models\Year;
 use App\Services\AttendancePipleline;
@@ -116,7 +117,7 @@ class MonthlySummaryController extends BaseController
 
         return response()->json($attendance);
     }
-    public function approve(AttendanceApproveRequest $request)
+    public function approve(AttendanceApproveRequest $request, AttendanceTotalService $attendanceTotalService)
     {
         $currentUser = auth()->user();
         $data = $request->validated();
@@ -178,9 +179,27 @@ class MonthlySummaryController extends BaseController
                 'day'       =>  $day,
             ]);
             $attendance->day_of_week = $attendance->date->dayOfWeek;
-            $attendance->user()->associate($currentUser);
+            $attendance->user()->associate($user);
+            $attendance->approved_at = $now;
+            $attendance->approve_user_id = $currentUser->id;
             $attendance->save();
         }
+        $attendanceTotalExisting = AttendanceTotal::where([
+            'user_id'   =>  $user->id,
+            'year_id'   =>  $year->id,
+            'month'     =>  $month
+        ])->first();
+
+        [$attendanceItems, $attendanceTotal, $attendanceMetaItems] = $attendanceTotalService->calculateAttendanceTotal($user, $monthValue);
+
+        if ($attendanceTotalExisting)
+        {
+            $attendanceTotalExisting->fill($attendanceTotal->toArray());
+            $attendanceTotalExisting->save();
+        } else {
+            $attendanceTotal->save();
+        }
+
         return $this->sendResponse();
     }
 }

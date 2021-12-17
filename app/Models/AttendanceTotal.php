@@ -36,5 +36,8 @@ class AttendanceTotal extends Model
         'other_unpaid_time',
         'other_unpaid_days',
         'absence_days',
+        'create_user_id',
+        'update_user_id',
+        'total_rest_hours',
     ];
 }
