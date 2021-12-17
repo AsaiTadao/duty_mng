@@ -84,7 +84,7 @@
                         <div class="form-group">
                             <div class="form-row align-items-center">
                                 <div>日曜日を起算日として［</div>
-                                <input type="text" class="fixed-width-40" placeholder="７" v-model="form.consecutiveWork" @change="errors.consecutiveWork = null"/>
+                                <input type="text" class="fixed-width-80" placeholder="７" v-model="form.consecutiveWork" @change="errors.consecutiveWork = null"/>
                                 <div>］日目を手当対象日とする。</div>
                             </div>
                         </div>

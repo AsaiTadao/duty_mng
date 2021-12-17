@@ -143,19 +143,6 @@ export default [
                 }
             },
             {
-                path: "member/:id",
-                name: "member",
-                components: { default: MonthlySummery },
-                meta: {
-                    icon: "fas fa-cog",
-                    anchor: "勤務集計-個別一覧",
-                    menu: false,
-                    guards: [
-                        Guards.ADMIN,
-                    ]
-                }
-            },
-            {
                 path: "office-master",
                 name: "office-master",
                 components: { default: OfficeMaster },
