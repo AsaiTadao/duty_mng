@@ -59,7 +59,7 @@
                     <tr class="heavy-green">
                         <td>{{(total.totalWorkingHours / 60).toFixed(2)}}</td>
                         <td>{{(total.actualWorkingHoursWeekdays / 60).toFixed(2)}}</td>
-                        <td>{{((total.scheduledWorkingHoursA + total.scheduledWorkingHoursB) / 60).toFixed(2)}}</td>
+                        <td>{{(total.scheduledWorkingHoursA / 60).toFixed(2)}}</td>
                         <td>{{(total.excessAndDeficiencyTime/ 60).toFixed(2)}}</td>
                         <td>{{(total.overtimeHoursStatutory / 60).toFixed(2)}}</td>
                         <td>{{(total.overtimeHoursNonStatutory / 60).toFixed(2)}}</td>
