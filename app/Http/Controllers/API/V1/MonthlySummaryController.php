@@ -54,7 +54,6 @@ class MonthlySummaryController extends BaseController
         {
             abort(403, "You are not allowed");
         }
-        if (!empty($data['substitute_time']) && empty($data['']))
         $date = Carbon::parse($data['date']);
         $monthValue = $date->year * 100 + $date->month;
         $year = Year::where([
