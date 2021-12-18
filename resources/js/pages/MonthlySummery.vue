@@ -29,9 +29,12 @@
                                 </div>
                             </div>
                         </div>
-                            <monthly-summery-a v-if="selectedUser.employmentStatusId == 1 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month" v-on:success="onEditSaved" />
-                            <monthly-summery-b v-else-if="selectedUser.employmentStatusId == 2 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month" v-on:success="onEditSaved" />
-                            <monthly-summery-c v-else-if="selectedUser.employmentStatusId == 3 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month" v-on:success="onEditSaved" />
+                            <monthly-summery-a v-if="selectedUser.employmentStatusId == 1 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month"
+                            :userId="userId" :isShowApplyBtn="isShowApplyBtn" v-on:success="onEditSaved" />
+                            <monthly-summery-b v-else-if="selectedUser.employmentStatusId == 2 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month"
+                            :userId="userId" :isShowApplyBtn="isShowApplyBtn" v-on:success="onEditSaved" />
+                            <monthly-summery-c v-else-if="selectedUser.employmentStatusId == 3 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month"
+                            :userId="userId" :isShowApplyBtn="isShowApplyBtn" v-on:success="onEditSaved" />
                     </div>
                 </div>
             </div>
@@ -67,6 +70,7 @@ export default {
                 users: [],
                 selectedUser: {},
                 userId: null,
+                isShowApplyBtn: true,
             }
         },
         computed: {
@@ -83,12 +87,28 @@ export default {
                         .then(response => {
                             this.unsetActionLoading();
                             this.attendance = response.attendance;
+                            const checkCount = Object.values(this.attendance).reduce((sum, item) => (sum + (item && item.isApproved ? 1 : 0)), 0);
+                            console.log({checkCount});
+                            this.getDays();
+                            console.log(this.days.length);
+                            if (checkCount == this.days.length) {
+                                this.isShowApplyBtn = false;
+                            } else {
+                                this.isShowApplyBtn = true;
+                            }
                             this.total = response.total;
                         })
                         .catch(e => {
                             apiErrorHandler(e);
                             this.unsetActionLoading();
                         });
+            },
+            getDays() {
+                this.days = [];
+                const dayCounts = moment(this.month, "YYYY-MM").daysInMonth();
+                for (let day = 1; day <= dayCounts; day++) {
+                    this.days.push(day);
+                }
             },
             getOffices() {
                 api.get('office/user-capable')

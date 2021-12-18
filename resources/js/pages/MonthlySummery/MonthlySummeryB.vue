@@ -124,6 +124,7 @@
                                 <tbody class="text-center">
                                     <tr class="top-green text-white">
                                         <th class="align-middle">勤務日数</th>
+                                        <th class="align-middle">勤務割合</th>
                                         <th class="align-middle">実働時間</th>
                                         <th class="align-middle">残業外<br>労働時間</th>
                                         <th class="align-middle">所定労働<br>時間-A</th>
