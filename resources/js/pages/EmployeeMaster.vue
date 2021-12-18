@@ -73,7 +73,7 @@
                                         <td>{{user.number}}</td>
                                         <td>{{user.name}}</td>
                                         <td>{{employmentStatuses[user.employmentStatusId - 1].name}}</td>
-                                        <td>在籍中</td>
+                                        <td>{{user.enrolled ? '在籍中': '退職'}}</td>
                                         <td rowspan="3" class="align-middle"><i class="fas fa-qrcode fa-lg"></i></td>
                                         <td rowspan="3" class="align-middle">
                                             <a class="mx-2" @click="onEditClicked(user.id)">
