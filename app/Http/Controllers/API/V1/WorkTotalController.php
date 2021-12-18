@@ -16,7 +16,12 @@ class WorkTotalController extends BaseController
         if (!Gate::forUser($currentUser)->allows('get-office-work-total', $office)) {
             abort(403, "You are not allowed");
         }
-        $users = $office->users;
+        if (!empty($data['retire_included']))
+        {
+            $users = $office->users;
+        } else {
+            $users = $office->users()->where(['enrolled' => true])->get();
+        }
 
         $totals = [];
         foreach($users as $user)
