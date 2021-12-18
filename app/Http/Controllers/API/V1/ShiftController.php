@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Constants\Roles;
+use App\Http\Requests\Shift\ChildcareQuery;
 use App\Http\Requests\Shift\ShiftQuery;
 use App\Http\Requests\Shift\ShiftRequest;
 use App\Models\Office;
 use App\Models\ShiftPlan;
 use App\Models\User;
+use App\Services\ChildcareService;
 use App\Services\Processors\ShiftProcessor;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Arr;
@@ -115,5 +117,29 @@ class ShiftController extends BaseController
             abort(500, $shiftProcessor->getError());
         }
         return $this->sendResponse();
+    }
+
+    public function getChildcareSchedule(Office $office, ChildcareQuery $request, ChildcareService $childcareService)
+    {
+        $currentUser = auth()->user();
+        if (!Gate::forUser($currentUser)->allows('get-office-shift-detail', $office))
+        {
+            abort(403, "You are not allowed");
+        }
+        $data = $request->validated();
+        $date = Carbon::parse($data['date']);
+
+        $shifts = DB::table('shift_plans')
+            ->join('users', 'shift_plans.user_id', '=', 'users.id')
+            ->where('users.office_id', '=', $office->id)
+            ->leftJoin('working_hours', 'shift_plans.working_hours_id', '=', 'working_hours.id')
+            ->whereDate('shift_plans.date', $date)
+            ->get();
+
+        $childSchedule = $childcareService->getChildSchedule($office, $date);
+        $actualWorkerSchedule = $childcareService->calcWorkerNumberPerPeriod($shifts);
+
+        $childSchedule['actual_workers'] = $actualWorkerSchedule;
+        return $this->sendResponse($childSchedule);
     }
 }

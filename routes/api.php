@@ -46,6 +46,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
 
         Route::post('/shift/{office}', [ShiftController::class, 'save'])->name('shift.create');
         Route::get('/shift/{office}', [ShiftController::class, 'get'])->name('shift.get_by_office');
+        Route::get('/childcare-detail/{office}', [ShiftController::class, 'getChildcareSchedule'])->name('shift.childcare_schedule');
 
         Route::get('/working-hours/user/{user}', [WorkingHourController::class, 'getWorkingHourWithUser'])->name('working_hour.user_cabable.get');
 

@@ -20,6 +20,11 @@ class Office extends Model
         'rest_deduction_id'
     ];
 
+    protected $appends = [
+        'is_headquarter',
+        'is_nursery'
+    ];
+
     public function region()
     {
         return $this->belongsTo(Region::class);
@@ -37,5 +42,11 @@ class Office extends Model
     {
         if (!$this->attributes['name']) return false;
         return Str::endsWith($this->attributes['name'], '本社');
+    }
+
+    public function getIsNurseryAttribute()
+    {
+        if (!$this->attributes['name']) return false;
+        return Str::endsWith($this->attributes['name'], '保育園');
     }
 }

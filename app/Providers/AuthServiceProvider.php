@@ -155,5 +155,6 @@ class AuthServiceProvider extends ServiceProvider
             if ($user->id === $targetUser->id) return false;
             return $userGuard($user, $targetUser);
         });
+        Gate::define('get-office-shift-detail', $userOfficeGuard);
     }
 }
