@@ -6,6 +6,7 @@ use App\Http\Requests\MonthlySummary\AttendanceRequest;
 use App\Http\Requests\MonthlySummary\MonthlySummaryQuery;
 use App\Models\Attendance;
 use App\Models\AttendanceTotal;
+use App\Models\ScheduledWorking;
 use App\Models\User;
 use App\Models\Year;
 use App\Services\AttendancePipleline;
@@ -38,11 +39,27 @@ class MonthlySummaryController extends BaseController
             $attendanceItems[$i] = array_merge($item, $attendanceMetaItems[$i]);
         }
 
+        $userMeta = [];
+        if ($user->office)
+        {
+            $monthValue = $data['month'];
+            $year = Year::where([
+                ['start', '<=', $monthValue],
+                ['end', '>=', $monthValue]
+            ])->first();
+
+            $month = $monthValue % 100;
+            $scheduledWorking = ScheduledWorking::where(['year_id' => $year->id, 'office_id' => $user->office->id, 'month' => $month])->first();
+            if ($scheduledWorking)
+            {
+                $userMeta['scheduled_days'] = $scheduledWorking->days;
+            }
+        }
 
         return $this->sendResponse([
             'attendance'    =>  $attendanceItems,
             'total'         =>  $attendanceTotal,
-            'user'          =>  $user
+            'user_meta'          =>  $userMeta
         ]);
     }
     public function saveAttendance(AttendanceRequest $request, StampService $stampService, AttendancePipleline $attendancePipleline)
