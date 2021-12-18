@@ -1,7 +1,7 @@
 <template>
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">2021年9月27日（月）</h5>
+            <h5 class="modal-title">{{getFullDate(date)}}</h5>
             <!-- <h5 class="modal-title" v-show="editmode">再申請</h5> -->
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -33,383 +33,29 @@
                         </tr>
                     </thead>
                         <tbody class="text-center">
-                            <tr>
+                            <tr v-for="shift in shifts" :key="shift.id">
                                 <td>
-                                    阿部
+                                    {{shift.name}}
                                 </td>
                                 <td>
-                                    正-A
+                                    <template v-if="shift.shifts[0].vacationReasonId">
+                                        <label class="ml-auto font-weight-normal mb-0">{{getVacationName(shift.shifts[0].vacationReasonId)}}</label>
+                                    </template>
+                                    <template v-else v-for="shiftItem in shift.shifts">
+                                        <div class="mb-0" :key="shiftItem.id">
+                                            <div class="ml-auto font-weight-normal mb-0">{{shiftItem.workingHourName}}</div>
+                                        </div>
+                                    </template>
                                 </td>
-                                <td class="fixed-width-40">
-                                    9.5
+                                <td v-if="shift.shifts[0].vacationReasonId">-</td>
+                                <td v-else class="fixed-width-40">
+                                    {{getWorkingHours(shift)}}
                                 </td>
-                                <td class="fixed-width-40">
-                                    1.0
+                                <td v-if="shift.shifts[0].vacationReasonId">-</td>
+                                <td v-else class="fixed-width-40">
+                                    {{getRestHours(shift)}}
                                 </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange ">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-grey">
-                                </td>
-                                <td class="background-grey">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    伊藤
-                                </td>
-                                <td>
-                                    正-B
-                                </td>
-                                <td class="fixed-width-40">
-                                    10.0
-                                </td>
-                                <td class="fixed-width-40">
-                                    1.0
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td class="background-orange ">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-grey">
-                                </td>
-                                <td class="background-grey">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    上野
-                                </td>
-                                <td>
-                                    <div class="mb-0">
-                                        <input type="radio" name="vacation_type" value="1">
-                                        <label class="ml-auto font-weight-normal mb-0">有休休暇</label>
-                                    </div>
-                                    <div class="mb-0">
-                                        <input type="radio" name="vacation_type" value="2">
-                                        <label class="ml-auto font-weight-normal mb-0">特別休暇</label>
-                                    </div>
-                                </td>
-                                <td class="fixed-width-40">
-                                    -
-                                </td>
-                                <td class="fixed-width-40">
-                                    -
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    小野
-                                </td>
-                                <td>
-                                    短-A
-                                </td>
-                                <td class="fixed-width-40">
-                                    7.0
-                                </td>
-                                <td class="fixed-width-40">
-                                    1.0
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-grey">
-                                </td>
-                                <td class="background-grey">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-grey">
-                                </td>
-                                <td class="background-grey">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td class="background-orange">
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    遠藤
-                                </td>
-                                <td>
-                                    <a href="#" @click="openShiftPopup()">
-                                        <i class="fa fa-edit black"></i>
-                                    </a>
-                                </td>
-                                <td class="fixed-width-40">
-                                </td>
-                                <td class="fixed-width-40">
-                                    1.0
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
+                                <td v-for="time in dayHours" :key="time" :class="getColor(time, shift)"></td>
                             </tr>
                         </tbody>
                 </table>
@@ -417,25 +63,13 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-            <button type="submit" class="btn btn-primary">登録</button>
+            <!-- <button type="submit" class="btn btn-primary">登録</button> -->
         </div>
 
-        <!-- Modal -->
-        <!-- <div class="modal fade" id="shiftEditForm" tabindex="-1" role="dialog" aria-labelledby="shiftEditForm" aria-hidden="true" style="z-index: 10000;">
-            <div class="modal-dialog" role="document">
-                <shift-form :employee="selectedEmployee"
-                            :workingHours="capableWorkingHours"
-                            :vacations="enabledVacations"
-                            :shifts="selectedShift"
-                            :date="selectedDate"
-                            :officeId="officeId"
-                            v-on:success="onShiftSaved"
-                />
-            </div>
-        </div> -->
     </div>
 </template>
 <script>
+import moment from 'moment';
 import api, { apiErrorHandler } from '../../global/api';
 import actionLoading from '../../mixin/actionLoading';
 import { showSuccess } from '../../helpers/error';
@@ -445,58 +79,65 @@ import ShiftForm from './ShiftForm.vue';
         mixins: [actionLoading],
         components: { ShiftForm },
         props: {
-            data: {},
-            offices: {},
-            selectedOffices: {},
+            date: '',
+            shifts: [],
         },
         watch: {
-            ['data.id'] : function (){
-                    this.errors = {
-                        name: '',
-                };
-            },
+
         },
         data() {
             return {
                 errors: {
                     name: '',
-                }
+                },
+                dayHours: ["07:00", "07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00",
+                "13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00",
+                "20:30","21:00", "21:30"]
             }
         },
 
         methods: {
-            saveRegion() {
-                if (this.actionLoading) return;
-                if (!this.validate()) return;
-                this.setActionLoading();
-                let request;
-                if (this.data.id) {
-                    request = api.post('region/' + this.data.id, null, this.data);
-                } else {
-                    request = api.post('region', null, this.data);
-                }
-                request.then(() => {
-                        this.unsetActionLoading();
-                        showSuccess(this.$t("Successfully saved"));
-                        this.$emit('success');
-                    })
-                    .catch(e => {
-                        apiErrorHandler(e);
-                        this.unsetActionLoading();
-                    });
+            getFullDate(date) {
+                return moment(date, "YYYY-MM-DD").format("YYYY年MM月DD日(ddd)");
             },
-            validate() {
-                let valid = true;
-                if (!this.data.name) {
-                    this.errors.name = this.$t('Please input name');                                 // need trans
-                    valid = false;
+            getWorkingHours(shift) {
+                if(shift.shifts && shift.shifts.length > 0) {
+                    return shift.shifts.reduce((sum, item) => (sum + parseFloat(this.getBetweenTimes(item.startTime, item.endTime))), 0)
                 }
-                return valid;
             },
-            onOfficeChange(officeId) {
-                const index = this.selectedOffices.findIndex(item => item.id == officeId);
-                if(index != -1){
-                    this.selectedOffices.splice(index, 1);
+            getBetweenTimes(startTime, endTime) {
+                if(!startTime || !endTime) return 0;
+                let t1 = moment(startTime, "hh:mm:ss");
+                let t2 = moment(endTime, "hh:mm:ss");
+                let t3 = moment.duration(t2.diff(t1, 'minutes'));
+                return (t3 / 60).toFixed(2);
+            },
+            getRestHours(shift) {
+                if(shift.shifts && shift.shifts.length > 0) {
+                return shift.shifts.reduce((sum, item) => (sum + parseFloat(this.getBetweenTimes(item.restStartTime, item.restEndTime))), 0)}
+            },
+            getColor(hourIndex, shift) {
+                let indexTime = hourIndex + ":00";
+                let workTimeIn = shift.shifts.filter(item => (indexTime >= item.startTime && indexTime < item.endTime));
+                let restTimeIn = shift.shifts.filter(item => (indexTime >= item.restStartTime && indexTime < item.restEndTime));
+                let backColor = "";
+                if(workTimeIn && workTimeIn.length > 0) {
+                    backColor = "background-orange";
+                }
+                if(restTimeIn && restTimeIn.length > 0) {
+                    backColor = "background-grey";
+                }
+                return backColor;
+            },
+            getVacationName(vacationId) {
+                if(vacationId == this.$vacationId.ANNUAL_PAID) {
+                    return "年次有休";
+                } else if(vacationId == this.$vacationId.SPECIAL_PAID) {
+                    return "特休有給";
+                } else if(vacationId == this.$vacationId.SPECIAL_UNPAID) {
+                    return "特休無給";
+                } else if(vacationId == this.$vacationId.OTHER_UNPAID) {
+                    return "その他無給";
                 }
             },
             openShiftPopup(employeeId, dateIndex){

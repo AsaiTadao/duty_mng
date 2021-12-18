@@ -2,10 +2,10 @@
     <div class="card-body">
         <div class="float-right">
             <label>一括承認する</label>
-            <input type="checkbox" class="align-middle">
+            <input type="checkbox" class="align-middle" @click="selectAllDates()" v-model="selectAllFlag">
         </div>
         <div class="table-responsive p-0 overflow-scroll-x" style="height: 500px;" @scroll="handleScroll()">
-            <table class="table table-bordered table-striped table-kintai table-head-fixed table-hover w-2500-px">
+            <table class="table table-bordered table-striped table-kintai table-head-fixed table-hover w-3100-px">
                 <thead class="text-center text-white">
                     <tr>
                         <th rowspan="2" class="align-middle p-0" style="left: 0;z-index: 12 !important;outline: 1px solid white;">日付</th>
@@ -58,27 +58,27 @@
                                 <td v-else-if="getWeekEnd(index) === 2" class="red header-fix-x-68">{{getDate(index)|formatWeek}}</td>
                                 <td v-else class="header-fix-x-68">{{getDate(index)|formatWeek}}</td>
                                 <td>
-                                    <input type="text" v-model="editData.startWorkTime1" :class="{'is-invalid' : errors.startWorkTime1}" class="fixed-width-50"/>
+                                    <input type="text" v-model="editData.startWorkTime1" :class="{'is-invalid' : errors.startWorkTime1}" class="fixed-width-70 form-control"/>
                                     <span v-if="editMode && errors.startWorkTime1" class="error invalid-feedback">
                                         {{ errors.startWorkTime1 }}
                                     </span>
                                 </td>
                                 <td>
-                                    <input type="text" v-model="editData.endWorkTime1" :class="{'is-invalid' : errors.endWorkTime1}" class="fixed-width-50"/>
+                                    <input type="text" v-model="editData.endWorkTime1" :class="{'is-invalid' : errors.endWorkTime1}" class="fixed-width-70 form-control"/>
                                     <span v-if="editMode && errors.endWorkTime1" class="error invalid-feedback">
-                                        {{ errors.endTime1 }}
+                                        {{ errors.endWorkTime1 }}
                                     </span>
                                 </td>
                                 <td>{{notZero(dayAttendance.behindTime1)}}</td>
                                 <td>{{notZero(dayAttendance.leaveEarly1)}}</td>
                                 <td>
-                                    <input type="text" v-model="editData.startWorkTime2" :class="{'is-invalid' : errors.startWorkTime2}" class="fixed-width-50"/>
+                                    <input type="text" v-model="editData.startWorkTime2" :class="{'is-invalid' : errors.startWorkTime2}" class="fixed-width-70 form-control"/>
                                     <span v-if="editMode && errors.startWorkTime2" class="error invalid-feedback">
                                         {{ errors.startWorkTime2 }}
                                     </span>
                                 </td>
                                 <td>
-                                    <input type="text" v-model="editData.endWorkTime2" :class="{'is-invalid' : errors.endWorkTime2}" class="fixed-width-50"/>
+                                    <input type="text" v-model="editData.endWorkTime2" :class="{'is-invalid' : errors.endWorkTime2}" class="fixed-width-70 form-control"/>
                                     <span v-if="editMode && errors.endWorkTime2" class="error invalid-feedback">
                                         {{ errors.endWorkTime2 }}
                                     </span>
@@ -93,62 +93,55 @@
                                 <td>{{dayAttendance.midnightOvertime ? (dayAttendance.midnightOvertime / 60).toFixed(2) : '-'}}</td>
                                 <td>{{dayAttendance.offShiftWorkingHours ? (dayAttendance.offShiftWorkingHours / 60).toFixed(2) : '-'}}</td>
                                 <td>
-                                    <input type="text" v-model="editData.substituteTime" :class="{'is-invalid' : errors.substituteTime}" class="fixed-width-50"/>
+                                    <input type="text" v-model="editData.substituteTime" :class="{'is-invalid' : errors.substituteTime}" class="fixed-width-40 form-control"/>
                                     <span v-if="editMode && errors.substituteTime" class="error invalid-feedback">
                                         {{ errors.substituteTime }}
                                     </span>
                                 </td>
-                                <td>{{dayAttendance.substituteDay}}
-                                    <input type="text" v-model="editData.substituteDay" :class="{'is-invalid' : errors.substituteDay}" class="fixed-width-50"/>
-                                    <span v-if="editMode && errors.substituteDay" class="error invalid-feedback">
-                                        {{ errors.substituteDay }}
-                                    </span>
+                                <td>
+                                    <select v-model="editData.substituteDay">
+                                        <option value="0"></option>
+                                        <option v-for="day in days" :key="day" :value="day">{{day}}日</option>
+                                    </select>
                                 </td>
                                 <td>-</td>
                                 <td>
-                                    <input type="text" v-model="editData.annualPaidTime" :class="{'is-invalid' : errors.annualPaidTime}" class="fixed-width-50"/>
+                                    <input type="text" v-model="editData.annualPaidTime" :class="{'is-invalid' : errors.annualPaidTime}" class="fixed-width-40 form-control"/>
                                     <span v-if="editMode && errors.annualPaidTime" class="error invalid-feedback">
                                         {{ errors.annualPaidTime }}
                                     </span>
                                 </td>
+                                <td ><i v-if="dayAttendance.annualPaidTime" class="fas fa-check fa-lg"></i></td>
                                 <td>
-                                    <input type="checkbox" v-model="editData.annualPaidHoliday" />
-                                </td>
-                                <td>
-                                    <input type="text" v-model="editData.specialPaidTime" :class="{'is-invalid' : errors.specialPaidTime}" class="fixed-width-50"/>
+                                    <input type="text" v-model="editData.specialPaidTime" :class="{'is-invalid' : errors.specialPaidTime}" class="fixed-width-40 form-control"/>
                                     <span v-if="editMode && errors.specialPaidTime" class="error invalid-feedback">
                                         {{ errors.specialPaidTime }}
                                     </span>
                                 </td>
+                                <td><i v-if="dayAttendance.specialPaidTime" class="fas fa-check fa-lg"></i></td>
                                 <td>
-                                    <input type="checkbox" v-model="editData.specialPaidHoliday" />
-                                </td>
-                                <td>
-                                    <input type="text" v-model="editData.specialUnpaidTime" :class="{'is-invalid' : errors.specialUnpaidTime}" class="fixed-width-50"/>
+                                    <input type="text" v-model="editData.specialUnpaidTime" :class="{'is-invalid' : errors.specialUnpaidTime}" class="fixed-width-40 form-control"/>
                                     <span v-if="editMode && errors.specialUnpaidTime" class="error invalid-feedback">
                                         {{ errors.specialUnpaidTime }}
                                     </span>
                                 </td>
+                                <td><i  v-if="dayAttendance.specialUnpaidTime" class="fas fa-check fa-lg"></i></td>
                                 <td>
-                                    <input type="checkbox" v-model="editData.specialUnPaidHoliday" />
-                                </td>
-                                <td>
-                                    <input type="text" v-model="editData.otherUnpaidTime" :class="{'is-invalid' : errors.otherUnpaidTime}" class="fixed-width-50"/>
+                                    <input type="text" v-model="editData.otherUnpaidTime" :class="{'is-invalid' : errors.otherUnpaidTime}" class="fixed-width-40 form-control"/>
                                     <span v-if="editMode && errors.otherUnpaidTime" class="error invalid-feedback">
                                         {{ errors.otherUnpaidTime }}
                                     </span>
                                 </td>
+                                <td><i v-if="dayAttendance.otherUnpaidTime" class="fas fa-check fa-lg"></i></td>
+                                <td><i v-if="dayAttendance.absent" class="fas fa-check fa-lg"></i></td>
                                 <td>
-                                    <input type="checkbox" v-model="editData.otherUnPaidHoliday" />
-                                </td>
-                                <td><input type="checkbox"></td>
-                                <td>
-                                    <select>
+                                    <select v-model="editData.reasonForVacationId">
+                                        <option value="0"></option>
                                         <option v-for="item in reasonForVacations" :key="item.id" :value="item.id">{{item.name}}</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <input type="text" v-model="editData.note">
+                                    <input type="text" v-model="editData.remark">
                                 </td>
                                 <td>
                                     <a href="#" class="mx-2" @click="editOk">
@@ -158,8 +151,8 @@
                                         <i class="far fa-window-close fa-lg"></i>
                                     </a>
                                 </td>
-                                <td>
-                                    <input type="checkbox">
+                                <td><i v-if="dayAttendance.isApproved" class="fas fa-check fa-lg"></i>
+                                    <input v-else type="checkbox" v-model="approveStatus[index]" :value="approveStatus[index]">
                                 </td>
                             </template>
                             <template v-else>
@@ -186,48 +179,28 @@
                                 <td>{{dayAttendance.substituteDay}}</td>
                                 <td>-</td>
                                 <td>{{dayAttendance.annualPaidTime ? (dayAttendance.annualPaidTime / 60).toFixed(2) : '-'}}</td>
-                                <template v-if="dayAttendance.annualPaidTime">
-                                    <td><i class="fas fa-check fa-lg"></i></td>
-                                </template>
-                                <template v-else>
-                                    <td></td>
-                                </template>
+                                <td><i v-if="dayAttendance.annualPaidTime" class="fas fa-check fa-lg"></i></td>
                                 <td>{{dayAttendance.specialPaidTime ? (dayAttendance.specialPaidTime / 60).toFixed(2) : '-'}}</td>
-                                <template v-if="dayAttendance.specialPaidTime">
-                                    <td><i class="fas fa-check fa-lg"></i></td>
-                                </template>
-                                <template v-else>
-                                    <td></td>
-                                </template>
+                                <td><i v-if="dayAttendance.specialPaidTime" class="fas fa-check fa-lg"></i></td>
                                 <td>{{dayAttendance.specialUnpaidTime ? (dayAttendance.specialUnpaidTime / 60).toFixed(2) : '-'}}</td>
-                                <template v-if="dayAttendance.specialUnpaidTime">
-                                    <td><i class="fas fa-check fa-lg"></i></td>
-                                </template>
-                                <template v-else>
-                                    <td></td>
-                                </template>
+                                <td><i v-if="dayAttendance.specialUnpaidTime" class="fas fa-check fa-lg"></i></td>
                                 <td>{{dayAttendance.otherUnpaidTime ? (dayAttendance.otherUnpaidTime / 60).toFixed(2) : '-'}}</td>
-                                <template v-if="dayAttendance.otherUnpaidTime">
-                                    <td><i class="fas fa-check fa-lg"></i></td>
-                                </template>
-                                <template v-else>
-                                    <td></td>
-                                </template>
-                                <td><input type="checkbox" disabled></td>
+                                <td><i v-if="dayAttendance.otherUnpaidTime" class="fas fa-check fa-lg"></i></td>
+                                <td><i v-if="dayAttendance.absent" class="fas fa-check fa-lg"></i></td>
                                 <td>
-                                    {{dayAttendance.reason}}
+                                    {{getVacationName(dayAttendance.reasonForVacationId)}}
                                 </td>
                                 <td>
-                                    <input type="text"
-                                    :value="dayAttendance.applications && dayAttendance.applications.length > 0 ? dayAttendance.applications[0].reason : ''"
-                                    readonly>
+                                    <input type="text" :value="dayAttendance.remark" readonly>
                                 </td>
                                 <td>
-                                    <a href="#" @click="editRow(index, dayAttendance)">
+                                    <a v-if="!dayAttendance.isApproved" @click="editRow(index, dayAttendance)">
                                         <i class="fa fa-edit fa-lg blue"></i>
                                     </a>
                                 </td>
-                                <td><input type="checkbox"></td>
+                                <td><i v-if="dayAttendance.isApproved" class="fas fa-check fa-lg"></i>
+                                    <input v-else type="checkbox" v-model="approveStatus[index]" :value="approveStatus[index]">
+                                </td>
                             </template>
                         </tr>
                     </tbody>
@@ -239,6 +212,7 @@
                 <tbody class="text-center">
                     <tr class="top-green text-white">
                         <th class="align-middle">勤務日数</th>
+                        <th class="align-middle">勤務割合</th>
                         <th class="align-middle">実働時間</th>
                         <th class="align-middle">残業外<br>労働時間</th>
                         <th class="align-middle">所定労働<br>時間-A</th>
@@ -255,6 +229,7 @@
                     </tr>
                     <tr class="heavy-green text-white">
                         <td>{{(total.workingDays / 60).toFixed(2)}}日</td>
+                        <td>{{(total.workingDays / total.workingDays) * 100}}%</td>
                         <td>{{(total.totalWorkingHours / 60).toFixed(2)}}時間</td>
                         <td>{{((total.actualWorkingHoursWeekdays + total.actualWorkingHoursSaturday) / 60).toFixed(2)}}時間</td>
                         <td>{{(total.scheduledWorkingHoursA / 60).toFixed(2)}}時間</td>
@@ -306,7 +281,7 @@
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-primary float-right">承認済み</button>
+        <button v-if="isShowApplyBtn" class="btn btn-primary float-right" @click="approve">承認済み</button>
     </div>
 </template>
 <script>
@@ -314,12 +289,16 @@ import moment from 'moment';
 import { mapState } from 'vuex';
 import api, { apiErrorHandler } from '../../global/api';
 import actionLoading from '../../mixin/actionLoading';
+import { showSuccess } from '../../helpers/error';
 
     export default {
+        mixins: [actionLoading],
         props: {
             attendance: {},
             total: {},
             month: '',
+            userId: null,
+            isShowApplyBtn: true,
         },
         data () {
             return {
@@ -329,7 +308,10 @@ import actionLoading from '../../mixin/actionLoading';
                 scrolling: false,
                 timer: null,
                 selectedIndex: null,
-
+                days: [],
+                selectedDates: [],
+                approveStatus: Array.from({length: 32}, () => false),
+                selectAllFlag: false,
                 editData: {
                     startWorkTime1: '',
                     endWorkTime1: '',
@@ -345,7 +327,8 @@ import actionLoading from '../../mixin/actionLoading';
                     otherUnPaidHoliday: false,
                     absenceDay: false,
                     reason: null,
-                    note: '',
+                    remark: '',
+                    isApproved: null,
                 },
                 errors: {
                     startWorkTime1: '',
@@ -362,7 +345,7 @@ import actionLoading from '../../mixin/actionLoading';
                     otherUnPaidHoliday: false,
                     absenceDay: false,
                     reason: null,
-                    note: '',
+                    remark: '',
                 }
             }
         },
@@ -394,62 +377,77 @@ import actionLoading from '../../mixin/actionLoading';
                 }
             },
             editRow(index, dayAttendance) {
+                this.getDays();
+                console.log(dayAttendance);
                 this.selectedIndex = index;
                 this.editMode = !this.editMode;
                 this.editData.startWorkTime1 = this.changeTimeFormat(dayAttendance.commutingTime1);
                 this.editData.endWorkTime1 = this.changeTimeFormat(dayAttendance.leaveTime1);
                 this.editData.startWorkTime2 = this.changeTimeFormat(dayAttendance.commutingTime2);
                 this.editData.endWorkTime2 = this.changeTimeFormat(dayAttendance.leaveTime2);
-                this.editData.annualPaidHoliday = dayAttendance.annualPaidTime ? true : false;
-                this.editData.specialPaidHoliday = dayAttendance.specialPaidTime ? true : false;
-                this.editData.specialUnPaidHoliday = dayAttendance.specialUnpaidTime ? true : false;
-                this.editData.otherUnPaidHoliday = dayAttendance.otherUnpaidTime ? true : false;
                 this.editData.annualPaidTime = dayAttendance.annualPaidTime ? (dayAttendance.annualPaidTime / 60).toFixed(2) : 0;
                 this.editData.specialPaidTime = dayAttendance.specialPaidTime ? (dayAttendance.specialPaidTime / 60).toFixed(2) : 0;
-                this.editData.specialUnPaidTime = dayAttendance.specialUnpaidTime ? (dayAttendance.specialUnpaidTime / 60).toFixed(2) : 0;
-                this.editData.otherUnPaidTime = dayAttendance.otherUnpaidTime ? (dayAttendance.otherUnpaidTime / 60).toFixed(2) : 0;
+                this.editData.specialUnpaidTime = dayAttendance.specialUnpaidTime ? (dayAttendance.specialUnpaidTime / 60).toFixed(2) : 0;
+                this.editData.otherUnpaidTime = dayAttendance.otherUnpaidTime ? (dayAttendance.otherUnpaidTime / 60).toFixed(2) : 0;
                 this.editData.substituteTime = dayAttendance.substituteTime ? (dayAttendance.substituteTime / 60).toFixed(2) : 0;
                 this.editData.substituteDay = dayAttendance.substituteDay;
-                // this.editData.absenceDay
-                this.editData.note = dayAttendance.applications && dayAttendance.applications.length > 0 ? dayAttendance.applications[0].reason : '';
-                // this..editData.reason =
+                this.editData.userId = dayAttendance.userId;
+                this.editData.reasonForVacationId = dayAttendance.reasonForVacationId;
+                this.editData.remark = dayAttendance.remark;
             },
             validate() {
                 let valid = true;
-                if (!this.editData.startWorkTime1) {
-                    this.errors.startWorkTime1 = this.$t('Please input name');                                 // need trans
+                var timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+                if (this.editData.startWorkTime1 && !this.editData.startWorkTime1.match(timeRegex)) {
+                    this.errors.startWorkTime1 = this.$t('Please input correct format');                                 // need trans
                     valid = false;
                 }
-                if (!this.editData.endWorkTime1) {
-                    this.errors.endWorkTime1 = this.$t('Please input number');                              //need trans
+                if (this.editData.endWorkTime1 && !this.editData.endWorkTime1.match(timeRegex)) {
+                    this.errors.endWorkTime1 = this.$t('Please input correct format');                              //need trans
                     valid = false;
                 }
-                if (!this.editData.startWorkTime2) {
-                    this.errors.startWorkTime2 = this.$t('Please select enrolled');
+                if (this.editData.startWorkTime2 && !this.editData.startWorkTime2.match(timeRegex)) {
+                    this.errors.startWorkTime2 = this.$t('Please input correct format');
                     valid = false;
                 }
-                if (!this.editData.endWorkTime2) {
-                    this.errors.endWorkTime2 = this.$t('Please select employmentStatusId');
+                if (this.editData.endWorkTime2 && !this.editData.endWorkTime2.match(timeRegex)) {
+                    this.errors.endWorkTime2 = this.$t('Please input correct format');
                     valid = false;
                 }
-                if (!this.editData.annualPaidTime) {
-                    this.errors.annualPaidTime = this.$t('Please select region');
+                if (this.editData.startWorkTime1 && this.editData.startWorkTime2 && this.editData.startWorkTime1 >= this.editData.startWorkTime2) {
+                    this.errors.startWorkTime1 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
-                if (!this.editData.specialPaidTime) {
-                    this.errors.specialPaidTime = this.$t('Please select office');
+                if (this.editData.startWorkTime2 && this.endWorkTime1 && this.editData.startWorkTime2 <= this.endWorkTime1) {
+                    this.errors.endWorkTime1 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
-                if (!this.editData.specialUnPaidTime) {
-                    this.errors.specialUnPaidTime = this.$t('Please input email');
+                if (this.editData.startWorkTime1 && this.endWorkTime2 && this.editData.startWorkTime1 >= this.endWorkTime2) {
+                    this.errors.endWorkTime1 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
-                if (!this.editData.otherUnPaidTime) {
-                    this.errors.otherUnPaidTime = this.$t('Please input password');
+                if (this.editData.endWorkTime1 && this.endWorkTime2 && this.editData.endWorkTime1 >= this.endWorkTime2) {
+                    this.errors.endWorkTime2 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
-                if (!this.editData.substituteTime) {
-                    this.errors.substituteTime = this.$t('Please select working hour');
+                if (this.editData.annualPaidTime && !Number.isInteger(this.editData.annualPaidTime)) {
+                    this.errors.annualPaidTime = this.$t('Please select number');
+                    valid = false;
+                }
+                if (this.editData.specialPaidTime && !Number.isInteger(this.editData.specialPaidTime)) {
+                    this.errors.specialPaidTime = this.$t('Please select number');
+                    valid = false;
+                }
+                if (this.editData.specialUnpaidTime && !Number.isInteger(this.editData.specialUnpaidTime)) {
+                    this.errors.specialUnpaidTime = this.$t('Please input number');
+                    valid = false;
+                }
+                if (this.editData.otherUnpaidTime && !Number.isInteger(this.editData.otherUnpaidTime)) {
+                    this.errors.otherUnpaidTime = this.$t('Please input number');
+                    valid = false;
+                }
+                if (this.editData.substituteTime && !Number.isInteger(this.editData.substituteTime)) {
+                    this.errors.substituteTime = this.$t('Please input number');
                     valid = false;
                 }
                 return valid;
@@ -458,24 +456,29 @@ import actionLoading from '../../mixin/actionLoading';
                 if (this.actionLoading) return;
                 if (!this.validate()) return;
                 const requestData = {
-                    'name': this.editData.name,
-                    'number': this.editData.number,
-                    'employment_status_id': this.editData.employmentStatusId,
-                    'enrolled': this.editData.enrolled,
-                    'office_id': this.editData.officeId,
-                    'email': this.editData.email,
-                    'password': this.editData.password,
-                    'workingHours': this.editData.workingHours
+                    'user_id': this.editData.userId,
+                    'date': this.month + "-" + ('0' + this.selectedIndex).slice(-2),
+                    'commuting_time_1': this.editData.startWorkTime1,
+                    'leave_time_1': this.editData.endWorkTime1,
+                    'commuting_time_2': this.editData.startWorkTime2,
+                    'leave_time_2': this.editData.endWorkTime2,
+                    'substitute_time': this.editData.substituteTime * 60,
+                    'substitute_day' : this.editData.substituteDay,
+                    'annual_paid_time': this.editData.annualPaidTime * 60,
+                    'special_paid_time': this.editData.specialPaidTime * 60,
+                    'special_unpaid_time': this.editData.specialUnpaidTime * 60,
+                    'other_unpaid_time': this.editData.otherUnpaidTime * 60,
+                    'reason_for_vacation_id': this.editData.reasonForVacationId,
+                    'remark': this.editData.remark,
                 };
                 this.setActionLoading();
                 let request;
-                if (this.editData.id) {
-                    request = api.put('monthly-summery/' + this.editData.id, null, requestData);
-                }
+                request = api.post('monthly-summary/attendances', null, requestData);
                 request.then(() => {
                         this.unsetActionLoading();
                         showSuccess(this.$t("Successfully saved"));
                         this.$emit('success');
+                        this.editMode = false;
                     })
                     .catch(e => {
                         apiErrorHandler(e);
@@ -484,19 +487,30 @@ import actionLoading from '../../mixin/actionLoading';
             },
             editCancel() {
                 this.editMode = false;
-                this.error = [];
+                this.errors = {
+                    startWorkTime1: '',
+                    endWorkTime1: '',
+                    startWorkTime2: '',
+                    endWorkTime2: '',
+                    annualPaidTime: null,
+                    annualPaidHoliday: false,
+                    specialPaidTime: null,
+                    specialPaidHoliday: false,
+                    specialUnpaidTime: null,
+                    specialUnPaidHoliday: false,
+                    otherUnpaidTime: null,
+                    otherUnPaidHoliday: false,
+                    absenceDay: false,
+                    reason: null,
+                    remark: '',
+                }
             },
-            requestModal(){
-                this.editMode = true;
-                this.firstdate = this.enddate;
-                // if(row = this.requests.find(request => request.date.getTime() == date.getTime())) {
-                //     this.editMode = true;
-                //     this.form.fill(row);
-                // } else {
-                //     this.editMode = false;
-                //     this.form.reset();
-                // }
-                $('#addNew').modal('show');
+            selectDate(dayIndex) {
+
+            },
+            selectAllDates() {
+                this.selectAllFlag = !this.selectAllFlag;
+                this.approveStatus = this.approveStatus.map(item => (this.selectAllFlag));
             },
             currentTime(){
                 var today = new Date();
@@ -510,7 +524,7 @@ import actionLoading from '../../mixin/actionLoading';
                 if(date) {
                     return moment(date).tz('Asia/Tokyo').format('HH:mm');
                 } else {
-                    return "-";
+                    return "";
                 }
             },
             handleScroll() {
@@ -524,6 +538,44 @@ import actionLoading from '../../mixin/actionLoading';
                     $("#sumTable2").fadeIn(400);
                 }, 150);
             },
+            getDays() {
+                this.days = [];
+                const dayCounts = moment(this.month, "YYYY-MM").daysInMonth();
+                for (let day = 1; day <= dayCounts; day++) {
+                    this.days.push(day);
+                }
+            },
+            getVacationName(reasonForVacationId) {
+                if(reasonForVacationId)
+                    return this.reasonForVacations.find(item => item.id === reasonForVacationId).name
+                else
+                    return null;
+            },
+            approve() {
+                console.log(this.approveStatus);
+                this.selectedDates = this.approveStatus.map((item, i) => item === true ? i : 0);
+                this.selectedDates = this.selectedDates.filter(item => item > 0);
+
+                const requestData = {
+                    'user_id': this.userId,
+                    'month': moment(this.month, "YYYY-MM").format("YYYYMM"),
+                    'days': this.selectedDates,
+                };
+
+                this.setActionLoading();
+                let request;
+                request = api.put('monthly-summary/attendances/approve', null, requestData);
+                request.then(() => {
+                        this.unsetActionLoading();
+                        showSuccess(this.$t("Successfully saved"));
+                        this.$emit('success');
+                        this.editMode = false;
+                    })
+                    .catch(e => {
+                        apiErrorHandler(e);
+                        this.unsetActionLoading();
+                    });
+            }
         },
         created() {
             this.timer = null;

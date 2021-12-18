@@ -132,7 +132,8 @@
                 api.get('office/user-capable')
                     .then(response => {
                         this.offices = response;
-                        this.officeName = this.offices[this.officeId - 1].name;
+                        const office = this.offices.find(office => office.id === this.officeId);
+                        this.officeName = office ? office.name : '';
                     })
                     .catch(e => apiErrorHandler(e))
             },
@@ -147,7 +148,8 @@
                 $("#attend-edit-form").modal('show');
             },
             isHonShya(officeId) {
-                let name = this.offices[officeId - 1].name;
+                const office = this.offices.find(office => office.id === officeId);
+                let name = office ? office.name : '';
                 if(name.indexOf('本社') !== -1) {
                     console.log("is Honshya!!!");
                     return true;
@@ -185,7 +187,8 @@
                         this.unsetActionLoading();
                         this.attends = response;
                         console.log(this.attends);
-                        this.officeName = this.offices[this.officeId - 1].name;
+                        const office = this.offices.find(office => office.id === this.officeId);
+                        this.officeName = office ? office.name : '';
                     })
                     .catch(e => {
                         this.unsetActionLoading();

@@ -248,7 +248,7 @@
                 requests : [],
                 offices: [],
                 officeName: '',
-                officeId: 1,
+                officeId: null,
                 selectedDate: '',
                 ja: ja,
             }
@@ -258,7 +258,8 @@
                 api.get('office/user-capable')
                     .then(response => {
                         this.offices = response;
-                        this.officeName = this.offices[this.officeId - 1].name;
+                        const office = this.offices.find(office => office.id === this.officeId);
+                        this.officeName = office ? office.name : '';
                     })
                     .catch(e => apiErrorHandler(e))
             },
