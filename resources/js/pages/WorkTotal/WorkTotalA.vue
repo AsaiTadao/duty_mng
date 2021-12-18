@@ -339,7 +339,7 @@ export default {
             month: new Date('YYYY-MM'),
             offices: [],
             officeName: '',
-            officeId: 1,
+            officeId: null,
         };
     },
     computed: {
@@ -352,7 +352,8 @@ export default {
                 api.get('office/user-capable')
                     .then(response => {
                         this.offices = response;
-                        this.officeName = this.offices[this.officeId - 1].name;
+                        const office = this.offices.find(office => office.id === this.officeId);
+                        this.officeName = office ? office.name : '';
                         if(this.offices && this.offices.length > 0) {
                             this.officeId = this.offices[0].id;
                             this.getTotalData();
@@ -374,7 +375,8 @@ export default {
                     });
         },
         selectOffice() {
-            this.officeName = this.offices[this.officeId - 1].name;
+            const office = this.offices.find(office => office.id === this.officeId);
+            this.officeName = office ? office.name : '';
             this.getTotalData();
         },
         isThisMonth() {
