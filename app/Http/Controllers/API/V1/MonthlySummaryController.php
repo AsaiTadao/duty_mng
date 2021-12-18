@@ -38,9 +38,11 @@ class MonthlySummaryController extends BaseController
             $attendanceItems[$i] = array_merge($item, $attendanceMetaItems[$i]);
         }
 
+
         return $this->sendResponse([
             'attendance'    =>  $attendanceItems,
-            'total'         =>  $attendanceTotal
+            'total'         =>  $attendanceTotal,
+            'user'          =>  $user
         ]);
     }
     public function saveAttendance(AttendanceRequest $request, StampService $stampService, AttendancePipleline $attendancePipleline)
