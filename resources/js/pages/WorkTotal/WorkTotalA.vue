@@ -35,6 +35,10 @@
                                         <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
                                     </select>
                                 </div>
+                                <div class="d-flex align-items-center">
+                                    <input type="checkbox" class="align-middle" :value="1" v-model="retiredDisplay" @change="getTotalData">
+                                    <div class="ml-1">退職者を表示</div>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -319,6 +323,12 @@
                     </div>
                 </div>
             </div>
+            <!--Modal -->
+            <div class="modal fade" id="excel-output-form" tabindex="-1" role="dialog" aria-labelledby="excel-output-form" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <excel-form></excel-form>
+                </div>
+            </div>
         </div>
     </section>
 </template>
@@ -327,7 +337,9 @@ import moment from 'moment';
 import { mapState } from 'vuex';
 import actionLoading from '../../mixin/actionLoading';
 import api, { apiErrorHandler } from '../../global/api';
+import ExcelForm from './ExcelForm.vue';
 export default {
+  components: { ExcelForm },
     mixins: [actionLoading],
     data() {
         return {
@@ -340,6 +352,8 @@ export default {
             offices: [],
             officeName: '',
             officeId: null,
+            csvMonths: [],
+            retiredDisplay: false,
         };
     },
     computed: {
@@ -364,7 +378,7 @@ export default {
         getTotalData() {
                 if(this.actionLoading) return;
                 this.setActionLoading();
-                api.get('work-total/' + this.officeId, null, {month: this.selectedMonth})
+                api.get('work-total/' + this.officeId, null, {month: this.selectedMonth, retireIncluded: this.retiredDisplay ? 1 : 0})
                     .then(response => {
                         this.unsetActionLoading();
                         this.total = response;
@@ -409,6 +423,19 @@ export default {
             this.month = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY-MM');
             this.getTotalData();
             return new Date(date.getFullYear(), date.getMonth() - 1, 1);
+        },
+        getFiveYearMonths() {
+            const date = this.currentDate;
+            var firstMonth = new Date(date.getFullYear(), date.getMonth() - 60, 1);
+            var lastMonth = new Date(date.getFullYear(), date.getMonth(), 0);
+            this.csvMonths = [];
+            for(let month = 60; month >= 0; month--) {
+                this.csvMonths.push(moment(new Date(date.getFullYear(), date.getMonth()-month, 0)).format('YYYY年 M月'));
+            }
+            console.log(this.csvMonths);
+        },
+        outputExcel() {
+            $("#excel-output-form").modal("show");
         },
         getResults(month_date) {
             this.updateTable(month_date);
