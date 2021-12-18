@@ -328,7 +328,8 @@ class AttendanceTotalService
                 'overtime_hours_non_statutory'=>    $overtime_hours_non_statutory,
                 'midnight_overtime' =>  $midnight_overtime,
                 'off_shift_working_hours'   =>  $off_shift_working_hours,
-                'rest_hours'        =>  $rest_hours
+                'rest_hours'        =>  $rest_hours,
+                'overtime_working_hours'    =>  $overtime_working_hours
             ];
         }
         // eoc: days foreach
