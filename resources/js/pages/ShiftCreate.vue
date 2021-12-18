@@ -185,7 +185,8 @@ import ShiftForm from './ShiftCreate/ShiftForm.vue';
                     .then(response => {
                         this.unsetActionLoading();
                         this.shifts = response;
-                        this.officeName = this.offices[this.officeId - 1].name;
+                        const office = this.offices.find(office => office.id === this.officeId);
+                        this.officeName = office ? office.name : '';
                         this.getShoteiTime();
                     })
                     .catch(e => {
@@ -197,7 +198,8 @@ import ShiftForm from './ShiftCreate/ShiftForm.vue';
                 api.get('office/user-capable')
                     .then(response => {
                         this.offices = response;
-                        this.officeName = this.offices[this.officeId - 1].name;
+                        const office = this.offices.find(office => office.id === this.officeId);
+                        this.officeName = office ? office.name : '';
                         this.getShoteiTime();
                     })
                     .catch(e => apiErrorHandler(e))
