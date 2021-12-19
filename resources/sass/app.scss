@@ -97,6 +97,9 @@ section.content {
 .background-grey {
     background-color: grey;
 }
+.background-pink {
+    background-color: pink;
+}
 .border-radius-15 {
     border-radius: 15px;
 }
@@ -289,6 +292,9 @@ tbody.header-fix-x-tr tr:nth-of-type(even) > td {
 .modal-huge {
     max-width: 1000px;
 }
+.modal-grand {
+    max-width: 1100px;
+}
 .background-orange {
     background-color: #ffc000;
 }
@@ -307,6 +313,9 @@ tbody.header-fix-x-tr tr:nth-of-type(even) > td {
 }
 .fixed-width-50 {
     width: 50px !important;
+}
+.fixed-width-60 {
+    width: 60px !important;
 }
 .fixed-width-70 {
     width: 70px !important;
