@@ -66,6 +66,18 @@
                                             <div v-else>{{day|formatWeek}}</div>
                                         </th>
                                     </tr>
+                                    <tr v-if="isHoikuen(officeName)" class="light-green">
+                                        <th width="4%" class="align-middle shift-th-x">園児数</th>
+                                        <th v-for="(child, index) in children" :key="'children' + index" class="align-middle">
+                                            {{child}}
+                                        </th>
+                                    </tr>
+                                    <tr v-if="isHoikuen(officeName)" class="light-green">
+                                        <th class="align-middle shift-th-x">必要職員数</th>
+                                        <th v-for="(user, index) in needUser" :key="'needUser' + index" class="align-middle">
+                                            {{user}}
+                                        </th>
+                                    </tr>
                                 </thead>
                                     <tbody class="text-center">
 
@@ -122,10 +134,11 @@
 
             <!-- Modal -->
             <div class="modal fade" id="shiftDateForm" tabindex="-1" role="dialog" aria-labelledby="shiftDateForm" aria-hidden="true">
-                <div class="modal-dialog modal-huge" role="document">
+                <div class="modal-dialog modal-grand" role="document">
                     <shift-date-form
                         :date="selectedDate"
                         :shifts="dateSelectedShift"
+                        :childShift="dateSelectedCShift"
                         v-on:success="onShiftSaved"/>
                 </div>
             </div>
@@ -162,8 +175,10 @@ import ShiftForm from './ShiftCreate/ShiftForm.vue';
                 capableWorkingHours: [],
                 selectedShift: [],
                 enabledVacations:[],
-
                 dateSelectedShift: [],
+                dateSelectedCShift: {},
+                children: [],
+                needUser: [],
             }
         },
         watch: {
@@ -193,6 +208,9 @@ import ShiftForm from './ShiftCreate/ShiftForm.vue';
                         this.unsetActionLoading();
                         apiErrorHandler(e);
                     });
+            },
+            getCShift() {
+
             },
             getOffices() {
                 api.get('office/user-capable')
@@ -320,7 +338,17 @@ import ShiftForm from './ShiftCreate/ShiftForm.vue';
                 for(let em = 0; em < this.shifts.length; em++) {
                     this.dateSelectedShift[em] = {...this.shifts[em], shifts: [...this.shifts[em].shifts[dayIndex]]};
                 }
-                $('#shiftDateForm').modal('show');
+
+                api.get('childcare-detail/' + this.officeId, null, {date: this.selectedDate})
+                    .then(response => {
+                        if(response) {
+                            this.dateSelectedCShift = response;
+                        } else {
+                            this.dateSelectedCShift = {};
+                        }
+                        $('#shiftDateForm').modal('show');
+                    })
+                    .catch(e => apiErrorHandler(e))
             },
             currentTime(){
                 var today = new Date();
@@ -344,14 +372,27 @@ import ShiftForm from './ShiftCreate/ShiftForm.vue';
 
                 };
             },
+            isHoikuen(officeName) {
+                if(officeName.indexOf('保育園') !== -1) {
+                return true;
+                } else {
+                    return false;
+                }
+            },
             updateTable(date){
                 this.currentDate = date;
                 var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDate();
                 var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
                 this.days = [];
+                this.children = [];
+                this.needUser = [];
                 for(let day = firstDay; day <= lastDay; day++) {
                     this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
+                    let random = Math.floor(Math.random() * 7) + 10;
+                    this.children.push(random);
+                    this.needUser.push(Math.floor(random / 3));
                 }
+
             },
             onShiftSaved() {
                 this.getShifts();

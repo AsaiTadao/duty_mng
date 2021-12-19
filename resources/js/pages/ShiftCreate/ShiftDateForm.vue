@@ -12,9 +12,168 @@
                 <table class="table table-bordered shifttable-bordered shift-time-table">
                     <thead class="text-center">
                         <tr class="light-green">
-                            <th width="20%" colspan="2" class="p-0 align-middle">タイムテーブル</th>
-                            <th class="p-0 align-middle">勤務時間</th>
-                            <th class="p-0 align-middle">休憩時間</th>
+                            <th width="18%" class="p-0 align-middle"></th>
+                            <th width="14%" class="p-0 align-middle">タイムテーブル</th>
+                            <th colspan="2" class="one-digit-time">7</th>
+                            <th colspan="2" class="one-digit-time">8</th>
+                            <th colspan="2" class="one-digit-time">9</th>
+                            <th colspan="2">10</th>
+                            <th colspan="2">11</th>
+                            <th colspan="2">12</th>
+                            <th colspan="2">13</th>
+                            <th colspan="2">14</th>
+                            <th colspan="2">15</th>
+                            <th colspan="2">16</th>
+                            <th colspan="2">17</th>
+                            <th colspan="2">18</th>
+                            <th colspan="2">19</th>
+                            <th colspan="2">20</th>
+                            <th colspan="2">21</th>
+                        </tr>
+                    </thead>
+                        <tbody class="text-center">
+                            <tr>
+                                <td></td>
+                                <td>
+                                    0歳児園児数
+                                </td>
+                                <td v-for="(child, key) in childShift.children0" :key="'children0'+key">
+                                    {{child}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    必要職員数
+                                </td>
+                                <td v-for="(nurse, key) in childShift.neededNurse0" :key="'nurse0'+key">
+                                    {{nurse}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    1歳児園児数
+                                </td>
+                                <td v-for="(child, key) in childShift.children1" :key="'children1'+key">
+                                    {{child}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    必要職員数
+                                </td>
+                                <td v-for="(nurse, key) in childShift.neededNurse1" :key="'nurse1'+key">
+                                    {{nurse}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    2歳児園児数
+                                </td>
+                                <td v-for="(child, key) in childShift.children2" :key="'children2'+key">
+                                    {{child}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    必要職員数
+                                </td>
+                                <td v-for="(nurse, key) in childShift.neededNurse2" :key="'nurse2'+key">
+                                    {{nurse}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    3歳児園児数
+                                </td>
+                                <td v-for="(child, key) in childShift.children3" :key="'children3'+key">
+                                    {{child}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    必要職員数
+                                </td>
+                                <td v-for="(nurse, key) in childShift.neededNurse3" :key="'nurse3'+key">
+                                    {{nurse}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    4歳児園児数
+                                </td>
+                                <td v-for="(child, key) in childShift.children4" :key="'children4'+key">
+                                    {{child}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    必要職員数
+                                </td>
+                                <td v-for="(nurse, key) in childShift.neededNurse4" :key="'nurse4'+key">
+                                    {{nurse}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    5歳児園児数
+                                </td>
+                                <td v-for="(child, key) in childShift.children5" :key="'children5'+key">
+                                    {{child}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    必要職員数
+                                </td>
+                                <td v-for="(nurse, key) in childShift.neededNurse5" :key="'nurse5'+key">
+                                    {{nurse}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    合計
+                                </td>
+                                <td v-for="(sum, key) in childShift.sumPrecise" :key="'sum'+key">
+                                    {{Math.round(sum)}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>全体必要職員数</td>
+                                <td v-for="(round, key) in childShift.sumRound" :key="'round'+key">
+                                    {{round}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>実働職員数</td>
+                                <td v-for="(worker, index) in childShift.actualWorkers" :key="'realworker'+index" :class="getBackColor(childShift.sumRound[index], worker)">
+                                    {{worker}}
+                                </td>
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+
+            <div class="table-responsive p-0" style="width:100%">
+                <table class="table table-bordered shifttable-bordered shift-time-table">
+                    <thead class="text-center">
+                        <tr class="light-green">
+                            <th width="18%" colspan="2" class="p-0 align-middle">タイムテーブル</th>
+                            <th width="7%" class="p-0 align-middle">勤務時間</th>
+                            <th width="7%" class="p-0 align-middle">休憩時間</th>
                             <th colspan="2" class="one-digit-time">7</th>
                             <th colspan="2" class="one-digit-time">8</th>
                             <th colspan="2" class="one-digit-time">9</th>
@@ -81,6 +240,7 @@ import ShiftForm from './ShiftForm.vue';
         props: {
             date: '',
             shifts: [],
+            childShift: {},
         },
         watch: {
 
@@ -126,6 +286,13 @@ import ShiftForm from './ShiftForm.vue';
                 }
                 if(restTimeIn && restTimeIn.length > 0) {
                     backColor = "background-grey";
+                }
+                return backColor;
+            },
+            getBackColor(neededUser, realUser) {
+                let backColor = "";
+                if(neededUser > realUser) {
+                    backColor = "background-pink";
                 }
                 return backColor;
             },

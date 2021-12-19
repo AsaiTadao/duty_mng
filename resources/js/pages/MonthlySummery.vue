@@ -29,11 +29,11 @@
                                 </div>
                             </div>
                         </div>
-                            <monthly-summery-a v-if="selectedUser.employmentStatusId == 1 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month"
+                            <monthly-summery-a v-if="selectedUser.employmentStatusId == 1 && !isHonShya(officeName)" :attendance="attendance" :total="total" :userMeta="userMeta" :month="month"
                             :userId="userId" :isShowApplyBtn="isShowApplyBtn" v-on:success="onEditSaved" />
-                            <monthly-summery-b v-else-if="selectedUser.employmentStatusId == 2 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month"
+                            <monthly-summery-b v-else-if="selectedUser.employmentStatusId == 2 && !isHonShya(officeName)" :attendance="attendance" :total="total" :userMeta="userMeta" :month="month"
                             :userId="userId" :isShowApplyBtn="isShowApplyBtn" v-on:success="onEditSaved" />
-                            <monthly-summery-c v-else-if="selectedUser.employmentStatusId == 3 && !isHonShya(officeName)" :attendance="attendance" :total="total" :month="month"
+                            <monthly-summery-c v-else-if="selectedUser.employmentStatusId == 3 && !isHonShya(officeName)" :attendance="attendance" :total="total" :userMeta="userMeta" :month="month"
                             :userId="userId" :isShowApplyBtn="isShowApplyBtn" v-on:success="onEditSaved" />
                     </div>
                 </div>
@@ -62,6 +62,7 @@ export default {
                 attends : [],
                 attendance: {},
                 total: {},
+                userMeta: {},
                 selectedMonth: '',
                 month: new Date(),
                 officeName: '',
@@ -97,6 +98,7 @@ export default {
                                 this.isShowApplyBtn = true;
                             }
                             this.total = response.total;
+                            this.userMeta = response.userMeta;
                         })
                         .catch(e => {
                             apiErrorHandler(e);

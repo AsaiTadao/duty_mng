@@ -196,7 +196,7 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.number = this.$t('Please input number');                              //need trans
                     valid = false;
                 }
-                if (!this.formData.enrolled) {
+                if (this.formData.enrolled === undefined || this.formData.enrolled === null) {
                     this.errors.enrolled = this.$t('Please select enrolled');
                     valid = false;
                 }
