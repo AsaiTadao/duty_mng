@@ -324,11 +324,11 @@
                 </div>
             </div>
             <!--Modal -->
-            <div class="modal fade" id="excel-output-form" tabindex="-1" role="dialog" aria-labelledby="excel-output-form" aria-hidden="true">
+            <!-- <div class="modal fade" id="excel-output-form" tabindex="-1" role="dialog" aria-labelledby="excel-output-form" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <excel-form></excel-form>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
 </template>
@@ -337,9 +337,9 @@ import moment from 'moment';
 import { mapState } from 'vuex';
 import actionLoading from '../../mixin/actionLoading';
 import api, { apiErrorHandler } from '../../global/api';
-import ExcelForm from './ExcelForm.vue';
+// import ExcelForm from './ExcelForm.vue';
 export default {
-  components: { ExcelForm },
+//   components: { ExcelForm },
     mixins: [actionLoading],
     data() {
         return {
