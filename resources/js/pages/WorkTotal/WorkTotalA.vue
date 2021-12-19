@@ -337,9 +337,9 @@ import moment from 'moment';
 import { mapState } from 'vuex';
 import actionLoading from '../../mixin/actionLoading';
 import api, { apiErrorHandler } from '../../global/api';
-import ExcelForm from './ExcelForm.vue';
+// import ExcelForm from './ExcelForm.vue';
 export default {
-  components: { ExcelForm },
+//   components: { ExcelForm },
     mixins: [actionLoading],
     data() {
         return {
