@@ -93,7 +93,7 @@
                                 <td>{{dayAttendance.midnightOvertime ? (dayAttendance.midnightOvertime / 60).toFixed(2) : '-'}}</td>
                                 <td>{{dayAttendance.offShiftWorkingHours ? (dayAttendance.offShiftWorkingHours / 60).toFixed(2) : '-'}}</td>
                                 <td>
-                                    <input type="text" v-model="editData.substituteTime" :class="{'is-invalid' : errors.substituteTime}" class="fixed-width-40 form-control"/>
+                                    <input type="text" v-model="editData.substituteTime" :class="{'is-invalid' : errors.substituteTime}" class="fixed-width-60 form-control"/>
                                     <span v-if="editMode && errors.substituteTime" class="error invalid-feedback">
                                         {{ errors.substituteTime }}
                                     </span>
@@ -106,28 +106,28 @@
                                 </td>
                                 <td>-</td>
                                 <td>
-                                    <input type="text" v-model="editData.annualPaidTime" :class="{'is-invalid' : errors.annualPaidTime}" class="fixed-width-40 form-control"/>
+                                    <input type="text" v-model="editData.annualPaidTime" :class="{'is-invalid' : errors.annualPaidTime}" class="fixed-width-60 form-control"/>
                                     <span v-if="editMode && errors.annualPaidTime" class="error invalid-feedback">
                                         {{ errors.annualPaidTime }}
                                     </span>
                                 </td>
                                 <td ><i v-if="dayAttendance.annualPaidTime" class="fas fa-check fa-lg"></i></td>
                                 <td>
-                                    <input type="text" v-model="editData.specialPaidTime" :class="{'is-invalid' : errors.specialPaidTime}" class="fixed-width-40 form-control"/>
+                                    <input type="text" v-model="editData.specialPaidTime" :class="{'is-invalid' : errors.specialPaidTime}" class="fixed-width-60 form-control"/>
                                     <span v-if="editMode && errors.specialPaidTime" class="error invalid-feedback">
                                         {{ errors.specialPaidTime }}
                                     </span>
                                 </td>
                                 <td><i v-if="dayAttendance.specialPaidTime" class="fas fa-check fa-lg"></i></td>
                                 <td>
-                                    <input type="text" v-model="editData.specialUnpaidTime" :class="{'is-invalid' : errors.specialUnpaidTime}" class="fixed-width-40 form-control"/>
+                                    <input type="text" v-model="editData.specialUnpaidTime" :class="{'is-invalid' : errors.specialUnpaidTime}" class="fixed-width-60 form-control"/>
                                     <span v-if="editMode && errors.specialUnpaidTime" class="error invalid-feedback">
                                         {{ errors.specialUnpaidTime }}
                                     </span>
                                 </td>
                                 <td><i  v-if="dayAttendance.specialUnpaidTime" class="fas fa-check fa-lg"></i></td>
                                 <td>
-                                    <input type="text" v-model="editData.otherUnpaidTime" :class="{'is-invalid' : errors.otherUnpaidTime}" class="fixed-width-40 form-control"/>
+                                    <input type="text" v-model="editData.otherUnpaidTime" :class="{'is-invalid' : errors.otherUnpaidTime}" class="fixed-width-60 form-control"/>
                                     <span v-if="editMode && errors.otherUnpaidTime" class="error invalid-feedback">
                                         {{ errors.otherUnpaidTime }}
                                     </span>
@@ -176,7 +176,7 @@
                                 <td>{{dayAttendance.midnightOvertime ? (dayAttendance.midnightOvertime / 60).toFixed(2) : '-'}}</td>
                                 <td>{{dayAttendance.offShiftWorkingHours ? (dayAttendance.offShiftWorkingHours / 60).toFixed(2) : '-'}}</td>
                                 <td>{{dayAttendance.substituteTime ? (dayAttendance.substituteTime / 60).toFixed(2) : '-'}}</td>
-                                <td>{{dayAttendance.substituteDay}}</td>
+                                <td>{{getSubstituteDay(dayAttendance.substituteDay)}}</td>
                                 <td>-</td>
                                 <td>{{dayAttendance.annualPaidTime ? (dayAttendance.annualPaidTime / 60).toFixed(2) : '-'}}</td>
                                 <td><i v-if="dayAttendance.annualPaidTime" class="fas fa-check fa-lg"></i></td>
@@ -228,8 +228,8 @@
                         <th class="align-middle">連勤時間</th>
                     </tr>
                     <tr class="heavy-green text-white">
-                        <td>{{(total.workingDays / 60).toFixed(2)}}日</td>
-                        <td>{{(total.workingDays / total.workingDays) * 100}}%</td>
+                        <td>{{total.workingDays}}日</td>
+                        <td>{{userMeta.scheduledDays ? (total.workingDays * 100 / userMeta.scheduledDays) : ''}}%</td>
                         <td>{{(total.totalWorkingHours / 60).toFixed(2)}}時間</td>
                         <td>{{((total.actualWorkingHoursWeekdays + total.actualWorkingHoursSaturday) / 60).toFixed(2)}}時間</td>
                         <td>{{(total.scheduledWorkingHoursA / 60).toFixed(2)}}時間</td>
@@ -268,15 +268,15 @@
                         <th class="align-middle">日数</th>
                     </tr>
                     <tr class="heavy-green text-white">
-                        <td>12時間</td>
-                        <td>1日</td>
-                        <td>5時間</td>
-                        <td>1日</td>
-                        <td>6時間</td>
-                        <td>1日</td>
-                        <td>3時間</td>
-                        <td>2日</td>
-                        <td>1日</td>
+                        <td>{{(total.annualPaidTime / 60).toFixed(2)}}時間</td>
+                        <td>{{total.annualPaidDays}}日</td>
+                        <td>{{(total.specialPaidTime / 60).toFixed(2)}}時間</td>
+                        <td>{{total.specialPaidDays}}日</td>
+                        <td>{{(total.specialUnpaidTime / 60).toFixed(2)}}時間</td>
+                        <td>{{total.specialUnpaidDays}}日</td>
+                        <td>{{(total.otherUnpaidTime / 60).toFixed(2)}}時間</td>
+                        <td>{{total.otherUnpaidDays}}日</td>
+                        <td>{{total.absenceDays}}日</td>
                     </tr>
                 </tbody>
             </table>
@@ -296,6 +296,7 @@ import { showSuccess } from '../../helpers/error';
         props: {
             attendance: {},
             total: {},
+            userMeta: {},
             month: '',
             userId: null,
             isShowApplyBtn: true,
@@ -325,6 +326,8 @@ import { showSuccess } from '../../helpers/error';
                     specialUnPaidHoliday: false,
                     otherUnpaidTime: null,
                     otherUnPaidHoliday: false,
+                    substituteTime: null,
+                    substituteDay: null,
                     absenceDay: false,
                     reason: null,
                     remark: '',
@@ -341,6 +344,7 @@ import { showSuccess } from '../../helpers/error';
                     specialPaidHoliday: false,
                     specialUnpaidTime: null,
                     specialUnPaidHoliday: false,
+                    substituteTime: null,
                     otherUnpaidTime: null,
                     otherUnPaidHoliday: false,
                     absenceDay: false,
@@ -414,6 +418,22 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.endWorkTime2 = this.$t('Please input correct format');
                     valid = false;
                 }
+                if (this.editData.startWorkTime1 && !this.editData.endWorkTime1) {
+                    this.errors.endWorkTime1 = this.$t('Please input time');                                 // need trans
+                    valid = false;
+                }
+                if (!this.editData.startWorkTime1 && this.editData.endWorkTime1) {
+                    this.errors.startWorkTime1 = this.$t('Please input time');                                 // need trans
+                    valid = false;
+                }
+                if (this.editData.startWorkTime2 && !this.editData.endWorkTime2) {
+                    this.errors.endWorkTime2 = this.$t('Please input time');                                 // need trans
+                    valid = false;
+                }
+                if (!this.editData.startWorkTime2 && this.editData.endWorkTime2) {
+                    this.errors.startWorkTime2 = this.$t('Please input time');                                 // need trans
+                    valid = false;
+                }
                 if (this.editData.startWorkTime1 && this.editData.startWorkTime2 && this.editData.startWorkTime1 >= this.editData.startWorkTime2) {
                     this.errors.startWorkTime1 = this.$t('Please avoid time overlapped');
                     valid = false;
@@ -430,23 +450,24 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.endWorkTime2 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
-                if (this.editData.annualPaidTime && !Number.isInteger(this.editData.annualPaidTime)) {
+                if (this.editData.annualPaidTime && !Number.isInteger(parseFloat(this.editData.annualPaidTime))) {
                     this.errors.annualPaidTime = this.$t('Please select number');
                     valid = false;
                 }
-                if (this.editData.specialPaidTime && !Number.isInteger(this.editData.specialPaidTime)) {
+                if (this.editData.specialPaidTime && !Number.isInteger(parseFloat(this.editData.specialPaidTime))) {
                     this.errors.specialPaidTime = this.$t('Please select number');
                     valid = false;
                 }
-                if (this.editData.specialUnpaidTime && !Number.isInteger(this.editData.specialUnpaidTime)) {
+                if (this.editData.specialUnpaidTime && !Number.isInteger(parseFloat(this.editData.specialUnpaidTime))) {
                     this.errors.specialUnpaidTime = this.$t('Please input number');
                     valid = false;
                 }
-                if (this.editData.otherUnpaidTime && !Number.isInteger(this.editData.otherUnpaidTime)) {
+                if (this.editData.otherUnpaidTime && !Number.isInteger(parseFloat(this.editData.otherUnpaidTime))) {
                     this.errors.otherUnpaidTime = this.$t('Please input number');
                     valid = false;
                 }
-                if (this.editData.substituteTime && !Number.isInteger(this.editData.substituteTime)) {
+                console.log(valid);
+                if (this.editData.substituteTime && !Number.isInteger(parseFloat(this.editData.substituteTime))) {
                     this.errors.substituteTime = this.$t('Please input number');
                     valid = false;
                 }
@@ -526,6 +547,11 @@ import { showSuccess } from '../../helpers/error';
                 } else {
                     return "";
                 }
+            },
+            getSubstituteDay(substituteDay){
+                if(substituteDay) {
+                    return moment(this.month + '-' + ('0' + substituteDay).slice(-2), 'YYYY-MM-DD').format('MM/DD/YYYY');
+                } return '';
             },
             handleScroll() {
                 if(this.timer !== null) {
