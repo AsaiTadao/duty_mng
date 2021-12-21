@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Requests\MonthlySummary\AttendanceApproveRequest;
 use App\Http\Requests\MonthlySummary\AttendanceRequest;
 use App\Http\Requests\MonthlySummary\MonthlySummaryQuery;
+use App\Mail\MonthlySummaryApprove;
 use App\Models\Attendance;
 use App\Models\AttendanceTotal;
 use App\Models\ScheduledWorking;
@@ -14,6 +15,7 @@ use App\Services\AttendanceTotalService;
 use App\Services\StampService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 
 class MonthlySummaryController extends BaseController
 {
@@ -219,6 +221,23 @@ class MonthlySummaryController extends BaseController
             $attendanceTotal->save();
         }
 
+        $attendances = Attendance::where('user_id', $user->id)
+                ->where(['year_id' => $year->id, 'month' => $month])
+                ->whereNull('approved_at')
+                ->get();
+        if (!$attendances->count())
+        {
+            $reportMails = config('lateral.month_report_to');
+            $env = config('app.env');
+            $mails = $reportMails[$env];
+
+            $officeName = $user->office->name??'';
+            $userName = $user->name;
+            foreach ($mails as $mail)
+            {
+                Mail::to($mail)->queue(new MonthlySummaryApprove($officeName, $userName, floor($monthValue), $monthValue % 100));
+            }
+        }
         return $this->sendResponse();
     }
 }
