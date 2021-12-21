@@ -112,7 +112,7 @@
                                     </tbody>
                             </table>
                         </div>
-                        <button class="btn btn-primary float-right mt-2">Excel出力</button>
+                        <button class="btn btn-primary float-right mt-2" @click="getCShift">Excel出力</button>
                         </div>
                     </div>
                 </div>
@@ -153,6 +153,7 @@ import actionLoading from '../mixin/actionLoading';
 import api, { apiErrorHandler } from '../global/api';
 import ShiftDateForm from './ShiftCreate/ShiftDateForm.vue';
 import ShiftForm from './ShiftCreate/ShiftForm.vue';
+import LocalStorage from '../helpers/localStorage';
     export default {
   components: { ShiftDateForm, ShiftForm },
         mixins: [actionLoading],
@@ -210,7 +211,9 @@ import ShiftForm from './ShiftCreate/ShiftForm.vue';
                     });
             },
             getCShift() {
-
+                const office = this.offices.find(office => office.id === this.officeId);
+                if (!office) return;
+                location.href = "/shift/csv/" + office.id + "?token=" + LocalStorage.getToken() + "&month=" + this.selectedMonth;
             },
             getOffices() {
                 api.get('office/user-capable')

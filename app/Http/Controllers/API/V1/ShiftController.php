@@ -96,7 +96,9 @@ class ShiftController extends BaseController
         $year = (int)floor($month / 100);
         $month = $month % 100;
 
-        return Excel::download(new ShiftExport($office, $shiftData, $year, $month), 'shifts.xlsx');
+        $fileName = $year . "年" . $month . "月　" . $office->name . "　シフト表";
+
+        return Excel::download(new ShiftExport($office, $shiftData, $year, $month), $fileName . '.xlsx');
     }
 
     private function getShiftData(Office $office, ShiftQuery $request, $user = null)
