@@ -314,7 +314,7 @@
                                         class="align-middle"
                                     />
                                 </div> -->
-                                <button class="btn btn-primary float-right mr-2"  @click="outputExcel()">Excel出力</button>
+                                <button class="btn btn-primary float-right mr-2"  @click="openExcelForm()">Excel出力</button>
                                 <button class="btn btn-primary float-right">
                                     CSV出力
                                 </button>
@@ -324,11 +324,11 @@
                 </div>
             </div>
             <!--Modal -->
-            <!-- <div class="modal fade" id="excel-output-form" tabindex="-1" role="dialog" aria-labelledby="excel-output-form" aria-hidden="true">
+            <div class="modal fade" id="excel-output-form" tabindex="-1" role="dialog" aria-labelledby="excel-output-form" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <excel-form></excel-form>
+                    <excel-form :csvMonths="csvMonths" :currentMonth="month" v-on:success="closeExcelForm"></excel-form>
                 </div>
-            </div> -->
+            </div>
         </div>
     </section>
 </template>
@@ -337,9 +337,9 @@ import moment from 'moment';
 import { mapState } from 'vuex';
 import actionLoading from '../../mixin/actionLoading';
 import api, { apiErrorHandler } from '../../global/api';
-// import ExcelForm from './ExcelForm.vue';
+import ExcelForm from './ExcelForm.vue';
 export default {
-//   components: { ExcelForm },
+  components: { ExcelForm },
     mixins: [actionLoading],
     data() {
         return {
@@ -430,15 +430,19 @@ export default {
             var lastMonth = new Date(date.getFullYear(), date.getMonth(), 0);
             this.csvMonths = [];
             for(let month = 60; month >= 0; month--) {
-                this.csvMonths.push(moment(new Date(date.getFullYear(), date.getMonth()-month, 0)).format('YYYY年 M月'));
+                this.csvMonths.push(moment(new Date(date.getFullYear(), date.getMonth()-month, 0)).format('YYYY-MM'));
             }
             console.log(this.csvMonths);
         },
-        outputExcel() {
+        openExcelForm() {
             $("#excel-output-form").modal("show");
+        },
+        closeExcelForm() {
+            $("#excel-output-form").modal("hide");
         },
         getResults(month_date) {
             this.updateTable(month_date);
+            this.getFiveYearMonths();
         },
         currentTime() {
             var today = new Date();
