@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\ShiftController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('home');
 // })->where('vue_capture', '[\/\w\.-]*');
 // ->middleware('auth');
-
+Route::get('/shift/csv/{office}', [ShiftController::class, 'csv']);
 Route::view('/{path?}', 'home')
     ->where('path', '.*');
