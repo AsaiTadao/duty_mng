@@ -72,6 +72,8 @@ export default {
             },
             timeStamp: '',
             thisDate: '',
+            timestampInterval: null,
+            timeNowInterval: null,
         };
     },
     computed: {
@@ -131,9 +133,13 @@ export default {
         this.thisDate = this.formatDate(new Date());
         this.getNow();
         this.updateStatus();
-        setInterval(this.getNow, 60000);
-        setInterval(this.updateStatus, 60000);
+        this.timestampInterval = setInterval(this.getNow, 60000);
+        this.timeNowInterval = setInterval(this.updateStatus, 60000);
     },
+    destroyed() {
+        clearInterval(this.timestampInterval);
+        clearInterval(this.timeNowInterval);
+    }
 };
 </script>
 <style scoped>
