@@ -44,6 +44,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::get('/office/user-capable', [OfficeController::class, 'getUserCabableOffices']);
         Route::get('/office/{office}/scheduled-working-month', [OfficeController::class, 'getScheduledWorkingMonth']);
 
+        Route::post('/shift/{office}/copy', [ShiftController::class, 'copy'])->name('shift.copy_by_office.csv');
         Route::get('/shift/{office}/csv', [ShiftController::class, 'csv'])->name('shift.get_by_office.csv');
         Route::post('/shift/{office}', [ShiftController::class, 'save'])->name('shift.create');
         Route::get('/shift/{office}', [ShiftController::class, 'get'])->name('shift.get_by_office');

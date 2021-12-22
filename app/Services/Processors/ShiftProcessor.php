@@ -153,7 +153,7 @@ class ShiftProcessor
         if (is_array($shifts)) {
             $shifts = collect($shifts);
         }
-        $needDeleteShiftQb = ShiftPlan::where(['user_id' => $user->id])
+        $needDeleteShiftQb = ShiftPlan::where(['user_id' => is_object($user) ? $user->id : $user])
             ->whereDate('date', $date);
         if ($shifts->count()) {
             $ids = $shifts->whereNotNull('id')->pluck('id')->all();

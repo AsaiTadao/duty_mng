@@ -101,6 +101,72 @@ class ShiftController extends BaseController
         return Excel::download(new ShiftExport($office, $shiftData, $year, $month), $fileName . '.xlsx');
     }
 
+    public function copy(Office $office, ShiftQuery $request, ShiftProcessor $shiftProcessor)
+    {
+        $shiftData = $this->getShiftData($office, $request);
+
+        $data = $request->validated();
+
+        $month = (int)$data['month'];
+        $year = (int)floor($month / 100);
+        $month = $month % 100;
+        $monthCarbon = Carbon::parse($year . '-' . $month . '-01');
+
+        $firstSunday = (7 - $monthCarbon->dayOfWeek) % 7 + 1;
+
+        $days = $monthCarbon->daysInMonth;
+
+        foreach ($shiftData as $shiftItem)
+        {
+            $shifts = $shiftItem['shifts'];
+            if (empty($shifts)) continue;
+
+            $day = $firstSunday + 7;
+            while ($day <= $days)
+            {
+                for ($i = 0; $i < 7; $i++)
+                {
+                    $date = Carbon::parse($year . '-' . $month . '-' . $day);
+
+                    // TODO need to prevent creation shift past days
+                    if (!empty($shifts[$firstSunday + $i - 1]))
+                    {
+                        $dayShifts = $shifts[$firstSunday + $i - 1];
+
+                        $newShifts = [];
+                        foreach ($dayShifts as $shift)
+                        {
+                            if ($shift->vacation_reason_id)
+                            {
+                                continue;
+                            }
+                            $newShifts[] = new ShiftPlan([
+                                'day_of_week'   =>  $i,
+                                'date'          =>  $date,
+                                'user_id'       =>  $shiftItem['id'],
+                                'working_hours_id' =>   $shift->working_hours_id,
+                                'start_time'    =>  $shift->start_time,
+                                'end_time'      =>  $shift->end_time,
+                                'rest_start_time' => $shift->rest_start_time,
+                                'rest_end_time' =>  $shift->rest_end_time,
+                            ]);
+                        }
+                        if (!empty($newShifts))
+                        {
+                            $shiftProcessor->save($newShifts, $shiftItem['id'], $date);
+                        }
+                    }
+
+                    $day++;
+                    if ($day > $days) break;
+                }
+            }
+
+        }
+
+        return $this->sendResponse();
+    }
+
     private function getShiftData(Office $office, ShiftQuery $request, $user = null)
     {
         $shift = ShiftPlan::get()->toArray();
