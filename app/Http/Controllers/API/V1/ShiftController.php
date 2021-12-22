@@ -121,45 +121,46 @@ class ShiftController extends BaseController
             $shifts = $shiftItem['shifts'];
             if (empty($shifts)) continue;
 
-            $day = $firstSunday + 7;
+            $day = 1;
             while ($day <= $days)
             {
-                for ($i = 0; $i < 7; $i++)
-                {
-                    $date = Carbon::parse($year . '-' . $month . '-' . $day);
-
-                    // TODO need to prevent creation shift past days
-                    if (!empty($shifts[$firstSunday + $i - 1]))
-                    {
-                        $dayShifts = $shifts[$firstSunday + $i - 1];
-
-                        $newShifts = [];
-                        foreach ($dayShifts as $shift)
-                        {
-                            if ($shift->vacation_reason_id)
-                            {
-                                continue;
-                            }
-                            $newShifts[] = new ShiftPlan([
-                                'day_of_week'   =>  $i,
-                                'date'          =>  $date,
-                                'user_id'       =>  $shiftItem['id'],
-                                'working_hours_id' =>   $shift->working_hours_id,
-                                'start_time'    =>  $shift->start_time,
-                                'end_time'      =>  $shift->end_time,
-                                'rest_start_time' => $shift->rest_start_time,
-                                'rest_end_time' =>  $shift->rest_end_time,
-                            ]);
-                        }
-                        if (!empty($newShifts))
-                        {
-                            $shiftProcessor->save($newShifts, $shiftItem['id'], $date);
-                        }
-                    }
-
-                    $day++;
-                    if ($day > $days) break;
+                if ($day >= $firstSunday && $day < $firstSunday + 7) {
+                    $day = $firstSunday + 7;
+                    continue;
                 }
+                $date = Carbon::parse($year . '-' . $month . '-' . $day);
+                $dayOfWeek = $date->dayOfWeek;
+
+                // TODO need to prevent creation shift past days
+                if (!empty($shifts[$firstSunday + $dayOfWeek - 1]))
+                {
+                    dd($firstSunday + $dayOfWeek - 1);
+                    $dayShifts = $shifts[$firstSunday + $dayOfWeek - 1];
+
+                    $newShifts = [];
+                    foreach ($dayShifts as $shift)
+                    {
+                        if ($shift->vacation_reason_id)
+                        {
+                            continue;
+                        }
+                        $newShifts[] = new ShiftPlan([
+                            'day_of_week'   =>  $dayOfWeek,
+                            'date'          =>  $date,
+                            'user_id'       =>  $shiftItem['id'],
+                            'working_hours_id' =>   $shift->working_hours_id,
+                            'start_time'    =>  $shift->start_time,
+                            'end_time'      =>  $shift->end_time,
+                            'rest_start_time' => $shift->rest_start_time,
+                            'rest_end_time' =>  $shift->rest_end_time,
+                        ]);
+                    }
+                    if (!empty($newShifts))
+                    {
+                        $shiftProcessor->save($newShifts, $shiftItem['id'], $date);
+                    }
+                }
+                $day++;
             }
 
         }
@@ -197,6 +198,7 @@ class ShiftController extends BaseController
         $shifts = $qb->whereYear('shift_plans.date', $year)
             ->whereMonth('shift_plans.date', $month)
             ->orderBy('shift_plans.date')
+            ->orderBy('shift_plans.start_time')
             ->select(
                 'shift_plans.id',
                 'shift_plans.date',
