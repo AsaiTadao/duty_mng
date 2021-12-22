@@ -201,7 +201,7 @@
                                             <template v-if="isHonShya(member.office.name) && isNormalStaff(member.employmentStatusId)">
                                                 <td>-</td>
                                                 <td>-</td>
-                                                <td>{{member.total.restTime}}</td>
+                                                <td>{{member.total.totalRestHours}}</td>
                                                 <td>{{((member.total.actualWorkingHoursWeekdays + member.total.actualWorkingHoursSaturday) / 60).toFixed(2)}}</td>
                                                 <td>-</td>
                                                 <td>-</td>
@@ -227,7 +227,7 @@
                                             <template v-else-if="isHonShya(member.office.name) && !isNormalStaff(member.employmentStatusId)">
                                                 <td>{{member.total.behindTime}}分</td>
                                                 <td>{{member.total.leaveEarly}}分</td>
-                                                <td>{{member.total.restTime}}</td>
+                                                <td>{{member.total.totalRestHours}}</td>
                                                 <td>-</td>
                                                 <td>{{(member.total.actualWorkingHoursWeekdays / 60).toFixed(2) }}</td>
                                                 <td>{{(member.total.actualWorkingHoursSaturday / 60).toFixed(2)}}</td>
@@ -253,7 +253,7 @@
                                             <template v-else-if="!isHonShya(member.office.name) && !isNormalStaff(member.employmentStatusId)">
                                                 <td>{{member.total.behindTime}}分</td>
                                                 <td>{{member.total.leaveEarly}}分</td>
-                                                <td>{{member.total.restTime}}</td>
+                                                <td>{{member.total.totalRestHours}}</td>
                                                 <td>-</td>
                                                 <td>{{(member.total.actualWorkingHoursWeekdays / 60).toFixed(2) }}</td>
                                                 <td>{{(member.total.actualWorkingHoursSaturday / 60).toFixed(2)}}</td>
@@ -279,7 +279,7 @@
                                             <template v-else-if="!isHonShya(member.office.name) && isNormalStaff(member.employmentStatusId)">
                                                 <td>{{member.total.behindTime}}分</td>
                                                 <td>{{member.total.leaveEarly}}分</td>
-                                                <td>{{member.total.restTime}}</td>
+                                                <td>{{member.total.totalRestHours}}</td>
                                                 <td>{{((member.total.actualWorkingHoursWeekdays + member.total.actualWorkingHoursSaturday) / 60).toFixed(2)}}</td>
                                                 <td>-</td>
                                                 <td>-</td>
@@ -326,7 +326,7 @@
             <!--Modal -->
             <div class="modal fade" id="excel-output-form" tabindex="-1" role="dialog" aria-labelledby="excel-output-form" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <excel-form :csvMonths="csvMonths" :currentMonth="month" v-on:success="closeExcelForm"></excel-form>
+                    <excel-form :csvMonths="csvMonths" :currentMonth="month" v-on:success="closeExcelForm" :officeId="officeId"></excel-form>
                 </div>
             </div>
         </div>

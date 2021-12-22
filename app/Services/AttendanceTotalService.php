@@ -28,7 +28,7 @@ class AttendanceTotalService
             $isInHeadquarter = true;
         }
         $yearNumber = floor($month / 100);
-        $monthNumber = $month % 100;
+        $monthValue = $month % 100;
 
         $year = Year::where([
             ['start', '<=', $month],
@@ -38,7 +38,7 @@ class AttendanceTotalService
         $attendances = Attendance::where([
             'user_id'   =>  $user->id,
             'year_id'   =>  $year->id,
-            'month'     =>  $monthNumber,
+            'month'     =>  $monthValue,
         ])
         ->with('applications')
         ->with('shift1', 'shift2', 'shift3')
@@ -48,17 +48,18 @@ class AttendanceTotalService
             'user_id'   =>  $user->id
         ])
         ->whereYear('date', $yearNumber)
-        ->whereMonth('date', $monthNumber)
+        ->whereMonth('date', $monthValue)
         ->get();
 
 
-        $monthCarbon = Carbon::parse($yearNumber . '-' . $monthNumber . '-01');
+        $monthCarbon = Carbon::parse($yearNumber . '-' . $monthValue . '-01');
         $daysInMonth = $monthCarbon->daysInMonth;
 
         $attendanceTotal = new AttendanceTotal();
         $attendanceTotal->user_id = $user->id;
         $attendanceTotal->year_id = $year->id;
-        $attendanceTotal->month = $monthNumber;
+        $attendanceTotal->month = $monthValue;
+        $attendanceTotal->month_num = $month;
 
         $attendanceTotal->working_days = 0;
         $attendanceTotal->total_working_hours = 0;
@@ -112,8 +113,8 @@ class AttendanceTotalService
 
             $attendance = $attendances->firstWhere('day', $day);
 
-            $dayShifts = $shifts->filter(function ($value, $key) use ($yearNumber, $monthNumber, $day) {
-                return $value->date->format('Y-m-d') === $yearNumber . '-' . sprintf('%02d', $monthNumber) . '-' . sprintf('%02d', $day);
+            $dayShifts = $shifts->filter(function ($value, $key) use ($yearNumber, $monthValue, $day) {
+                return $value->date->format('Y-m-d') === $yearNumber . '-' . sprintf('%02d', $monthValue) . '-' . sprintf('%02d', $day);
             });
 
             $shiftExisting = ($dayShifts->count() > 0);
@@ -197,10 +198,10 @@ class AttendanceTotalService
 
                         // TODO consider rest time is in midnight
                         $rest_start_time = Carbon::parse(
-                            $yearNumber . '-' . sprintf('%02d', $monthNumber) . '-' . sprintf('%02d', $day) . ' ' . $attendance->$shift_i->rest_start_time
+                            $yearNumber . '-' . sprintf('%02d', $monthValue) . '-' . sprintf('%02d', $day) . ' ' . $attendance->$shift_i->rest_start_time
                         );
                         $rest_end_time = Carbon::parse(
-                            $yearNumber . '-' . sprintf('%02d', $monthNumber) . '-' . sprintf('%02d', $day) . ' ' . $attendance->$shift_i->rest_end_time
+                            $yearNumber . '-' . sprintf('%02d', $monthValue) . '-' . sprintf('%02d', $day) . ' ' . $attendance->$shift_i->rest_end_time
                         );
 
                         $rh = calcOverlappedPeriod($attendance->$commuting_time_i, $attendance->$leave_time_i, $rest_start_time, $rest_end_time);
@@ -338,7 +339,7 @@ class AttendanceTotalService
         {
             $scheduled_working = ScheduledWorking::where([
                 'year_id'   =>  $year->id,
-                'month'     =>  $monthNumber,
+                'month'     =>  $monthValue,
                 'office_id' =>  $user->office->id,
                 ])->first();
 

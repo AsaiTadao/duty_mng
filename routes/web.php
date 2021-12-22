@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\V1\ShiftController;
+use App\Http\Controllers\API\V1\WorkTotalController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ use Illuminate\Support\Facades\Route;
 // })->where('vue_capture', '[\/\w\.-]*');
 // ->middleware('auth');
 Route::get('/shift/csv/{office}', [ShiftController::class, 'csv']);
+Route::get('/work-total/csv/{office}', [WorkTotalController::class, 'csv'])->name('work_total.csv.get');
 Route::get("/test", [TestController::class, 'test']);
 Route::view('/{path?}', 'home')
     ->where('path', '.*');

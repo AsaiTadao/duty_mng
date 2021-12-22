@@ -53,12 +53,14 @@ import { mapState } from 'vuex';
 import api, { apiErrorHandler } from '../../global/api';
 import actionLoading from '../../mixin/actionLoading';
 import { showSuccess } from '../../helpers/error';
+import LocalStorage from '../../helpers/localStorage';
 
     export default {
         mixins: [actionLoading],
         props: {
             csvMonths: [],
             currentMonth: '',
+            officeId: null,
         },
         computed: {
             ...mapState({
@@ -98,10 +100,15 @@ import { showSuccess } from '../../helpers/error';
                 return displayMonth;
             },
             outputExcel() {
-                //if (this.actionLoading) return;
+                if (!this.officeId) return;
                 if (!this.validate()) return;
-                //this.setActionLoading();
-                let request;
+                let apiUrl = '/work-total/csv/' + this.officeId;
+                if (!this.formData.downloadType) {
+                    apiUrl += '?start=' + this.formData.selectedMonth.replace('-', '');
+                } else {
+                    apiUrl += '?start=' + this.formData.firstMonth.replace('-', '') + '&end=' + this.formData.lastMonth.replace('-', '');
+                }
+                location.href = apiUrl + '&token=' + LocalStorage.getToken();
                 // request = api.get('application/approve/' + this.application.id);
                 // request.then(() => {
                 //         this.unsetActionLoading();
@@ -137,13 +144,11 @@ import { showSuccess } from '../../helpers/error';
             },
             validate() {
                 let valid = true;
-                console.log(this.formData);
                 if (this.formData.downloadType == 1 && this.formData.firstMonth >= this.formData.lastMonth) {
                     this.errors.firstMonth = this.$t('firstMonth must be later than lastMonth');
                     this.errors.lastMonth = this.$t('firstMonth must be later than lastMonth');                                 // need trans
                     valid = false;
                 }
-                console.log(valid);
                 return valid;
             },
         }

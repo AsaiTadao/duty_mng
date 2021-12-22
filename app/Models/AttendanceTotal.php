@@ -39,5 +39,22 @@ class AttendanceTotal extends Model
         'create_user_id',
         'update_user_id',
         'total_rest_hours',
+        'month_num'
     ];
+
+    protected $appends = [
+        'year_value',
+        'month_value'
+    ];
+
+    public function getYearValueAttribute()
+    {
+        if (empty($this->attributes['month_num'])) return '';
+        return floor($this->attributes['month_num'] / 100);
+    }
+    public function getMonthValueAttribute()
+    {
+        if (empty($this->attributes['month_num'])) return '';
+        return $this->attributes['month_num'] % 100;
+    }
 }
