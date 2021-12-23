@@ -108,7 +108,7 @@ export default {
             },
             onVacationDeleteClick(vacationId){
                 if (this.actionLoading) return;
-                if (!confirm(this.$t("Are you really delete this item"))) return;
+                if (!confirm(this.$t("Are you sure you want to delete?"))) return;
                 this.setActionLoading();
                 api.delete('reason-for-vacation/' + vacationId)
                     .then(() => {

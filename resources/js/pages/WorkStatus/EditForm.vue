@@ -183,13 +183,13 @@ import moment from 'moment-timezone';
                     }
                 }
                 if (this.formData.startTimeHour1 > this.formData.endTimeHour1) {
-                    this.errors.startTime1 = this.$t('start time must be early than end time');             //need trans
-                    this.errors.endTime1 = this.$t('start time must be early than end time');
+                    this.errors.startTime1 = this.$t('start time must be earlier than end time');             //need trans
+                    this.errors.endTime1 = this.$t('start time must be earlier than end time');
                     valid = false;
                 }
                 if (this.formData.startTimeHour2 > this.formData.endTimeHour2) {
-                    this.errors.startTime2 = this.$t('start time must be early than end time');             //need trans
-                    this.errors.endTime1 = this.$t('start time must be early than end time');
+                    this.errors.startTime2 = this.$t('start time must be earlier than end time');             //need trans
+                    this.errors.endTime1 = this.$t('start time must be earlier than end time');
                     valid = false;
                 }
 

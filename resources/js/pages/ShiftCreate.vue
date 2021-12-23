@@ -357,7 +357,7 @@ export default {
             },
             copyShift() {
                 if (this.actionLoading) return;
-                if (!confirm(this.$t("Are you really copying shift?"))) return;
+                if (!confirm(this.$t("Are you sure copying shift?"))) return;
                 this.setActionLoading();
                 api.post('shift/' + this.officeId + '/copy', null, {month: this.selectedMonth})
                     .then(() => {

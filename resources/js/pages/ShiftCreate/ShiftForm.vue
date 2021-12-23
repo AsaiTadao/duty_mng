@@ -334,36 +334,36 @@ import { showSuccess } from '../../helpers/error';
                     }
                 }
                 if (this.formData.startTimeHour1 > this.formData.endTimeHour1) {
-                    this.errors.startTime1 = this.$t('start time must be early than end time');             //need trans
-                    this.errors.endTime1 = this.$t('start time must be early than end time');
+                    this.errors.startTime1 = this.$t('start time must be earlier than end time');             //need trans
+                    this.errors.endTime1 = this.$t('start time must be earlier than end time');
                     valid = false;
                 }
                 if (this.formData.startTimeHour2 > this.formData.endTimeHour2) {
-                    this.errors.startTime2 = this.$t('start time must be early than end time');             //need trans
-                    this.errors.endTime1 = this.$t('start time must be early than end time');
+                    this.errors.startTime2 = this.$t('start time must be earlier than end time');             //need trans
+                    this.errors.endTime1 = this.$t('start time must be earlier than end time');
                     valid = false;
                 }
                 if (this.formData.restStartTimeHour1 && this.formData.restStartTimeHour1 > this.formData.restEndTimeHour1) {
-                    this.errors.restStartTime1 = this.$t('start time must be early than end time');             //need trans
-                    this.errors.restEndTime1 = this.$t('start time must be early than end time');
+                    this.errors.restStartTime1 = this.$t('start time must be earlier than end time');             //need trans
+                    this.errors.restEndTime1 = this.$t('start time must be earlier than end time');
                     valid = false;
                 }
                 if (this.formData.restStartTimeHour2 && this.formData.restStartTimeHour2 > this.formData.restEndTimeHour2) {
-                    this.errors.restStartTime2 = this.$t('start time must be early than end time');             //need trans
-                    this.errors.restEndTime2 = this.$t('start time must be early than end time');
+                    this.errors.restStartTime2 = this.$t('start time must be earlier than end time');             //need trans
+                    this.errors.restEndTime2 = this.$t('start time must be earlier than end time');
                     valid = false;
                 }
                 if (this.formData.restStartTimeHour1 && this.formData.restEndTimeHour1 && this.formData.restStartTimeHour1 == this.formData.restEndTimeHour1) {
                     if(this.formData.restStartTimeMin1 && this.formData.restEndTimeMin1 && this.formData.restStartTimeMin1 > this.formData.restEndTimeMin1) {
-                        this.errors.restStartTime1 = this.$t('start time must be early than end time');             //need trans
-                        this.errors.restEndTime1 = this.$t('start time must be early than end time');
+                        this.errors.restStartTime1 = this.$t('start time must be earlier than end time');             //need trans
+                        this.errors.restEndTime1 = this.$t('start time must be earlier than end time');
                         valid = false;
                     }
                 }
                 if (this.formData.restStartTimeHour2 && this.formData.restEndTimeHour2 && this.formData.restStartTimeHour2 == this.formData.restEndTimeHour2) {
                     if(this.formData.restStartTimeMin2 && this.formData.restEndTimeMin2 && this.formData.restStartTimeMin2 > this.formData.restEndTimeMin2) {
-                        this.errors.restStartTime2 = this.$t('start time must be early than end time');             //need trans
-                        this.errors.restEndTime2= this.$t('start time must be early than end time');
+                        this.errors.restStartTime2 = this.$t('start time must be earlier than end time');             //need trans
+                        this.errors.restEndTime2= this.$t('start time must be earlier than end time');
                         valid = false;
                     }
                 }
@@ -379,13 +379,13 @@ import { showSuccess } from '../../helpers/error';
 
                 if (this.formData.restStartTimeHour1 && this.formData.restStartTimeHour1 == this.formData.startTimeHour1) {
                     if(this.formData.restStartTimeMin1 && this.formData.restStartTimeMin1 < this.formData.startTimeMin1) {
-                        this.errors.restStartTime1 = this.$t('start time must be early than end time');             //need trans
+                        this.errors.restStartTime1 = this.$t('start time must be earlier than end time');             //need trans
                         valid = false;
                     }
                 }
                 if (this.formData.restStartTimeHour2 && this.formData.restStartTimeHour2 == this.formData.startTimeHour2) {
                     if(this.formData.restStartTimeMin2 && this.formData.restStartTimeMin2 < this.formData.startTimeMin2) {
-                        this.errors.restStartTime2 = this.$t('start time must be early than end time');             //need trans
+                        this.errors.restStartTime2 = this.$t('start time must be earlier than end time');             //need trans
                         valid = false;
                     }
                 }
@@ -400,13 +400,13 @@ import { showSuccess } from '../../helpers/error';
 
                 if (this.formData.restEndTimeHour1 && this.formData.restEndTimeHour1 == this.formData.endTimeHour1) {
                     if(this.formData.restEndTimeMin1 && this.formData.restEndTimeMin1 > this.formData.endTimeMin1) {
-                        this.errors.restEndTime1 = this.$t('start time must be early than end time');             //need trans
+                        this.errors.restEndTime1 = this.$t('start time must be earlier than end time');             //need trans
                         valid = false;
                     }
                 }
                 if (this.formData.restEndTimeHour2 && this.formData.restEndTimeHour2 == this.formData.endTimeHour2) {
                     if(this.formData.restEndTimeMin2 && this.formData.restEndTimeMin2 > this.formData.endTimeMin2) {
-                        this.errors.restEndTime2= this.$t('start time must be early than end time');            //need trans
+                        this.errors.restEndTime2= this.$t('start time must be earlier than end time');            //need trans
                         valid = false;
                     }
                 }
