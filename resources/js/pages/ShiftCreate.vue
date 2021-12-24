@@ -20,7 +20,7 @@
                                         </tr>
                                         <tr>
                                             <td class="padding-1px">時間</td>
-                                            <td class="padding-1px">{{8*shoteiTime}}時間</td>
+                                            <td class="padding-1px">{{session.workingHours*shoteiTime}}時間</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -192,7 +192,8 @@ export default {
         computed: {
             ...mapState({
                 employmentStatuses: state => state.constants.employmentStatuses,
-                reasonForVacations: state => state.constants.reasonForVacations
+                reasonForVacations: state => state.constants.reasonForVacations,
+                session: state =>  state.session.info,
             })
         },
         methods: {
@@ -274,12 +275,12 @@ export default {
                                 if(shift[i][j].restEndTime && shift[i][j].restStartTime) {
                                     dayTimes = dayTimes -(new Date('2021-01-01 ' + shift[i][j].restEndTime).getTime() - new Date('2021-01-01 ' + shift[i][j].restStartTime).getTime());
                                 }
-                                workingTimes += Math.floor(dayTimes/(1000*60*60));
+                                workingTimes += dayTimes/(1000*60*60);
                             }
                         }
                     }
                 }
-                return workingTimes;
+                return workingTimes.toFixed(2);
             },
             getWeekEnd(day) {
                 const weekDay = moment(day).format("ddd");;
