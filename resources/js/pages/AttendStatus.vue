@@ -3,7 +3,7 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-12">
-                    <div class="card">
+                    <div class="card" v-if="session.office">
                         <div class="card-header calendar-title">
                             <h3 class="card-title mb-0">{{officeName}}</h3>
                             <div class="card-tools calendar-center flex-grow-1">
@@ -22,6 +22,11 @@
                         <attend-status-a v-if="session.employmentStatusId == 1 && !isHonShya(session.office.name)" :attendance="attendance" :total="total" :month="month"/>
                         <attend-status-b v-else-if="session.employmentStatusId == 1 && isHonShya(session.office.name)" :attendance="attendance" :total="total" :month="month"/>
                         <attend-status-c v-else-if="session.employmentStatusId == 3" :attendance="attendance" :total="total" :month="month"/>
+                    </div>
+                    <div v-else>
+                        <p class="h3 text-center">
+                            あなたは現在どの事業所にも登録されていません。事業所に登録してください。
+                        </p>
                     </div>
                 </div>
             </div>
@@ -152,7 +157,7 @@ export default {
     mounted() {
         this.getAttendance();
         this.getResults(this.currentDate);
-        this.officeName = this.session.office.name;
+        this.officeName = this.session.office ? this.session.office.name : null;
     }
 }
 </script>

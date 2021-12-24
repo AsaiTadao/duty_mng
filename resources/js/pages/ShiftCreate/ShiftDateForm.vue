@@ -197,7 +197,7 @@
                                     {{shift.name}}
                                 </td>
                                 <td>
-                                    <template v-if="shift.shifts[0].vacationReasonId">
+                                    <template v-if="shift.shifts[0] && shift.shifts[0].vacationReasonId">
                                         <label class="ml-auto font-weight-normal mb-0">{{getVacationName(shift.shifts[0].vacationReasonId)}}</label>
                                     </template>
                                     <template v-else v-for="shiftItem in shift.shifts">
@@ -206,11 +206,11 @@
                                         </div>
                                     </template>
                                 </td>
-                                <td v-if="shift.shifts[0].vacationReasonId">-</td>
+                                <td v-if="shift.shifts[0] && shift.shifts[0].vacationReasonId">-</td>
                                 <td v-else class="fixed-width-40">
                                     {{getWorkingHours(shift)}}
                                 </td>
-                                <td v-if="shift.shifts[0].vacationReasonId">-</td>
+                                <td v-if="shift.shifts[0] && shift.shifts[0].vacationReasonId">-</td>
                                 <td v-else class="fixed-width-40">
                                     {{getRestHours(shift)}}
                                 </td>
