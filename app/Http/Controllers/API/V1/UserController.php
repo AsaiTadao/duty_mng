@@ -3,60 +3,55 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Constants\Roles;
+use App\Exports\UserExport;
 use App\Http\Requests\PageQuery;
 use App\Http\Requests\RoleUpdateRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserSettingRequest;
+use App\Models\Code;
+use App\Models\EmploymentStatus;
 use App\Models\Office;
 use App\Models\User;
 use App\Models\UserSetting;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\PersonalAccessToken;
+use Maatwebsite\Excel\Facades\Excel;
+use Spatie\Permission\Models\Role;
 
 class UserController extends BaseController
 {
     public function get(PageQuery $request)
     {
         $data = $request->validated();
-        $users = User::with('setting', 'office', 'office.region', 'office.group')->orderByDesc('created_at')->paginate($data['size'])->items();
-        $response = [];
-        foreach($users as $user)
-        {
-            $item = $user->toArray();
-            if (!empty($item['office']))
-            {
-                if (!empty($item['office']['region']))
-                {
-                    $item['region'] = [
-                        'id'    =>  $item['office']['region']['id'],
-                        'name'  =>  $item['office']['region']['name']
-                    ];
-                }
-                if (!empty($item['office']['group']))
-                {
-                    $item['office_group'] = [
-                        'id'    =>  $item['office']['group']['id'],
-                        'name'  =>  $item['office']['group']['name'],
-                    ];
-                }
-                $item['office'] = [
-                    'id'    =>  $item['office']['id'],
-                    'name'  =>  $item['office']['name']
-                ];
-            }
-            if (empty($item['setting']))
-            {
-                $item['setting'] = [
-                    'overtime_pay'      =>  null,
-                    'salary_deduction'  =>  null,
-                    'application_deadline'  =>  null,
-                ];
-            }
-            $response[] = $item;
-        }
+        $response = $this->getUserQuery($data['size']);
         return $this->sendResponse($response);
     }
+    public function csv(Request $request)
+    {
+        if (!$request->has('token'))
+        {
+            abort(403, "You are not allowed");
+        }
+        $token = $request->input('token');
+        $token = PersonalAccessToken::findToken($token);
+
+        if (!$token) {
+            abort(403, "You are not allowed");
+        }
+        $user = $token->tokenable;
+        if (!$user || $user->role_id !== Roles::ADMIN) {
+            abort(403, "You are not allowed");
+        }
+        $response = $this->getUserQuery(10000);
+        $employmentStatuses = EmploymentStatus::get();
+        $roles = Role::get();
+        $options = Code::get();
+        return Excel::download(new UserExport($response, $employmentStatuses, $roles, $options), 'users.xlsx');
+    }
+
     public function create(UserRequest $request)
     {
         $currentUser = auth()->user();
@@ -145,5 +140,46 @@ class UserController extends BaseController
             abort(403);
         }
         return $this->sendResponse($office->users);
+    }
+
+    private function getUserQuery($pageSize)
+    {
+        $users = User::with('setting', 'office', 'office.region', 'office.group')->orderByDesc('created_at')->paginate($pageSize)->items();
+        $response = [];
+        foreach($users as $user)
+        {
+            $item = $user->toArray();
+            if (!empty($item['office']))
+            {
+                if (!empty($item['office']['region']))
+                {
+                    $item['region'] = [
+                        'id'    =>  $item['office']['region']['id'],
+                        'name'  =>  $item['office']['region']['name']
+                    ];
+                }
+                // if (!empty($item['office']['group']))
+                // {
+                //     $item['office_group'] = [
+                //         'id'    =>  $item['office']['group']['id'],
+                //         'name'  =>  $item['office']['group']['name'],
+                //     ];
+                // }
+                $item['office'] = [
+                    'id'    =>  $item['office']['id'],
+                    'name'  =>  $item['office']['name']
+                ];
+            }
+            if (empty($item['setting']))
+            {
+                $item['setting'] = [
+                    'overtime_pay'      =>  null,
+                    'salary_deduction'  =>  null,
+                    'application_deadline'  =>  null,
+                ];
+            }
+            $response[] = $item;
+        }
+        return $response;
     }
 }

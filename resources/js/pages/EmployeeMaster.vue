@@ -164,7 +164,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <button class="btn btn-primary float-right">CSV取込み</button>
+                        <button class="btn btn-primary float-right" @click="csvOutput">CSV取込み</button>
                         <!-- Modal -->
                         <div class="modal fade" id="user-master-form" tabindex="-1" role="dialog" aria-labelledby="user-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
@@ -183,6 +183,7 @@ import actionLoading from '../mixin/actionLoading';
 import { showSuccess } from '../helpers/error';
 import { mapState } from 'vuex';
 import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
+import LocalStorage from '../helpers/localStorage';
 
     export default {
   components: { EmployeeMasterForm },
@@ -250,6 +251,9 @@ import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
                     officeGroupId: 1,
                 };
                 this.showMasterForm();
+            },
+            csvOutput() {
+                window.location.href = "/user/csv?token=" + LocalStorage.getToken();
             },
             showMasterForm() {
                 $("#user-master-form").modal('show');
