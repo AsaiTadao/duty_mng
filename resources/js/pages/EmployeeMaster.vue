@@ -257,7 +257,7 @@ import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
             getUsers() {
                 if (this.actionLoading) return;
                 this.setActionLoading();
-                api.get('users', null, {page: 1, size: 100})
+                api.get('users', null, {page: 1, size: 1000})
                     .then(response => {
                         this.unsetActionLoading();
                         this.users = response;
