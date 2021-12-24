@@ -103,7 +103,7 @@ export default {
         },
         updateStatus() {
             const stampTime = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
-            api.get('stamp/status', null, {stamp: stampTime})
+            api.get('stamp/status', null)
                 .then(response => {
                     this.data = response;
                 })
