@@ -87,7 +87,7 @@
             <!--Modal -->
             <div class="modal fade" id="app-aprove-form" tabindex="-1" role="dialog" aria-labelledby="app-aprove-form" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-                    <apply-form :application="selectedApp" :userName="selectedAppUserName"></apply-form>
+                    <apply-form :application="selectedApp" :userName="selectedAppUserName" v-on:success="onAppSaved"></apply-form>
                 </div>
             </div>
         </div>
@@ -167,7 +167,7 @@
             },
             notZero(number) {
                 if(number > 0) {
-                    return number;
+                    return Math.floor(number);
                 } else {
                     return '-';
                 }
@@ -198,6 +198,10 @@
             onWorkStatusSaved() {
               this.getAttendanceData(this.selectedDate);
               $("#attend-edit-form").modal('hide');
+            },
+            onAppSaved() {
+              this.getAttendanceData(this.selectedDate);
+              $("#app-aprove-form").modal('hide');
             },
             isThisMonth() {
                 const today = new Date();
