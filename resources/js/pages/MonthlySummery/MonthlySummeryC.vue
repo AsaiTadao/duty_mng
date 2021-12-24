@@ -346,7 +346,7 @@ import { showSuccess } from '../../helpers/error';
                 if(number > 0) {
                     return number + "分";
                 } else {
-                    return 0;
+                    return '';
                 }
             },
             editRow(index, dayAttendance) {
@@ -364,7 +364,7 @@ import { showSuccess } from '../../helpers/error';
                 this.editData.otherUnpaidTime = dayAttendance.otherUnpaidTime ? (dayAttendance.otherUnpaidTime / 60).toFixed(2) : 0;
                 this.editData.substituteTime = dayAttendance.substituteTime ? (dayAttendance.substituteTime / 60).toFixed(2) : 0;
                 this.editData.substituteDay = dayAttendance.substituteDay;
-                this.editData.userId = dayAttendance.userId;
+                this.editData.userId = this.userId;
                 this.editData.reasonForVacationId = dayAttendance.reasonForVacationId;
                 this.editData.remark = dayAttendance.remark;
             },

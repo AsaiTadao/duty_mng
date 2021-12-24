@@ -329,7 +329,7 @@ import { showSuccess } from '../../helpers/error';
                 if(number > 0) {
                     return number + "分";
                 } else {
-                    return 0;
+                    return '';
                 }
             },
             editRow(index, dayAttendance) {
@@ -345,7 +345,7 @@ import { showSuccess } from '../../helpers/error';
                 this.editData.specialPaidTime = dayAttendance.specialPaidTime ? (dayAttendance.specialPaidTime / 60).toFixed(2) : 0;
                 this.editData.specialUnpaidTime = dayAttendance.specialUnpaidTime ? (dayAttendance.specialUnpaidTime / 60).toFixed(2) : 0;
                 this.editData.otherUnpaidTime = dayAttendance.otherUnpaidTime ? (dayAttendance.otherUnpaidTime / 60).toFixed(2) : 0;
-                this.editData.userId = dayAttendance.userId;
+                this.editData.userId = this.userId;
                 this.editData.reasonForVacationId = dayAttendance.reasonForVacationId;
                 this.editData.remark = dayAttendance.remark;
             },

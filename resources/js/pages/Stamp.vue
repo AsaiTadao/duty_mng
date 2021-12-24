@@ -114,7 +114,9 @@ export default {
             api.post('stamp/commute', null)
                 .then(response => {
                    showSuccess(this.$t('Successfully stamped'));
-                    this.updateStatus();
+                    //this.updateStatus();
+                    this.data.commuteEnabled = false;
+                    this.data.leaveEnabled = true;
                 })
                 .catch(e => apiErrorHandler(e));
         },
@@ -123,7 +125,8 @@ export default {
             api.post('stamp/leave', null)
                 .then(response => {
                     showSuccess(this.$t('Successfully stamped'));
-                    this.updateStatus();
+                    //this.updateStatus();
+                    this.data.leaveEnabled = false;
                 })
                 .catch(e => apiErrorHandler(e));
         }
@@ -134,11 +137,11 @@ export default {
         this.getNow();
         this.updateStatus();
         this.timestampInterval = setInterval(this.getNow, 60000);
-        this.timeNowInterval = setInterval(this.updateStatus, 60000);
+        //this.timeNowInterval = setInterval(this.updateStatus, 60000);
     },
     destroyed() {
         clearInterval(this.timestampInterval);
-        clearInterval(this.timeNowInterval);
+        //clearInterval(this.timeNowInterval);
     }
 };
 </script>
