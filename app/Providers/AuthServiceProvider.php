@@ -71,7 +71,13 @@ class AuthServiceProvider extends ServiceProvider
             if (!$user->office->region || !$targetUser->office) return false;
             return $user->office->region->id === $targetUser->office->id;
         };
-        Gate::define('get-scheduled-working-office', $userOfficeGuard);
+        Gate::define('get-scheduled-working-office', function(User $user, Office $office) use ($userOfficeGuard) {
+            if ($user->role_id === Roles::USER_A)
+            {
+                return $user->office_id === $office->id;
+            }
+            return $userOfficeGuard($user, $office);
+        });
         /**
          * check if $user can get shift plans of the $office
          * @param User $user

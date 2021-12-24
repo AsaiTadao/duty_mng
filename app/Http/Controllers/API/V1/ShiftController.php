@@ -174,9 +174,6 @@ class ShiftController extends BaseController
         {
             $user = auth()->user();
         }
-        if (!Gate::forUser($user)->allows('get-shift-office', $office)) {
-            abort(403, "You are not allowed");
-        }
 
         $data = $request->validated();
         $month = (int)$data['month'];
@@ -191,6 +188,9 @@ class ShiftController extends BaseController
             $qb->where(['users.id' => $user->id]);
             $employeeQb->where(['id' => $user->id]);
         } else {
+            if (!Gate::forUser($user)->allows('get-shift-office', $office)) {
+                abort(403, "You are not allowed");
+            }
             $qb->where('users.office_id', '=', $office->id);
             $employeeQb->where(['office_id' => $office->id]);
         }
