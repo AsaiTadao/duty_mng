@@ -111,7 +111,7 @@ export default {
         },
         commute() {
             const stampTime = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
-            api.post('stamp/commute', null, {stamp: stampTime})
+            api.post('stamp/commute', null)
                 .then(response => {
                    showSuccess(this.$t('Successfully stamped'));
                     this.updateStatus();
@@ -120,7 +120,7 @@ export default {
         },
         leave() {
             const stampTime = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
-            api.post('stamp/leave', null, {stamp: stampTime})
+            api.post('stamp/leave', null)
                 .then(response => {
                     showSuccess(this.$t('Successfully stamped'));
                     this.updateStatus();
