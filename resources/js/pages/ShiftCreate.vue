@@ -42,7 +42,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <button class="btn btn-primary float-right mt-2">コピーして作成</button>
+                            <button class="btn btn-primary float-right mt-2" @click="copyShift()">コピーして作成</button>
                         </div>
                         <div class="card-body">
                         <div class="p-0 overflow-scroll-x">
@@ -154,7 +154,9 @@ import api, { apiErrorHandler } from '../global/api';
 import ShiftDateForm from './ShiftCreate/ShiftDateForm.vue';
 import ShiftForm from './ShiftCreate/ShiftForm.vue';
 import LocalStorage from '../helpers/localStorage';
-    export default {
+import { showSuccess } from '../helpers/error';
+
+export default {
   components: { ShiftDateForm, ShiftForm },
         mixins: [actionLoading],
         data () {
@@ -352,6 +354,21 @@ import LocalStorage from '../helpers/localStorage';
                         $('#shiftDateForm').modal('show');
                     })
                     .catch(e => apiErrorHandler(e))
+            },
+            copyShift() {
+                if (this.actionLoading) return;
+                if (!confirm(this.$t("Are you sure copying shift?"))) return;
+                this.setActionLoading();
+                api.post('shift/' + this.officeId + '/copy', null, {month: this.selectedMonth})
+                    .then(() => {
+                        this.unsetActionLoading();
+                        showSuccess(this.$t('Successfully copied'));
+                        this.getShifts();
+                    })
+                    .catch(e => {
+                        this.unsetActionLoading();
+                        apiErrorHandler(e);
+                    });
             },
             currentTime(){
                 var today = new Date();

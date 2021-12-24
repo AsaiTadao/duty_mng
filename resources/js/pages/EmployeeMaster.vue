@@ -231,7 +231,7 @@ import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
             },
             onUserDeleteClick(hourlyId){
                 if (this.actionLoading) return;
-                if (!confirm(this.$t("Are you really delete this item"))) return;
+                if (!confirm(this.$t("Are you sure you want to delete?"))) return;
                 this.setActionLoading();
                 api.delete('users/' + hourlyId)
                     .then(() => {
