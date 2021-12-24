@@ -167,7 +167,7 @@
             },
             notZero(number) {
                 if(number > 0) {
-                    return Math.floor(number);
+                    return Math.floor(number).toString() + '分';
                 } else {
                     return '-';
                 }
