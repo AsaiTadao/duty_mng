@@ -85,10 +85,10 @@
                                         </td>
                                     </tr>
                                     <tr :key="user.id+'1'">
-                                        <td>{{user.office? user.office.name: ''}}</td>
-                                        <td>{{user.region? user.region.name: ''}}</td>
-                                        <td>{{user.officeGroup? user.officeGroup.id: ''}}</td>
-                                        <td>{{ user.workingHours ? (user.workingHours + '時間') : '' }}</td>
+                                        <td>{{user.office? user.office.name: '未定'}}</td>
+                                        <td>{{user.region? user.region.name: '未定'}}</td>
+                                        <td>{{user.officeGroup? user.officeGroup.id: '未定'}}</td>
+                                        <td>{{ user.workingHours ? (user.workingHours + '時間') : '未定' }}</td>
                                     </tr>
                                     <tr :key="user.id+'2'">
                                         <td colspan="2">{{user.email}}</td>
