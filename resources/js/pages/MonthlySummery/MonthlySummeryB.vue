@@ -517,10 +517,14 @@ import { showSuccess } from '../../helpers/error';
                 }
             },
             getVacationName(reasonForVacationId) {
-                if(reasonForVacationId)
-                    return this.reasonForVacations.find(item => item.id === reasonForVacationId).name
-                else
+                if(reasonForVacationId){
+                    if(this.reasonForVacations.find(item => item.id === reasonForVacationId))
+                        return this.reasonForVacations.find(item => item.id === reasonForVacationId).name;
+                    else
+                        return null;
+                } else {
                     return null;
+                }
             },
             approve() {
                 console.log(this.approveStatus);
