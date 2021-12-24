@@ -134,7 +134,6 @@ class ShiftController extends BaseController
                 // TODO need to prevent creation shift past days
                 if (!empty($shifts[$firstSunday + $dayOfWeek - 1]))
                 {
-                    dd($firstSunday + $dayOfWeek - 1);
                     $dayShifts = $shifts[$firstSunday + $dayOfWeek - 1];
 
                     $newShifts = [];

@@ -34,14 +34,6 @@
                             {{ errors.name }}
                         </span>
                     </div>
-                    <div class="col-md-3">
-                        <select class="form-control" v-model="data.officeGroupId" :class="{'is-invalid' : errors.officeGroup}" @change="errors.officeGroup = null">
-                            <option v-for="officeGroup in officeGroups" :key="officeGroup.id" :value="officeGroup.id">{{officeGroup.name}}</option>
-                        </select>
-                        <span v-if="errors.officeGroup" class="error invalid-feedback">
-                            {{ errors.officeGroup }}
-                        </span>
-                    </div>
                 </div>
             </div>
             <div class="form-group">
@@ -79,7 +71,6 @@ import { showSuccess } from '../../helpers/error';
         computed: {
             ...mapState({
                 restDeductions: state => state.constants.restDeductions,
-                officeGroups:   state => state.constants.officeGroups,
             })
         },
         watch: {
@@ -97,7 +88,6 @@ import { showSuccess } from '../../helpers/error';
                 errors: {
                     name: '',
                     number: '',
-                    officeGroup: '',
                     restDeductionId: ''
                 }
             }
@@ -132,10 +122,6 @@ import { showSuccess } from '../../helpers/error';
                 }
                 if (!this.data.name) {
                     this.errors.name = this.$t('Please input name');                                 // need trans
-                    valid = false;
-                }
-                if (!this.data.officeGroupId) {
-                    this.errors.officeGroup = this.$t('Please select officeGroup');                  // need trans
                     valid = false;
                 }
                 if (!this.data.restDeductionId) {
