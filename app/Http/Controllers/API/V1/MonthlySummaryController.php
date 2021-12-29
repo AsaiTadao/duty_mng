@@ -205,21 +205,6 @@ class MonthlySummaryController extends BaseController
             $attendance->approve_user_id = $currentUser->id;
             $attendance->save();
         }
-        $attendanceTotalExisting = AttendanceTotal::where([
-            'user_id'   =>  $user->id,
-            'year_id'   =>  $year->id,
-            'month'     =>  $month
-        ])->first();
-
-        [$attendanceItems, $attendanceTotal, $attendanceMetaItems] = $attendanceTotalService->calculateAttendanceTotal($user, $monthValue);
-
-        if ($attendanceTotalExisting)
-        {
-            $attendanceTotalExisting->fill($attendanceTotal->toArray());
-            $attendanceTotalExisting->save();
-        } else {
-            $attendanceTotal->save();
-        }
 
         $attendances = Attendance::where('user_id', $user->id)
                 ->where(['year_id' => $year->id, 'month' => $month])
@@ -227,6 +212,24 @@ class MonthlySummaryController extends BaseController
                 ->get();
         if (!$attendances->count())
         {
+            // save attendance total
+            $attendanceTotalExisting = AttendanceTotal::where([
+                'user_id'   =>  $user->id,
+                'year_id'   =>  $year->id,
+                'month'     =>  $month
+            ])->first();
+
+            [$attendanceItems, $attendanceTotal, $attendanceMetaItems] = $attendanceTotalService->calculateAttendanceTotal($user, $monthValue);
+
+            if ($attendanceTotalExisting)
+            {
+                $attendanceTotalExisting->fill($attendanceTotal->toArray());
+                $attendanceTotalExisting->save();
+            } else {
+                $attendanceTotal->save();
+            }
+
+            // notify to the administrators' mail
             $reportMails = config('lateral.month_report_to');
             $env = config('app.env');
             $mails = $reportMails[$env];
