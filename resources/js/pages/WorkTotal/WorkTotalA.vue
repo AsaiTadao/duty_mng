@@ -307,13 +307,13 @@
                                 </table>
                             </div>
                             <div class="float-right d-flex align-items-center mt-2">
-                                <!-- <div class="mx-3">
+                                <div class="mx-3">
                                     <label>全データ出力</label>
                                     <input
                                         type="checkbox"
                                         class="align-middle"
                                     />
-                                </div> -->
+                                </div>
                                 <button class="btn btn-primary float-right mr-2"  @click="openExcelForm()">Excel出力</button>
                                 <!-- <button class="btn btn-primary float-right">
                                     CSV出力
@@ -432,7 +432,6 @@ export default {
             for(let month = 60; month >= 0; month--) {
                 this.csvMonths.push(moment(new Date(date.getFullYear(), date.getMonth()-month, 0)).format('YYYY-MM'));
             }
-            console.log(this.csvMonths);
         },
         openExcelForm() {
             $("#excel-output-form").modal("show");

@@ -89,9 +89,7 @@ export default {
                             this.unsetActionLoading();
                             this.attendance = response.attendance;
                             const checkCount = Object.values(this.attendance).reduce((sum, item) => (sum + (item && item.isApproved ? 1 : 0)), 0);
-                            console.log({checkCount});
                             this.getDays();
-                            console.log(this.days.length);
                             if (checkCount == this.days.length) {
                                 this.isShowApplyBtn = false;
                             } else {
@@ -119,7 +117,6 @@ export default {
                         if (!this.offices.length) return;
 
                         let office = this.offices.find(office => office.id === this.officeId)
-                        console.log({office})
                         if (!office) {
                             this.officeId = this.offices[0].id;
                             office = this.offices[0]
@@ -147,7 +144,6 @@ export default {
                         this.users = response;
                         if(!this.users || this.users.length === 0) return;
                         let user = this.users.find(user => user.id === this.userId);
-                        console.log({user});
                         if(!user) {
                             this.userId = this.users[0].id;
                             this.selectedUser = this.users[0];

@@ -334,7 +334,6 @@ import { showSuccess } from '../../helpers/error';
             },
             editRow(index, dayAttendance) {
                 this.getDays();
-                console.log(dayAttendance);
                 this.selectedIndex = index;
                 this.editMode = !this.editMode;
                 this.editData.startWorkTime1 = this.changeTimeFormat(dayAttendance.commutingTime1);
@@ -527,7 +526,6 @@ import { showSuccess } from '../../helpers/error';
                 }
             },
             approve() {
-                console.log(this.approveStatus);
                 this.selectedDates = this.approveStatus.map((item, i) => item === true ? i : 0);
                 this.selectedDates = this.selectedDates.filter(item => item > 0);
 
