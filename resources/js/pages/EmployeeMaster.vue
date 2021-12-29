@@ -168,7 +168,7 @@
                         <!-- Modal -->
                         <div class="modal fade" id="user-master-form" tabindex="-1" role="dialog" aria-labelledby="user-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <employee-master-form :formData="masterFormData" :regions="regions" v-on:success="onUserSaved" />
+                                <employee-master-form :formData="masterFormData" :regions="regions" :editMode="editMode" v-on:success="onUserSaved" />
                             </div>
                         </div>
                     </div>
@@ -196,6 +196,7 @@ import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
                 },
                 offices: [],
                 regions: [],
+                editMode: false
             }
         },
         computed: {
@@ -216,6 +217,7 @@ import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
                     officeGroupId: user.officeGroup ? user.officeGroup.id : null,
                     ...user
                     };
+                this.editMode = true;
                 this.showMasterForm();
             },
             onUserSaved() {
@@ -249,6 +251,7 @@ import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
                     regionId: 1,
                     officeGroupId: 1,
                 };
+                this.editMode = false;
                 this.showMasterForm();
             },
             showMasterForm() {
