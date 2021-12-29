@@ -181,7 +181,7 @@
                         <!-- Modal -->
                         <div class="modal fade" id="working-hours-master-form" tabindex="-1" role="dialog" aria-labelledby="working-hours-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <working-hours-master-form :data="masterFormData" :offices="offices" :show="masterFormShow" v-on:success="onWorkingHoursSaved" />
+                                <working-hours-master-form :data="masterFormData" :offices="offices" :show="masterFormShow" :editMode="editMode" v-on:success="onWorkingHoursSaved" />
                             </div>
                         </div>
                     </div>
@@ -220,6 +220,7 @@ export default {
                 },
                 offices: [],
                 officeName: '',
+                editMode: false
             }
         },
         methods: {
@@ -240,6 +241,7 @@ export default {
                     endTimeMinute: workingHour.endTime.split(':')[1],
                     ...workingHour,
                 };
+                this.editMode = true;
                 this.showMasterForm();
             },
             onWorkingHoursSaved() {
@@ -278,6 +280,7 @@ export default {
                     endTimeHour: null,
                     endTimeMinute: null,
                 };
+                this.editMode = false;
                 this.showMasterForm();
             },
             showMasterForm() {
