@@ -44,6 +44,8 @@ class ShiftExport implements WithEvents
 
                     $work_days = 0;
                     $total_work_minutes = 0;
+                    $total_rest_minutes = 0;
+
 
                     foreach ($cols as $i => $col)
                     {
@@ -57,22 +59,30 @@ class ShiftExport implements WithEvents
                                 if (!empty($shift->working_hour_name)) {
                                     $name = $shift->working_hour_name;
                                     $is_work_day = true;
-                                    $total_work_minutes += $this->calcPeriod($shift->start_time, $shift->end_time);
+                                    $diff = $this->calcPeriod($shift->start_time, $shift->end_time);
+                                    $total_work_minutes += $diff;
                                 } else if (!empty($shift->vacation_reason_id)) {
                                     $name = '休';
                                 } else {
                                     $name = 'custom';
                                     $is_work_day = true;
-                                    $total_work_minutes += $this->calcPeriod($shift->start_time, $shift->end_time);
+                                    $diff = $this->calcPeriod($shift->start_time, $shift->end_time);
+                                    $total_work_minutes += $diff;
                                 }
                                 $shiftNames[] = $name;
+
+                                if ($shift->rest_start_time && $shift->rest_end_time)
+                                {
+                                    $diff = $this->calcPeriod($shift->rest_start_time, $shift->rest_end_time);
+                                    $total_rest_minutes += $diff;
+                                }
                             }
                             if ($is_work_day) $work_days++;
                             $sheet->setCellValue($col . $row, implode(", ", $shiftNames));
                         }
                     }
                     $sheet->setCellValue("AK" . $row, $work_days);
-                    $sheet->setCellValue("AM" . $row, round($total_work_minutes / 60));
+                    $sheet->setCellValue("AM" . $row, round(($total_work_minutes - $total_rest_minutes) / 60));
                     $row++;
                 }
 

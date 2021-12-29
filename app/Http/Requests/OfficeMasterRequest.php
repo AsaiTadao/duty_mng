@@ -12,7 +12,6 @@ class OfficeMasterRequest extends FormRequest {
             'number'    => ['required', 'string'],
             'name'      =>  ['required', 'string'],
             'rest_deduction_id'=>  ['required', 'exists:rest_deductions,id'],
-            'office_group_id'  =>  ['nullable', 'exists:office_groups,id']
         ];
     }
 }

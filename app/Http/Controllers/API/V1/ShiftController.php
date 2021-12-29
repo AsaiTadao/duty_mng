@@ -61,10 +61,11 @@ class ShiftController extends BaseController
         $date = Carbon::parse($data['date']);
 
         $shifts = DB::table('shift_plans')
-            ->join('users', 'shift_plans.user_id', '=', 'users.id')
+            ->leftJoin('users', 'shift_plans.user_id', '=', 'users.id')
             ->where('users.office_id', '=', $office->id)
             ->leftJoin('working_hours', 'shift_plans.working_hours_id', '=', 'working_hours.id')
             ->whereDate('shift_plans.date', $date)
+            ->select('shift_plans.*')
             ->get();
 
         $childSchedule = $childcareService->getChildSchedule($office, $date);
@@ -134,7 +135,6 @@ class ShiftController extends BaseController
                 // TODO need to prevent creation shift past days
                 if (!empty($shifts[$firstSunday + $dayOfWeek - 1]))
                 {
-                    dd($firstSunday + $dayOfWeek - 1);
                     $dayShifts = $shifts[$firstSunday + $dayOfWeek - 1];
 
                     $newShifts = [];
@@ -175,9 +175,6 @@ class ShiftController extends BaseController
         {
             $user = auth()->user();
         }
-        if (!Gate::forUser($user)->allows('get-shift-office', $office)) {
-            abort(403, "You are not allowed");
-        }
 
         $data = $request->validated();
         $month = (int)$data['month'];
@@ -192,6 +189,9 @@ class ShiftController extends BaseController
             $qb->where(['users.id' => $user->id]);
             $employeeQb->where(['id' => $user->id]);
         } else {
+            if (!Gate::forUser($user)->allows('get-shift-office', $office)) {
+                abort(403, "You are not allowed");
+            }
             $qb->where('users.office_id', '=', $office->id);
             $employeeQb->where(['office_id' => $office->id]);
         }
