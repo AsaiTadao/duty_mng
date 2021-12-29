@@ -45,6 +45,7 @@
                                     type="button"
                                     class="btn btn-primary btn-block"
                                     @click="onSubmit"
+                                    :disabled="!enableLogin"
                                 >
                                     ログイン
                                 </button>
@@ -84,7 +85,10 @@ export default {
             .messages({
                 'number.required': 'Please input number',       // need trans
                 'password.required': 'Please input password'    // need trans
-            })
+            }),
+            enableLogin: true,
+            loginTime: null,
+            loginTimeInterval: null,
         }
     },
     watch: {
@@ -102,6 +106,9 @@ export default {
             api.post('login', null, this.form.all())
                 .then(({token, user}) => {
                     this.unsetActionLoading();
+                    LocalStorage.removeLoginFailure();
+                    LocalStorage.removeLoginTimeStamp();
+                    clearInterval(this.loginTimeInterval);
                     LocalStorage.saveToken(token);
                     this.$store.commit('session/setSession', user);
                     this.$router.push({ name: 'stamp' })
@@ -109,11 +116,34 @@ export default {
                 .catch(e => {
                     this.unsetActionLoading();
                     apiErrorHandler(e);
+                    LocalStorage.saveLoginFailure();
+                    LocalStorage.saveLoginTimeStamp();
+                    if(LocalStorage.getLoginFailure() >= 5) {
+                        this.enableLogin = false;
+                        this.loginTimeInterval = setInterval(this.enableLoginTimer, 1000);
+                    }
                 });
         },
         onFormChange() {
             this.form.validate();
+        },
+        enableLoginTimer() {
+            const lastFailure = LocalStorage.getLoginTimeStamp();
+            if((Date.now() - lastFailure) / 1000 >= 30) {
+                this.enableLogin = true;
+                LocalStorage.removeLoginFailure();
+                LocalStorage.removeLoginTimeStamp();
+            }
         }
+    },
+    mounted() {
+        if(LocalStorage.getLoginFailure() >= 5) {
+            this.enableLogin = false;
+            this.loginTimeInterval = setInterval(this.enableLoginTimer, 1000);
+        }
+    },
+    destroyed() {
+        clearInterval(this.loginTimeInterval);
     }
 };
 </script>
