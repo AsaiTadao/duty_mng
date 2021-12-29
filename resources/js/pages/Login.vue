@@ -100,7 +100,7 @@ export default {
     },
     methods: {
         onSubmit() {
-            if (this.actionLoading) return;
+            if (this.actionLoading || !this.enableLogin) return;
             if (this.form.validate().errors().any()) return;
             this.setActionLoading();
             api.post('login', null, this.form.all())
