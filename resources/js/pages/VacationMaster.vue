@@ -61,7 +61,7 @@
                         <!-- Modal -->
                         <div class="modal fade" id="vacation-master-form" tabindex="-1" role="dialog" aria-labelledby="vacation-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <vacation-master-form :data="masterFormData" v-on:success="onVacationSaved"/>
+                                <vacation-master-form :data="masterFormData" :editMode="editMode" v-on:success="onVacationSaved"/>
                             </div>
                         </div>
                     </div>
@@ -84,6 +84,7 @@ export default {
             return {
                 vacations: [],
                 masterFormData: {},
+                editMode: false,
             }
         },
         methods: {
@@ -104,6 +105,7 @@ export default {
                 const vacation = this.vacations.find(({id}) => vacationId === id);
                 if (!vacation) return;
                 this.masterFormData = {...vacation};
+                this.editMode = true;
                 this.showMasterForm();
             },
             onVacationDeleteClick(vacationId){
@@ -130,6 +132,7 @@ export default {
             },
             onNewClicked() {
                 this.masterFormData = {};
+                this.editMode = false;
                 this.showMasterForm();
             },
             showMasterForm() {
