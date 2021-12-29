@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Constants\VacationReason;
 use App\Models\Attendance;
 use App\Models\ShiftPlan;
+use App\Models\StampLog;
 use App\Models\User;
 use App\Models\Year;
 use Illuminate\Support\Carbon;
@@ -358,6 +359,21 @@ class StampService
         }
     }
 
+    /**
+     * check stamp rate limit
+     *
+     * @return
+     *  true: it's ok
+     *  false: rate limited in 5 seconds
+     */
+    public function checkStampRate($user, $stamp)
+    {
+        $stampLog = StampLog::where(['user_id' => $user->id])->orderBy('created_at', 'desc')->first();
+        if (!$stampLog) return true;
+
+        $diff = $stamp->diffInSeconds($stampLog->created_at);
+        return $diff > 5;
+    }
 
 
     private function log($user, $message)
