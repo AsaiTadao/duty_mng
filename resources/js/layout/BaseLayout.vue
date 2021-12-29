@@ -4,9 +4,7 @@
             <topbar />
             <sidebar />
             <div class="content-wrapper">
-                <section class="content">
-                    <router-view />
-                </section>
+                <route-consumer></route-consumer>
             </div>
         </template>
         <loading :active="!session || actionLoading" color="#007BFF"></loading>
@@ -20,13 +18,15 @@ import LocalStorage from '../helpers/localStorage';
 import Loading from 'vue-loading-overlay';
 import { handleSignOut } from '../helpers/error';
 import actionLoading from '../mixin/actionLoading';
+import RouteConsumer from './RouteConsumer.vue';
 
 export default {
     mixins: [actionLoading],
     components: {
         Topbar,
         Sidebar,
-        Loading
+        Loading,
+        RouteConsumer,
     },
     computed: mapState({
         session: state =>  state.session.info,
