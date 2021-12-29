@@ -91,7 +91,7 @@
                         <!-- Modal -->
                         <div class="modal fade" id="office-master-form" tabindex="-1" role="dialog" aria-labelledby="office-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <office-master-form :data="masterFormData" :show="masterFormShow" v-on:success="onOfficeSaved" />
+                                <office-master-form :data="masterFormData" :show="masterFormShow" :editMode="editMode" v-on:success="onOfficeSaved" />
                             </div>
                         </div>
                     </div>
@@ -130,7 +130,8 @@ export default {
                     current: [],
                     next: [],
                     officeId: null
-                }
+                },
+                editMode: false
             }
         },
         computed: {
@@ -143,6 +144,7 @@ export default {
                 const office = this.offices.find(({id}) => officeId === id);
                 if (!office) return;
                 this.masterFormData = {...office};
+                this.editMode = true;
                 this.showMasterForm();
             },
             onOfficeSaved() {
@@ -182,6 +184,7 @@ export default {
             },
             onNewClick () {
                 this.masterFormData = {};
+                this.editMode = false;
                 this.showMasterForm();
             },
             showMasterForm() {
