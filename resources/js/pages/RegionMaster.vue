@@ -63,7 +63,8 @@
                         <!-- Modal -->
                         <div class="modal fade" id="region-master-form" tabindex="-1" role="dialog" aria-labelledby="region-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <region-master-form :data="masterFormData" :offices="offices" :selectedOffices="selectedOffices" v-on:success="onRegionSaved" />
+                                <region-master-form :data="masterFormData" :offices="offices" :selectedOffices="selectedOffices"
+                                :editMode="editMode" v-on:success="onRegionSaved" />
                             </div>
                         </div>
                     </div>
@@ -90,6 +91,7 @@ export default {
                 regions: [],
                 offices: [],
                 selectedOffices: [],
+                editMode: false
             }
         },
         methods: {
@@ -119,6 +121,7 @@ export default {
                 if (!region) return;
                 const offices = region.offices.map(({id}) => id);
                 this.masterFormData = {...region, offices};
+                this.editMode = true;
                 this.showMasterForm();
             },
             onRegionDeleteClick(regionId){
@@ -141,6 +144,7 @@ export default {
                     name: '',
                     offices: []
                 };
+                this.editMode = false;
                 this.showMasterForm();
             },
             showMasterForm() {

@@ -1,8 +1,8 @@
 <template>
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">新規登録</h5>
-            <!-- <h5 class="modal-title" v-show="editmode">再申請</h5> -->
+            <h5 class="modal-title" v-if="!editMode">新規登録</h5>
+            <h5 class="modal-title" v-else>編集</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -21,8 +21,7 @@
                             {{ errors.name }}
                         </span>
                     </div>
-                    <div class="col-md-1"></div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="form-row">
                             <template v-for="office in offices">
                                 <div class="col-md-4" :key="office.id" :class="{'is-invalid' : errors.offices}">
@@ -58,6 +57,7 @@ import { showSuccess } from '../../helpers/error';
             data: {},
             offices: {},
             selectedOffices: {},
+            editMode: null
         },
         watch: {
             ['data.id'] : function (){
@@ -99,6 +99,10 @@ import { showSuccess } from '../../helpers/error';
                 let valid = true;
                 if (!this.data.name) {
                     this.errors.name = this.$t('Please input name');                                 // need trans
+                    valid = false;
+                }
+                if (this.data.name.length > 50) {
+                    this.errors.name = this.$t('Please enter 50 characters or less');                                 // need trans
                     valid = false;
                 }
                 return valid;
