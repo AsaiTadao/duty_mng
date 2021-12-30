@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Http\Requests\RegionMasterQuery;
 use App\Http\Requests\RegionRequest;
 use App\Models\Office;
 use App\Models\Region;
 
 class RegionController extends BaseController
 {
-    public function get()
+    public function get(RegionMasterQuery $request)
     {
-        $regions = Region::with('offices:id,name,region_id')->get();
-        return $this->sendResponse($regions->toArray());
+        $data = $request->validated();
+
+        $qb = Region::with('offices:id,name,region_id');
+        if (!empty($data['name']))
+        {
+            $qb->where('name', 'LIKE', '%' . $data['name'] . '%');
+        }
+        $regions = $qb->get();
+        return $this->sendResponse($regions);
     }
     public function create(RegionRequest $request)
     {

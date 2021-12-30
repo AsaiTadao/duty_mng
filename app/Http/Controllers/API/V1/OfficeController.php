@@ -28,8 +28,19 @@ class OfficeController extends BaseController
         {
             $qb->where(['region_id' => $data['region_id']]);
         }
-        $offices = $qb->get();
-        return $this->sendResponse($offices->toArray());
+        if (!empty($data['name']))
+        {
+            $qb->where('name', 'LIKE', '%' . $data['name'] . '%');
+        }
+
+        if (!empty($data['page']))
+        {
+            $size = $data['size']??100;
+            $offices = $qb->paginate($size);
+        } else {
+            $offices = $qb->get();
+        }
+        return $this->sendResponse($offices);
     }
     public function create(OfficeMasterRequest $request)
     {

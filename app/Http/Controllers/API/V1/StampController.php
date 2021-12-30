@@ -30,17 +30,24 @@ class StampController extends BaseController
         } else {
             $stamp = Carbon::now();
         }
+        if (!$this->stampService->checkStampRate($user, $stamp)) {
+            return $this->sendError("Stamp rate limited");
+        }
+
         Log::info("[user " . $user->id . "] trying to commute stamp");
-        StampLog::create([
+        $stampLog = StampLog::create([
             'user_id'   =>  $user->id,
             'type'      =>  Attendance::TYPE_COMMUTE
         ]);
 
         $result = $this->stampService->commute($user, $stamp);
         if (!$result) {
-            Log::error("[user " . $user->id . "] commute stamp error : " . $this->stampService->getError());
-            $this->stampService->getError();
-            return $this->sendError($this->stampService->getError());
+            $error = $this->stampService->getError();
+            Log::error("[user " . $user->id . "] commute stamp error : " . $error);
+            $stampLog->result = StampLog::RESULT_FAILED;
+            $stampLog->message = $error;
+            $stampLog->save();
+            return $this->sendError($error);
         }
         $attendance = $result['attendance'];
         $number = $result['number'];
@@ -53,6 +60,8 @@ class StampController extends BaseController
         }
         $this->attendancePipeline->process($attendance);
         $attendance->save();
+        $stampLog->result = StampLog::RESULT_SUCCESS;
+        $stampLog->save();
         return $this->sendResponse();
     }
 
@@ -64,17 +73,25 @@ class StampController extends BaseController
         } else {
             $stamp = Carbon::now();
         }
+
+        if (!$this->stampService->checkStampRate($user, $stamp)) {
+            return $this->sendError("Stamp rate limited");
+        }
         Log::info("[user " . $user->id . "] trying to leave stamp");
 
-        StampLog::create([
+        $stampLog = StampLog::create([
             'user_id'   =>  $user->id,
             'type'      =>  Attendance::TYPE_LEAVE
         ]);
 
         $attendance = $this->stampService->leave($user, $stamp);
         if (!$attendance) {
-            Log::error("[user " . $user->id . "] commute stamp error : " . $this->stampService->getError());
-            return $this->sendError($this->stampService->getError());
+            $error = $this->stampService->getError();
+            Log::error("[user " . $user->id . "] commute stamp error : " . $error);
+            $stampLog->result = StampLog::RESULT_FAILED;
+            $stampLog->message = $error;
+            $stampLog->save();
+            return $this->sendError($error);
         }
         $this->attendancePipeline->process($attendance);
         $attendance->save();

@@ -65,7 +65,6 @@ export default [
                     anchor: "出勤状況",
                     menu: true,
                     guards: [
-                        Guards.ADMIN,
                         Guards.REGION_MANAGER,
                         Guards.OFFICE_MANAGER,
                     ]
@@ -80,7 +79,6 @@ export default [
                     anchor: "月間集計",
                     menu: true,
                     guards: [
-                        Guards.ADMIN,
                         Guards.REGION_MANAGER,
                         Guards.OFFICE_MANAGER,
                     ]
@@ -95,7 +93,6 @@ export default [
                     anchor: "シフト計画",
                     menu: true,
                     guards: [
-                        Guards.ADMIN,
                         Guards.REGION_MANAGER,
                         Guards.OFFICE_MANAGER,
                         Guards.USER_A,

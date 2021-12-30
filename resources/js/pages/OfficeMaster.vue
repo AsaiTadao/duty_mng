@@ -14,18 +14,17 @@
                                 </button>
                             </div>
                             <div class="input-group w-auto">
-                                <input type="search" class="form-control form-control-sm" placeholder="事業所名">
+                                <input type="search" class="form-control form-control-sm" placeholder="事業所名" v-model="searchName">
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-sm btn-default">
+                                    <button type="button" class="btn btn-sm btn-default" @click="getOffices()">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                         <br>
-                        <div class="table-responsive p-0">
+                        <div class="table-responsive p-0" v-if="offices.length > 0">
                             <table
-                                v-if="offices.length > 0"
                                 class="table table-bordered table-striped table-master table-hover"
                             >
                                 <thead class="text-center">
@@ -74,9 +73,17 @@
                                     </template>
                                 </tbody>
                             </table>
-                            <div class="" v-else>
-                                {{ $t("No Offices") }}
+                            <div class="pager-wrapper">
+                                <pagination v-model="pager.current" :records="pager.total" :per-page="pager.size" :options="{texts: pager.texts}" @paginate="getOffices"/>
+                                <div class="pager-per-page">
+                                    <select class="form-control" @change="onPerPageChange">
+                                        <option v-for="(page, index) in perPages" :key="index" :value="page">{{ page }}</option>
+                                    </select>
+                                </div>
                             </div>
+                        </div>
+                        <div class="" v-else>
+                            {{ $t("No Offices") }}
                         </div>
                         <!-- Modal -->
                         <div class="modal fade" id="addNewSchedule" tabindex="-1" role="dialog" aria-labelledby="addNewSchedule" aria-hidden="true">
@@ -107,9 +114,11 @@ import ScheduleWorkingForm from './OfficeMaster/ScheduleWorkingForm.vue';
 import actionLoading from '../mixin/actionLoading';
 import { showSuccess } from '../helpers/error';
 import { mapState } from 'vuex';
+import Pagination from 'vue-pagination-2';
+
 export default {
     mixins: [actionLoading],
-  components: { OfficeMasterForm, ScheduleWorkingForm },
+  components: { OfficeMasterForm, ScheduleWorkingForm, Pagination },
         data() {
             return {
                 editmode: false,
@@ -131,7 +140,21 @@ export default {
                     next: [],
                     officeId: null
                 },
-                editMode: false
+                editMode: false,
+                pager: {
+                    current: 1,
+                    size: 10,
+                    total: 100,
+                    texts: {
+                        count: '{from} to {to} / Total {count}||',
+                        first: '&laquo;前へ',
+                        last: '次へ &raquo;'
+                    }
+                },
+                perPages: [
+                    10, 20, 50, 100
+                ],
+                searchName: '',
             }
         },
         computed: {
@@ -187,19 +210,28 @@ export default {
                 this.editMode = false;
                 this.showMasterForm();
             },
+            onPerPageChange(e) {
+                this.pager.size = parseInt(e.target.value);
+                this.getOffices();
+            },
             showMasterForm() {
                 $("#office-master-form").modal('show');
             },
             showScheduleForm(){
                 $("#addNewSchedule").modal("show");
             },
-            getOffices() {
+            getOffices(page = 1) {
                 if (this.actionLoading) return;
                 this.setActionLoading();
-                api.get('office-master')
+                const query = {page, size: this.pager.size};
+                if (this.searchName) query.name = this.searchName;
+                api.get('office-master', null, query)
                     .then(response => {
                         this.unsetActionLoading();
-                        this.offices = response;
+                        this.offices = response.data;
+                        this.pager.current = response.currentPage;
+                        this.pager.total = parseInt(response.total);
+                        this.pager.size = parseInt(response.perPage);
                     })
                     .catch(e => {
                         apiErrorHandler(e);
@@ -226,5 +258,13 @@ export default {
 .calendar-title {
     display: flex;
     align-items: center;
+}
+.pager-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.pager-per-page {
+    max-width: 200px;
 }
 </style>

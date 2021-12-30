@@ -6,6 +6,7 @@ use App\Constants\Roles;
 use App\Exports\UserExport;
 use App\Http\Requests\PageQuery;
 use App\Http\Requests\RoleUpdateRequest;
+use App\Http\Requests\UserMasterQuery;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserSettingRequest;
 use App\Models\Code;
@@ -23,10 +24,11 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends BaseController
 {
-    public function get(PageQuery $request)
+    public function get(UserMasterQuery $request)
     {
         $data = $request->validated();
-        $response = $this->getUserQuery($data['size']);
+        $officeName = $data['officeName']??null;
+        $response = $this->getUserQuery($data['size'], $officeName, true);
         return $this->sendResponse($response);
     }
     public function csv(Request $request)
@@ -142,9 +144,17 @@ class UserController extends BaseController
         return $this->sendResponse($office->users);
     }
 
-    private function getUserQuery($pageSize)
+    private function getUserQuery($pageSize, $officeName = null, $withPager = false)
     {
-        $users = User::with('setting', 'office', 'office.region', 'office.group')->orderByDesc('created_at')->paginate($pageSize)->items();
+        $qb = User::with('setting', 'office', 'office.region', 'office.group');
+        if ($officeName)
+        {
+            $qb->whereHas('office', function ($query) use ($officeName) {
+                $query->where('name', 'LIKE', '%' . $officeName . '%');
+            });
+        }
+        $pager = $qb->orderByDesc('created_at')->paginate($pageSize);
+        $users = $pager->items();
         $response = [];
         foreach($users as $user)
         {
@@ -179,6 +189,14 @@ class UserController extends BaseController
                 ];
             }
             $response[] = $item;
+        }
+        if ($withPager) {
+            return [
+                'data'  =>  $response,
+                'total' =>  $pager->total(),
+                'per_page'  =>  $pager->perPage(),
+                'current_page'  =>  $pager->currentPage()
+            ];
         }
         return $response;
     }
