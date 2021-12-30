@@ -121,7 +121,6 @@ export default {
   components: { OfficeMasterForm, ScheduleWorkingForm, Pagination },
         data() {
             return {
-                editmode: false,
                 currentDate: new Date(),
                 days: [],
                 nextDays: [],
@@ -146,7 +145,7 @@ export default {
                     size: 10,
                     total: 100,
                     texts: {
-                        count: '{from} to {to} / Total {count}||',
+                        count: '{from} から {to} / 全体　{count}||',
                         first: '&laquo;前へ',
                         last: '次へ &raquo;'
                     }

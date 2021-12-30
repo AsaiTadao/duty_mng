@@ -14,16 +14,16 @@
                                 </button>
                             </div>
                             <div class="input-group w-auto">
-                                <input type="search" class="form-control form-control-sm" placeholder="事業所名">
+                                <input type="search" class="form-control form-control-sm" placeholder="事業所名" v-model="searchName">
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-sm btn-default">
+                                    <button type="submit" class="btn btn-sm btn-default" @click="getUsers()">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                         <br>
-                        <div class="table-responsive p-0">
+                        <div class="table-responsive p-0" v-if="users.length > 0">
                             <table
                                 class="table table-bordered table-master table-hover"
                             >
@@ -163,6 +163,17 @@
                                     </template>
                                 </tbody>
                             </table>
+                            <div class="pager-wrapper">
+                                <pagination v-model="pager.current" :records="pager.total" :per-page="pager.size" :options="{texts: pager.texts}" @paginate="getUsers"/>
+                                <div class="pager-per-page">
+                                    <select class="form-control" @change="onPerPageChange">
+                                        <option v-for="(page, index) in perPages" :key="index" :value="page">{{ page }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="" v-else>
+                            {{ $t("No Users") }}
                         </div>
                         <button class="btn btn-primary float-right" @click="csvOutput">CSV取込み</button>
                         <!-- Modal -->
@@ -184,9 +195,10 @@ import { showSuccess } from '../helpers/error';
 import { mapState } from 'vuex';
 import EmployeeMasterForm from './EmployeeMaster/EmployeeMasterForm.vue';
 import LocalStorage from '../helpers/localStorage';
+import Pagination from 'vue-pagination-2';
 
     export default {
-  components: { EmployeeMasterForm },
+  components: { EmployeeMasterForm, Pagination },
         mixins: [actionLoading],
         data() {
             return {
@@ -197,7 +209,21 @@ import LocalStorage from '../helpers/localStorage';
                 },
                 offices: [],
                 regions: [],
-                editMode: false
+                editMode: false,
+                pager: {
+                    current: 1,
+                    size: 10,
+                    total: 100,
+                    texts: {
+                        count: '{from} から {to} / 全体　{count}||',
+                        first: '&laquo;前へ',
+                        last: '次へ &raquo;'
+                    }
+                },
+                perPages: [
+                    10, 20, 50, 100
+                ],
+                searchName: '',
             }
         },
         computed: {
@@ -258,16 +284,25 @@ import LocalStorage from '../helpers/localStorage';
             csvOutput() {
                 window.location.href = "/user/csv?token=" + LocalStorage.getToken();
             },
+            onPerPageChange(e) {
+                this.pager.size = parseInt(e.target.value);
+                this.getUsers();
+            },
             showMasterForm() {
                 $("#user-master-form").modal('show');
             },
-            getUsers() {
+            getUsers(page = 1) {
                 if (this.actionLoading) return;
                 this.setActionLoading();
-                api.get('users', null, {page: 1, size: 1000})
+                const query = {page, size: this.pager.size};
+                if (this.searchName) query.name = this.searchName;
+                api.get('users', null, query)
                     .then(response => {
                         this.unsetActionLoading();
-                        this.users = response;
+                        this.users = response.data;
+                        this.pager.current = response.currentPage;
+                        this.pager.total = parseInt(response.total);
+                        this.pager.size = parseInt(response.perPage);
                     })
                     .catch(e => {
                         apiErrorHandler(e);
@@ -309,3 +344,13 @@ import LocalStorage from '../helpers/localStorage';
         }
     }
 </script>
+<style scoped>
+.pager-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.pager-per-page {
+    max-width: 200px;
+}
+</style>
