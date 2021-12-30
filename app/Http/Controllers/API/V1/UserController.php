@@ -27,7 +27,7 @@ class UserController extends BaseController
     public function get(UserMasterQuery $request)
     {
         $data = $request->validated();
-        $officeName = $data['officeName']??null;
+        $officeName = $data['office_name']??null;
         $response = $this->getUserQuery($data['size'], $officeName, true);
         return $this->sendResponse($response);
     }
