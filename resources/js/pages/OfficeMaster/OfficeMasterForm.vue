@@ -40,7 +40,7 @@
                 <div class="form-row align-items-center">
                     <template v-for="restDeduction in restDeductions">
                         <div class="col-md-5" :key="restDeduction.id">
-                            <input type="radio" name="type" :value="restDeduction.id" v-model="data.restDeductionId" @change="errors.restDeduction = null">
+                            <input type="radio" name="type" :value="restDeduction.id" v-model="data.restDeductionId" @change="errors.restDeductionId = null">
                             <label class="ml-auto">{{ restDeduction.name }}</label>
                         </div>
                         <div class="col-md-1" :key="restDeduction.id + '_space'"></div>
@@ -67,7 +67,8 @@ import { showSuccess } from '../../helpers/error';
         mixins: [actionLoading],
         props: {
             data: {},
-            editMode: null
+            editMode: null,
+            modalOpen: null,
         },
         computed: {
             ...mapState({
@@ -79,7 +80,13 @@ import { showSuccess } from '../../helpers/error';
                 this.errors = {
                     name: '',
                     number: '',
-                    officeGroup: '',
+                    restDeductionId: ''
+                };
+            },
+            'modalOpen' : function (){
+                this.errors = {
+                    name: '',
+                    number: '',
                     restDeductionId: ''
                 };
             },
@@ -121,7 +128,7 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.number = this.$t('Please input number');                            // need trans
                     valid = false;
                 }
-                if (this.data.number.length > 20) {
+                if (this.data.number && this.data.number.length > 20) {
                     this.errors.number = this.$t('Please enter 20 characters or less');                            // need trans
                     valid = false;
                 }
@@ -129,7 +136,7 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.name = this.$t('Please input name');                                 // need trans
                     valid = false;
                 }
-                if (this.data.name.length > 50) {
+                if (this.data.name && this.data.name.length > 50) {
                     this.errors.name = this.$t('Please enter 50 characters or less');                                 // need trans
                     valid = false;
                 }
