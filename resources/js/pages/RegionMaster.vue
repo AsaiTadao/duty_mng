@@ -14,9 +14,9 @@
                                 </button>
                             </div>
                             <div class="input-group w-auto">
-                                <input type="search" class="form-control form-control-sm" placeholder="エリア名">
+                                <input type="search" class="form-control form-control-sm" placeholder="エリア名" v-model="searchName">
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-sm btn-default">
+                                    <button type="submit" class="btn btn-sm btn-default" @click="getRegions()">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
@@ -63,7 +63,8 @@
                         <!-- Modal -->
                         <div class="modal fade" id="region-master-form" tabindex="-1" role="dialog" aria-labelledby="region-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <region-master-form :data="masterFormData" :offices="offices" :selectedOffices="selectedOffices" v-on:success="onRegionSaved" />
+                                <region-master-form :data="masterFormData" :offices="offices" :selectedOffices="selectedOffices"
+                                :editMode="editMode" v-on:success="onRegionSaved" />
                             </div>
                         </div>
                     </div>
@@ -90,13 +91,17 @@ export default {
                 regions: [],
                 offices: [],
                 selectedOffices: [],
+                editMode: false,
+                searchName: '',
             }
         },
         methods: {
             getRegions() {
                 if (this.actionLoading) return;
                 this.setActionLoading();
-                api.get('region')
+                const query = {};
+                if (this.searchName) query.name = this.searchName;
+                api.get('region', null, query)
                     .then(response => {
                         this.unsetActionLoading();
                         this.regions = response;
@@ -119,6 +124,7 @@ export default {
                 if (!region) return;
                 const offices = region.offices.map(({id}) => id);
                 this.masterFormData = {...region, offices};
+                this.editMode = true;
                 this.showMasterForm();
             },
             onRegionDeleteClick(regionId){
@@ -141,6 +147,7 @@ export default {
                     name: '',
                     offices: []
                 };
+                this.editMode = false;
                 this.showMasterForm();
             },
             showMasterForm() {

@@ -114,7 +114,6 @@ export default {
     methods: {
         onTabChange(tab) {
             this.tab = tab;
-            console.log({tab})
         },
         onSubmit() {
             if (this.actionLoading) return;

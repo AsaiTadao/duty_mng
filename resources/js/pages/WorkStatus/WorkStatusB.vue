@@ -139,7 +139,6 @@
             },
             onEditClicked(attend, userId) {
                 if(!attend) return;
-                console.log({attend});
                 this.selectedAttend = attend;
                 this.selectedUser = userId;
                 this.showEditForm();
@@ -151,7 +150,6 @@
                 const office = this.offices.find(office => office.id === officeId);
                 let name = office ? office.name : '';
                 if(name.indexOf('本社') !== -1) {
-                    console.log("is Honshya!!!");
                     return true;
                 } else {
                     return false;
@@ -159,7 +157,6 @@
             },
             isNormalStaff(employmentStatusId) {
                 if(employmentStatusId === 1) {
-                    console.log("isNormalStaff");
                     return true;
                 } else {
                     return false;
@@ -181,12 +178,10 @@
                     this.selectedDate = new Date();
                 }
                 this.selectedDate = moment(this.selectedDate).format('YYYY-MM-DD');
-                console.log(this.selectedDate);
                 api.get('attend/' + this.officeId, null, {date: this.selectedDate})
                     .then(response => {
                         this.unsetActionLoading();
                         this.attends = response;
-                        console.log(this.attends);
                         const office = this.offices.find(office => office.id === this.officeId);
                         this.officeName = office ? office.name : '';
                     })

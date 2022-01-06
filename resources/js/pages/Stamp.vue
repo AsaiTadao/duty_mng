@@ -136,7 +136,7 @@ export default {
         this.thisDate = this.formatDate(new Date());
         this.getNow();
         this.updateStatus();
-        this.timestampInterval = setInterval(this.getNow, 60000);
+        this.timestampInterval = setInterval(this.getNow, 1000);
         //this.timeNowInterval = setInterval(this.updateStatus, 60000);
     },
     destroyed() {

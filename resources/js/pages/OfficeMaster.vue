@@ -98,7 +98,7 @@
                         <!-- Modal -->
                         <div class="modal fade" id="office-master-form" tabindex="-1" role="dialog" aria-labelledby="office-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <office-master-form :data="masterFormData" :show="masterFormShow" v-on:success="onOfficeSaved" />
+                                <office-master-form :data="masterFormData" :show="masterFormShow" :editMode="editMode" v-on:success="onOfficeSaved" />
                             </div>
                         </div>
                     </div>
@@ -121,7 +121,6 @@ export default {
   components: { OfficeMasterForm, ScheduleWorkingForm, Pagination },
         data() {
             return {
-                editmode: false,
                 currentDate: new Date(),
                 days: [],
                 nextDays: [],
@@ -140,12 +139,13 @@ export default {
                     next: [],
                     officeId: null
                 },
+                editMode: false,
                 pager: {
                     current: 1,
                     size: 10,
                     total: 100,
                     texts: {
-                        count: '{from} to {to} / Total {count}||',
+                        count: '{from} から {to} / 全体　{count}||',
                         first: '&laquo;前へ',
                         last: '次へ &raquo;'
                     }
@@ -166,6 +166,7 @@ export default {
                 const office = this.offices.find(({id}) => officeId === id);
                 if (!office) return;
                 this.masterFormData = {...office};
+                this.editMode = true;
                 this.showMasterForm();
             },
             onOfficeSaved() {
@@ -205,6 +206,7 @@ export default {
             },
             onNewClick () {
                 this.masterFormData = {};
+                this.editMode = false;
                 this.showMasterForm();
             },
             onPerPageChange(e) {

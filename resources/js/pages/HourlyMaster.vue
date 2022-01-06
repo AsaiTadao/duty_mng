@@ -68,7 +68,7 @@
                         <!-- Modal -->
                         <div class="modal fade" id="hourly-master-form" tabindex="-1" role="dialog" aria-labelledby="hourly-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <hourly-master-form :data="masterFormData" :offices="offices" v-on:success="onHourlySaved" />
+                                <hourly-master-form :data="masterFormData" :offices="offices" :editMode="editMode" v-on:success="onHourlySaved" />
                             </div>
                         </div>
                     </div>
@@ -99,6 +99,7 @@ export default {
                     endTimeMinute: null,
                 },
                 offices: [],
+                editMode: false,
             }
         },
         methods: {
@@ -111,6 +112,7 @@ export default {
                     endTimeHour:        hourly.endTime.split(':')[0],
                     endTimeMinute:      hourly.endTime.split(':')[1],
                     ...hourly};
+                this.editMode = true;
                 this.showMasterForm();
             },
             onHourlySaved() {
@@ -148,6 +150,7 @@ export default {
                     endTimeHour: null,
                     endTimeMinute: null,
                 };
+                this.editMode = false;
                 this.showMasterForm();
             },
             showMasterForm() {

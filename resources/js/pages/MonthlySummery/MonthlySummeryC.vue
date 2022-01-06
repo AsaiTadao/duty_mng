@@ -189,6 +189,7 @@
                 <tbody class="text-center">
                     <tr class="top-green text-white">
                         <th class="align-middle">勤務日数</th>
+                        <th class="align-middle">勤務回数</th>
                         <th class="align-middle">勤務割合</th>
                         <th class="align-middle">実働時間</th>
                         <th class="align-middle">残業外<br>労働時間[平日]</th>
@@ -202,6 +203,7 @@
                     </tr>
                     <tr class="heavy-green text-white">
                         <td>{{total.workingDays}}日</td>
+                        <td></td>
                         <td>{{userMeta.scheduledDays ? (total.workingDays * 100 / userMeta.scheduledDays) : ''}}%</td>
                         <td>{{(total.totalWorkingHours / 60).toFixed(2)}}時間</td>
                         <td>{{(total.actualWorkingHoursWeekdays / 60).toFixed(2)}}時間</td>
@@ -351,7 +353,6 @@ import { showSuccess } from '../../helpers/error';
             },
             editRow(index, dayAttendance) {
                 this.getDays();
-                console.log(dayAttendance);
                 this.selectedIndex = index;
                 this.editMode = !this.editMode;
                 this.editData.startWorkTime1 = this.changeTimeFormat(dayAttendance.commutingTime1);
@@ -435,7 +436,6 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.otherUnpaidTime = this.$t('Please input number');
                     valid = false;
                 }
-                console.log(valid);
                 if (this.editData.substituteTime && !Number.isInteger(parseFloat(this.editData.substituteTime))) {
                     this.errors.substituteTime = this.$t('Please input number');
                     valid = false;
@@ -551,7 +551,6 @@ import { showSuccess } from '../../helpers/error';
                 }
             },
             approve() {
-                console.log(this.approveStatus);
                 this.selectedDates = this.approveStatus.map((item, i) => item === true ? i : 0);
                 this.selectedDates = this.selectedDates.filter(item => item > 0);
 
