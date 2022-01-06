@@ -29,13 +29,13 @@
                             >
                                 <thead class="text-center">
                                     <tr class="dark-grey text-white">
-                                        <th>
+                                        <th width="20%">
                                             エリア名
                                         </th>
                                         <th>
                                             所轄事業所
                                         </th>
-                                        <th></th>
+                                        <th width="10%"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">

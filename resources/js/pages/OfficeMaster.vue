@@ -98,7 +98,7 @@
                         <!-- Modal -->
                         <div class="modal fade" id="office-master-form" tabindex="-1" role="dialog" aria-labelledby="office-master-form" aria-hidden="true">
                             <div class="modal-dialog modal-huge" role="document">
-                                <office-master-form :data="masterFormData" :show="masterFormShow" :editMode="editMode" v-on:success="onOfficeSaved" />
+                                <office-master-form :data="masterFormData" :show="masterFormShow" :editMode="editMode" :modalOpen="modalOpen" v-on:success="onOfficeSaved" />
                             </div>
                         </div>
                     </div>
@@ -140,6 +140,7 @@ export default {
                     officeId: null
                 },
                 editMode: false,
+                modalOpen: false,
                 pager: {
                     current: 1,
                     size: 10,
@@ -214,6 +215,7 @@ export default {
                 this.getOffices();
             },
             showMasterForm() {
+                this.modalOpen = true;
                 $("#office-master-form").modal('show');
             },
             showScheduleForm(){
@@ -241,10 +243,14 @@ export default {
                 const restDeduction = this.restDeductions.find(({id}) => id === restDeductionId);
                 if (!restDeduction) return '';
                 return restDeduction.name;
+            },
+            modalClose() {
+                this.modalOpen = false;
             }
         },
         mounted() {
             this.getOffices();
+            $("#office-master-form").on("hidden.bs.modal", this.modalClose)
         },
     }
 </script>

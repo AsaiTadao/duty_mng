@@ -25,11 +25,17 @@
                         <div class="form-row">
                             <template v-for="office in offices">
                                 <div class="col-md-4" :key="office.id" :class="{'is-invalid' : errors.offices}">
-                                    <input type="checkbox" name="office_name" :value="office.id" v-model="data.offices"
-                                    :disabled="selectedOffices.find(e => e.id === office.id) && !data.offices.includes(office.id)"
-                                    @click="onOfficeChange(office.id)"
-                                    @change="errors.offices = null">
-                                    <label class="ml-auto">{{office.name}}</label>
+                                    <div class="form-row">
+                                        <div class="col-md-1">
+                                            <input type="checkbox" name="office_name" :value="office.id" v-model="data.offices"
+                                            :disabled="selectedOffices.find(e => e.id === office.id) && !data.offices.includes(office.id)"
+                                            @click="onOfficeChange(office.id)"
+                                            @change="errors.offices = null">
+                                        </div>
+                                        <div class="col-md-10">
+                                            <label class="ml-auto">{{office.name}}</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </template>
                             <span v-if="errors.offices" class="error invalid-feedback">
@@ -101,7 +107,7 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.name = this.$t('Please input name');                                 // need trans
                     valid = false;
                 }
-                if (this.data.name.length > 50) {
+                if (this.data.name && this.data.name.length > 50) {
                     this.errors.name = this.$t('Please enter 50 characters or less');                                 // need trans
                     valid = false;
                 }
