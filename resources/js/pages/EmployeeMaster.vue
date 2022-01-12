@@ -147,7 +147,7 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr :key="user.id+'6'">
+                                    <tr :key="user.id+'6'" class="employee-td">
                                         <td class="align-middle">申請期間</td>
                                         <td colspan="5" class="align-middle text-left">
                                             <div class="align-middle d-flex">
