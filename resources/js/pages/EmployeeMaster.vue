@@ -295,7 +295,7 @@ import Pagination from 'vue-pagination-2';
                 if (this.actionLoading) return;
                 this.setActionLoading();
                 const query = {page, size: this.pager.size};
-                if (this.searchName) query.name = this.searchName;
+                if (this.searchName) query.office_name = this.searchName;
                 api.get('users', null, query)
                     .then(response => {
                         this.unsetActionLoading();
@@ -330,7 +330,7 @@ import Pagination from 'vue-pagination-2';
                     .then(() => {
                         this.unsetActionLoading();
                         showSuccess(this.$t("Successfully saved"));
-                        this.getUsers();
+                        this.getUsers(this.pager.current);
                     })
                     .catch(e => {
                         apiErrorHandler(e);
