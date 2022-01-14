@@ -222,7 +222,7 @@ class ShiftController extends BaseController
         $monthCarbon = Carbon::parse($year . '-' . $month . '-01');
         $days = $monthCarbon->daysInMonth;
 
-        $employees = $employeeQb->get();
+        $employees = $employeeQb->orderBy('sort', 'asc')->orderBy('number', 'asc')->get();
 
         $response = [];
         foreach ($employees as $employee) {
