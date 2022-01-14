@@ -61,6 +61,12 @@
                         </span>
                     </div>
                     <div class="col-md-3">
+                        <input type="text" class="form-control" placeholder="本社グループ" v-model="formData.sort" :class="{'is-invalid' : errors.sort}" @keyup="errors.sort = null">
+                        <span v-if="errors.sort" class="error invalid-feedback">
+                            {{ errors.sort }}
+                        </span>
+                    </div>
+                    <div class="col-md-3">
                         <select class="form-control" v-model="formData.workingHours" :class="{'is-invalid' : errors.workingHours}">
                             <option :value="null">{{ $t('Please select working hour') }}</option>
                             <option :value="8">8時間</option>
@@ -113,7 +119,7 @@ import { showSuccess } from '../../helpers/error';
                 officeId: null,
                 email: '',
                 password: '',
-                officeGroupId: null,
+                sort: null,
                 workingHours: 8
             },
             regions: [],
@@ -130,7 +136,7 @@ import { showSuccess } from '../../helpers/error';
                     officeId: null,
                     email: '',
                     password: '',
-                    officeGroupId: null,
+                    sort: null,
                     workingHours: null
                 };
                 this.offices = [];
@@ -151,7 +157,7 @@ import { showSuccess } from '../../helpers/error';
                     officeId: null,
                     email: '',
                     password: '',
-                    officeGroupId: null,
+                    sort: null,
                 },
                 offices: [],
             }
@@ -168,7 +174,8 @@ import { showSuccess } from '../../helpers/error';
                     'office_id': this.formData.officeId,
                     'email': this.formData.email,
                     'password': this.formData.password,
-                    'workingHours': this.formData.workingHours
+                    'workingHours': this.formData.workingHours,
+                    'sort': this.formData.sort
                 };
                 this.setActionLoading();
                 let request;
@@ -221,6 +228,10 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.officeId = this.$t('Please select office');
                     valid = false;
                 }
+                if (!this.formData.sort) {
+                    this.errors.sort = this.$t('Please input sort');
+                    valid = false;
+                }
                 if (!this.formData.email) {
                     this.errors.email = this.$t('Please input email');
                     valid = false;
@@ -233,7 +244,7 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.password = this.$t('Please input password');
                     valid = false;
                 }
-                if (this.formData.password.length > 50) {
+                if (this.formData.password && this.formData.password.length > 50) {
                     this.errors.password = this.$t('Please enter 50 characters or less');
                     valid = false;
                 }

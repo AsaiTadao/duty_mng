@@ -87,7 +87,7 @@
                                     <tr :key="user.id+'1'">
                                         <td>{{user.office? user.office.name: '未定'}}</td>
                                         <td>{{user.region? user.region.name: '未定'}}</td>
-                                        <td>{{user.officeGroup? user.officeGroup.id: '未定'}}</td>
+                                        <td>{{user.sort? user.sort: '未定'}}</td>
                                         <td>{{ user.workingHours ? (user.workingHours + '時間') : '未定' }}</td>
                                     </tr>
                                     <tr :key="user.id+'2'">
@@ -205,7 +205,7 @@ import Pagination from 'vue-pagination-2';
                 users: [],
                 masterFormData: {
                     regionId: null,
-                    officeGroupId: null,
+                    sort: null,
                 },
                 offices: [],
                 regions: [],
@@ -241,7 +241,7 @@ import Pagination from 'vue-pagination-2';
                 if (!user) return;
                 this.masterFormData = {
                     regionId: user.region ? user.region.id: null,
-                    officeGroupId: user.officeGroup ? user.officeGroup.id : null,
+                    sort: user.sort ? user.sort : null,
                     ...user
                     };
                 this.editMode = true;
@@ -276,7 +276,7 @@ import Pagination from 'vue-pagination-2';
             onNewClick() {
                 this.masterFormData = {
                     regionId: 1,
-                    officeGroupId: 1,
+                    sort: null,
                 };
                 this.editMode = false;
                 this.showMasterForm();
