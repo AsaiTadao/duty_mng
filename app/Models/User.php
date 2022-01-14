@@ -25,7 +25,8 @@ class User extends Authenticatable
         'enrolled',
         'office_id',
         'number',
-        'working_hours'
+        'working_hours',
+        'sort'
     ];
 
     /**
