@@ -18,7 +18,7 @@
                                 <input type="text" class="fixed-width-30" v-model="form.fractionCommutingTime" @change="errors.fractionCommutingTime = null"/>
                                 <div>］ 分</div>
                                 <div class="d-flex align-items-center ml-5 mr-2">
-                                    <input type="radio" name="shukkin-minutes" value="1" v-model="form.roundUpCommutingTime"/>
+                                    <!-- <input type="radio" name="shukkin-minutes" value="1" v-model="form.roundUpCommutingTime"/> -->
                                     <div class="mx-1">切り上げ</div>
                                 </div>
                             </div>
@@ -34,7 +34,7 @@
                                 <div>］ 分</div>
 
                                 <div class="d-flex align-items-center ml-5 mr-2">
-                                    <input type="radio" name="taikin-minutes" value="1" v-model="form.truncateLeaveTime"/>
+                                    <!-- <input type="radio" name="taikin-minutes" value="1" v-model="form.truncateLeaveTime"/> -->
                                     <div class="mx-1">切り捨て</div>
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                                 <input type="text" class="fixed-width-30" v-model="form.fractionBehindTime" @change="errors.fractionBehindTime = null"/>
                                 <div>］ 分</div>
                                 <div class="d-flex align-items-center ml-5 mr-2">
-                                    <input type="radio" name="chikoku-minutes" value="1" v-model="form.roundUpBehindTime"/>
+                                    <!-- <input type="radio" name="chikoku-minutes" value="1" v-model="form.roundUpBehindTime"/> -->
                                     <div class="mx-1">切り上げ</div>
                                 </div>
                             </div>
@@ -65,7 +65,7 @@
                                 <div>］ 分</div>
 
                                 <div class="d-flex align-items-center ml-5 mr-2">
-                                    <input type="radio" name="sotai-minutes" value="1" v-model="form.truncateLeaveEarly"/>
+                                    <!-- <input type="radio" name="sotai-minutes" value="1" v-model="form.truncateLeaveEarly"/> -->
                                     <div class="mx-1">切り捨て</div>
                                 </div>
                             </div>
