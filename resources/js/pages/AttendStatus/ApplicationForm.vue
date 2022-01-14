@@ -154,7 +154,7 @@ import { showSuccess } from '../../helpers/error';
                 var day = today.getDate();
                 return month + "月" + day + "日 "
                 + today.getHours() + ":"
-                + today.getMinutes();
+                + ('0' + today.getMinutes()).slice(-2);
             },
             getDate(index) {
                 const date = this.month + '-' + ('0' + index).slice(-2);
