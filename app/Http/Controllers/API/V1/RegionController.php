@@ -51,6 +51,7 @@ class RegionController extends BaseController
     }
     public function delete(Region $region)
     {
+        $region->name = $region->name + "(deleted)";
         $region->delete();
         return $this->sendResponse();
     }
