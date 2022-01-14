@@ -14,9 +14,9 @@
                                 </button>
                             </div>
                             <div class="input-group w-auto">
-                                <input type="search" class="form-control form-control-sm" placeholder="休暇理由">
+                                <input type="search" class="form-control form-control-sm" placeholder="休暇理由" v-model="searchName">
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-sm btn-default">
+                                    <button type="submit" class="btn btn-sm btn-default" @click="getVacations()">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
@@ -85,13 +85,16 @@ export default {
                 vacations: [],
                 masterFormData: {},
                 editMode: false,
+                searchName: '',
             }
         },
         methods: {
             getVacations() {
                 if (this.actionLoading) return;
                 this.setActionLoading();
-                api.get('reason-for-vacation')
+                const query = {};
+                if (this.searchName) query.name = this.searchName;
+                api.get('reason-for-vacation', null, query)
                     .then(response => {
                         this.unsetActionLoading();
                         this.vacations = response;
