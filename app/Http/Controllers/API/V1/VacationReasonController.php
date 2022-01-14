@@ -5,15 +5,22 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Requests\PageQuery;
 use App\Http\Requests\ReasonForVacationEnableRequest;
 use App\Http\Requests\ReasonForVacationRequest;
+use App\Http\Requests\VacationReasonQuery;
 use App\Models\ReasonForVacation;
 use App\Models\User;
 
 class VacationReasonController extends BaseController
 {
-    public function get()
+    public function get(VacationReasonQuery $request)
     {
-        $data = ReasonForVacation::get();
-        return $this->sendResponse($data);
+        $data = $request->validated();
+        if (!empty($data['name']))
+        {
+            $reasons = ReasonForVacation::where('name', 'LIKE', '%' . $data['name'] . '%')->get();
+        } else {
+            $reasons = ReasonForVacation::get();
+        }
+        return $this->sendResponse($reasons);
     }
 
     public function getEnable()

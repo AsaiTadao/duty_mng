@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Constants\CodeGroups;
 use App\Constants\Roles;
 use App\Exports\UserExport;
 use App\Http\Requests\PageQuery;
@@ -58,6 +59,13 @@ class UserController extends BaseController
     {
         $currentUser = auth()->user();
         $data = $request->validated();
+        $number = $data['number'];
+
+        $existing = User::where(['number' => $number])->first();
+        if ($existing)
+        {
+            return $this->sendError(trans("employee.duplicate_number"));
+        }
         $user = new User();
         $user->fill($data);
         $user->password = Hash::make($data['password']);
@@ -74,6 +82,14 @@ class UserController extends BaseController
         $setting = new UserSetting();
         $setting->user_id = $user->id;
         $setting->create_user_id = $currentUser->id;
+
+        $defaultOverTimePay = Code::where(['group' => CodeGroups::OVERTIME_PAY])->first();
+        $salaryDeduction = Code::where(['group' => CodeGroups::SALARY_DEDUCTION])->first();
+        $applicationDeadline = Code::where(['group' => CodeGroups::APPLICATION_DEADLINE])->first();
+
+        $setting->overtime_pay = $defaultOverTimePay->key;
+        $setting->salary_deduction = $salaryDeduction->key;
+        $setting->application_deadline = $applicationDeadline->key;
         $setting->save();
 
         return $this->sendResponse($user);
@@ -82,6 +98,12 @@ class UserController extends BaseController
     {
         $currentUser = auth()->user();
         $data = $request->validated();
+        $existing = User::where(['number' => $data['number']])->first();
+        if ($existing && $existing->id !== $user->id)
+        {
+            return $this->sendError(trans("employee.duplicate_number"));
+        }
+
         $user->fill($data);
         if (!empty($data['password']))
         {
