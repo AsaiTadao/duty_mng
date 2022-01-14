@@ -58,6 +58,13 @@ class UserController extends BaseController
     {
         $currentUser = auth()->user();
         $data = $request->validated();
+        $number = $data['number'];
+
+        $existing = User::where(['number' => $number])->first();
+        if ($existing)
+        {
+            return $this->sendError(trans("employee.duplicate_number"));
+        }
         $user = new User();
         $user->fill($data);
         $user->password = Hash::make($data['password']);
@@ -82,6 +89,12 @@ class UserController extends BaseController
     {
         $currentUser = auth()->user();
         $data = $request->validated();
+        $existing = User::where(['number' => $data['number']])->first();
+        if ($existing && $existing->id !== $user->id)
+        {
+            return $this->sendError(trans("employee.duplicate_number"));
+        }
+
         $user->fill($data);
         if (!empty($data['password']))
         {
