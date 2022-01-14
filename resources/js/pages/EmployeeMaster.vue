@@ -94,7 +94,7 @@
                                         <td colspan="2">{{user.email}}</td>
                                         <td colspan="2">*******</td>
                                     </tr>
-                                    <tr :key="user.id+'3'" v-if="session.id != user.id">
+                                    <tr :key="user.id+'3'">
                                         <td class="align-middle pl-4">権限タイプ</td>
                                         <td colspan="5" class="align-middle text-left">
                                             <div class="align-middle d-flex">
