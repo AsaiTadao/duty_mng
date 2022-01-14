@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'duplicate_number' => 'Duplicated employee number'
+    'duplicate_number' => '社員Noが重複しました。'
 ];
