@@ -200,7 +200,7 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.name = this.$t('Please input name');                                 // need trans
                     valid = false;
                 }
-                if (this.formData.name.length > 50) {
+                if (this.formData.name && this.formData.name.length > 50) {
                     this.errors.name = this.$t('Please enter 50 characters or less');                                 // need trans
                     valid = false;
                 }
@@ -208,7 +208,7 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.number = this.$t('Please input number');                              //need trans
                     valid = false;
                 }
-                if (this.formData.number.length > 20) {
+                if (this.formData.number && this.formData.number.length > 20) {
                     this.errors.number = this.$t('Please enter 20 characters or less');                              //need trans
                     valid = false;
                 }
@@ -236,7 +236,7 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.email = this.$t('Please input email');
                     valid = false;
                 }
-                if (this.formData.email.length > 50) {
+                if (this.formData.email && this.formData.email.length > 50) {
                     this.errors.email = this.$t('Please enter 50 characters or less');
                     valid = false;
                 }
