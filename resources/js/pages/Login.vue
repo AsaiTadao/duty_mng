@@ -33,6 +33,7 @@
                                 v-model="form.password"
                                 autocomplete="off"
                                 name="test2"
+                                v-on:keyup.enter = "onSubmit"
                             />
                             <span v-if="form.errors().has('password')" class="error invalid-feedback">
                                 {{ form.errors().get('password') }}
