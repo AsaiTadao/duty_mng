@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Constants\CodeGroups;
 use App\Constants\Roles;
 use App\Exports\UserExport;
 use App\Http\Requests\PageQuery;
@@ -81,6 +82,14 @@ class UserController extends BaseController
         $setting = new UserSetting();
         $setting->user_id = $user->id;
         $setting->create_user_id = $currentUser->id;
+
+        $defaultOverTimePay = Code::where(['group' => CodeGroups::OVERTIME_PAY])->first();
+        $salaryDeduction = Code::where(['group' => CodeGroups::SALARY_DEDUCTION])->first();
+        $applicationDeadline = Code::where(['group' => CodeGroups::APPLICATION_DEADLINE])->first();
+
+        $setting->overtime_pay = $defaultOverTimePay->key;
+        $setting->salary_deduction = $salaryDeduction->key;
+        $setting->application_deadline = $applicationDeadline->key;
         $setting->save();
 
         return $this->sendResponse($user);
