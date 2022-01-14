@@ -302,6 +302,9 @@ tbody.header-fix-x-tr tr:nth-of-type(even) > td {
     padding-left: 0px;
     padding-right: 0px;
 }
+.employee-td td {
+    border-bottom: 2px solid black;
+}
 .fixed-width-80 {
     width: 80px !important;
 }

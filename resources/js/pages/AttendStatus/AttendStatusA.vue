@@ -168,8 +168,11 @@ import ApplicationForm from './ApplicationForm.vue';
         created() {
             this.timer = null;
         },
+        mounted() {
+            window.addEventListener('scroll', this.handleScroll);
+        },
         destroyed() {
-            //window.removeEventListener('scroll', this.handleScroll);
+            window.removeEventListener('scroll', this.handleScroll);
         }
     }
 

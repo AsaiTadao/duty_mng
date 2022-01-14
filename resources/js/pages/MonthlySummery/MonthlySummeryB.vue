@@ -554,7 +554,7 @@ import { showSuccess } from '../../helpers/error';
             this.timer = null;
         },
         mounted() {
-
+            window.addEventListener('scroll', this.handleScroll);
         }
     }
 </script>
