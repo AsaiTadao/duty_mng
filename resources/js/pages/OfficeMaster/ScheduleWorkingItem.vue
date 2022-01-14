@@ -52,7 +52,8 @@ export default {
                 this.error = this.$t('Please input days');
                 return
             }
-            if (this.days > 31) {
+            const monthDates = this.getDaysOfMonth();
+            if (this.days < 1 || this.days > 31 || this.days > monthDates) {
                 this.error = this.$t('Please input valid days');
                 return
             }
@@ -63,6 +64,9 @@ export default {
             this.editMode = false;
             this.days = null;
             this.error = '';
+        },
+        getDaysOfMonth() {
+            return new Date(this.schedule.year, this.schedule.month, 0).getDate();
         }
     }
 }
