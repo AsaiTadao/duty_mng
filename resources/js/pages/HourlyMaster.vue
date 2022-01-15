@@ -15,9 +15,14 @@
                                 </button>
                             </div>
                             <div class="input-group w-auto">
-                                <input type="search" class="form-control form-control-sm" placeholder="事業所名">
+                                <!-- <input type="search" class="form-control form-control-sm" placeholder="事業所名"> -->
+                                <v-select label="name" :options="offices" v-model="officeName">
+                                    <template v-slot:option="option">
+                                        {{option.name}}
+                                    </template>
+                                </v-select>
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-sm btn-default">
+                                    <button type="submit" class="btn btn-sm btn-default" @click="getHourlys()">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
@@ -83,10 +88,12 @@ import api, { apiErrorHandler } from '../global/api';
 import actionLoading from '../mixin/actionLoading';
 import { showSuccess } from '../helpers/error';
 import HourlyMasterForm from './HourlyMaster/HourlyMasterForm.vue';
+import vSelect from 'vue-select';
+import 'vue-select/dist/vue-select.css';
 
 export default {
     mixins: [actionLoading],
-  components: { HourlyMasterForm },
+  components: { HourlyMasterForm, vSelect },
         data() {
             return {
                 hourlys: [],
@@ -99,6 +106,7 @@ export default {
                     endTimeMinute: null,
                 },
                 offices: [],
+                officeName: '',
                 editMode: false,
             }
         },
@@ -123,6 +131,8 @@ export default {
                 api.get('office-master')
                     .then(response => {
                         this.offices = response;
+                        this.officeName = this.offices[0];
+                        this.getHourlys();
                     })
                     .catch(e => apiErrorHandler(e));
             },
@@ -159,7 +169,7 @@ export default {
             getHourlys() {
                 if (this.actionLoading) return;
                 this.setActionLoading();
-                api.get('hourly-wage')
+                api.get('hourly-wage', null, this.officeName ? {office_id : this.officeName.id} : null)
                     .then(response => {
                         this.unsetActionLoading();
                         this.hourlys = response;
@@ -171,8 +181,13 @@ export default {
             }
         },
         mounted() {
-            this.getHourlys();
+            //this.getHourlys();
             this.getOffices();
         }
     }
 </script>
+<style scoped>
+    .v-select {
+        width: 220px;
+    }
+</style>
