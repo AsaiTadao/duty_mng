@@ -87,14 +87,14 @@
                                     <tr :key="user.id+'1'">
                                         <td>{{user.office? user.office.name: '未定'}}</td>
                                         <td>{{user.region? user.region.name: '未定'}}</td>
-                                        <td>{{user.officeGroup? user.officeGroup.id: '未定'}}</td>
+                                        <td>{{user.sort? user.sort: '未定'}}</td>
                                         <td>{{ user.workingHours ? (user.workingHours + '時間') : '未定' }}</td>
                                     </tr>
                                     <tr :key="user.id+'2'">
                                         <td colspan="2">{{user.email}}</td>
                                         <td colspan="2">*******</td>
                                     </tr>
-                                    <tr :key="user.id+'3'" v-if="session.id != user.id">
+                                    <tr :key="user.id+'3'">
                                         <td class="align-middle pl-4">権限タイプ</td>
                                         <td colspan="5" class="align-middle text-left">
                                             <div class="align-middle d-flex">
@@ -205,7 +205,7 @@ import Pagination from 'vue-pagination-2';
                 users: [],
                 masterFormData: {
                     regionId: null,
-                    officeGroupId: null,
+                    sort: null,
                 },
                 offices: [],
                 regions: [],
@@ -241,7 +241,7 @@ import Pagination from 'vue-pagination-2';
                 if (!user) return;
                 this.masterFormData = {
                     regionId: user.region ? user.region.id: null,
-                    officeGroupId: user.officeGroup ? user.officeGroup.id : null,
+                    sort: user.sort ? user.sort : null,
                     ...user
                     };
                 this.editMode = true;
@@ -276,7 +276,7 @@ import Pagination from 'vue-pagination-2';
             onNewClick() {
                 this.masterFormData = {
                     regionId: 1,
-                    officeGroupId: 1,
+                    sort: null,
                 };
                 this.editMode = false;
                 this.showMasterForm();
@@ -295,7 +295,7 @@ import Pagination from 'vue-pagination-2';
                 if (this.actionLoading) return;
                 this.setActionLoading();
                 const query = {page, size: this.pager.size};
-                if (this.searchName) query.name = this.searchName;
+                if (this.searchName) query.office_name = this.searchName;
                 api.get('users', null, query)
                     .then(response => {
                         this.unsetActionLoading();
@@ -330,7 +330,7 @@ import Pagination from 'vue-pagination-2';
                     .then(() => {
                         this.unsetActionLoading();
                         showSuccess(this.$t("Successfully saved"));
-                        this.getUsers();
+                        this.getUsers(this.pager.current);
                     })
                     .catch(e => {
                         apiErrorHandler(e);

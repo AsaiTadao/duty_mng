@@ -85,7 +85,7 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.name = this.$t('Please input name');                                 // need trans
                     valid = false;
                 }
-                if (this.data.name.length > 50) {
+                if (this.data.name && this.data.name.length > 50) {
                     this.errors.name = this.$t('Please enter 50 characters or less');               // need trans
                     valid = false;
                 }

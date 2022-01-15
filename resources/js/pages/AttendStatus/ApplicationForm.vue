@@ -154,7 +154,7 @@ import { showSuccess } from '../../helpers/error';
                 var day = today.getDate();
                 return month + "月" + day + "日 "
                 + today.getHours() + ":"
-                + today.getMinutes();
+                + ('0' + today.getMinutes()).slice(-2);
             },
             getDate(index) {
                 const date = this.month + '-' + ('0' + index).slice(-2);
@@ -176,6 +176,16 @@ import { showSuccess } from '../../helpers/error';
                 }
                 if (!this.formData.endTimeHour || !this.formData.endTimeMin) {
                     this.errors.endTime = this.$t('Please input endTime');                            // need trans
+                    valid = false;
+                }
+                if (this.formData.startTimeHour > this.formData.endTimeHour) {
+                    this.errors.startTime = this.$t('start time must be earlier than end time');             //need trans
+                    this.errors.endTime = this.$t('start time must be earlier than end time');
+                    valid = false;
+                }
+                if (this.formData.startTimeHour == this.formData.endTimeHour && this.formData.startTimeMin > this.formData.endTimeMin) {
+                    this.errors.startTime = this.$t('start time must be earlier than end time');             //need trans
+                    this.errors.endTime = this.$t('start time must be earlier than end time');
                     valid = false;
                 }
                 return valid;

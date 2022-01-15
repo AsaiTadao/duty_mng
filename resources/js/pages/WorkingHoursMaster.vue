@@ -15,7 +15,12 @@
                                 </button>
                             </div>
                             <div class="input-group w-auto">
-                                <input type="search" class="form-control form-control-sm" placeholder="事業所名" v-model="officeName">
+                                <!-- <input type="search" class="form-control form-control-sm" placeholder="事業所名" v-model="officeName"> -->
+                                <v-select label="name" :options="offices" v-model="officeName">
+                                    <template v-slot:option="option">
+                                        {{option.name}}
+                                    </template>
+                                </v-select>
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-sm btn-default" @click="searchOffice()">
                                         <i class="fa fa-search"></i>
@@ -197,10 +202,12 @@ import actionLoading from '../mixin/actionLoading';
 import { showSuccess } from '../helpers/error';
 import WorkingHoursMasterForm from './WorkingHoursMaster/WorkingHoursMasterForm.vue';
 import EnableDisplayItem from './WorkingHoursMaster/EnableDisplayItem.vue';
+import vSelect from 'vue-select';
+import 'vue-select/dist/vue-select.css';
 
 export default {
         mixins: [actionLoading],
-  components: { WorkingHoursMasterForm, EnableDisplayItem },
+  components: { WorkingHoursMasterForm, EnableDisplayItem, vSelect},
         data() {
             return {
                 masterFormData: {
@@ -252,6 +259,8 @@ export default {
                 api.get('office-master')
                     .then(response => {
                         this.offices = response;
+                        this.officeName = this.offices[0];
+                        this.getWorkingHours();
                     })
                     .catch(e => apiErrorHandler(e));
             },
@@ -289,7 +298,7 @@ export default {
             getWorkingHours() {
                 if (this.actionLoading) return;
                 this.setActionLoading();
-                api.get('working-hours', null, null)
+                api.get('working-hours', null, this.officeName ? {office_id : this.officeName.id} : null)
                     .then(response => {
                         this.unsetActionLoading();
                         this.workingHours['real'] = [];
@@ -311,7 +320,7 @@ export default {
                     });
             },
             searchOffice() {
-                api.get('working-hours', null, {office_name : this.officeName})
+                api.get('working-hours', null, this.officeName ? {office_id : this.officeName.id} : null)
                     .then(response => {
                         this.workingHours['real'] = [];
                         this.workingHours['part'] = [];
@@ -344,8 +353,13 @@ export default {
             }
         },
         mounted() {
-            this.getWorkingHours();
             this.getOffices();
+            // this.getWorkingHours();
         }
     }
 </script>
+<style scoped>
+    .v-select {
+        width: 220px;
+    }
+</style>
