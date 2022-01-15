@@ -21,6 +21,24 @@ class ApplicationController extends BaseController
             return $this->sendError("Please input date or select attendance", [], 422);
         }
 
+        if (
+            (
+                empty($data['time_before_correction']) &&
+                !empty($data['time_after_correction'])
+            )
+            ||
+            (
+                !empty($data['time_before_correction']) &&
+                empty($data['time_after_correction'])
+            )
+            ||
+            (
+                $data['time_before_correction'] >= $data['time_after_correction']
+            )
+        ) {
+            return $this->sendError("Invalid time correction", [], 422);
+        }
+
         $attendance = null;
         if (!empty($data['attendance_id'])) {
             $attendance = Attendance::where(['id' => $data['attendance_id'], 'user_id' => $currentUser->id])->first();

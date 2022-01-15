@@ -22,10 +22,8 @@ class WorkingHourController extends BaseController
                 ['employment_status_id', '=', $data['employment_status_id']]
             ]);
         }
-        if (!empty($data['office_name'])) {
-            $qb->whereHas('office', function ($query) use ($data) {
-                $query->where('name', 'like', '%' . $data['office_name'] . '%');
-            });
+        if (!empty($data['office_id'])) {
+            $qb->where(['office_id' => $data['office_id']]);
         }
         $workingHours = $qb->get();
         return $this->sendResponse($workingHours);
