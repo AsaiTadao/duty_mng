@@ -212,7 +212,7 @@ export default {
             return {
                 masterFormData: {
                     name: '',
-                    officeId: 1,
+                    officeId: null,
                     employmentStatusId: 1,
                     startTimeHour: null,
                     startTimeMinute: null,
@@ -282,7 +282,7 @@ export default {
             onNewClick() {
                 this.masterFormData = {
                     name: '',
-                    officeId: 1,
+                    officeId: null,
                     employmentStatusId: 1,
                     startTimeHour: null,
                     startTimeMinute: null,

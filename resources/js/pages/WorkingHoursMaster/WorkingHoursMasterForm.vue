@@ -11,9 +11,12 @@
         <div class="form-group">
             <div class="form-row align-items-center">
                 <div class="col-md-3">
-                    <select class="form-control" v-model="data.officeId">
+                    <select class="form-control" v-model="data.officeId" :class="{'is-invalid' : errors.officeId}">
                         <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
                     </select>
+                    <span v-if="errors.officeId" class="error invalid-feedback">
+                        {{ errors.officeId }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -150,7 +153,7 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.name = this.$t('Please input name');                                 // need trans
                     valid = false;
                 }
-                if (this.data.name.length > 50) {
+                if (this.data.name && this.data.name.length > 50) {
                     this.errors.name = this.$t('Please enter 50 characters or less');                                 // need trans
                     valid = false;
                 }

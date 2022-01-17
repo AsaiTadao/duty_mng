@@ -99,7 +99,7 @@ export default {
                 hourlys: [],
                 masterFormData: {
                     name: '',
-                    officeId: 1,
+                    officeId: null,
                     startTimeHour: null,
                     startTimeMinute: null,
                     endTimeHour: null,
@@ -154,7 +154,7 @@ export default {
             onNewClick() {
                 this.masterFormData = {
                     name: '',
-                    officeId: 1,
+                    officeId: null,
                     startTimeHour: null,
                     startTimeMinute: null,
                     endTimeHour: null,
