@@ -316,7 +316,7 @@ import Pagination from 'vue-pagination-2';
                     .then(() => {
                         this.unsetActionLoading();
                         showSuccess(this.$t("Successfully saved"));
-                        this.getUsers();
+                        this.getUsers(this.pager.current);
                     })
                     .catch(e => {
                         apiErrorHandler(e);

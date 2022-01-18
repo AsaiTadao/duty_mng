@@ -16,7 +16,7 @@
                             </div>
                             <div class="input-group w-auto">
                                 <!-- <input type="search" class="form-control form-control-sm" placeholder="事業所名"> -->
-                                <v-select label="name" :options="offices" v-model="officeName">
+                                <v-select label="name" :options="offices" v-model="officeName" @input="getHourlys()">
                                     <template v-slot:option="option">
                                         {{option.name}}
                                     </template>
