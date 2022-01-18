@@ -167,7 +167,7 @@ export default {
                 days: [],
                 attends : [],
                 requests : [],
-                officeId: 1,
+                officeId: null,
                 officeName: '',
                 shoteiTime: null,
                 offices: [],
@@ -222,8 +222,16 @@ export default {
                 api.get('office/user-capable')
                     .then(response => {
                         this.offices = response;
-                        const office = this.offices.find(office => office.id === this.officeId);
+                        if(this.offices.length === 0) return;
+                        let office;
+                        if(!this.officeId) {
+                            office = this.offices[0];
+                            this.officeId = office.id;
+                        } else {
+                            office = this.offices.find(office => office.id === this.officeId);
+                        }
                         this.officeName = office ? office.name : '';
+                        this.getShifts();
                         this.getShoteiTime();
                     })
                     .catch(e => apiErrorHandler(e))
@@ -427,7 +435,6 @@ export default {
         },
         mounted() {
             this.getOffices();
-            this.getShifts();
         }
     }
 </script>
