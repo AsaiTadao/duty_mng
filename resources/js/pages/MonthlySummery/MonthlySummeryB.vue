@@ -253,6 +253,11 @@ import { showSuccess } from '../../helpers/error';
             userId: null,
             isShowApplyBtn: true,
         },
+        watch: {
+            ['userId']: function () {
+                this.editMode = false;
+            }
+        },
         data () {
             return {
                 editMode: false,
