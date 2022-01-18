@@ -190,11 +190,14 @@
                                     <tbody class="text-center header-fix-x-tr">
                                         <tr v-for="member in total" :key="member.id">
                                             <td class="header-fix-x">{{member.number}}</td>
-                                            <td class="header-fix-x-77">
+                                            <td class="header-fix-x-77" v-if="roleId != 1">
                                                 <router-link
                                                     :to="{name: 'monthly-summary', query: {userId: member.id, officeId: officeId, month: month}}"
                                                     >{{member.name}}
                                                 </router-link>
+                                            </td>
+                                            <td class="header-fix-x-77" v-else>
+                                                {{member.name}}
                                             </td>
                                             <td>{{member.total.workingDays}}日</td>
                                             <td>{{(member.total.totalWorkingHours / 60).toFixed(2)}}</td>
@@ -358,7 +361,8 @@ export default {
     },
     computed: {
         ...mapState({
-            applicationClasses: state => state.constants.applicationClasses
+            applicationClasses: state => state.constants.applicationClasses,
+            roleId: state =>  state.session.info.roleId
         })
     },
     methods: {

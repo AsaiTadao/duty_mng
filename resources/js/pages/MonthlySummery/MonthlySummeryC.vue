@@ -53,13 +53,13 @@
                                 <td v-else-if="getWeekEnd(index) === 2" class="red header-fix-x-68">{{getDate(index)|formatWeek}}</td>
                                 <td v-else class="header-fix-x-68">{{getDate(index)|formatWeek}}</td>
                                 <td>
-                                    <input type="text" v-model="editData.startWorkTime1" :class="{'is-invalid' : errors.startWorkTime1}" class="fixed-width-70 form-control"/>
+                                    <input type="text" v-model="editData.startWorkTime1" :class="{'is-invalid' : errors.startWorkTime1}" class="fixed-width-70 form-control" @keyup="errors.startWorkTime1 = null"/>
                                     <span v-if="editMode && errors.startWorkTime1" class="error invalid-feedback">
                                         {{ errors.startWorkTime1 }}
                                     </span>
                                 </td>
                                 <td>
-                                    <input type="text" v-model="editData.endWorkTime1" :class="{'is-invalid' : errors.endWorkTime1}" class="fixed-width-70 form-control"/>
+                                    <input type="text" v-model="editData.endWorkTime1" :class="{'is-invalid' : errors.endWorkTime1}" class="fixed-width-70 form-control" @keyup="errors.endWorkTime1 = null"/>
                                     <span v-if="editMode && errors.endWorkTime1" class="error invalid-feedback">
                                         {{ errors.endWorkTime1 }}
                                     </span>
@@ -67,13 +67,13 @@
                                 <td>{{notZero(dayAttendance.behindTime1)}}</td>
                                 <td>{{notZero(dayAttendance.leaveEarly1)}}</td>
                                 <td>
-                                    <input type="text" v-model="editData.startWorkTime2" :class="{'is-invalid' : errors.startWorkTime2}" class="fixed-width-70 form-control"/>
+                                    <input type="text" v-model="editData.startWorkTime2" :class="{'is-invalid' : errors.startWorkTime2}" class="fixed-width-70 form-control" @keyup="errors.startWorkTime2 = null"/>
                                     <span v-if="editMode && errors.startWorkTime2" class="error invalid-feedback">
                                         {{ errors.startWorkTime2 }}
                                     </span>
                                 </td>
                                 <td>
-                                    <input type="text" v-model="editData.endWorkTime2" :class="{'is-invalid' : errors.endWorkTime2}" class="fixed-width-70 form-control"/>
+                                    <input type="text" v-model="editData.endWorkTime2" :class="{'is-invalid' : errors.endWorkTime2}" class="fixed-width-70 form-control" @keyup="errors.endWorkTime2 = null"/>
                                     <span v-if="editMode && errors.endWorkTime2" class="error invalid-feedback">
                                         {{ errors.endWorkTime2 }}
                                     </span>
@@ -272,6 +272,11 @@ import { showSuccess } from '../../helpers/error';
             userId: null,
             isShowApplyBtn: true,
         },
+        watch: {
+            ['userId']: function () {
+                this.editMode = false;
+            }
+        },
         data () {
             return {
                 editMode: false,
@@ -408,15 +413,15 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.startWorkTime1 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
-                if (this.editData.startWorkTime2 && this.endWorkTime1 && this.editData.startWorkTime2 <= this.endWorkTime1) {
+                if (this.editData.startWorkTime2 && this.editData.endWorkTime1 && this.editData.startWorkTime2 <= this.editData.endWorkTime1) {
                     this.errors.endWorkTime1 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
-                if (this.editData.startWorkTime1 && this.endWorkTime2 && this.editData.startWorkTime1 >= this.endWorkTime2) {
+                if (this.editData.startWorkTime1 && this.editData.endWorkTime2 && this.editData.startWorkTime1 >= this.editData.endWorkTime2) {
                     this.errors.endWorkTime1 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
-                if (this.editData.endWorkTime1 && this.endWorkTime2 && this.editData.endWorkTime1 >= this.endWorkTime2) {
+                if (this.editData.endWorkTime1 && this.editData.endWorkTime2 && this.editData.endWorkTime1 >= this.editData.endWorkTime2) {
                     this.errors.endWorkTime2 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
