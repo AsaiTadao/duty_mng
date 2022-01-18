@@ -171,8 +171,11 @@ class UserController extends BaseController
         $qb = User::with('setting', 'office', 'office.region', 'office.group');
         if ($officeName)
         {
-            $qb->whereHas('office', function ($query) use ($officeName) {
-                $query->where('name', 'LIKE', '%' . $officeName . '%');
+            $qb->where(function($query) use ($officeName) {
+                $query->whereHas('office', function ($query) use ($officeName) {
+                    $query->where('name', 'LIKE', '%' . $officeName . '%');
+                })
+                ->orWhere('number', 'LIKE', '%' . $officeName . '%');
             });
         }
         $pager = $qb->orderByDesc('created_at')->paginate($pageSize);
