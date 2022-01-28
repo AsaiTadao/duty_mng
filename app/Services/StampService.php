@@ -45,6 +45,15 @@ class StampService
     {
         $stampTime = $stamp->format('H:i:s');
         [$attendance, $shifts] = $this->getAttendanceShifts($user, $stamp);
+
+        // boc --- resolve #7214
+        if ($attendance && $attendance->commuting_time_1 && !$attendance->leave_time_1) {
+            $this->error = "Commute before previous leave stamp";
+            $this->log($user, "getMatchedShift return 17 postion");
+            return null;
+        }
+        // eoc --- resolve #7214
+
         if (!$shifts->count()) {
             if (!$attendance->commuting_time_1 && !$attendance->leave_time_1) {
                 $this->log($user, "getMatchedShift return 1 postion");
