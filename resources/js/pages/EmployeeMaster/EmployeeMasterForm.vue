@@ -228,10 +228,10 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.officeId = this.$t('Please select office');
                     valid = false;
                 }
-                if (!this.formData.sort) {
-                    this.errors.sort = this.$t('Please input sort');
-                    valid = false;
-                }
+                // if (!this.formData.sort) {
+                //     this.errors.sort = this.$t('Please input sort');
+                //     valid = false;
+                // }
                 if (!this.formData.email) {
                     this.errors.email = this.$t('Please input email');
                     valid = false;
