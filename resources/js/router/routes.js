@@ -81,6 +81,7 @@ export default [
                     guards: [
                         Guards.REGION_MANAGER,
                         Guards.OFFICE_MANAGER,
+                        Guards.ADMIN,
                     ]
                 }
             },

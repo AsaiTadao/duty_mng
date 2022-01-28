@@ -30,7 +30,7 @@
                                 >
                                     <i class="fas fa-caret-right fa-2x"></i>
                                 </button>
-                                <div class="form-group mx-4 mb-0">
+                                <div class="form-group mx-4 mb-0" style="width: 250px;">
                                     <select class="form-control" v-model="officeId" @change="selectOffice()">
                                         <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
                                     </select>
@@ -190,14 +190,11 @@
                                     <tbody class="text-center header-fix-x-tr">
                                         <tr v-for="member in total" :key="member.id">
                                             <td class="header-fix-x">{{member.number}}</td>
-                                            <td class="header-fix-x-77" v-if="roleId != 1">
+                                            <td class="header-fix-x-77">
                                                 <router-link
                                                     :to="{name: 'monthly-summary', query: {userId: member.id, officeId: officeId, month: month}}"
                                                     >{{member.name}}
                                                 </router-link>
-                                            </td>
-                                            <td class="header-fix-x-77" v-else>
-                                                {{member.name}}
                                             </td>
                                             <td>{{member.total.workingDays}}日</td>
                                             <td>{{(member.total.totalWorkingHours / 60).toFixed(2)}}</td>
@@ -362,7 +359,6 @@ export default {
     computed: {
         ...mapState({
             applicationClasses: state => state.constants.applicationClasses,
-            roleId: state =>  state.session.info.roleId
         })
     },
     methods: {

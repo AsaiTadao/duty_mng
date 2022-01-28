@@ -6,11 +6,9 @@
 import moment from 'moment';
 import { mapState } from 'vuex';
 import WorkTotalA from './WorkTotal/WorkTotalA.vue';
-import WorkTotalB from './WorkTotal/WorkTotalB.vue';
-import WorkTotalC from './WorkTotal/WorkTotalC.vue';
 
 export default {
-  components: { WorkTotalA, WorkTotalB, WorkTotalC },
+  components: { WorkTotalA },
     data() {
         return {
             editmode: false,

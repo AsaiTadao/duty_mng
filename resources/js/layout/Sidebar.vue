@@ -36,6 +36,7 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import { Guards } from '../global/consts';
 import routes from "../router/routes";
 
 export default {
@@ -56,6 +57,10 @@ export default {
     mounted() {
         const userRoutes = routes[0];
         this.routes = userRoutes.children.filter(item => item.meta.guards.includes(this.roleId) && item.meta.menu);
+        if (this.roleId === Guards.ADMIN) {
+            const index = this.routes.findIndex((item) => item.name === "monthly-summary");
+            if (index > -1) this.routes.splice(index, 1);
+        }
     }
 };
 </script>
