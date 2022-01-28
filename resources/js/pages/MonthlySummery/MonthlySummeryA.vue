@@ -144,7 +144,7 @@
                                     <input type="text" v-model="editData.remark">
                                 </td>
                                 <td>
-                                    <a href="#" class="mx-2" @click="editOk">
+                                    <a href="#" class="mx-2" @click="editOk(index)">
                                         <i class="far fa-check-circle fa-lg"></i>
                                     </a>
                                     <a href="#" class="mx-2" @click="editCancel">
@@ -389,6 +389,23 @@ import { showSuccess } from '../../helpers/error';
                 this.getDays();
                 this.selectedIndex = index;
                 this.editMode = !this.editMode;
+                this.errors = {
+                    startWorkTime1: '',
+                    endWorkTime1: '',
+                    startWorkTime2: '',
+                    endWorkTime2: '',
+                    annualPaidTime: null,
+                    annualPaidHoliday: false,
+                    specialPaidTime: null,
+                    specialPaidHoliday: false,
+                    specialUnpaidTime: null,
+                    specialUnPaidHoliday: false,
+                    otherUnpaidTime: null,
+                    otherUnPaidHoliday: false,
+                    absenceDay: false,
+                    reason: null,
+                    remark: '',
+                }
                 this.editData.startWorkTime1 = this.changeTimeFormat(dayAttendance.commutingTime1);
                 this.editData.endWorkTime1 = this.changeTimeFormat(dayAttendance.leaveTime1);
                 this.editData.startWorkTime2 = this.changeTimeFormat(dayAttendance.commutingTime2);
@@ -476,7 +493,7 @@ import { showSuccess } from '../../helpers/error';
                 }
                 return valid;
             },
-            editOk() {
+            editOk(index) {
                 if (this.actionLoading) return;
                 if (!this.validate()) return;
                 const requestData = {
@@ -508,6 +525,7 @@ import { showSuccess } from '../../helpers/error';
                         apiErrorHandler(e);
                         this.unsetActionLoading();
                     });
+                this.editMode = false;
             },
             editCancel() {
                 this.editMode = false;

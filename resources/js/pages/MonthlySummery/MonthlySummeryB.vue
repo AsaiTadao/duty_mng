@@ -340,6 +340,23 @@ import { showSuccess } from '../../helpers/error';
             editRow(index, dayAttendance) {
                 this.getDays();
                 this.selectedIndex = index;
+                this.errors = {
+                    startWorkTime1: '',
+                    endWorkTime1: '',
+                    startWorkTime2: '',
+                    endWorkTime2: '',
+                    annualPaidTime: null,
+                    annualPaidHoliday: false,
+                    specialPaidTime: null,
+                    specialPaidHoliday: false,
+                    specialUnpaidTime: null,
+                    specialUnPaidHoliday: false,
+                    otherUnpaidTime: null,
+                    otherUnPaidHoliday: false,
+                    absenceDay: false,
+                    reason: null,
+                    remark: '',
+                }
                 this.editMode = !this.editMode;
                 this.editData.startWorkTime1 = this.changeTimeFormat(dayAttendance.commutingTime1);
                 this.editData.endWorkTime1 = this.changeTimeFormat(dayAttendance.leaveTime1);
