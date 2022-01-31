@@ -10,6 +10,7 @@ use App\Http\Requests\RoleUpdateRequest;
 use App\Http\Requests\UserMasterQuery;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserSettingRequest;
+use App\Mail\PasswordUpdated;
 use App\Models\Code;
 use App\Models\EmploymentStatus;
 use App\Models\Office;
@@ -19,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Laravel\Sanctum\PersonalAccessToken;
 use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
@@ -111,6 +113,10 @@ class UserController extends BaseController
         }
         $user->update_user_id = $currentUser->id;
         $user->save();
+        if (!empty($data['password']))
+        {
+            Mail::to($user)->send(new PasswordUpdated($user->name, $data['password']));
+        }
         return $this->sendResponse($user);
     }
     public function delete(User $user)
