@@ -88,7 +88,7 @@
                         </span>
                     </div>
                     <div class="col-md-6">
-                        <input type="password" class="form-control" placeholder="パスワード" v-model="formData.password" :class="{'is-invalid' : errors.password}" @keyup="errors.password = null">
+                        <input type="password" class="form-control" placeholder="*****" v-model="formData.password" :class="{'is-invalid' : errors.password}" @keyup="errors.password = null">
                         <span v-if="errors.password" class="error invalid-feedback">
                             {{ errors.password }}
                         </span>
