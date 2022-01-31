@@ -22,4 +22,8 @@ class ShiftPlan extends Model
         'rest_end_time',
         'vacation_reason_id',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

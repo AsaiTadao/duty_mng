@@ -50,6 +50,16 @@ class ShiftController extends BaseController
         return $this->sendResponse();
     }
 
+    public function delete(ShiftPlan $shift)
+    {
+        if (!Gate::allows('delete-shift', $shift))
+        {
+            abort(403, trans("You are not allowed"));
+        }
+        $shift->delete();
+        return $this->sendResponse();
+    }
+
     public function getChildcareSchedule(Office $office, ChildcareQuery $request, ChildcareService $childcareService)
     {
         $currentUser = auth()->user();

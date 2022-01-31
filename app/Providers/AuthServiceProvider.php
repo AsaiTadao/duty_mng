@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Constants\Roles;
 use App\Models\Application;
 use App\Models\Office;
+use App\Models\ShiftPlan;
 use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -162,5 +163,10 @@ class AuthServiceProvider extends ServiceProvider
             return $userGuard($user, $targetUser);
         });
         Gate::define('get-office-shift-detail', $userOfficeGuard);
+        Gate::define('delete-shift', function(User $user, ShiftPlan $shift) use ($shiftGuard) {
+            $targetUser = $shift->user;
+            if (!$targetUser->office) return false;
+            return $shiftGuard($user, $targetUser->office, $targetUser);
+        });
     }
 }
