@@ -161,6 +161,7 @@
             </div>
         </div>
         <div class="modal-footer">
+            <button type="button" class="btn btn-danger float-left" style="margin-right: 55%;" v-if="shifts[0] || shifts[1]" @click="deleteShift">削除</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
             <button type="submit" class="btn btn-primary" @click="saveWorkingHours">登録</button>
         </div>
@@ -563,6 +564,43 @@ import { showSuccess } from '../../helpers/error';
             setTwoDigits(number) {
                 if(!number) return;
                 return ('0' + number).slice(-2);
+            },
+            deleteShift() {
+                if (this.actionLoading) return;
+                if (!confirm(this.$t("Are you sure you want to delete?"))) return;
+                //this.setActionLoading();
+                if(this.shifts.length > 0){
+                    if(this.shifts[0]) {
+                        api.delete('shift/' + this.shifts[0].id)
+                        .then(() => {
+                            // this.unsetActionLoading();
+                            if(this.shifts[1]) {
+                                api.delete('shift/' + this.shifts[1].id)
+                                .then(() => {
+                                    // this.unsetActionLoading();
+                                    showSuccess(this.$t('Successfully deleted'));
+                                    this.$emit('success');
+                                })
+                                .catch(e => {
+                                    apiErrorHandler(e)
+                                })
+                                .finally(() => {
+                                    // this.unsetActionLoading();
+                                });
+                            }
+                            showSuccess(this.$t('Successfully deleted'));
+                            // this.unsetActionLoading();
+                            this.$emit('success');
+                        })
+                        .catch(e => {
+                            // this.unsetActionLoading();
+                            apiErrorHandler(e)
+                        });
+                    }
+                } else {
+                    // this.unsetActionLoading();
+                    return;
+                }
             }
         }
     }

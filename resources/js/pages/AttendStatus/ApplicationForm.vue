@@ -178,16 +178,16 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.endTime = this.$t('Please input endTime');                            // need trans
                     valid = false;
                 }
-                if (this.formData.startTimeHour > this.formData.endTimeHour) {
-                    this.errors.startTime = this.$t('start time must be earlier than end time');             //need trans
-                    this.errors.endTime = this.$t('start time must be earlier than end time');
-                    valid = false;
-                }
-                if (this.formData.startTimeHour == this.formData.endTimeHour && this.formData.startTimeMin > this.formData.endTimeMin) {
-                    this.errors.startTime = this.$t('start time must be earlier than end time');             //need trans
-                    this.errors.endTime = this.$t('start time must be earlier than end time');
-                    valid = false;
-                }
+                // if (this.formData.startTimeHour > this.formData.endTimeHour) {
+                //     this.errors.startTime = this.$t('start time must be earlier than end time');             //need trans
+                //     this.errors.endTime = this.$t('start time must be earlier than end time');
+                //     valid = false;
+                // }
+                // if (this.formData.startTimeHour == this.formData.endTimeHour && this.formData.startTimeMin > this.formData.endTimeMin) {
+                //     this.errors.startTime = this.$t('start time must be earlier than end time');             //need trans
+                //     this.errors.endTime = this.$t('start time must be earlier than end time');
+                //     valid = false;
+                // }
                 return valid;
             },
             convertToFormData() {
