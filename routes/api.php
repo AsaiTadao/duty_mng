@@ -65,9 +65,9 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
 
         Route::get('/attendance/status', [AttendanceStatusController::class, 'index'])->name('attendance.status.index');
         Route::post('/application', [ApplicationController::class, 'create'])->name('application.create');
-        Route::put('/application/{application}', [ApplicationController::class, 'update'])->name('application.update');
         Route::put('/application/approve/{application}', [ApplicationController::class, 'approve'])->name('application.approve');
         Route::put('/application/reject/{application}', [ApplicationController::class, 'reject'])->name('application.reject');
+        Route::put('/application/{application}', [ApplicationController::class, 'update'])->name('application.update');
 
         Route::put('/monthly-summary/attendances/approve', [MonthlySummaryController::class, 'approve'])->name('monthly_summary.attendance.approve');
         Route::post('/monthly-summary/attendances', [MonthlySummaryController::class, 'saveAttendance'])->name('monthly_summary.attendance.save');

@@ -6,7 +6,7 @@ use App\Http\Requests\ApplicationRequest;
 use App\Models\Application;
 use App\Models\Attendance;
 use App\Models\Year;
-use App\Services\AttendancePipleline;
+use App\Services\Processors\AttendanceApplicationProcessor;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Gate;
 
@@ -30,10 +30,6 @@ class ApplicationController extends BaseController
             (
                 !empty($data['time_before_correction']) &&
                 empty($data['time_after_correction'])
-            )
-            ||
-            (
-                $data['time_before_correction'] >= $data['time_after_correction']
             )
         ) {
             return $this->sendError("Invalid time correction", [], 422);
@@ -96,7 +92,7 @@ class ApplicationController extends BaseController
         $application->save();
         return $this->sendResponse($application);
     }
-    public function approve(Application $application, AttendancePipleline $attendancePipleline)
+    public function approve(Application $application, AttendanceApplicationProcessor $applicationProcessor)
     {
         if (!Gate::allows('approve-application', $application)) {
             return abort(403, "You are not allowed");
@@ -113,14 +109,17 @@ class ApplicationController extends BaseController
         {
             abort(404, "This item is already approved");
         }
+        $attendance = $application->attendance;
         $application->approval_datetime = Carbon::now();
         $application->status = Application::STATUS_APPROVED;
         $application->update_user_id = $currentUser->id;
+
+        if (!$applicationProcessor->process($attendance, $application))
+        {
+            abort(404, $applicationProcessor->getError());
+        }
         $application->save();
 
-        $attendance = $application->attendance;
-        $attendancePipleline->process($attendance);
-        $attendance->save();
         return $this->sendResponse($application);
     }
 

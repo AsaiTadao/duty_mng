@@ -5,104 +5,62 @@ namespace App\Services\Processors;
 use App\Models\Application;
 use App\Models\ApplicationClass;
 use App\Models\Attendance;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 class AttendanceApplicationProcessor
 {
     protected $error;
+    protected $attendancePreProcessor;
 
-    public function process(Attendance &$attendance)
+    public function __construct(AttendancePreProcessor $attendancePreProcessor)
     {
-        if (!$attendance->id) return;
+        $this->attendancePreProcessor = $attendancePreProcessor;
+    }
 
-        $applications = $attendance->applications()
-                    ->where(['status' => Application::STATUS_APPROVED])
-                    ->get();
-        if ($applications->count() === 0) return;
-        if(!$attendance->date) return;
+    public function process(Attendance &$attendance, Application $application)
+    {
+        if (!$attendance->id) {
+            $this->error = 'Invalid attendance';
+            return false;
+        }
+        if ($application->status !== Application::STATUS_APPROVED) {
+            return false;
+        }
+        if ($application->application_class_id === ApplicationClass::TYPE_BEHIND_TIME) {
 
-        $date = $attendance->date->format('Y-m-d');
-
-        $behindTimeApplications = $applications->where('application_class_id', ApplicationClass::TYPE_BEHIND_TIME);
-        $leaveEarlyApplications = $applications->where('application_class_id', ApplicationClass::TYPE_LEAVE_EARLY);
+            $field = 'commuting_time_';
+        } else if ($application->application_class_id === ApplicationClass::TYPE_LEAVE_EARLY) {
+            $field = 'leave_time_';
+        } else {
+            return true;
+        }
         for ($i = 1; $i < 4; $i++)
         {
-            $commuting_time_i = "commuting_time_$i";
-            $shift_i = "shift$i";
-            $behind_time_i = "behind_time_$i";
-
-            $leave_time_i = "leave_time_$i";
-            $leave_early_i = "leave_early_$i";
-
-
-            if ($attendance->$behind_time_i > 0 && $attendance->$commuting_time_i && $behindTimeApplications->count())
+            $currentField = $field . $i;
+            if ($this->isMatchedAtMinuteLevel($attendance->$currentField, $application->time_before_correction))
             {
-                if (!$attendance->$shift_i) {
-                    $attendance->$behind_time_i = 0; // if shift is not defined, then behind time is pointless
-                } else {
-                    $shiftStart = Carbon::parse($date . ' ' . $attendance->$shift_i->start_time);
-
-                    if ($shiftStart->gte($attendance->$commuting_time_i))
-                    {
-                        $attendance->$behind_time_i = 0;
-                    } else {
-                        $overlapped = 0;
-                        foreach ($behindTimeApplications as $application)
-                        {
-                            if (!$application->time_before_correction || !$application->time_after_correction) continue;
-                            $tmp = calcOverlappedPeriod(
-                                $shiftStart,
-                                $attendance->$commuting_time_i,
-                                $application->time_before_correction,
-                                $application->time_after_correction
-                            );
-                            if ($tmp > $overlapped)
-                            {
-                                $overlapped = $tmp;
-                            }
-                        }
-                        if ($overlapped > 0)
-                        {
-                            $behindTime = $attendance->$behind_time_i - $overlapped;
-                            $attendance->$behind_time_i = $behindTime > 0 ? $behindTime : 0;
-                        }
-                    }
-                }
-            }
-            if ($attendance->$leave_early_i > 0 && $attendance->$leave_time_i && $leaveEarlyApplications->count())
-            {
-                if (!$attendance->$shift_i)
-                {
-                    $attendance->$leave_early_i = 0;
-                } else {
-                    $shiftEnd = Carbon::parse($date . ' ' . $attendance->$shift_i->end_time);
-                    if ($shiftEnd->lte($attendance->$leave_time_i))
-                    {
-                        $attendance->$leave_early_i = 0;
-                    } else {
-                        $overlapped = 0;
-                        foreach ($leaveEarlyApplications as $application)
-                        {
-                            if (!$application->time_before_correction || !$application->time_after_correction) continue;
-                            $tmp = calcOverlappedPeriod(
-                                $attendance->$leave_time_i,
-                                $shiftEnd,
-                                $application->time_before_correction,
-                                $application->time_after_correction
-                            );
-                            if ($tmp > $overlapped)
-                            {
-                                $overlapped = $tmp;
-                            }
-                        }
-                        if ($overlapped > 0)
-                        {
-                            $leaveEarly = $attendance->$leave_early_i - $overlapped;
-                            $attendance->$leave_early_i = $leaveEarly > 0 ? $leaveEarly : 0;
-                        }
-                    }
-                }
+                $hour = $application->time_after_correction->hour;
+                $minute = $application->time_after_correction->minute;
+                $time = $attendance->$currentField;
+                $time->hour = $hour;
+                $time->minute = $minute;
+                $attendance->$currentField = $time;
+                $this->attendancePreProcessor->process($attendance);
+                $attendance->save();
+                return true;
             }
         }
+        $this->error = "No matched time";
+        return false;
+    }
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    public function isMatchedAtMinuteLevel($time1, $time2)
+    {
+        if (!$time1 || !$time2) return false;
+        return $time1->hour === $time2->hour && $time1->minute === $time2->minute;
     }
 }
