@@ -123,6 +123,7 @@ export default [
                     icon: "fas fa-plus-square",
                     anchor: "個別集計",
                     menu: false,
+                    menuKey: 'work-total',
                     guards: [
                         Guards.REGION_MANAGER,
                         Guards.OFFICE_MANAGER,
@@ -164,6 +165,7 @@ export default [
                     icon: "",
                     anchor: "事業所マスタ",
                     menu: false,
+                    menuKey: 'master',
                     guards: [
                         Guards.ADMIN,
                     ]
@@ -177,6 +179,7 @@ export default [
                     icon: "",
                     anchor: "エリアマスタ",
                     menu: false,
+                    menuKey: 'master',
                     guards: [
                         Guards.ADMIN,
                     ]
@@ -190,6 +193,7 @@ export default [
                     icon: "",
                     anchor: "社員マスタ",
                     menu: false,
+                    menuKey: 'master',
                     guards: [
                         Guards.ADMIN,
                     ]
@@ -203,6 +207,7 @@ export default [
                     icon: "",
                     anchor: "時間帯マスタ",
                     menu: false,
+                    menuKey: 'master',
                     guards: [
                         Guards.ADMIN,
                     ]
@@ -216,6 +221,7 @@ export default [
                     icon: "",
                     anchor: "時給テーブルマスタ",
                     menu: false,
+                    menuKey: 'master',
                     guards: [
                         Guards.ADMIN,
                     ]
@@ -229,6 +235,7 @@ export default [
                     icon: "",
                     anchor: "休暇マスタ",
                     menu: false,
+                    menuKey: 'master',
                     guards: [
                         Guards.ADMIN,
                     ]
