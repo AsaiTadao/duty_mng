@@ -4,6 +4,7 @@ import WorkStatus from "../pages/WorkStatus";
 import MonthlySummery from "../pages/MonthlySummery";
 import ShiftCreate from "../pages/ShiftCreate";
 import WorkTotal from "../pages/WorkTotal";
+import IndividualSummery from "../pages/IndividualSummery";
 import Master from "../pages/Master";
 import RegionMaster from "../pages/RegionMaster";
 import EmployeeMaster from "../pages/EmployeeMaster";
@@ -111,6 +112,21 @@ export default [
                     guards: [
                         Guards.ADMIN,
                         Guards.REGION_MANAGER,
+                    ]
+                }
+            },
+            {
+                path: "individual-summary",
+                name: "individual-summary",
+                components: { default: IndividualSummery },
+                meta: {
+                    icon: "fas fa-plus-square",
+                    anchor: "個別集計",
+                    menu: false,
+                    guards: [
+                        Guards.REGION_MANAGER,
+                        Guards.OFFICE_MANAGER,
+                        Guards.ADMIN,
                     ]
                 }
             },
