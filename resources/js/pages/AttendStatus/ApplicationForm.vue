@@ -26,9 +26,9 @@
                 <div class="form-row align-items-center">
                     <div class="col-md-5">
                         <div class="d-flex is-invalid">
-                            <input v-model="formData.startTimeHour" type="number" :class="{'is-invalid' : errors.startTime}" @change="() => {errors.startTime=null}"
+                            <input v-model="formData.startTimeHour" type="number" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="() => {errors.startTime=null}"
                                 class="form-control mr-2" :disabled="formData.isApproved">
-                            <input v-model="formData.startTimeMin" type="number" :class="{'is-invalid' : errors.startTime}" @change="() => {errors.startTime=null}"
+                            <input v-model="formData.startTimeMin" type="number" min="0" max="59" :class="{'is-invalid' : errors.startTime}" @change="() => {errors.startTime=null}"
                                 class="form-control" :disabled="formData.isApproved">
                         </div>
                         <span v-if="errors.startTime" class="error invalid-feedback">
@@ -38,9 +38,9 @@
                     <div class="form-control-label">⇒</div>
                     <div class="col-md-5">
                         <div class="d-flex is-invalid">
-                            <input v-model="formData.endTimeHour" type="number" :class="{'is-invalid' : errors.endTime}" @change="() => {errors.endTime=null}"
+                            <input v-model="formData.endTimeHour" type="number" min="0" max="24" :class="{'is-invalid' : errors.endTime}" @change="() => {errors.endTime=null}"
                                 class="form-control mr-2" :disabled="formData.isApproved">
-                            <input v-model="formData.endTimeMin" type="number" :class="{'is-invalid' : errors.endTime}" @change="() => {errors.endTime=null}"
+                            <input v-model="formData.endTimeMin" type="number" min="0" max="59" :class="{'is-invalid' : errors.endTime}" @change="() => {errors.endTime=null}"
                                 class="form-control" :disabled="formData.isApproved">
                         </div>
                         <span v-if="errors.endTime" class="error invalid-feedback">
