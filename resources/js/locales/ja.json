@@ -28,6 +28,7 @@
     "Please select region": "エリアを選択してください",
     "Please input email": "メールを入力してください",
     "Please input password": "パスワードを入力してください",
+    "LoginId or Password dismatch": "ログインIDまたはパスワードが違います",
     "Please input correct format": "正しい形式に入力してください",
     "Please input time": "時間を入力してください",
     "Please avoid time overlapped": "時間の重複は避けてください",

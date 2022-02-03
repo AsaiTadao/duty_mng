@@ -192,7 +192,7 @@
                                             <td class="header-fix-x">{{member.number}}</td>
                                             <td class="header-fix-x-77">
                                                 <router-link
-                                                    :to="{name: 'monthly-summary', query: {userId: member.id, officeId: officeId, month: month}}"
+                                                    :to="{name: 'individual-summary', query: {userId: member.id, officeId: officeId, month: month}}"
                                                     >{{member.name}}
                                                 </router-link>
                                             </td>

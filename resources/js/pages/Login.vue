@@ -39,6 +39,9 @@
                                 {{ form.errors().get('password') }}
                             </span>
                         </div>
+                        <div class="text-center red mb-2" v-if="loginFailure">
+                            {{$t('LoginId or Password dismatch')}}
+                        </div>
                         <div class="row d-flex justify-content-center mb-3">
                             <!-- /.col -->
                             <div class="col-4">
@@ -84,12 +87,13 @@ export default {
                 password: 'required'
             })
             .messages({
-                'number.required': 'Please input number',       // need trans
-                'password.required': 'Please input password'    // need trans
+                'number.required': this.$t('Please input number'),       // need trans
+                'password.required': this.$t('Please input password')    // need trans
             }),
             enableLogin: true,
             loginTime: null,
             loginTimeInterval: null,
+            loginFailure: false,
         }
     },
     watch: {
@@ -116,9 +120,13 @@ export default {
                 })
                 .catch(e => {
                     this.unsetActionLoading();
-                    apiErrorHandler(e);
+                    //apiErrorHandler(e);
                     LocalStorage.saveLoginFailure();
                     LocalStorage.saveLoginTimeStamp();
+                    this.loginFailure = true;
+                    // setTimeout(() => {
+                    //     this.loginFailure = false;
+                    // }, 3000);
                     if(LocalStorage.getLoginFailure() >= 5) {
                         this.enableLogin = false;
                         this.loginTimeInterval = setInterval(this.enableLoginTimer, 1000);
