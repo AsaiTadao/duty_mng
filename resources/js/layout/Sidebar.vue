@@ -16,7 +16,7 @@
                         v-for="(route, index) in routes"
                         :key="index"
                         :class="{
-                            'menu-open': '/' + route.path === currentRoute
+                            'menu-open': route.path === (currentRoute ? (currentRoute.meta.menuKey ? currentRoute.meta.menuKey : currentRoute.path) : '')
                         }"
                     >
                         <router-link
@@ -47,8 +47,10 @@ export default {
     },
     computed: {
         currentRoute() {
-            const route = this.$route.path;
-            return route;
+            const route = this.$route.path.substring(1);
+            const rt = routes[0].children.find(item => item.path === route);
+            console.log({currentRoute: rt, route, routes: routes[0], result: rt.meta.menuKey ? rt.meta.menuKey : rt.path});
+            return rt;
         },
         ...mapState({
             roleId: state =>  state.session.info.roleId
