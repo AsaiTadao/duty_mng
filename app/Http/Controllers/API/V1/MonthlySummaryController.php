@@ -238,7 +238,7 @@ class MonthlySummaryController extends BaseController
             $userName = $user->name;
             foreach ($mails as $mail)
             {
-                Mail::to($mail)->queue(new MonthlySummaryApprove($officeName, $userName, floor($monthValue), $monthValue % 100));
+                Mail::to($mail)->queue(new MonthlySummaryApprove($officeName, $userName, (int)floor($monthValue / 100), $monthValue % 100));
             }
         }
         return $this->sendResponse();

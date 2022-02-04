@@ -262,8 +262,8 @@
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-primary float-right mr-2" @click="csvOutput">Excel出力</button>
-        <button class="btn btn-primary float-right mr-2" @click="excelOutput">CSV出力</button>
+        <button class="btn btn-primary float-right mr-2" @click="excelOutput">Excel出力</button>
+        <button class="btn btn-primary float-right mr-2" @click="csvOutput">CSV出力</button>
     </div>
 </template>
 <script>
@@ -609,10 +609,10 @@ import { showSuccess } from '../../helpers/error';
                     });
             },
             csvOutput() {
-
+                this.$emit('output', 'csv');
             },
             excelOutput() {
-
+                this.$emit('output', 'excel');
             }
         },
         created() {

@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Exports\AttendanceTotalExport;
+use App\Exports\IndividualSummaryExport;
+use App\Http\Requests\WorkTotal\IndividualCsvRequest;
 use App\Http\Requests\WorkTotal\WorkTotalCsvRequest;
 use App\Http\Requests\WorkTotal\WorkTotalQuery;
 use App\Models\AttendanceTotal;
 use App\Models\Office;
+use App\Models\User;
 use App\Models\Year;
 use App\Services\AttendanceTotalService;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Sanctum\PersonalAccessToken;
+use Maatwebsite\Excel\Excel as ExcelExcel;
 use Maatwebsite\Excel\Facades\Excel;
 
 class WorkTotalController extends BaseController
@@ -68,7 +72,6 @@ class WorkTotalController extends BaseController
             $users = $office->users()->where(['enrolled' => true])->get();
         }
 
-        $data = $request->validated();
         $start = $data['start'];
         $end = $data['end']??$start;
 
@@ -104,5 +107,46 @@ class WorkTotalController extends BaseController
             $title .= '~ ' . $endYear . '年' . $endMonth . '月　勤務集計';
         }
         return Excel::download(new AttendanceTotalExport($totals, $title, $office), $title . '.xlsx');
+    }
+
+    public function exportIndividual(IndividualCsvRequest $request, AttendanceTotalService $attendanceTotalService)
+    {
+        if (!$request->has('token'))
+        {
+            abort(403, "You are not allowed");
+        }
+        $token = $request->input('token');
+        $token = PersonalAccessToken::findToken($token);
+
+        if (!$token) {
+            abort(403, "You are not allowed");
+        }
+        $currentUser = $token->tokenable;
+        if (!$currentUser) {
+            abort(403, "You are not allowed");
+        }
+        $data = $request->validated();
+        $user = User::where(['id' => $data['user_id']])->first();
+        $office = $user->office;
+        if (!$office || !Gate::forUser($currentUser)->allows('get-office-work-total', $office)) {
+            abort(403, "You are not allowed");
+        }
+
+        [$attendances, $attendanceTotal, $attendanceMetaItems] = $attendanceTotalService->calculateAttendanceTotal($user, $data['month']);
+
+        $attendanceItems = [];
+        foreach($attendances as $i => $attendance)
+        {
+            if (!is_array($attendance))
+            {
+                $item = $attendance->toArray();
+            } else {
+                $item = $attendance;
+            }
+            $attendanceItems[$i] = array_merge($item, $attendanceMetaItems[$i]);
+        }
+        $ext = $data['type'] === 'excel' ? '.xlsx' : '.csv';
+        return Excel::download(new IndividualSummaryExport($attendanceItems, $user, $office, $data['month']), $user->name . $ext, $data['type'] === 'excel' ? ExcelExcel::XLSX : ExcelExcel::CSV);
+        //->download($user->name . $ext, $data['type'] === 'excel' ? ExcelExcel::XLSX : ExcelExcel::CSV);
     }
 }

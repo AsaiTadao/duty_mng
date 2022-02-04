@@ -30,11 +30,11 @@
                             </div>
                         </div>
                             <individual-summery-a v-if="selectedUser.employmentStatusId == 1 && !isHonShya(officeName)" :attendance="attendance" :total="total" :userMeta="userMeta" :month="month"
-                            :userId="userId" :isShowApplyBtn="isShowApplyBtn" v-on:success="onEditSaved" />
+                            :userId="userId" :isShowApplyBtn="isShowApplyBtn" v-on:success="onEditSaved" v-on:output="output" />
                             <individual-summery-b v-else-if="selectedUser.employmentStatusId == 1 && isHonShya(officeName)" :attendance="attendance" :total="total" :userMeta="userMeta" :month="month"
-                            :userId="userId" :isShowApplyBtn="isShowApplyBtn" v-on:success="onEditSaved" />
+                            :userId="userId" :isShowApplyBtn="isShowApplyBtn" v-on:success="onEditSaved" v-on:output="output" />
                             <individual-summery-c v-else-if="selectedUser.employmentStatusId == 3 && !isHonShya(officeName)" :attendance="attendance" :total="total" :userMeta="userMeta" :month="month"
-                            :userId="userId" :isShowApplyBtn="isShowApplyBtn" v-on:success="onEditSaved" />
+                            :userId="userId" :isShowApplyBtn="isShowApplyBtn" v-on:success="onEditSaved" v-on:output="output" />
                     </div>
                 </div>
             </div>
@@ -49,6 +49,7 @@ import IndividualSummeryA from './IndividualSummery/IndividualSummeryA.vue';
 import IndividualSummeryB from './IndividualSummery/IndividualSummeryB.vue';
 import IndividualSummeryC from './IndividualSummery/IndividualSummeryC.vue';
 import actionLoading from '../mixin/actionLoading';
+import LocalStorage from '../helpers/localStorage';
 
 export default {
   components: { IndividualSummeryA, IndividualSummeryB, IndividualSummeryC },
@@ -207,8 +208,14 @@ export default {
             },
             onEditSaved() {
                 this.getAttendance();
+            },
+            output(type) {
+                if (this.userId && this.officeId && this.selectedMonth) {
+                    location.href = "/individual-summary/excel?token=" + LocalStorage.getToken() + "&month=" + this.selectedMonth + "&user_id=" + this.userId + '&type=' + type;
+                    return;
+                }
+                return;
             }
-
         },
         mounted() {
             this.month = moment().format('YYYY') + '-' + moment().format('MM');
