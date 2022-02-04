@@ -16,7 +16,7 @@
                             <div class="input-group w-auto">
                                 <input type="search" class="form-control form-control-sm" placeholder="事業所名" v-model="searchName">
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-sm btn-default" @click="getUsers()">
+                                    <button type="submit" class="btn btn-sm btn-default" @click="onSearch">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
@@ -224,6 +224,7 @@ import Pagination from 'vue-pagination-2';
                     10, 20, 50, 100
                 ],
                 searchName: '',
+                queryName: '',
             }
         },
         computed: {
@@ -291,11 +292,15 @@ import Pagination from 'vue-pagination-2';
             showMasterForm() {
                 $("#user-master-form").modal('show');
             },
+            onSearch() {
+                this.queryName = this.searchName;
+                this.getUsers();
+            },
             getUsers(page = 1) {
                 if (this.actionLoading) return;
                 this.setActionLoading();
                 const query = {page, size: this.pager.size};
-                if (this.searchName) query.office_name = this.searchName;
+                if (this.queryName) query.office_name = this.queryName;
                 api.get('users', null, query)
                     .then(response => {
                         this.unsetActionLoading();
