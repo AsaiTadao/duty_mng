@@ -87,7 +87,7 @@ export default {
                 password: 'required'
             })
             .messages({
-                'number.required': this.$t('Please input number'),       // need trans
+                'number.required': this.$t('Please input employeeNo'),       // need trans
                 'password.required': this.$t('Please input password')    // need trans
             }),
             enableLogin: true,
