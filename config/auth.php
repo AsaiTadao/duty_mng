@@ -46,6 +46,11 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        'childcare' => [
+            'driver' =>  'sanctum',
+            'provider' => 'children',
+            'hash'  => false,
+        ]
     ],
 
     /*
@@ -70,6 +75,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
+        'children' => [
+            'driver' =>  'eloquent',
+            'model'  =>  App\Models\Child::class
+        ]
 
         // 'users' => [
         //     'driver' => 'database',

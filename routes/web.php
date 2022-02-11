@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\V1\ShiftController;
 use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\V1\WorkTotalController;
+use App\Http\Controllers\ChildcareController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,5 +35,10 @@ Route::get('/user/csv', [UserController::class, 'csv']);
 Route::get('/work-total/csv/{office}', [WorkTotalController::class, 'csv'])->name('work_total.csv.get');
 Route::get("/test", [TestController::class, 'test']);
 Route::get('/individual-summary/excel', [WorkTotalController::class, 'exportIndividual']);
+
+// Route::get('/child', [ChildcareController::class, 'index']);
+Route::get('/child/{path?}', [ChildcareController::class, 'index'])
+    ->where('path', '.*');
+// Route::get('/childcare', [ChildcareController::class, 'index']);
 Route::view('/{path?}', 'home')
     ->where('path', '.*');

@@ -14,6 +14,7 @@ class TestController extends Controller
     public function test()
     {
         // Mail::to("devcrazy@hotmail.com")->queue(new MonthlySummaryApprove("Test Office", "2021", "2"));
-        return "ok";
+        // return "ok";
+        return view('childcare');
     }
 }
