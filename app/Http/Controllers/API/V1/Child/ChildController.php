@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1\Child;
 
 use App\Http\Controllers\API\V1\BaseController;
+use App\Http\Requests\Child\ChildQuery;
 use App\Http\Requests\Child\ChildRequest;
 use App\Http\Resources\ChildResource;
 use App\Models\Child;
@@ -57,5 +58,33 @@ class ChildController extends BaseController
         $child->refresh();
 
         return new ChildResource($child);
+    }
+    public function retrieve(Child $child)
+    {
+        return new ChildResource($child);
+    }
+    public function delete(Child $child)
+    {
+        $child->delete();
+        return response()->json();
+    }
+    public function list(ChildQuery $request)
+    {
+        $user = auth()->user();
+
+        $data = $request->validated();
+
+        $qb = Child::where(['office_id' => $user->office_id]);
+        if (!empty($data['query']))
+        {
+            $search = $data['query'];
+            $qb->where(function($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('number', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            });
+        }
+        // TODO search plan_registered
+        return response()->json($qb->get());
     }
 }

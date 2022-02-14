@@ -15,18 +15,19 @@ class CreateChildrenAttendencesTable extends Migration
     {
         Schema::create('children_attendences', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('children_id')->constrained('children_attendances');
             $table->dateTime('commuting_time')->nullable();
             $table->dateTime('leave_time')->nullable();
             $table->boolean('absence')->default(0);
-            $table->foreignId('reason_for_absence_id')->constrained('reason_for_absences');
+            $table->foreignId('reason_for_absence_id')->nullable()->constrained('reason_for_absences')->nullOnDelete();
             $table->smallInteger('behind_time')->nullable();
             $table->smallInteger('leave_early')->nullable();
             $table->float('extension', 4, 2)->nullable();
             $table->date('date')->nullable();
-            $table->foreignId('year_id')->nullable()->constrained('years')->nullOnDelete();
             $table->unsignedTinyInteger('month')->nullable();
             $table->unsignedTinyInteger('day')->nullable();
+
+            $table->foreignId('year_id')->nullable()->constrained('years')->nullOnDelete();
+            $table->foreignId('child_id')->constrained('children');
 
             $table->foreignId('create_user_id')->nullable();
             $table->foreignId('update_user_id')->nullable();
