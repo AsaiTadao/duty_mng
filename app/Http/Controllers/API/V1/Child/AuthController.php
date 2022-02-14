@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API\V1;
+namespace App\Http\Controllers\API\V1\Child;
 
-use App\Http\Requests\Childcare\LoginRequest;
+use App\Http\Controllers\API\V1\BaseController;
+use App\Http\Requests\Child\LoginRequest;
 use App\Models\Child;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class AuthController extends BaseController
 {
@@ -36,5 +37,9 @@ class AuthController extends BaseController
                 'user'  =>  $child
             ]
         ]);
+    }
+    public function me(Request $request)
+    {
+        return response()->json($request->user);
     }
 }

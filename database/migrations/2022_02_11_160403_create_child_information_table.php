@@ -17,7 +17,7 @@ class CreateChildInformationTable extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedSmallInteger('no');
-            $table->foreignId('children_id')->constrained('children')->cascadeOnDelete();
+            $table->foreignId('child_id')->constrained('children')->cascadeOnDelete();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->string('name');

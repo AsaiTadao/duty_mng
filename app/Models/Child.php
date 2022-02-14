@@ -12,6 +12,9 @@ class Child extends Model
     use HasFactory;
     use SoftDeletes, HasApiTokens;
 
+    const GENDER_MALE = 1;
+    const GENDER_FEMALE = 2;
+
     protected $fillable = [
         'name',
         'number',
@@ -26,4 +29,14 @@ class Child extends Model
         'admission_date',
         'exit_date',
     ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    public function child_info()
+    {
+        return $this->hasOne(ChildInformation::class, 'child_id', 'id');
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Constants\Roles;
 use App\Models\Application;
+use App\Models\Child;
 use App\Models\Office;
 use App\Models\ShiftPlan;
 use App\Models\User;
@@ -167,6 +168,20 @@ class AuthServiceProvider extends ServiceProvider
             $targetUser = $shift->user;
             if (!$targetUser->office) return false;
             return $shiftGuard($user, $targetUser->office, $targetUser);
+        });
+        $this->registerChildPolicies();
+    }
+
+    public function registerChildPolicies()
+    {
+        Gate::define('handle-child', function($user, Child $child) {
+            if ($user instanceof User) {
+                return $user->office_id === $child->office_id;
+            }
+            if ($user instanceof Child) {
+                return $child->id === $user->id;
+            }
+            return false;
         });
     }
 }

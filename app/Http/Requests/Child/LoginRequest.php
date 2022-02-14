@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Childcare;
+namespace App\Http\Requests\Child;
 
 use Illuminate\Foundation\Http\FormRequest;
 
