@@ -18,7 +18,6 @@
                     class="nav-link px-4"
                     href="/"
                     role="button"
-                    @click="toLateralSystem"
                 >
                     勤怠
                 </a>
@@ -28,7 +27,6 @@
                     class="nav-link px-4"
                     href="#"
                     role="button"
-                    @click="toSubSystem"
                 >
                     保育
                 </a>

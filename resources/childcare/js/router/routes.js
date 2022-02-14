@@ -208,8 +208,7 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER,
-                        Guards.PARENT,
+                        Guards.CHILD_MINDER
                     ]
                 }
             },
@@ -222,8 +221,7 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER,
-                        Guards.PARENT,
+                        Guards.CHILD_MINDER
                     ]
                 }
             },
@@ -236,8 +234,7 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER,
-                        Guards.PARENT,
+                        Guards.CHILD_MINDER
                     ]
                 }
             },
@@ -250,8 +247,7 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER,
-                        Guards.PARENT,
+                        Guards.CHILD_MINDER
                     ]
                 }
             }
