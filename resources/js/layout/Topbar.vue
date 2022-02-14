@@ -12,6 +12,26 @@
                 </a>
             </li>
         </ul>
+        <ul class="navbar-nav ml-3">
+            <li class="nav-item kintai-system system-selected">
+                <a
+                    class="nav-link px-4"
+                    href="#"
+                    role="button"
+                >
+                    勤怠
+                </a>
+            </li>
+            <li class="nav-item childcare-system system-unselected">
+                <a
+                    class="nav-link px-4"
+                    href="/child"
+                    role="button"
+                >
+                    保育
+                </a>
+            </li>
+        </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="#">

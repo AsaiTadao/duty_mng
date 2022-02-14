@@ -16,7 +16,7 @@
             <li class="nav-item kintai-system system-unselected">
                 <a
                     class="nav-link px-4"
-                    href="#"
+                    href="/"
                     role="button"
                     @click="toLateralSystem"
                 >
