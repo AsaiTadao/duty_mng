@@ -35,7 +35,7 @@ class ChildRequest extends FormRequest {
             'certificate_of_payment'=> ['nullable', 'in:0,1'],
             'certificate_expiration_date'=> ['nullable', 'date_format:Y-m-d'],
             'tax_exempt_household'  =>  ['nullable', 'in:0,1'],
-            'class_id'   =>  ['required', 'in:' . ChildrenClass::AGE_0 . ',' . ChildrenClass::AGE_1 . ',' . ChildrenClass::AGE_2 . ',' . ChildrenClass::AGE_3 . ',' . ChildrenClass::AGE_4 . ',' . ChildrenClass::AGE_5 ],
+            'class_id'   =>  ['nullable', 'in:' . ChildrenClass::AGE_0 . ',' . ChildrenClass::AGE_1 . ',' . ChildrenClass::AGE_2 . ',' . ChildrenClass::AGE_3 . ',' . ChildrenClass::AGE_4 . ',' . ChildrenClass::AGE_5 ],
             'remarks'    =>  ['nullable', 'string'],
         ];
     }
