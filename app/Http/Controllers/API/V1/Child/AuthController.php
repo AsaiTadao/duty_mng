@@ -40,6 +40,6 @@ class AuthController extends BaseController
     }
     public function me(Request $request)
     {
-        return response()->json($request->user);
+        return $this->sendResponse($request->user);
     }
 }

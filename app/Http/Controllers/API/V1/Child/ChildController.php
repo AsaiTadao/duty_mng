@@ -59,7 +59,7 @@ class ChildController extends BaseController
 
         $childInfo = new ChildInformation($data);
         $child->child_info()->save($childInfo);
-        return new ChildResource($child);
+        return $this->sendResponse(new ChildResource($child));
     }
 
     public function update(Child $child, ChildRequest $request)
@@ -83,16 +83,16 @@ class ChildController extends BaseController
         $childInfo->save();
         $child->refresh();
 
-        return new ChildResource($child);
+        return $this->sendResponse(new ChildResource($child));
     }
     public function retrieve(Child $child)
     {
-        return new ChildResource($child);
+        return $this->sendResponse(new ChildResource($child));
     }
     public function delete(Child $child)
     {
         $child->delete();
-        return response()->json();
+        return $this->sendResponse([]);
     }
     public function list(ChildQuery $request)
     {
@@ -111,6 +111,6 @@ class ChildController extends BaseController
             });
         }
         // TODO search plan_registered
-        return response()->json($qb->get());
+        return $this->sendResponse($qb->get());
     }
 }
