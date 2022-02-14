@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Constants\CodeGroups;
 use App\Http\Requests\OfficeMasterRequest;
 use App\Models\ApplicationClass;
+use App\Models\ChildrenClass;
 use App\Models\Code;
 use App\Models\EmploymentStatus;
 use App\Models\OfficeGroup;
@@ -33,8 +34,13 @@ class ConstantController extends BaseController
         $applicationStatusOptions = array_filter($codes, function($item) {
             return $item['group'] === CodeGroups::APPLICATION_STATUS;
         });
-
+        $childTypes = array_filter($codes, function($item) {
+            return $item['group'] === CodeGroups::CHILD_TYPE;
+        });
         $officeGroups = OfficeGroup::get();
+
+        $childrenClasses = ChildrenClass::get();
+
 
         return $this->sendResponse([
             'application_classes'   =>  $applicationClasses,
@@ -47,6 +53,8 @@ class ConstantController extends BaseController
             'application_deadline_options'=>    $applicationDeadlineOptions,
             'application_status_options'  =>    $applicationStatusOptions,
             'office_groups'         =>  $officeGroups,
+            'children_classes'      =>  $childrenClasses,
+            'child_types'           =>  $childTypes
         ]);
     }
 }
