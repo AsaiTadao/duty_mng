@@ -22,13 +22,13 @@ class ChildResource extends JsonResource
             'admission_date'    =>  $this->admission_date,
             'exit_date' =>  $this->exit_date,
             'email'     =>  $this->email,
-            'type'      =>  $this->child_info->type,
-            'company_name'  =>  $this->child_info->company_name,
-            'free_of_charge'=>  $this->child_info->free_of_charge,
-            'certificate_of_payment'    =>  $this->child_info->certificate_of_payment,
-            'certificate_expiration_date'=> $this->child_info->certificate_expiration_date,
-            'tax_exempt_household'  =>  $this->child_info->tax_exempt_household,
-            'remarks'    =>  $this->child_info->remarks,
+            'type'      =>  $this->child_info->type??null,
+            'company_name'  =>  $this->child_info->company_name??null,
+            'free_of_charge'=>  $this->child_info->free_of_charge??null,
+            'certificate_of_payment'    =>  $this->child_info->certificate_of_payment??null,
+            'certificate_expiration_date'=> $this->child_info->certificate_expiration_date??null,
+            'tax_exempt_household'  =>  $this->child_info->tax_exempt_household??null,
+            'remarks'    =>  $this->child_info->remarks??null,
         ];
         // return parent::toArray($request);
     }
