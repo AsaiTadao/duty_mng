@@ -226,7 +226,7 @@
                             </div>
                             <br>
                             <div class="w-100 overflow-scroll-x">
-                                <table class="table table-bordered table-diary text-center w-3100-px">
+                                <table class="table table-bordered table-diary text-center w-3200-px">
                                     <thead>
 
                                     </thead>
@@ -279,6 +279,7 @@
                                             <td rowspan="2" class="align-middle">休園</td>
                                             <td rowspan="2" class="align-middle">退園日</td>
                                             <td rowspan="2" class="align-middle">規定日数</td>
+                                            <td rowspan="2" class="align-middle">備　　　考</td>
                                         </tr>
                                         <tr class="light-yellow">
                                             <td v-for="day in days" :key="day.getDate()" class="align-middle">
@@ -320,6 +321,7 @@
                                             <td></td>
                                             <td></td>
                                             <td>〇</td>
+                                            <td></td>
                                         </tr>
                                         <tr>
                                             <td class="header-fix-sub-40 bg-white">
@@ -354,13 +356,14 @@
                                             <td></td>
                                             <td></td>
                                             <td>〇</td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <br>
                             <div class="w-100 overflow-scroll-x">
-                                <table class="table table-bordered table-diary text-center w-3100-px">
+                                <table class="table table-bordered table-diary text-center w-3200-px">
                                     <thead>
 
                                     </thead>
@@ -413,6 +416,7 @@
                                             <td rowspan="2" class="align-middle">休園</td>
                                             <td rowspan="2" class="align-middle">退園日</td>
                                             <td rowspan="2" class="align-middle">規定日数</td>
+                                            <td rowspan="2" class="align-middle">備　　　考</td>
                                         </tr>
                                         <tr class="light-yellow">
                                             <td v-for="day in days" :key="day.getDate()" class="align-middle">
@@ -454,6 +458,7 @@
                                             <td></td>
                                             <td></td>
                                             <td>〇</td>
+                                            <td></td>
                                         </tr>
                                         <tr>
                                             <td class="header-fix-sub-40 bg-white">
@@ -488,13 +493,14 @@
                                             <td></td>
                                             <td></td>
                                             <td>〇</td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <br>
                             <div class="w-100 overflow-scroll-x">
-                                <table class="table table-bordered table-diary text-center w-3100-px">
+                                <table class="table table-bordered table-diary text-center w-3200-px">
                                     <thead>
 
                                     </thead>
@@ -547,6 +553,7 @@
                                             <td rowspan="2" class="align-middle">休園</td>
                                             <td rowspan="2" class="align-middle">退園日</td>
                                             <td rowspan="2" class="align-middle">規定日数</td>
+                                            <td rowspan="2" class="align-middle">備　　　考</td>
                                         </tr>
                                         <tr class="light-yellow">
                                             <td v-for="day in days" :key="day.getDate()" class="align-middle">
@@ -588,6 +595,7 @@
                                             <td></td>
                                             <td></td>
                                             <td>〇</td>
+                                            <td></td>
                                         </tr>
                                         <tr>
                                             <td class="header-fix-sub-40 bg-white">
@@ -622,13 +630,14 @@
                                             <td></td>
                                             <td></td>
                                             <td>〇</td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <br>
                             <div class="w-100 overflow-scroll-x">
-                                <table class="table table-bordered table-diary text-center w-3100-px">
+                                <table class="table table-bordered table-diary text-center w-3200-px">
                                     <thead>
 
                                     </thead>
@@ -681,6 +690,7 @@
                                             <td rowspan="2" class="align-middle">休園</td>
                                             <td rowspan="2" class="align-middle">退園日</td>
                                             <td rowspan="2" class="align-middle">規定日数</td>
+                                            <td rowspan="2" class="align-middle">備　　　考</td>
                                         </tr>
                                         <tr class="light-yellow">
                                             <td v-for="day in days" :key="day.getDate()" class="align-middle">
@@ -722,6 +732,7 @@
                                             <td></td>
                                             <td></td>
                                             <td>〇</td>
+                                            <td></td>
                                         </tr>
                                         <tr>
                                             <td class="header-fix-sub-40 bg-white">
@@ -756,13 +767,14 @@
                                             <td></td>
                                             <td></td>
                                             <td>〇</td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <br>
                             <div class="w-100 overflow-scroll-x">
-                                <table class="table table-bordered table-diary text-center w-3100-px">
+                                <table class="table table-bordered table-diary text-center w-3200-px">
                                     <thead>
 
                                     </thead>
@@ -815,6 +827,7 @@
                                             <td rowspan="2" class="align-middle">休園</td>
                                             <td rowspan="2" class="align-middle">退園日</td>
                                             <td rowspan="2" class="align-middle">規定日数</td>
+                                            <td rowspan="2" class="align-middle">備　　　考</td>
                                         </tr>
                                         <tr class="light-yellow">
                                             <td v-for="day in days" :key="day.getDate()" class="align-middle">
@@ -856,6 +869,7 @@
                                             <td></td>
                                             <td></td>
                                             <td>〇</td>
+                                            <td></td>
                                         </tr>
                                         <tr>
                                             <td class="header-fix-sub-40 bg-white">
@@ -890,13 +904,14 @@
                                             <td></td>
                                             <td></td>
                                             <td>〇</td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                             <br>
                             <div class="w-100 overflow-scroll-x">
-                                <table class="table table-bordered table-diary text-center w-3100-px">
+                                <table class="table table-bordered table-diary text-center w-3200-px">
                                     <thead>
 
                                     </thead>
@@ -949,6 +964,7 @@
                                             <td rowspan="2" class="align-middle">休園</td>
                                             <td rowspan="2" class="align-middle">退園日</td>
                                             <td rowspan="2" class="align-middle">規定日数</td>
+                                            <td rowspan="2" class="align-middle">備　　　考</td>
                                         </tr>
                                         <tr class="light-yellow">
                                             <td v-for="day in days" :key="day.getDate()" class="align-middle">
@@ -990,6 +1006,7 @@
                                             <td></td>
                                             <td></td>
                                             <td>〇</td>
+                                            <td></td>
                                         </tr>
                                         <tr>
                                             <td class="header-fix-sub-40 bg-white">
@@ -1024,6 +1041,7 @@
                                             <td></td>
                                             <td></td>
                                             <td>〇</td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -30,19 +30,19 @@
                                         <tbody class="text-center">
                                             <tr>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit">
+                                                    <div style="height: 50px;">
 
-                                                    </textarea>
+                                                    </div>
                                                 </td>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit">
+                                                    <div style="height: 50px;">
 
-                                                    </textarea>
+                                                    </div>
                                                 </td>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit">
+                                                    <div style="height: 50px;">
 
-                                                    </textarea>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -62,20 +62,20 @@
                                         </thead>
                                         <tbody class="text-center">
                                             <tr>
-                                                <td class="p-0">
-                                                    <textarea class="textarea-fit">
-
-                                                    </textarea>
+                                                <td class="p-0 align-middle">
+                                                    <div style="height: 60px;display:flex;align-items:center;justify-content:center;">
+                                                        3
+                                                    </div>
                                                 </td>
-                                                <td class="p-0">
-                                                    <textarea class="textarea-fit">
-
-                                                    </textarea>
+                                                <td class="p-0 align-middle">
+                                                    <div style="height: 60px;display:flex;align-items:center;justify-content:center;">
+                                                        2
+                                                    </div>
                                                 </td>
-                                                <td class="p-0">
-                                                    <textarea class="textarea-fit">
-
-                                                    </textarea>
+                                                <td class="p-0 align-middle">
+                                                    <div style="height: 60px;display:flex;align-items:center;justify-content:center;">
+                                                        1
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>

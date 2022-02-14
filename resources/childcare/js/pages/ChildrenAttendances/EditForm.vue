@@ -69,7 +69,7 @@
                             <input type="number" min="0" max="24" class="form-control mr-2">
                         </div>
                     </div>
-                    <div class="form-control-label">時</div>
+                    <div class="form-control-label">分</div>
             </div>
             <div class="form-group row">
                 <div class="col-md-3">延長</div>
@@ -78,7 +78,7 @@
                             <input type="number" min="0" max="24" class="form-control mr-2">
                         </div>
                     </div>
-                    <div class="form-control-label">時</div>
+                    <div class="form-control-label">時間</div>
             </div>
         </div>
         <div class="modal-footer">

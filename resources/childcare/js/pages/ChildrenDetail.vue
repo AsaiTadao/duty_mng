@@ -128,6 +128,22 @@
                                 </div>
                             </div> -->
                         </div>
+                        <div class="p-0 mb-1">
+                            <table
+                                class="table table-bordered table-hover mb-0"
+                            >
+                                <tbody class="text-center">
+                                    <tr>
+                                        <td class="light-blue align-middle">
+                                            備考欄
+                                        </td>
+                                        <td class="p-0 bg-white">
+                                            <input class="textarea-fit" placeholder="テキスト入力" maxlength="20"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="table-responsive p-0">
                             <table class="table table-bordered table-hover">
                                 <tbody>
@@ -211,24 +227,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="p-0">
-                            <table
-                                class="table table-bordered table-hover mb-0"
-                            >
-                                <tbody class="text-center">
-                                    <tr>
-                                        <td class="light-blue align-middle">
-                                            備考欄
-                                        </td>
-                                        <td class="p-0 bg-white">
-                                            <textarea class="textarea-fit">
 
-                                            </textarea>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                         <div class="float-right d-flex align-items-center mt-2">
                             <button class="btn btn-primary float-right mr-2" @click="presentManagement()">登降園管理</button>
                             <button class="btn btn-primary float-right">編集</button>

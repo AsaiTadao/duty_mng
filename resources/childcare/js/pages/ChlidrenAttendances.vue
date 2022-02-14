@@ -58,7 +58,7 @@
                                                 </td>
                                                 <td rowspan="3" class="align-middle">
                                                     <div>
-                                                        <button class="btn btn-primary mb-1">日誌閲覧</button>
+                                                        <button class="btn btn-primary mb-1" @click="openDiary()">日誌閲覧</button>
                                                     </div>
                                                     <div>
                                                         <button class="btn btn-primary" @click="openDiary()">日誌作成</button>
@@ -119,7 +119,7 @@
                                                 </td>
                                                 <td rowspan="3" class="align-middle">
                                                     <div>
-                                                        <button class="btn btn-primary mb-1">日誌閲覧</button>
+                                                        <button class="btn btn-primary mb-1" @click="openDiary()">日誌閲覧</button>
                                                     </div>
                                                     <div>
                                                         <button class="btn btn-primary" @click="openDiary()">日誌作成</button>
@@ -180,7 +180,7 @@
                                                 </td>
                                                 <td rowspan="3" class="align-middle">
                                                     <div>
-                                                        <button class="btn btn-primary mb-1">日誌閲覧</button>
+                                                        <button class="btn btn-primary mb-1" @click="openDiary()">日誌閲覧</button>
                                                     </div>
                                                     <div>
                                                         <button class="btn btn-primary" @click="openDiary()">日誌作成</button>
@@ -241,7 +241,7 @@
                                                 </td>
                                                 <td rowspan="3" class="align-middle">
                                                     <div>
-                                                        <button class="btn btn-primary mb-1">日誌閲覧</button>
+                                                        <button class="btn btn-primary mb-1" @click="openDiary()">日誌閲覧</button>
                                                     </div>
                                                     <div>
                                                         <button class="btn btn-primary" @click="openDiary()">日誌作成</button>
@@ -302,7 +302,7 @@
                                                 </td>
                                                 <td rowspan="3" class="align-middle">
                                                     <div>
-                                                        <button class="btn btn-primary mb-1">日誌閲覧</button>
+                                                        <button class="btn btn-primary mb-1" @click="openDiary()">日誌閲覧</button>
                                                     </div>
                                                     <div>
                                                         <button class="btn btn-primary" @click="openDiary()">日誌作成</button>
@@ -363,7 +363,7 @@
                                                 </td>
                                                 <td rowspan="3" class="align-middle">
                                                     <div>
-                                                        <button class="btn btn-primary mb-1">日誌閲覧</button>
+                                                        <button class="btn btn-primary mb-1" @click="openDiary()">日誌閲覧</button>
                                                     </div>
                                                     <div>
                                                         <button class="btn btn-primary" @click="openDiary()">日誌作成</button>

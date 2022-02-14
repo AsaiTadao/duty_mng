@@ -5,7 +5,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title row">
-                            <div class="col-md-6 col-12 row">
+                            <div class="col-md-4 col-12 row">
                                 <h5 class="card-title col-4 mb-0 px-0">テラル保育園</h5>
                                 <div class="col-4 mb-0 px-0">ー連絡帳ー</div>
                                 <div class="col-4 mb-0 px-0">山田　三越</div>
@@ -27,6 +27,11 @@
                                 <div class="col-5 d-flex align-items-center px-0">
                                     <div for="weatherStauts" class="col-form-label mr-2">天気</div>
                                     <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts"/>
+                                </div>
+                            </div>
+                            <div class="col-md-2 row">
+                                <div class="col-12 px-0 mx-0">
+                                    <button class="btn btn-primary float-right m-2" @click="openHouse">登降園状況</button>
                                 </div>
                             </div>
                         </div>
@@ -297,7 +302,9 @@
                                                 家庭での様子
                                             </div>
                                             <div class="light-blue p-4 mt-1" style="height: 300px;">
-                                                夜泣きがありましたが、その後はぐっすり眠りました。
+                                                <textarea class="form-control" style="height: 95%;">
+
+                                                </textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -692,9 +699,7 @@
                                                 保育園での様子
                                             </div>
                                             <div class="light-yellow p-4 mt-1" style="height: 300px;">
-                                                <textarea class="form-control" style="height: 95%;">
-
-                                                </textarea>
+                                                夜泣きがありましたが、その後はぐっすり眠りました。
                                             </div>
                                         </div>
                                     </div>
@@ -891,6 +896,9 @@ export default {
         },
         openDatePicker(){
             this.$refs.programaticOpen.showCalendar();
+        },
+        openHouse() {
+            this.$router.push("/parent", () => {});
         }
     },
     created() {

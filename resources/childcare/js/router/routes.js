@@ -1,6 +1,7 @@
 import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
 import ChlidrenAttendances from "../pages/ChlidrenAttendances";
+import ParentChlidrenAttendances from "../pages/ParentChlidrenAttendances";
 import ChildrenDetail from '../pages/ChildrenDetail';
 import ChildrenRegistry from '../pages/ChildrenRegistry';
 import ChildrenList from '../pages/ChildrenList';
@@ -15,6 +16,9 @@ import SendMail from "../pages/SendMail";
 import ContactBook0 from "../pages/ContactBook0";
 import ContactBook1 from "../pages/ContactBook1";
 import ContactBook2 from "../pages/ContactBook2";
+import ParentContactBook0 from "../pages/ParentContactBook0";
+import ParentContactBook1 from "../pages/ParentContactBook1";
+import ParentContactBook2 from "../pages/ParentContactBook2";
 import ChildcareDiary from "../pages/ChildCareDiary";
 import ApplicationTable from "../pages/ApplicationTable";
 import BaseLayout from '../layout/BaseLayout';
@@ -259,8 +263,8 @@ export default [
         children: [
             {
                 path: "",
-                name: "present-management",
-                components: { default: PresentManagement },
+                name: "parent-children-attendance",
+                components: { default: ParentChlidrenAttendances },
                 meta: {
                     icon: "fas fa-school",
                     anchor: "登降園",
@@ -272,13 +276,41 @@ export default [
                 }
             },
             {
-                path: "contact-book",
-                name: "contact-book",
-                components: { default: ContactBook1 },
+                path: "parent-contact-book0",
+                name: "parent-contact-book0",
+                components: { default: ParentContactBook0 },
                 meta: {
                     icon: "fas fa-file-alt",
                     anchor: "連絡帳",
                     menu: true,
+                    guards: [
+                        Guards.CHILD_MINDER,
+                        Guards.PARENT
+                    ]
+                }
+            },
+            {
+                path: "parent-contact-book1",
+                name: "parent-contact-book1",
+                components: { default: ParentContactBook1 },
+                meta: {
+                    icon: "fas fa-file-alt",
+                    anchor: "連絡帳",
+                    menu: false,
+                    guards: [
+                        Guards.CHILD_MINDER,
+                        Guards.PARENT
+                    ]
+                }
+            },
+            {
+                path: "parent-contact-book2",
+                name: "parent-contact-book2",
+                components: { default: ParentContactBook2 },
+                meta: {
+                    icon: "fas fa-file-alt",
+                    anchor: "連絡帳",
+                    menu: false,
                     guards: [
                         Guards.CHILD_MINDER,
                         Guards.PARENT
