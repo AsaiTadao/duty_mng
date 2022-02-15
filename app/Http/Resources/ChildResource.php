@@ -22,6 +22,7 @@ class ChildResource extends JsonResource
             'admission_date'    =>  $this->admission_date,
             'exit_date' =>  $this->exit_date,
             'email'     =>  $this->email,
+            'class_id'  =>  $this->class_id,
             'type'      =>  $this->child_info->type??null,
             'company_name'  =>  $this->child_info->company_name??null,
             'free_of_charge'=>  $this->child_info->free_of_charge??null,
