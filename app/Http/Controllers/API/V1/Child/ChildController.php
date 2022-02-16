@@ -79,6 +79,10 @@ class ChildController extends BaseController
         $child->save();
 
         $childInfo = $child->child_info;
+        if (!$childInfo)
+        {
+            $childInfo = new ChildInformation(['child_id' => $child->id]);
+        }
         $childInfo->fill($data);
         $childInfo->save();
         $child->refresh();
