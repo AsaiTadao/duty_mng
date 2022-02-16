@@ -9,6 +9,7 @@ use App\Models\ChildrenClass;
 use App\Models\Code;
 use App\Models\EmploymentStatus;
 use App\Models\OfficeGroup;
+use App\Models\ReasonForAbsence;
 use App\Models\ReasonForVacation;
 use App\Models\RestDeduction;
 
@@ -40,6 +41,7 @@ class ConstantController extends BaseController
         $officeGroups = OfficeGroup::get();
 
         $childrenClasses = ChildrenClass::get();
+        $reasonForAbsences = ReasonForAbsence::get();
 
 
         return $this->sendResponse([
@@ -54,7 +56,8 @@ class ConstantController extends BaseController
             'application_status_options'  =>    $applicationStatusOptions,
             'office_groups'         =>  $officeGroups,
             'children_classes'      =>  $childrenClasses,
-            'child_types'           =>  $childTypes
+            'child_types'           =>  $childTypes,
+            'reason_for_absences'   =>  $reasonForAbsences
         ]);
     }
 }
