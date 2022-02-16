@@ -14,9 +14,10 @@ class ChildcareSeeder extends Seeder
     public function run()
     {
         //
-        $this->call(
+        $this->call([
             ChildrenClassSeeder::class,
-            ChildTypesSeeder::class
-        );
+            ChildTypesSeeder::class,
+            ChildMoodTypeSeeder::class
+        ]);
     }
 }

@@ -5,10 +5,12 @@ namespace App\Http\Controllers\API\V1\Child;
 use App\Http\Controllers\API\V1\BaseController;
 use App\Http\Requests\Child\AttendanceQuery;
 use App\Http\Requests\Child\AttendanceRequest;
+use App\Http\Resources\ChildAttendanceResource;
 use App\Models\Child;
 use App\Models\ChildrenAttendence;
 use App\Models\Year;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends BaseController
 {
@@ -49,23 +51,31 @@ class AttendanceController extends BaseController
             'extension'  => $data['extension']??null
         ]);
         $attendance->save();
-        return response()->json($attendance);
+        return $this->sendResponse($attendance);
     }
-    // public function getAttendances(AttendanceQuery $request)
-    // {
-    //     $user = auth()->user();
-    //     $data = $request->validated();
-    //     [$year, $month, $day] = explode('-', $data['date']);
-    //     $monthValue = $year * 100 + $month;
-    //     $Year = Year::where([
-    //         ['start', '<=', $monthValue],
-    //         ['end', '>=', $monthValue]
-    //     ])->first();
-    //     ChildrenAttendence::where([
-    //         'year_id'   =>  $Year->id,
-    //         'month'     =>  (int)$month,
-    //         'day'       =>  (int)$day,
-    //         ''
-    //     ]);
-    // }
+    public function list(AttendanceQuery $request)
+    {
+        $user = auth()->user();
+        $data = $request->validated();
+        [$year, $month, $day] = explode('-', $data['date']);
+        $monthValue = $year * 100 + $month;
+        $Year = Year::where([
+            ['start', '<=', $monthValue],
+            ['end', '>=', $monthValue]
+        ])->first();
+
+        // $childrenIds = Child::where(['office_id' => $user->office_id])->get()->pluck('id')->toArray();
+        $childrenAttendences = DB::table('children')->where(['office_id' => $user->office_id])
+            ->leftJoin('children_attendences', function ($join) use ($Year, $month, $day) {
+                $join->on('children_attendences.child_id', '=', 'children.id')
+                    ->where([
+                        'children_attendences.year_id'  =>  $Year->id,
+                        'children_attendences.month'  =>  (int)$month,
+                        'children_attendences.day'  =>  (int)$day,
+                    ]);
+            })
+            ->select('children_attendences.*', 'children.id')
+            ->get();
+        return $this->sendResponse(ChildAttendanceResource::collection($childrenAttendences));
+    }
 }
