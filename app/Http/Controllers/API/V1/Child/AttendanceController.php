@@ -74,7 +74,7 @@ class AttendanceController extends BaseController
                         'children_attendences.day'  =>  (int)$day,
                     ]);
             })
-            ->select('children_attendences.*', 'children.id')
+            ->select('children_attendences.*', 'children.id', 'children.class_id', 'children.name')
             ->get();
         return $this->sendResponse(ChildAttendanceResource::collection($childrenAttendences));
     }
