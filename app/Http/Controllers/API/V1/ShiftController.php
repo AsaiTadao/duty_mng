@@ -131,21 +131,22 @@ class ShiftController extends BaseController
         {
             $shifts = $shiftItem['shifts'];
             if (empty($shifts)) continue;
+            // return $this->sendResponse($shifts);
 
-            $day = 1;
+            $day = 8;
             while ($day <= $days)
             {
-                if ($day >= $firstSunday && $day < $firstSunday + 7) {
-                    $day = $firstSunday + 7;
-                    continue;
-                }
+                // if ($day >= $firstSunday && $day < $firstSunday + 7) {
+                //     $day = $firstSunday + 7;
+                //     continue;
+                // }
                 $date = Carbon::parse($year . '-' . $month . '-' . $day);
                 $dayOfWeek = $date->dayOfWeek;
 
                 // TODO need to prevent creation shift past days
-                if (!empty($shifts[$firstSunday + $dayOfWeek - 1]))
+                if (!empty($shifts[($day - 1) % 7]))
                 {
-                    $dayShifts = $shifts[$firstSunday + $dayOfWeek - 1];
+                    $dayShifts = $shifts[($day - 1) % 7];
 
                     $newShifts = [];
                     foreach ($dayShifts as $shift)
