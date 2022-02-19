@@ -9,20 +9,6 @@
                                 <h3 class="card-title mb-0">保育システム</h3>
                             </div>
                             <div class="col-md-3">
-                                <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control">
-                                    <span class="input-group-append">
-                                        <button type="button" class="btn btn-info btn-flat">検索</button>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="d-flex align-items-center">
-                                    <input type="checkbox" class="align-middle" :value="1" v-model="retiredDisplay">
-                                    <div class="ml-1">退園児を含む</div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
                                 <button type="submit" class="btn btn-sm btn-primary float-right" @click="childcarePlan()">
                                     託児計画作成
                                 </button>
@@ -63,22 +49,25 @@
                                 <tbody class="text-center">
                                     <tr>
                                         <td>
-                                            000123
+                                            {{childInfor.number}}
                                         </td>
                                         <td>
-                                            山田　太郎
+                                            {{childInfor.name}}
                                         </td>
-                                        <td>
+                                        <td v-if="childInfor.gender == 1">
                                             男
                                         </td>
-                                        <td>
-                                            2021年3月1日
+                                        <td v-else>
+                                            女
                                         </td>
                                         <td>
-                                            0歳7ヶ月
+                                            {{childInfor.birthday}}
                                         </td>
                                         <td>
-                                            0歳児
+                                            {{childInfor.birthday}}
+                                        </td>
+                                        <td>
+                                            {{getChildClass()}}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -105,28 +94,20 @@
                                 <tbody class="text-center">
                                     <tr>
                                         <td>
-                                            2021年10月1日
+                                            {{getDateFormat(childInfor.admissionDate)}}
                                         </td>
                                         <td>
-                                            2021年10月1日
+                                            {{getDateFormat(childInfor.exitDate)}}
                                         </td>
                                         <td>
-                                            oyaji@gmail.com
+                                            {{childInfor.email}}
                                         </td>
                                         <td>
-                                            Ha1E3syZ
+
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <!-- <div class="pager-wrapper">
-                                <pagination v-model="pager.current" :records="pager.total" :per-page="pager.size" :options="{texts: pager.texts}" @paginate="getUsers"/>
-                                <div class="pager-per-page">
-                                    <select class="form-control" @change="onPerPageChange">
-                                        <option v-for="(page, index) in perPages" :key="index" :value="page">{{ page }}</option>
-                                    </select>
-                                </div>
-                            </div> -->
                         </div>
                         <div class="p-0 mb-1">
                             <table
@@ -134,11 +115,11 @@
                             >
                                 <tbody class="text-center">
                                     <tr>
-                                        <td class="light-blue align-middle">
+                                        <td class="light-blue align-middle" style="width: 200px">
                                             備考欄
                                         </td>
                                         <td class="p-0 bg-white">
-                                            <input class="textarea-fit" placeholder="テキスト入力" maxlength="20"/>
+                                            {{childInfor.remarks}}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -182,10 +163,10 @@
                                 <tbody class="text-center">
                                     <tr>
                                         <td>
-                                            従業員枠（自社）
+                                            {{getChildType()}}
                                         </td>
                                         <td>
-                                            （株）仙台商事
+                                            {{childInfor.companyName}}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -199,7 +180,7 @@
                                             無償化
                                         </th>
                                         <th>
-                                            支給認定証
+                                            {{getChildType()}}
                                         </th>
                                         <th>
                                             支給認定証有効期限
@@ -211,18 +192,23 @@
                                 </thead>
                                 <tbody class="text-center">
                                     <tr>
-                                        <td>
+                                        <td v-if="this.childInfor.freeOfCharge">
                                             対象
                                         </td>
-                                        <td>
+                                        <td v-else>非対象</td>
+                                        <td v-if="this.childInfor.certificateOfPayment">
                                             有り
                                         </td>
-                                        <td>
-                                            2022年1月1日
+                                        <td v-else>
+                                            無し
                                         </td>
                                         <td>
+                                            {{getDateFormat(this.childInfor.certificateExpirationDate)}}
+                                        </td>
+                                        <td v-if="this.childInfor.taxExemptHousehold">
                                             〇
                                         </td>
+                                        <td v-else></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -230,7 +216,7 @@
 
                         <div class="float-right d-flex align-items-center mt-2">
                             <button class="btn btn-primary float-right mr-2" @click="presentManagement()">登降園管理</button>
-                            <button class="btn btn-primary float-right">編集</button>
+                            <button class="btn btn-primary float-right" @click="editChild()">編集</button>
                         </div>
                     </div>
                 </div>
@@ -240,12 +226,38 @@
 </template>
 <script>
 
+import moment from 'moment';
+import { mapState } from 'vuex';
+import api, { apiErrorHandler } from '../global/api';
+import actionLoading from '../mixin/actionLoading';
 
 export default {
+    mixins: [actionLoading],
     data() {
         return {
             retiredDisplay: false,
+            childId: null,
+            childInfor: {
+                number: '',
+                name: '',
+                gender: null,
+                birthday: null,
+                classId: null,
+                type: null,
+                companyName: '',
+                freeOfCharge: null,
+                certificateOfPayment: null,
+                certificateExpirationDate: null,
+                taxExemptHousehold: null,
+                remarks: null
+            },
         }
+    },
+    computed: {
+        ...mapState({
+            childrenClasses: state => state.constants.childrenClasses,
+            childTypes: state => state.constants.childTypes
+        }),
     },
     methods: {
         childcarePlan() {
@@ -253,7 +265,58 @@ export default {
         },
         presentManagement() {
             this.$router.push('present-management');
+        },
+        getChildInfor() {
+            if(this.actionLoading) return;
+            this.setActionLoading();
+            api.get('child/' + this.childId, null)
+                .then(response => {
+                    this.childInfor = response;
+                    this.unsetActionLoading();
+                })
+                .catch(e => {
+                    apiErrorHandler(e);
+                    this.unsetActionLoading();
+                });
+        },
+        getChildClass() {
+            if(this.childInfor != null) {
+                const result = this.childrenClasses.find(element => {
+                return element.id == this.childInfor.classId;
+                });
+                if(result)
+                    return result.name;
+                else
+                    return null;
+            } else {
+                return null;
+            }
+        },
+        getDateFormat(date) {
+            if(!date) return null;
+            return moment(date).format('YYYY年 MM月 DD日');
+        },
+        getChildType() {
+            if(this.childInfor != null) {
+                const result = Object.values(this.childTypes).find(element => {
+                return element.key == this.childInfor.type;
+                });
+                if(result)
+                    return result.value;
+                else
+                    return null;
+            } else {
+                return null;
+            }
+        },
+        editChild() {
+            this.$router.push({name: 'children-edit', params: {id: this.childId}});
         }
+    },
+    mounted() {
+        const childId = this.$route.params.id;
+        this.childId = parseInt(childId);
+        this.getChildInfor();
     }
 };
 </script>

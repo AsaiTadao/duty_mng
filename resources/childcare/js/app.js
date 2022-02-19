@@ -44,6 +44,19 @@ moment.locale("ja", {
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 5000,
+    timerProgressBar: true,
+    onOpen: toast => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+    }
+});
+window.Toast = Toast;
+
 Vue.use(VueI18n);
 Vue.use(VueRouter);
 
@@ -95,7 +108,7 @@ Vue.filter("yesno", value =>
 const app = new Vue({
     el: '#app',
     router,
-    //store: store,
+    store: store,
     render: h => h(App),
     i18n
 });

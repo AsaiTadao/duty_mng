@@ -21,6 +21,11 @@
                                     <option>登録有</option>
                                 </select>
                             </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-sm btn-primary float-right" @click="registerChild()">
+                                    新規登録
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -54,50 +59,20 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
-                                    <tr>
+                                    <tr v-for="child in childrenList" :key="child.id">
+                                        <td>{{child.number}}</td>
+                                        <td>{{child.name}}</td>
+                                        <td v-if="child.gender == 1">男</td>
+                                        <td v-else-if="child.gender == 2">女</td>
+                                        <td v-else></td>
+                                        <td>{{child.birthday}}</td>
+                                        <td>{{child.classId}}</td>
+                                        <td></td>
                                         <td>
-                                            A123
-                                        </td>
-                                        <td>
-                                            山田　太郎
-                                        </td>
-                                        <td>
-                                            男
-                                        </td>
-                                        <td>
-                                            0歳7ヶ月
-                                        </td>
-                                        <td>
-                                            0歳児
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0)" @click="openEditPage">未登録</a>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0)" @click="openDetailPage">詳細</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            A123
-                                        </td>
-                                        <td>
-                                            山田　太郎
-                                        </td>
-                                        <td>
-                                            男
-                                        </td>
-                                        <td>
-                                            0歳7ヶ月
-                                        </td>
-                                        <td>
-                                            0歳児
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0)" @click="openEditPage">編集</a>
-                                        </td>
-                                        <td>
-                                            <a href="javascript:void(0)" @click="openDetailPage">詳細</a>
+                                            <router-link
+                                                :to="{name: 'children-detail', params: {id: child.id} }"
+                                                >詳細
+                                            </router-link>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -111,26 +86,45 @@
 </template>
 <script>
 
+import moment from 'moment';
+import { mapState } from 'vuex';
+import api, { apiErrorHandler } from '../global/api';
+import actionLoading from '../mixin/actionLoading';
+import { showSuccess } from '../helpers/error';
 
 export default {
+    mixins: [actionLoading],
     data() {
         return {
             retiredDisplay: false,
+            childrenList: [],
+            searchInput: '',
+            childcareRegistered: 0,
+
         }
     },
     methods: {
-        childcarePlan() {
-            this.$router.push('childcare-plan');
+        getChildrenList() {
+            if (this.actionLoading) return;
+            this.setActionLoading();
+            const query = {query: this.searchInput, plan_registered: this.childcareRegistered};
+            console.log({query});
+            api.get('child', null, query)
+                .then(response => {
+                    this.unsetActionLoading();
+                    this.childrenList = response;
+                })
+                .catch(e => {
+                    apiErrorHandler(e);
+                    this.unsetActionLoading();
+                });
         },
-        presentManagement() {
-            this.$router.push('present-management');
-        },
-        openEditPage() {
-            this.$router.push('children-registry');
-        },
-        openDetailPage() {
-            this.$router.push('children-detail');
+        registerChild() {
+            this.$router.push({name: 'children-register'});
         }
+    },
+    mounted() {
+        this.getChildrenList();
     }
 };
 </script>

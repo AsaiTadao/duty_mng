@@ -12,7 +12,7 @@
                     日付
                 </div>
                 <div class="col-md-5">
-                    2021年10月11日（月）
+                    {{dateFormat(date)}}
                 </div>
             </div>
             <div class="form-group row">
@@ -27,14 +27,21 @@
                 <div class="col-md-3">登園時間</div>
                 <div class="col-md-3">
                     <div class="d-flex is-invalid">
-                        <input type="number" min="0" max="24" class="form-control mr-2">
+                        <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.commutingTimeHour}" v-model="formData.commutingTimeHour" @change="() => {errors.commutingTimeHour=null}">
+
                     </div>
+                    <span v-if="errors.commutingTimeHour" class="error invalid-feedback">
+                        {{ errors.commutingTimeHour }}
+                    </span>
                 </div>
                 <div class="form-control-label">時</div>
                 <div class="col-md-3">
                     <div class="d-flex is-invalid">
-                        <input type="number" min="0" max="24" class="form-control mr-2">
+                        <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.commutingTimeMin}" v-model="formData.commutingTimeMin" @change="() => {errors.commutingTimeMin=null}">
                     </div>
+                    <span v-if="errors.commutingTimeMin" class="error invalid-feedback">
+                        {{ errors.commutingTimeMin }}
+                    </span>
                 </div>
                 <div class="form-control-label">分</div>
             </div>
@@ -42,27 +49,35 @@
                 <div class="col-md-3">降園時間</div>
                     <div class="col-md-3">
                         <div class="d-flex is-invalid">
-                            <input type="number" min="0" max="24" class="form-control mr-2">
+                            <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.leaveTimeHour}" v-model="formData.leaveTimeHour" @change="() => {errors.leaveTimeHour=null}">
                         </div>
+                        <span v-if="errors.leaveTimeHour" class="error invalid-feedback">
+                            {{ errors.leaveTimeHour }}
+                        </span>
                     </div>
                     <div class="form-control-label">時</div>
                     <div class="col-md-3">
                         <div class="d-flex is-invalid">
-                            <input type="number" min="0" max="24" class="form-control mr-2">
+                            <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.leaveTimeMin}" v-model="formData.leaveTimeMin" @change="() => {errors.leaveTimeMin=null}">
                         </div>
+                        <span v-if="errors.leaveTimeMin" class="error invalid-feedback">
+                            {{ errors.leaveTimeMin }}
+                        </span>
                     </div>
                     <div class="form-control-label">分</div>
             </div>
             <div class="form-group row">
                 <div class="col-md-3">欠席</div>
                 <div class="col-md-6">
-                    <select class="form-control">
-                        <option>コロナ欠席</option>
-                        <option>コロナ欠席</option>
+                    <select class="form-control" v-model="formData.reasonForAbsenceId" :class="{'is-invalid' : errors.reasonForAbsenceId}" @change="() => {errors.reasonForAbsenceId=null}">
+                        <option v-for="reason in reasonForAbsences" :key="reason.id" :value="reason.id">{{reason.name}}</option>
                     </select>
+                    <span v-if="errors.reasonForAbsenceId" class="error invalid-feedback">
+                        {{ errors.reasonForAbsenceId }}
+                    </span>
                 </div>
             </div>
-            <div class="form-group row">
+            <!-- <div class="form-group row">
                 <div class="col-md-3">遅刻</div>
                     <div class="col-md-4">
                         <div class="d-flex is-invalid">
@@ -70,12 +85,15 @@
                         </div>
                     </div>
                     <div class="form-control-label">分</div>
-            </div>
+            </div> -->
             <div class="form-group row">
                 <div class="col-md-3">延長</div>
                     <div class="col-md-4">
-                        <div class="d-flex is-invalid">
-                            <input type="number" min="0" max="24" class="form-control mr-2">
+                        <div class="d-flex">
+                            <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.extension}" v-model="formData.extension" @change="() => {errors.extension=null}">
+                            <span v-if="errors.extension" class="error invalid-feedback">
+                                {{ errors.extension }}
+                            </span>
                         </div>
                     </div>
                     <div class="form-control-label">時間</div>
@@ -83,7 +101,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-            <button type="submit" class="btn btn-primary">登録</button>
+            <button type="submit" class="btn btn-primary" @click="saveAttendance">登録</button>
         </div>
     </div>
 </template>
@@ -95,31 +113,142 @@ import actionLoading from '../../mixin/actionLoading';
 import { showSuccess } from '../../helpers/error';
 
     export default {
+        mixins: [actionLoading],
+        props: {
+            editData: {},
+            date: null
+        },
+        computed: {
+            ...mapState({
+                reasonForAbsences: state => state.constants.reasonForAbsences
+            })
+        },
         watch: {
+            ['editData']: function() {
+                this.errors = {
+                    id: null,
+                    commutingTimeHour: '',
+                    commutingTimeMin: '',
+                    leaveTimeHour: '',
+                    leaveTimeMin: '',
+                    extension: '',
+                    reasonForAbsenceId: ''
+                }
+                this.convertToFormData();
+                this.initFormError();
+            }
         },
         data() {
             return {
-                errors: {
-                    applicationClassId: null,
-                    startTime: '',
-                    endTime: '',
-                    reason:  '',
-                },
                 formData: {
-                    applicationClassId: 1,
-                    applicationDate: '',
-                    startTimeHour: '',
-                    startTimeMin:  '',
-                    endTimeHour:   '',
-                    endTimeMin:    '',
-                    reason:        '',
-                    attendanceId: null,
-                    isApproved: null,
+                    id: null,
+                    commutingTimeHour: '',
+                    commutingTimMin: '',
+                    leaveTimeHour: '',
+                    leaveTimeMin: '',
+                    reasonForAbsenceId: null,
+                    extension: '',
+                },
+                errors: {
+                    id: null,
+                    commutingTimeHour: '',
+                    commutingTimeMin: '',
+                    leaveTimeHour: '',
+                    leaveTimeMin: '',
+                    extension: '',
+                    reasonForAbsenceId: ''
                 },
             }
         },
         methods: {
+            saveAttendance() {
+                if (this.actionLoading) return;
+                if(!this.validate()) return;
 
+                const requestData = {
+                    'date': this.date,
+                    'commuting_time': ("0" + this.formData.commutingTimeHour).slice(-2) + ":" + ("0" + this.formData.commutingTimeMin).slice(-2),
+                    'leave_time': ("0" + this.formData.leaveTimeHour).slice(-2) + ":" + ("0" + this.formData.leaveTimeMin).slice(-2),
+                    'reason_for_absence_id': this.formData.reasonForAbsenceId,
+                    'behind_time': this.formData.behindTime,
+                    'extension': this.formData.extension,
+                }
+
+                this.setActionLoading();
+                api.post('attendance/' + this.formData.id, null, requestData)
+                .then(() => {
+                    this.unsetActionLoading();
+                    showSuccess(this.$t('Successfully saved'));
+                    this.$emit('success');
+                })
+                .catch(e => {
+                    apiErrorHandler(e);
+                    this.unsetActionLoading();
+                });
+            },
+            validate() {
+                let valid = true;
+                console.log(this.formData);
+                if (!this.formData.commutingTimeHour) {
+                    this.errors.commutingTimeHour = this.$t('Please input number');                                 // need trans
+                    valid = false;
+                }
+                if (!this.formData.commutingTimeMin) {
+                    this.errors.commutingTimeMin = this.$t('Please input number');                              //need trans
+                    valid = false;
+                }
+                if (!this.formData.leaveTimeHour) {
+                    this.errors.leaveTimeHour = this.$t('Please input number');
+                    valid = false;
+                }
+                if (!this.formData.leaveTimeMin) {
+                    this.errors.leaveTimeMin = this.$t('Please input number');
+                    valid = false;
+                }
+                if (!this.formData.reasonForAbsenceId) {
+                    this.errors.reasonForAbsenceId = this.$t('Please select reason of absence');
+                    valid = false;
+                }
+                return valid;
+            },
+            convertToFormData() {
+                this.initializeFormData();
+                if (this.editData) {
+                    this.formData.id = this.editData.id;
+                    this.formData.commutingTimeHour = this.editData.commutingTime ? moment(this.editData.commutingTime).tz('asia/Tokyo').format('HH') : '';
+                    this.formData.commutingTimeMin = this.editData.commutingTime ? moment(this.editData.commutingTime).tz('asia/Tokyo').format('mm') : '';
+                    this.formData.leaveTimeHour = this.editData.leaveTime ? moment(this.editData.leaveTime).tz('asia/Tokyo').format('HH') : '';
+                    this.formData.leaveTimeMin = this.editData.leaveTime ? moment(this.editData.leaveTime).tz('asia/Tokyo').format('mm') : '';
+                    this.formData.reasonForAbsenceId = this.editData.reasonForAbsenceId ? this.editData.reasonForAbsenceId : '';
+                    this.formData.extension = this.editData.extension ? this.editData.extension : null;
+                }
+            },
+            initializeFormData() {
+                this.formData = {
+                    id: null,
+                    commutingTimeHour: '',
+                    commutingTimeMin: '',
+                    leaveTimeHour: '',
+                    leaveTimeMin: '',
+                    reasonForAbsenceId: null,
+                    extension: '',
+                };
+            },
+            initFormError() {
+                this.errors = {
+                    id: null,
+                    commutingTimeHour: '',
+                    commutingTimeMin: '',
+                    leaveTimeHour: '',
+                    leaveTimeMin: '',
+                    extension: '',
+                    reasonForAbsenceId: ''
+                }
+            },
+            dateFormat(date) {
+                if(date)
+                    return moment(date).format('YYYY年 M月 D日 (ddd)');
+            }
         }
     }
 </script>

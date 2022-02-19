@@ -31,5 +31,5 @@ export const getAbsoluteUrl = (url, baseUrl = '') => {
 };
 
 export const getAppBaseUrl = (url) => {
-    return process.env.MIX_API_BASE_URL + url;
+    return process.env.MIX_CHILD_API_BASE_URL + url;
 };

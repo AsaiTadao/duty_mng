@@ -57,7 +57,7 @@ export default [
                 }
             },
             {
-                path: "children-detail",
+                path: "children-detail/:id",
                 name: "children-detail",
                 components: { default: ChildrenDetail },
                 meta: {
@@ -70,8 +70,21 @@ export default [
                 }
             },
             {
-                path: "children-registry",
-                name: "children-registry",
+                path: "children-register",
+                name: "children-register",
+                components: { default: ChildrenRegistry },
+                meta: {
+                    icon: "fas fa-address-book",
+                    anchor: "園児台帳",
+                    menu: false,
+                    guards: [
+                        Guards.CHILD_MINDER
+                    ]
+                }
+            },
+            {
+                path: "children-edit/:id",
+                name: "children-edit",
                 components: { default: ChildrenRegistry },
                 meta: {
                     icon: "fas fa-address-book",

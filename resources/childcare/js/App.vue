@@ -4,7 +4,7 @@
 <script>
 export default {
     mounted() {
-        // this.$store.dispatch('constants/fetchConstants');
+        this.$store.dispatch('constants/fetchConstants');
     }
 };
 </script>

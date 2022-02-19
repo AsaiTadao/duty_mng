@@ -3,7 +3,7 @@ import LocalStorage from "../helpers/localStorage";
 import { camelCaseKeys, snakeCaseKeys } from "../helpers/object";
 import { getAbsoluteUrl, getUrlWithParam } from "../helpers/url";
 
-const baseUrl = process.env.MIX_API_BASE_URL;
+const baseUrl = process.env.MIX_CHILD_API_BASE_URL;
 
 const precessHeaders = (headers) => {
     if (!headers) headers = {};
