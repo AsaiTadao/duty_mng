@@ -297,6 +297,8 @@ class StampService
     {
         $date = $attendance->date;
         $dateString = $date->format('Y-m-d');
+        [$y, $m, $d] = explode('-', $dateString);
+        $afterDateString = $y . '-' . $m . '-' . ($d + 1);
         $shifts = ShiftPlan::where(['user_id' => $attendance->user_id])->whereDate('date', $date)->orderBy('start_time')->get();
         if ($shifts->count() === 0) return;
 
@@ -310,7 +312,7 @@ class StampService
                     $attendance->commuting_time_1,
                     $attendance->leave_time_1,
                     Carbon::parse($dateString . ' ' . $shift->start_time),
-                    Carbon::parse($dateString . ' ' . $shift->end_time)
+                    Carbon::parse( ($shift->start_time > $shift->end_time ? $afterDateString : $dateString )  . ' ' . $shift->end_time)
                 );
                 if ($overlapped < $tmp) {
                     $selectedIndex = $i;
@@ -332,7 +334,7 @@ class StampService
                     $attendance->commuting_time_1,
                     $attendance->leave_time_1,
                     Carbon::parse($dateString . ' ' . $shift->start_time),
-                    Carbon::parse($dateString . ' ' . $shift->end_time)
+                    Carbon::parse(($shift->start_time > $shift->end_time ? $afterDateString : $dateString )  . ' ' . $shift->end_time)
                 );
                 if ($overlapped < $tmp) {
                     $selectedIndex = $i;
@@ -354,7 +356,7 @@ class StampService
                     $attendance->commuting_time_1,
                     $attendance->leave_time_1,
                     Carbon::parse($dateString . ' ' . $shift->start_time),
-                    Carbon::parse($dateString . ' ' . $shift->end_time)
+                    Carbon::parse(($shift->start_time > $shift->end_time ? $afterDateString : $dateString )  . ' ' . $shift->end_time)
                 );
                 if ($overlapped < $tmp) {
                     $selectedIndex = $i;

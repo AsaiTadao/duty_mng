@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1\Child;
 
 use App\Http\Controllers\API\V1\BaseController;
+use App\Http\Requests\Child\AttendanceDailyStatQuery;
 use App\Http\Requests\Child\AttendanceQuery;
 use App\Http\Requests\Child\AttendanceRequest;
 use App\Http\Resources\ChildAttendanceResource;
@@ -77,5 +78,33 @@ class AttendanceController extends BaseController
             ->select('children_attendences.*', 'children.id', 'children.class_id', 'children.name')
             ->get();
         return $this->sendResponse(ChildAttendanceResource::collection($childrenAttendences));
+    }
+
+    public function dailyStat(AttendanceDailyStatQuery $request)
+    {
+        $user = auth()->user();
+        $data = $request->validated();
+        $office_id = $user->office_id;
+
+        $childQb = Child::where(['office_id' => $office_id]);
+        if (!empty($data['children_class_id']))
+        {
+            $childQb->where(['class_id' => $data['children_class_id']]);
+        }
+        $children = $childQb->get();
+        $allCount = $children->count();
+
+        $attendanceCount = ChildrenAttendence::where(['date' => $data['date']])
+                ->whereIn('child_id', $children->pluck('id')->toArray())
+                ->whereNotNull('commuting_time')
+                ->count();
+
+        $absentCount = $allCount - $attendanceCount;
+
+        return $this->sendResponse([
+            'all'   =>  $allCount,
+            'attend'=>  $attendanceCount,
+            'absent'=>  $absentCount
+        ]);
     }
 }

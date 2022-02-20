@@ -17,7 +17,7 @@ class CreateChildcarePlansTable extends Migration
             $table->id();
             $table->timestamps();
             $table->json('day_of_weeks')->nullable();
-            $table->foreignId('children_id')->constrained('children');
+            $table->foreignId('child_id')->constrained('children');
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();
             $table->boolean('excluding_holidays')->default(0);

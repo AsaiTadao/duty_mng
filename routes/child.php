@@ -3,7 +3,9 @@
 use App\Http\Controllers\API\V1\Child\AttendanceController;
 use App\Http\Controllers\API\V1\Child\AuthController;
 use App\Http\Controllers\API\V1\Child\ChildController;
+use App\Http\Controllers\API\V1\Child\ChildPlanController;
 use App\Http\Controllers\API\V1\Child\ContactBookController;
+use App\Http\Controllers\API\V1\Child\MailController;
 use App\Http\Middleware\ChildcareAuth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +23,16 @@ Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
         Route::post('/attendance/{child}', [AttendanceController::class, 'save'])->middleware('can:handle-child,child');
         Route::get('/attendance', [AttendanceController::class, 'list']);
 
+        Route::get('/contact-book/child/{child}', [ContactBookController::class, 'retrieve'])->middleware('can:handle-child,child');
         Route::post('/contact-book/child/{child}/school/0', [ContactBookController::class, 'schoolSave0'])->middleware('can:handle-child,child');
         Route::post('/contact-book/child/{child}/school/1', [ContactBookController::class, 'schoolSave12'])->middleware('can:handle-child,child');
         Route::post('/contact-book/child/{child}/school/2', [ContactBookController::class, 'schoolSave345'])->middleware('can:handle-child,child');
+
+        Route::post('/plan/{child}', [ChildPlanController::class, 'save'])->middleware('can:handle-child,child');
+        Route::post('/plan-days/{child}', [ChildPlanController::class, 'saveDayPlan'])->middleware('can:handle-child,child');
+        Route::get('/attendance-daily-stat', [AttendanceController::class, 'dailyStat']);
+        Route::post('/mail', [MailController::class, 'dispatchMail']);
+        Route::get('/mail-template', [MailController::class, 'getMailTemplate']);
     });
     Route::middleware(['auth:childcare'])->group(function () {
         Route::post('/contact-book/child/{child}/home/0', [ContactBookController::class, 'homeSave0'])->middleware('can:handle-child,child');
