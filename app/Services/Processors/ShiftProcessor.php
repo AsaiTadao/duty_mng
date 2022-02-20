@@ -62,8 +62,12 @@ class ShiftProcessor
                     $endTime = $shiftData['end_time'];
                 }
                 if ($startTime >= $endTime) {
-                    $this->error = trans("Start time is bigger than end time");
-                    return false;
+                    // $this->error = trans("Start time is bigger than end time");
+                    // return false;
+                    [$h, $i] = explode(':', $endTime);
+                    $endAltTime = (24 + $h) . ':' . $i;
+                } else {
+                    $endAltTime = $endTime;
                 }
 
                 // check rest time consistency
@@ -75,15 +79,30 @@ class ShiftProcessor
                         $this->error = trans("Please input valid rest time");
                         return false;
                     }
-                    if ($shiftData['rest_start_time'] >= $shiftData['rest_end_time']) {
+                    if ($shiftData['rest_start_time'] < $startTime)
+                    {
+                        [$h, $i] = explode(':', $shiftData['rest_start_time']);
+                        $rest_start_alt = (24 + $h) . ':' . $i;
+                    } else {
+                        $rest_start_alt = $shiftData['rest_start_time'];
+                    }
+
+                    if ($shiftData['rest_end_time'] < $startTime)
+                    {
+                        [$h, $i] = explode(':', $shiftData['rest_end_time']);
+                        $rest_end_alt = (24 + $h) . ':' . $i;
+                    } else {
+                        $rest_end_alt = $shiftData['rest_end_time'];
+                    }
+                    if ($rest_start_alt >= $rest_end_alt) {
                         $this->error = trans("Rest start time is bigger than rest end time");
                         return false;
                     }
                     if (
-                        $shiftData['rest_start_time'] < $startTime ||
-                        $shiftData['rest_start_time'] > $endTime ||
-                        $shiftData['rest_end_time'] < $startTime ||
-                        $shiftData['rest_end_time'] > $endTime
+                        $rest_start_alt < $startTime ||
+                        $rest_start_alt > $endAltTime ||
+                        $rest_end_alt < $startTime ||
+                        $rest_end_alt > $endAltTime
                     ) {
                         $this->error = trans('Rest time is not in the work time period');
                         return false;
@@ -125,15 +144,22 @@ class ShiftProcessor
                 $shift = $shiftArr[$i];
                 for ($j = $i + 1; $j < count($shiftArr); $j++) {
                     $targetShift = $shiftArr[$j];
+
+                    $org_start_time = $shift->start_time > $shift->end_time ? $shift->end_time : $shift->start_time;
+                    $org_end_time = $shift->start_time > $shift->end_time ? $shift->start_time : $shift->end_time;
+
+                    $tar_start_time = $targetShift->start_time > $targetShift->end_time ? $targetShift->end_time : $targetShift->start_time;
+                    $tar_end_time = $targetShift->start_time > $targetShift->end_time ? $targetShift->start_time : $targetShift->end_time;
+
                     if (
-                        ($shift->start_time >= $targetShift->start_time &&
-                            $shift->startTime <= $targetShift->end_time
+                        ($org_start_time >= $tar_start_time &&
+                            $org_start_time <= $tar_end_time
                         ) ||
-                        ($shift->endTime >= $targetShift->start_time &&
-                            $shift->endTime <= $targetShift->end_time
+                        ($org_end_time >= $tar_start_time &&
+                            $org_end_time <= $tar_end_time
                         ) ||
-                        ($shift->startTime <= $targetShift->start_time &&
-                            $shift->endTime >= $targetShift->end_time
+                        ($org_start_time <= $tar_start_time &&
+                            $org_end_time >= $tar_end_time
                         )
                     ) {
                         $this->error = trans("Work time is overlapped with other shifts");

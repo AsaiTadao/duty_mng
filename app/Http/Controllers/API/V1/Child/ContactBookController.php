@@ -9,6 +9,7 @@ use App\Http\Requests\Child\ContactBook12HomeRequest;
 use App\Http\Requests\Child\ContactBook12SchoolRequest;
 use App\Http\Requests\Child\ContactBook345HomeRequest;
 use App\Http\Requests\Child\ContactBook345SchoolRequest;
+use App\Http\Requests\Child\ContactBookQuery;
 use App\Models\Child;
 use App\Models\ContactBook;
 
@@ -100,4 +101,11 @@ class ContactBookController extends BaseController
         return $this->sendResponse($contactBook);
     }
 
+    public function retrieve(Child $child, ContactBookQuery $request)
+    {
+        $data = $request->validated();
+        $date = $data['date'];
+        $contactBook = ContactBook::where(['child_id' => $child->id, 'date' => $date])->first();
+        return $this->sendResponse($contactBook);
+    }
 }
