@@ -23,7 +23,7 @@
                                         <thead class="text-center">
                                             <tr class="light-green">
                                                 <th>園長</th>
-                                                <th>主任</th>
+                                                <th>主任・副主任・保育リーダー</th>
                                                 <th>担任</th>
                                             </tr>
                                         </thead>

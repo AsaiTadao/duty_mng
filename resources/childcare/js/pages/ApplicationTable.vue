@@ -360,9 +360,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            <br>
-                            <div class="w-100 overflow-scroll-x">
                                 <table class="table table-bordered table-diary text-center w-3200-px">
                                     <thead>
 
@@ -497,9 +494,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            <br>
-                            <div class="w-100 overflow-scroll-x">
                                 <table class="table table-bordered table-diary text-center w-3200-px">
                                     <thead>
 
@@ -634,9 +628,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            <br>
-                            <div class="w-100 overflow-scroll-x">
                                 <table class="table table-bordered table-diary text-center w-3200-px">
                                     <thead>
 
@@ -771,9 +762,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            <br>
-                            <div class="w-100 overflow-scroll-x">
                                 <table class="table table-bordered table-diary text-center w-3200-px">
                                     <thead>
 
@@ -908,9 +896,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
-                            <br>
-                            <div class="w-100 overflow-scroll-x">
                                 <table class="table table-bordered table-diary text-center w-3200-px">
                                     <thead>
 

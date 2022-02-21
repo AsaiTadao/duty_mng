@@ -322,7 +322,7 @@
                                         <td class="light-blue align-middle">
                                             備考欄
                                         </td>
-                                        <td class="p-0 bg-white">
+                                        <td class="p-0 bg-white" style="outline: 1px solid #e7effe;">
                                             <textarea class="textarea-fit" v-model="formData.remarks">
 
                                             </textarea>

@@ -49,7 +49,7 @@
                                                         <td class="align-middle">{{getAbsenceName(indiAttendance.reasonForAbsenceId)}}</td>
                                                         <td class="align-middle">{{indiAttendance.extension}}</td>
                                                         <td class="align-middle">
-                                                            <router-link to="/contact-book0">
+                                                            <router-link :to="{name: 'contact-book', params: {id: indiAttendance.id}}">
                                                                 確認
                                                             </router-link>
                                                         </td>

@@ -65,7 +65,7 @@
                                         <td v-if="child.gender == 1">男</td>
                                         <td v-else-if="child.gender == 2">女</td>
                                         <td v-else></td>
-                                        <td>{{child.birthday}}</td>
+                                        <td>{{getAge(child.birthday)}}</td>
                                         <td>{{child.classId}}</td>
                                         <td></td>
                                         <td>
@@ -121,6 +121,13 @@ export default {
         },
         registerChild() {
             this.$router.push({name: 'children-register'});
+        },
+        getAge(birthDay) {
+           if (!birthDay) return null;
+            const ageInMonth = moment().diff(birthDay, 'months');
+            const y = Math.floor(ageInMonth / 12);
+            const m = ageInMonth % 12;
+            return (y ? y + '歳' : '') + (m ? m + 'ヶ月' : '');
         }
     },
     mounted() {

@@ -64,7 +64,7 @@
                                             {{childInfor.birthday}}
                                         </td>
                                         <td>
-                                            {{childInfor.birthday}}
+                                            {{getAge(childInfor.birthday)}}
                                         </td>
                                         <td>
                                             {{getChildClass()}}
@@ -118,7 +118,7 @@
                                         <td class="light-blue align-middle" style="width: 200px">
                                             備考欄
                                         </td>
-                                        <td class="p-0 bg-white">
+                                        <td class="p-0 bg-white align-middle" style="outline: 1px solid #e7effe;">
                                             {{childInfor.remarks}}
                                         </td>
                                     </tr>
@@ -129,7 +129,7 @@
                             <table class="table table-bordered table-hover">
                                 <tbody>
                                     <tr>
-                                        <td rowspan="3" class="text-center text-white dark-pink align-middle">
+                                        <td rowspan="3" class="text-center text-white dark-pink align-middle" style="width: 200px">
                                             登園予定
                                         </td>
                                         <td class="light-pink text-center">火曜・水曜・木曜</td>
@@ -311,6 +311,13 @@ export default {
         },
         editChild() {
             this.$router.push({name: 'children-edit', params: {id: this.childId}});
+        },
+        getAge(birthDay) {
+           if (!birthDay) return null;
+            const ageInMonth = moment().diff(birthDay, 'months');
+            const y = Math.floor(ageInMonth / 12);
+            const m = ageInMonth % 12;
+            return (y ? y + '歳' : '') + (m ? m + 'ヶ月' : '');
         }
     },
     mounted() {

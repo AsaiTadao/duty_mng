@@ -13,9 +13,10 @@ import PresentManagement from "../pages/PresentManagement";
 import BroadcastMail from "../pages/BroadcastMail";
 import EmergeMail from "../pages/EmergeMail";
 import SendMail from "../pages/SendMail";
-import ContactBook0 from "../pages/ContactBook0";
-import ContactBook1 from "../pages/ContactBook1";
-import ContactBook2 from "../pages/ContactBook2";
+import ContactBook from "../pages/ContactBook";
+import ContactBook0 from "../pages/ContactBook/ContactBook0";
+import ContactBook1 from "../pages/ContactBook/ContactBook1";
+import ContactBook2 from "../pages/ContactBook/ContactBook2";
 import ParentContactBook0 from "../pages/ParentContactBook0";
 import ParentContactBook1 from "../pages/ParentContactBook1";
 import ParentContactBook2 from "../pages/ParentContactBook2";
@@ -213,9 +214,9 @@ export default [
                 }
             },
             {
-                path: "contact-book0",
-                name: "contact-book0",
-                components: { default: ContactBook0 },
+                path: "contact-book/:id",
+                name: "contact-book",
+                components: { default: ContactBook },
                 meta: {
                     icon: "",
                     anchor: "",

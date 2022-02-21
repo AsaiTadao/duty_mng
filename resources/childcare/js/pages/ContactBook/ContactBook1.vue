@@ -712,8 +712,8 @@ import Datepicker from "vuejs-datepicker";
 import { ja } from 'vuejs-datepicker/dist/locale';
 import moment from 'moment-timezone';
 import { mapState } from 'vuex';
-import actionLoading from '../mixin/actionLoading';
-import api, { apiErrorHandler } from '../global/api';
+import actionLoading from '../../mixin/actionLoading';
+import api, { apiErrorHandler } from '../../global/api';
 
 export default {
     components: {
