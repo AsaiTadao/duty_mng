@@ -13,11 +13,11 @@ class ChildcarePlan extends Model
     const PLAN_REGISTERED = 1;
 
     protected $fillable = [
-        'day_of_week', 'children_id', 'start_time', 'end_time', 'excluding_holidays', 'create_user_id', 'update_user_id'
+        'day_of_weeks', 'children_id', 'start_time', 'end_time', 'excluding_holidays', 'create_user_id', 'update_user_id'
     ];
 
     protected $casts = [
-        'day_of_week'   =>  'array'
+        'day_of_weeks'   =>  'array'
     ];
 
     public function child()

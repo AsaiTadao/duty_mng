@@ -50,6 +50,7 @@
     </section>
 </template>
 <script>
+import api from '../global/api';
 
 
 export default {
@@ -61,6 +62,9 @@ export default {
     methods: {
         sendMail() {
             if (!confirm(this.$t("Are you sure you want to send mail?"))) return;
+        },
+        fetchData() {
+            api.get('')
         }
     }
 };

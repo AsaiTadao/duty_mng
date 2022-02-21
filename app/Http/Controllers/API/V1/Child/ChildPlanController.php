@@ -12,6 +12,13 @@ use Illuminate\Support\Carbon;
 
 class ChildPlanController extends BaseController
 {
+    public function retrieve(Child $child)
+    {
+        $childPlans = ChildcarePlan::where(['child_id' => $child->id])->get();
+
+        return $this->sendResponse($childPlans);
+    }
+
     public function save(Child $child, ChildPlanRequest $request)
     {
         $user = auth()->user();
@@ -21,7 +28,7 @@ class ChildPlanController extends BaseController
         {
             if (!empty($plan['id']))
             {
-                $childPlan = ChildcarePlan::where(['id' => $plan['id'], 'child_id' => $child->id])->get();
+                $childPlan = ChildcarePlan::where(['id' => $plan['id'], 'child_id' => $child->id])->first();
                 $childPlan->fill($plan);
                 $childPlan->update_user_id = $user->id;
             } else {

@@ -9,12 +9,12 @@
                                 <h3 class="card-title mb-0">保育システム</h3>
                             </div>
                             <div class="col-md-3">
-                                <label>山田　三越</label>
+                                <label>{{ child.name }}</label>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive p-0">
+                        <div class="table-responsive p-0" v-for="(plan, index) in plans" :key="index">
                             <table class="table table-bordered table-hover">
                                 <tbody>
                                     <tr>
@@ -23,21 +23,24 @@
                                         </td>
                                         <td class="light-pink text-center" style="width:80%">
                                             <div class="d-flex align-items-center justify-content-center">
-                                                    <input type="checkbox" class="align-middle" :value="1">
+                                                    <input type="checkbox" class="align-middle" :value="1" v-model="plans[index].dayOfWeeks" />
                                                     <div class="ml-1 mr-4">月曜</div>
-                                                    <input type="checkbox" class="align-middle" :value="1">
+                                                    <input type="checkbox" class="align-middle" :value="2" v-model="plans[index].dayOfWeeks" />
                                                     <div class="ml-1 mr-4">火曜</div>
-                                                    <input type="checkbox" class="align-middle" :value="1">
+                                                    <input type="checkbox" class="align-middle" :value="3" v-model="plans[index].dayOfWeeks" />
                                                     <div class="ml-1 mr-4">水曜</div>
-                                                    <input type="checkbox" class="align-middle" :value="1">
+                                                    <input type="checkbox" class="align-middle" :value="4" v-model="plans[index].dayOfWeeks" />
                                                     <div class="ml-1 mr-4">木曜</div>
-                                                    <input type="checkbox" class="align-middle" :value="1">
+                                                    <input type="checkbox" class="align-middle" :value="5" v-model="plans[index].dayOfWeeks" />
                                                     <div class="ml-1 mr-4">金曜</div>
-                                                    <input type="checkbox" class="align-middle" :value="1">
+                                                    <input type="checkbox" class="align-middle" :value="6" v-model="plans[index].dayOfWeeks" />
                                                     <div class="ml-1 mr-4">土曜</div>
-                                                    <input type="checkbox" class="align-middle" :value="1">
+                                                    <input type="checkbox" class="align-middle" v-model="plans[index].excludingHolidays" />
                                                     <div class="ml-1">祝・祭日を除く</div>
 
+                                            </div>
+                                            <div v-if="planErrors[index].dayOfWeeks" class="error-msg">
+                                                {{ planErrors[index].dayOfWeeks }}
                                             </div>
                                         </td>
                                     </tr>
@@ -45,33 +48,9 @@
                                         <td class="dark-pink text-white">時間指定</td>
                                         <td class="light-pink">
                                             <div class="form-row justify-content-center">
-                                                <div class="col-md-1">
-                                                    <input type="number" class="form-control" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                                :
-                                                <div class="col-md-1">
-                                                    <input type="number" class="form-control" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
+                                                <hour-minute-input v-model="plans[index].startTime" :error="planErrors[index].startTime"/>
                                                 ~
-                                                <div class="col-md-1">
-                                                    <input type="number" class="form-control" min="0" max="24" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
-                                                    <span v-if="errors.endTime" class="error invalid-feedback">
-                                                        {{ errors.endTime }}
-                                                    </span>
-                                                </div>
-                                                :
-                                                <div class="col-md-1">
-                                                    <input type="number" class="form-control" min="0" max="60" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
-                                                    <span v-if="errors.endTime" class="error invalid-feedback">
-                                                        {{ errors.endTime }}
-                                                    </span>
-                                                </div>
+                                                <hour-minute-input v-model="plans[index].endTime"  :error="planErrors[index].endTime"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -82,8 +61,8 @@
                             <button class="btn btn-primary float-left" @click="calendarRegister"><i class="fa fa-calendar fa-lg"></i> カレンダから登録</button>
                         </div>
                         <div class="float-right d-flex align-items-center mt-2">
-                            <button class="btn btn-primary float-right">+追加</button>
-                            <button class="btn btn-primary float-right ml-2">登録</button>
+                            <button class="btn btn-primary float-right" @click="onAdd">+追加</button>
+                            <button class="btn btn-primary float-right ml-2" @click="onSubmit">登録</button>
                         </div>
                     </div>
                 </div>
@@ -92,18 +71,131 @@
     </div>
 </template>
 <script>
+import moment from 'moment';
+import HourMinuteInput from '../components/HourMinuteInput.vue';
+import api, { apiErrorHandler } from '../global/api';
+import actionLoading from '../mixin/actionLoading';
+import { validateHhMm } from '../helpers/datetime';
+import { showSuccess } from '../helpers/error';
 
+const defaultPlan = {
+    dayOfWeeks: [],
+    startTime: null,
+    endTime: null,
+    excludingHolidays: 0
+}
+const defaultPlanError = {
+    dayOfWeeks: null,
+    startTime: null,
+    endTime: null,
+    time: null
+}
 
 export default {
+  components: { HourMinuteInput },
+    mixins: [actionLoading],
     data() {
         return {
-            errors: []
+            errors: [],
+            childId: null,
+            child: {},
+            plans: [
+                {
+                    dayOfWeeks: [],
+                    startTime: null,
+                    endTime: null,
+                    excludingHolidays: 0
+                },
+            ],
+            planErrors: [{...defaultPlanError}]
         }
+    },
+    mounted() {
+        this.childId = this.$route.params.childId;
+        this.fetchData();
     },
     methods: {
         calendarRegister() {
             this.$router.push("childcare-calendar");
+        },
+        fetchData() {
+            this.setActionLoading();
+            api.get(`plan/${this.childId}`)
+            .then(response => {
+                if (response.length > 0) {
+                    this.plans = response.map(item => {
+                        let startTime = item.startTime ? moment(item.startTime, 'HH:mm:ss').format('HH:mm') : null;
+                        let endTime = item.endTime ? moment(item.endTime, 'HH:mm:ss').format('HH:mm') : null;
+                        return {...item, startTime, endTime, dayOfWeeks: item.dayOfWeeks || []};
+                    });
+                    this.planErrors = this.plans.map(plan => ({...defaultPlanError}));
+                }
+            })
+            .catch(e => apiErrorHandler(e))
+            .finally(() => {
+                this.unsetActionLoading();
+            });
+
+            api.get(`child/${this.childId}`)
+            .then(response => {
+                this.child = response
+            })
+            .catch(e => apiErrorHandler(e));
+        },
+        onAdd() {
+            this.plans = [...this.plans, {...defaultPlan}];
+            this.planErrors.push({...defaultPlanError});
+        },
+        onSubmit() {
+            if (!this.validate()) return;
+            this.setActionLoading();
+            api.post('plan/' + this.childId, null, {data: this.plans})
+            .then(() => {
+                showSuccess(this.$t('Successfully saved'));
+            })
+            .catch(e => apiErrorHandler(e))
+            .finally(() => this.unsetActionLoading());
+        },
+        validate() {
+            if (this.plans.length === 0) {
+                alert(this.$t('Please add at least one plan'));
+                return;
+            }
+            this.planErrors = this.plans.map(() => ({...defaultPlanError}));
+            let valid = true;
+            this.plans.forEach((plan, index) => {
+                if (!plan.dayOfWeeks || plan.dayOfWeeks.length === 0) {
+                    valid = false;
+                    this.planErrors[index].dayOfWeeks = this.$t('Please select at least a day');
+                }
+                if (plan.startTime === plan.endTime) {
+                    valid = false;
+                    this.planErrors[index].time = this.$t('Invalid time period');
+                }
+                if (!plan.startTime) {
+                    valid = false;
+                    this.planErrors[index].startTime = this.$t('Please input start time');
+                }
+                if (!plan.endTime) {
+                    valid = false;
+                    this.planErrors[index].endTime = this.$t('Please input end time');
+                }
+                if (!validateHhMm(plan.startTime)) {
+                    this.planErrors[index].startTime = this.$t('Invalid time format');
+                }
+                if (!validateHhMm(plan.endTime)) {
+                    this.planErrors[index].endTime = this.$t('Invalid time format');
+                }
+            });
+            return valid
+
         }
     }
 };
 </script>
+<style scoped>
+.error-msg {
+    color: #f00;
+    margin-top: 5px;
+}
+</style>

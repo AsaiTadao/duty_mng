@@ -123,7 +123,7 @@ export default [
                 }
             },
             {
-                path: "childcare-plan",
+                path: ":childId/childcare-plan",
                 name: "childcare-plan",
                 components: { default: ChildCarePlan },
                 meta: {
@@ -339,7 +339,7 @@ export default [
     },
     {
         path: "/parent/login",
-        name: "login",
+        name: "parent-login",
         component: Login,
         guards: [
             Guards.PARENT,

@@ -8,7 +8,7 @@
                 <route-consumer></route-consumer>
             </div>
         </template>
-        <!-- <loading :active="!session || actionLoading" color="#007BFF"></loading> -->
+        <loading :active="actionLoading" color="#007BFF"></loading>
     </div>
 </template>
 <script>
