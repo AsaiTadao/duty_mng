@@ -106,6 +106,9 @@ class ContactBookController extends BaseController
         $data = $request->validated();
         $date = $data['date'];
         $contactBook = ContactBook::where(['child_id' => $child->id, 'date' => $date])->first();
-        return $this->sendResponse($contactBook);
+        return $this->sendResponse([
+            'child'      => $child,
+            'contact_id' => $contactBook
+        ]);
     }
 }
