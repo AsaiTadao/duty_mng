@@ -108,7 +108,7 @@ class ContactBookController extends BaseController
         $contactBook = ContactBook::where(['child_id' => $child->id, 'date' => $date])->first();
         return $this->sendResponse([
             'child'      => $child,
-            'contact_id' => $contactBook
+            'contact_book' => $contactBook
         ]);
     }
 }
