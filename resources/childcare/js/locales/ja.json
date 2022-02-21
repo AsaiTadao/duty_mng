@@ -30,6 +30,8 @@
     "Please input password": "パスワードを入力してください",
     "Please input correct format": "正しい形式に入力してください",
     "Please input time": "時間を入力してください",
+    "Please input type": "区分を入力してください",
+    "Please select reason of absence": "欠席理由を選択してください",
     "Please avoid time overlapped": "時間の重複は避けてください",
     "Please select number": "番号を選択してください",
     "Please select officeGroup": "officeGroupを選択してください",

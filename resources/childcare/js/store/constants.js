@@ -13,6 +13,9 @@ export default {
         applicationDeadlineOptions: [],
         applicationStatusOptions: [],
         officeGroups: [],
+        childTypes: [],
+        childrenClasses: [],
+        reasonForAbsences: []
     },
     getters: {
         getApplicationClasses(state) {
@@ -37,7 +40,10 @@ export default {
                 salaryDeductionOptions,
                 applicationDeadlineOptions,
                 applicationStatusOptions,
-                officeGroups
+                officeGroups,
+                childTypes,
+                childrenClasses,
+                reasonForAbsences
             } = payload;
             state.applicationClasses = applicationClasses;
             state.reasonForVacations = reasonForVacations;
@@ -48,12 +54,15 @@ export default {
             state.applicationStatusOptions = applicationStatusOptions;
             state.overtimePayOptions = overtimePayOptions;
             state.officeGroups = officeGroups;
+            state.childTypes = childTypes;
+            state.childrenClasses = childrenClasses;
+            state.reasonForAbsences = reasonForAbsences;
             return
         }
     },
     actions: {
         fetchConstants(context) {
-            api.get('constants')
+            api.get(process.env.MIX_API_BASE_URL + '/constants')
                 .then(response => {
                     context.commit('setConstants', response);
                 })

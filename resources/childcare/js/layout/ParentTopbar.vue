@@ -6,6 +6,7 @@
                     class="nav-link"
                     href="#"
                     role="button"
+                    data-widget="pushmenu"
                 >
                     <i class="fas fa-bars"></i>
                 </a>

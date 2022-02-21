@@ -30,7 +30,6 @@
                                             <th>登園時間</th>
                                             <th>降園時間</th>
                                             <th>欠席</th>
-                                            <th>遅刻</th>
                                             <th>延長</th>
                                             <th>連絡帳</th>
                                             <th>編集</th>
@@ -38,379 +37,43 @@
                                         </tr>
                                     </thead>
                                         <tbody class="text-center">
-                                            <tr>
-                                                <td rowspan="3" class="dark-brown align-middle">
-                                                    0歳児
-                                                </td>
-                                                <td>山田　太郎</td>
-                                                <td>8:58</td>
-                                                <td>18:00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <router-link to="/contact-book0">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">編集</a>
-                                                </td>
-                                                <td rowspan="3" class="align-middle">
-                                                    <div>
-                                                        <button class="btn btn-primary mb-1">日誌閲覧</button>
-                                                    </div>
-                                                    <div>
-                                                        <button class="btn btn-primary" @click="openDiary()">日誌作成</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>木村　花子</td>
-                                                <td>8:03</td>
-                                                <td>19:00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>2.00</td>
-                                                <td>
-                                                    <router-link to="/contact-book0">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">編集</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>鈴木　一郎</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>託児予定なし</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <router-link to="/contact-book0">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">
-                                                        編集
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td rowspan="3" class="dark-brown align-middle">
-                                                    1歳児
-                                                </td>
-                                                <td>山田　太郎</td>
-                                                <td>8:58</td>
-                                                <td>18:00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <router-link to="/contact-book1">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">編集</a>
-                                                </td>
-                                                <td rowspan="3" class="align-middle">
-                                                    <div>
-                                                        <button class="btn btn-primary mb-1">日誌閲覧</button>
-                                                    </div>
-                                                    <div>
-                                                        <button class="btn btn-primary" @click="openDiary()">日誌作成</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>木村　花子</td>
-                                                <td>8:03</td>
-                                                <td>19:00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>2.00</td>
-                                                <td>
-                                                    <router-link to="/contact-book1">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">編集</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>鈴木　一郎</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>託児予定なし</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <router-link to="/contact-book1">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">
-                                                        編集
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td rowspan="3" class="dark-brown align-middle">
-                                                    2歳児
-                                                </td>
-                                                <td>山田　太郎</td>
-                                                <td>8:58</td>
-                                                <td>18:00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <router-link to="/contact-book1">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">編集</a>
-                                                </td>
-                                                <td rowspan="3" class="align-middle">
-                                                    <div>
-                                                        <button class="btn btn-primary mb-1">日誌閲覧</button>
-                                                    </div>
-                                                    <div>
-                                                        <button class="btn btn-primary" @click="openDiary()">日誌作成</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>木村　花子</td>
-                                                <td>8:03</td>
-                                                <td>19:00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>2.00</td>
-                                                <td>
-                                                    <router-link to="/contact-book1">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">編集</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>鈴木　一郎</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>託児予定なし</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <router-link to="/contact-book1">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">
-                                                        編集
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td rowspan="3" class="dark-brown align-middle">
-                                                    3歳児
-                                                </td>
-                                                <td>山田　太郎</td>
-                                                <td>8:58</td>
-                                                <td>18:00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <router-link to="/contact-book2">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">編集</a>
-                                                </td>
-                                                <td rowspan="3" class="align-middle">
-                                                    <div>
-                                                        <button class="btn btn-primary mb-1">日誌閲覧</button>
-                                                    </div>
-                                                    <div>
-                                                        <button class="btn btn-primary" @click="openDiary()">日誌作成</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>木村　花子</td>
-                                                <td>8:03</td>
-                                                <td>19:00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>2.00</td>
-                                                <td>
-                                                    <router-link to="/contact-book2">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">編集</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>鈴木　一郎</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>託児予定なし</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <router-link to="/contact-book2">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">
-                                                        編集
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td rowspan="3" class="dark-brown align-middle">
-                                                    4歳児
-                                                </td>
-                                                <td>山田　太郎</td>
-                                                <td>8:58</td>
-                                                <td>18:00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <router-link to="/contact-book2">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">編集</a>
-                                                </td>
-                                                <td rowspan="3" class="align-middle">
-                                                    <div>
-                                                        <button class="btn btn-primary mb-1">日誌閲覧</button>
-                                                    </div>
-                                                    <div>
-                                                        <button class="btn btn-primary" @click="openDiary()">日誌作成</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>木村　花子</td>
-                                                <td>8:03</td>
-                                                <td>19:00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>2.00</td>
-                                                <td>
-                                                    <router-link to="/contact-book2">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">編集</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>鈴木　一郎</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>託児予定なし</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <router-link to="/contact-book2">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">
-                                                        編集
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td rowspan="3" class="dark-brown align-middle">
-                                                    5歳児
-                                                </td>
-                                                <td>山田　太郎</td>
-                                                <td>8:58</td>
-                                                <td>18:00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <router-link to="/contact-book2">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">編集</a>
-                                                </td>
-                                                <td rowspan="3" class="align-middle">
-                                                    <div>
-                                                        <button class="btn btn-primary mb-1">日誌閲覧</button>
-                                                    </div>
-                                                    <div>
-                                                        <button class="btn btn-primary" @click="openDiary()">日誌作成</button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>木村　花子</td>
-                                                <td>8:03</td>
-                                                <td>19:00</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>2.00</td>
-                                                <td>
-                                                    <router-link to="/contact-book2">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">編集</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>鈴木　一郎</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>託児予定なし</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>
-                                                    <router-link to="/contact-book2">
-                                                        確認
-                                                    </router-link>
-                                                </td>
-                                                <td>
-                                                    <a href="javascript:void(0)" @click="showEditForm">
-                                                        編集
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            <template v-for="(attendance, index1) in attendances">
+                                                <template v-for="(indiAttendance, index2) in attendance">
+                                                    <tr :key="index1 + '_' + index2">
+                                                        <td v-if="index2 == 0" :rowspan="attendance.length" class="dark-brown align-middle">
+                                                            {{index1}}歳児
+                                                        </td>
+                                                        <td class="align-middle">{{indiAttendance.name}}</td>
+                                                        <td class="align-middle">{{changeTimeFormat(indiAttendance.commutingTime)}}</td>
+                                                        <td class="align-middle">{{changeTimeFormat(indiAttendance.leaveTime)}}</td>
+                                                        <td class="align-middle">{{getAbsenceName(indiAttendance.reasonForAbsenceId)}}</td>
+                                                        <td class="align-middle">{{indiAttendance.extension}}</td>
+                                                        <td class="align-middle">
+                                                            <router-link :to="{name: 'contact-book', params: {id: indiAttendance.id}}">
+                                                                確認
+                                                            </router-link>
+                                                        </td>
+                                                        <td class="align-middle">
+                                                            <a href="javascript:void(0)" @click="onEditClicked(indiAttendance.id)">編集</a>
+                                                        </td>
+                                                        <td v-if="index2 == 0" :rowspan="attendance.length" class="align-middle">
+                                                            <div>
+                                                                <button class="btn btn-primary mb-1" @click="openDiary(indiAttendance.id)">日誌閲覧</button>
+                                                            </div>
+                                                            <div>
+                                                                <button class="btn btn-primary" @click="openDiary(indiAttendance.id)">日誌作成</button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </template>
                                         </tbody>
                                 </table>
                             </div>
                             <!-- Modal -->
                             <div class="modal fade" id="attend-edit-form" tabindex="-1" role="dialog" aria-labelledby="attend-edit-form" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
-                                    <edit-form></edit-form>
+                                    <edit-form :editData="editFormData" :date="selectedDate" v-on:success="onAttendSaved"></edit-form>
                                 </div>
                             </div>
                         </div>
@@ -442,6 +105,7 @@ export default {
             todayDate: "",
             days: [],
             attends : [],
+            attendances: [],
             selectedAttend : null,
             selectedUser: null,
             requests : [],
@@ -452,22 +116,20 @@ export default {
             ja: ja,
             selectedApp: {},
             selectedAppUserName: '',
+            editFormData: {},
         }
     },
+    computed: {
+        ...mapState({
+                reasonForAbsences: state => state.constants.reasonForAbsences
+            })
+    },
     methods: {
-        getOffices() {
-            api.get('office/user-capable')
-                .then(response => {
-                    this.offices = response;
-                    const office = this.offices.find(office => office.id === this.officeId);
-                    this.officeName = office ? office.name : '';
-                })
-                .catch(e => apiErrorHandler(e))
-        },
-        onEditClicked(attend, userId) {
-            if(!attend) return;
-            this.selectedAttend = attend;
-            this.selectedUser = userId;
+        onEditClicked(childId) {
+            const child = this.attends.find(({ id }) => childId === id);
+            this.editFormData = {
+                ...child
+            }
             this.showEditForm();
         },
         showEditForm() {
@@ -505,25 +167,52 @@ export default {
                 this.selectedDate = new Date();
             }
             this.selectedDate = moment(this.selectedDate).format('YYYY-MM-DD');
-            api.get('attend/' + this.officeId, null, {date: this.selectedDate})
+            api.get('attendance', null, {date: this.selectedDate})
                 .then(response => {
                     this.unsetActionLoading();
                     this.attends = response;
-                    const office = this.offices.find(office => office.id === this.officeId);
-                    this.officeName = office ? office.name : '';
+
+                    this.attendances = [];
+                    for(let i = 0; i < 6; i++) {
+                        this.attendances[i] = [];
+                    }
+                    this.attends.forEach(element => {
+                        for(let i = 0; i < 6; i++) {
+                            if(i === element.classId - 1) {
+                                this.attendances[element.classId - 1] = [...this.attendances[element.classId - 1], element];
+                            }
+                        }
+                    });
                 })
                 .catch(e => {
                     this.unsetActionLoading();
                     apiErrorHandler(e);
                 });
         },
+        getAbsenceName(reasonForAbsenceId) {
+            if(reasonForAbsenceId){
+                if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId))
+                    return this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
+                else
+                    return null;
+            } else {
+                return null;
+            }
+        },
+        changeTimeFormat(date) {
+            if(date) {
+                return moment(date).tz('Asia/Tokyo').format('HH:mm');
+            } else {
+                return "";
+            }
+        },
         onWorkStatusSaved() {
             this.getAttendanceData(this.selectedDate);
             $("#attend-edit-form").modal('hide');
         },
-        onAppSaved() {
+        onAttendSaved() {
             this.getAttendanceData(this.selectedDate);
-            $("#app-aprove-form").modal('hide');
+            $("#attend-edit-form").modal('hide');
         },
         isThisMonth() {
             const today = new Date();
@@ -543,22 +232,6 @@ export default {
             // this.loadRequests(month_date);
             this.updateTable(month_date);
             // this.$Progress.finish();
-        },
-        createRequest(){
-            $('#addNew').modal('hide');
-            //TODO: this.form.post
-            this.loadRequests();
-        },
-        updateRequest(){
-            $('#addNew').modal('hide');
-            //TODO: this.form.post
-            this.loadRequests();
-        },
-        onApprove(application, userName){
-            this.editmode = true;
-            this.selectedApp = application;
-            this.selectedAppUserName = userName;
-            $('#app-aprove-form').modal('show');
         },
         getCurrentDate(){
             return moment().format('YYYY年 M月 D日 (ddd)');
@@ -609,7 +282,7 @@ export default {
         },
         openDiary() {
             this.$router.push('childcare-diary');
-        }
+        },
     },
     created() {
 
@@ -617,8 +290,7 @@ export default {
     mounted() {
         //this.getResults(this.currentDate);
         this.todayDate = this.getCurrentDate().toString();
-        //this.getOffices();
-        //this.getAttendanceData(this.currentDate);
+        this.getAttendanceData(this.currentDate);
     }
 }
 </script>

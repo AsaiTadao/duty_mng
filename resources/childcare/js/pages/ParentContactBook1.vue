@@ -5,13 +5,13 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title row">
-                            <div class="col-md-6 col-12 row">
-                                <h4 class="card-title col-4 mb-0">テラル保育園</h4>
-                                <label class="card-title col-4 mb-0">ー連絡帳ー</label>
-                                <label class="card-title col-4 mb-0">山田　三越</label>
+                            <div class="col-md-4 col-12 row">
+                                <h5 class="card-title col-4 mb-0 px-0">テラル保育園</h5>
+                                <div class="col-4 mb-0 px-0">ー連絡帳ー</div>
+                                <div class="col-4 mb-0 px-0">山田　三越</div>
                             </div>
                             <div class="col-md-6 col-12 row d-flex align-items-center">
-                                <div class="col-8 d-flex align-items-center">
+                                <div class="col-7 d-flex align-items-center p-0">
                                     <datepicker
                                     :language="ja"
                                     :format="customFormatter"
@@ -20,13 +20,18 @@
                                     @selected="getAttendanceData"
                                     v-model="selectedDate">
                                     </datepicker>
-                                    <button type="button" class="btn btn-sm btn-outline mx-2" @click="openDatePicker()">
+                                    <button type="button" class="btn btn-sm btn-outline mx-0" @click="openDatePicker()">
                                     <i class="fas fa-calendar-alt fa-2x"></i>
                                     </button>
                                 </div>
-                                <div class="col-4 d-flex align-items-center">
-                                    <label for="weatherStauts" class="col-form-label mr-1">天気</label>
-                                    <input type="text" class="form-control fixed-width-80" value="晴れ" id="weatherStauts"/>
+                                <div class="col-5 d-flex align-items-center px-0">
+                                    <div for="weatherStauts" class="col-form-label mr-2">天気</div>
+                                    <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts"/>
+                                </div>
+                            </div>
+                            <div class="col-md-2 row">
+                                <div class="col-12 px-0 mx-0">
+                                    <button class="btn btn-primary float-right m-2" @click="openHouse">登降園状況</button>
                                 </div>
                             </div>
                         </div>
@@ -90,7 +95,7 @@
                                                 </div>
                                                 <div class="col-md-7 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2">
-                                                    完食完食完食完食完食完食完食完食
+                                                    完食完食完食完食完食
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
@@ -105,7 +110,7 @@
                                                 </div>
                                                 <div class="col-md-7 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2">
-                                                    完食完食完食完食完食完食完食完食
+                                                    完食完食完食完食完食
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
@@ -120,7 +125,7 @@
                                                 </div>
                                                 <div class="col-md-7 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2">
-                                                    完食完食完食完食完食完食完食完食
+                                                    完食完食完食完食完食
                                                     </div>
                                                 </div>
                                             </div>
@@ -297,7 +302,9 @@
                                                 家庭での様子
                                             </div>
                                             <div class="light-blue p-4 mt-1" style="height: 300px;">
-                                                夜泣きがありましたが、その後はぐっすり眠りました。
+                                                <textarea class="form-control" style="height: 95%;">
+
+                                                </textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -335,18 +342,18 @@
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="form-check text-center py-2">
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">普通</label>
+                                                            <label class="form-check-label mr-4">普通</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">少ない</label>
+                                                            <label class="form-check-label mr-4">少ない</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">多い</label>
+                                                            <label class="form-check-label mr-4">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center">
-                                                            <input type="text" class="form-control" style="max-width: 40%;" placeholder="メモ"/>
+                                                        <div class="text-center d-flex justify-content-center px-2">
+                                                            <input type="text" class="form-control" placeholder="メモ"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -367,18 +374,18 @@
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="form-check text-center py-2">
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">普通</label>
+                                                            <label class="form-check-label mr-4">普通</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">少ない</label>
+                                                            <label class="form-check-label mr-4">少ない</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">多い</label>
+                                                            <label class="form-check-label mr-4">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center">
-                                                            <input type="text" class="form-control" style="max-width: 40%;" placeholder="メモ"/>
+                                                        <div class="text-center d-flex justify-content-center px-2">
+                                                            <input type="text" class="form-control" placeholder="メモ"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -400,18 +407,18 @@
                                                     <div class="light-brown text-center white-l-border-2">
                                                         <div class="form-check text-center py-2">
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">普通</label>
+                                                            <label class="form-check-label mr-4">普通</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">少ない</label>
+                                                            <label class="form-check-label mr-4">少ない</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">多い</label>
+                                                            <label class="form-check-label mr-4">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center">
-                                                            <input type="text" class="form-control" style="max-width: 40%;" placeholder="メモ"/>
+                                                        <div class="text-center d-flex justify-content-center px-2">
+                                                            <input type="text" class="form-control" placeholder="メモ"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -438,11 +445,11 @@
                                                     <div class="light-brown text-center white-lb-border-2 py-2">
                                                         <div class="form-check text-center">
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">普通</label>
+                                                            <label class="form-check-label mr-4">普通</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">少ない</label>
+                                                            <label class="form-check-label mr-4">少ない</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">多い</label>
+                                                            <label class="form-check-label mr-4">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -455,11 +462,11 @@
                                                     <div class="light-brown text-center white-l-border-2 py-2">
                                                         <div class="form-check text-center">
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">普通</label>
+                                                            <label class="form-check-label mr-4">普通</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">少ない</label>
+                                                            <label class="form-check-label mr-4">少ない</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">多い</label>
+                                                            <label class="form-check-label mr-4">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -486,18 +493,18 @@
                                                     <div class="light-brown text-center white-lb-border-2 py-2">
                                                         <div class="form-check text-center">
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">普通</label>
+                                                            <label class="form-check-label mr-4">普通</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">少ない</label>
+                                                            <label class="form-check-label mr-4">少ない</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">多い</label>
+                                                            <label class="form-check-label mr-4">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="24" style="max-width: 50%;" >
+                                                        <div class="text-center d-flex justify-content-center px-2">
+                                                            <input type="number" class="form-control" min="0" max="24">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -510,18 +517,18 @@
                                                     <div class="light-brown text-center white-l-border-2 py-2">
                                                         <div class="form-check text-center">
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">普通</label>
+                                                            <label class="form-check-label mr-4">普通</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">少ない</label>
+                                                            <label class="form-check-label mr-4">少ない</label>
                                                             <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-5">多い</label>
+                                                            <label class="form-check-label mr-4">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="24" style="max-width: 50%;" >
+                                                        <div class="text-center d-flex justify-content-center px-2">
+                                                            <input type="number" class="form-control" min="0" max="24">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -692,9 +699,7 @@
                                                 保育園での様子
                                             </div>
                                             <div class="light-yellow p-4 mt-1" style="height: 300px;">
-                                                <textarea class="form-control" style="height: 95%;">
-
-                                                </textarea>
+                                                夜泣きがありましたが、その後はぐっすり眠りました。
                                             </div>
                                         </div>
                                     </div>
@@ -891,6 +896,9 @@ export default {
         },
         openDatePicker(){
             this.$refs.programaticOpen.showCalendar();
+        },
+        openHouse() {
+            this.$router.push("/parent", () => {});
         }
     },
     created() {
@@ -914,4 +922,21 @@ export default {
         display: flex;
         align-items: center;
     }
+@media (max-width: 500px) {
+       h5.card-title {
+           font-size: 13px!important;
+       }
+    }
+</style>
+<style>
+div.vdp-datepicker input{
+    width: 145px;
+}
+@media (max-width: 500px) {
+
+    div.vdp-datepicker input{
+        font-size: 10px;
+        width: 100px;
+    }
+}
 </style>

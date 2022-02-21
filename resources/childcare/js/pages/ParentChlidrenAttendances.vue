@@ -20,7 +20,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive p-0" style="height: 500px;" id="children_present_table">
+                            <div class="table-responsive p-0" style="height: 500px;" id="children_attendance_table">
                                 <table class="table table-bordered table-striped table-children table-head-fixed table-hover">
                                     <thead class="text-center text-white">
                                         <tr class="dark-brown">
@@ -28,15 +28,15 @@
                                             <th class="children-present-fix-140" style="z-index: 12 !important; outline: white solid 1px;">曜日</th>
                                             <th>登園時間</th>
                                             <th>降園時間</th>
+                                            <th>欠席</th>
+                                            <th>遅刻</th>
                                             <th>延長</th>
-                                            <th>編集</th>
+                                            <th>連絡帳</th>
                                         </tr>
                                     </thead>
                                         <tbody class="text-center children-present-tr">
                                             <tr v-for="day in days" :key="day.getDate()">
-                                                <td class="children-present-fix">
-                                                    {{day.getDate()}}
-                                                </td>
+                                                <td class="children-present-fix">{{day.getDate()}}日</td>
                                                 <td class="children-present-fix-140">
                                                     <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
                                                     <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
@@ -44,18 +44,17 @@
                                                 </td>
                                                 <td>8:58</td>
                                                 <td>18:00</td>
-                                                <td>-</td>
+                                                <td>コロナ欠席</td>
+                                                <td>3分</td>
+                                                <td>2.00</td>
                                                 <td>
-                                                    <a href="javascript:void(0)" class="mx-2" @click="openEditForm">
-                                                        <i class="far fa-edit fa-lg"></i>
-                                                    </a>
+                                                    <router-link to="/parent/parent-contact-book0">
+                                                        確認
+                                                    </router-link>
                                                 </td>
                                             </tr>
                                         </tbody>
                                 </table>
-                            </div>
-                            <div class="float-right d-flex align-items-center mt-2">
-                                <button class="btn btn-primary float-right">CSV出力</button>
                             </div>
                             <!-- Modal -->
                             <div class="modal fade" id="attend-edit-form" tabindex="-1" role="dialog" aria-labelledby="attend-edit-form" aria-hidden="true">
@@ -71,18 +70,21 @@
     </section>
 </template>
 <script>
-
-import moment from 'moment';
+import Datepicker from "vuejs-datepicker";
+import { ja } from 'vuejs-datepicker/dist/locale';
+import moment from 'moment-timezone';
 import { mapState } from 'vuex';
 import actionLoading from '../mixin/actionLoading';
-import { showSuccess } from '../helpers/error';
 import EditForm from './ChildrenAttendances/EditForm.vue';
+import api, { apiErrorHandler } from '../global/api';
 
 export default {
     components: {
+        Datepicker,
         EditForm
     },
-    data() {
+    mixins: [actionLoading],
+    data () {
         return {
             editmode: false,
             currentDate: new Date(),
@@ -152,9 +154,6 @@ export default {
                 this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
             }
         },
-        openEditForm() {
-            $("#attend-edit-form").modal('show');
-        }
     },
     created() {
         this.selectedMonth = moment(this.displayDate).format('YYYYMM');
@@ -163,8 +162,9 @@ export default {
         this.getResults(this.getThisMonthDate());
     },
     mounted() {
+
     }
-};
+}
 </script>
 <style scoped>
     .calendar-center {

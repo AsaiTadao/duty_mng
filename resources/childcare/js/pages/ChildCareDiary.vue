@@ -23,26 +23,26 @@
                                         <thead class="text-center">
                                             <tr class="light-green">
                                                 <th>園長</th>
-                                                <th>主任</th>
+                                                <th>主任・副主任・保育リーダー</th>
                                                 <th>担任</th>
                                             </tr>
                                         </thead>
                                         <tbody class="text-center">
                                             <tr>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit">
+                                                    <div style="height: 50px;">
 
-                                                    </textarea>
+                                                    </div>
                                                 </td>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit">
+                                                    <div style="height: 50px;">
 
-                                                    </textarea>
+                                                    </div>
                                                 </td>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit">
+                                                    <div style="height: 50px;">
 
-                                                    </textarea>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -62,20 +62,20 @@
                                         </thead>
                                         <tbody class="text-center">
                                             <tr>
-                                                <td class="p-0">
-                                                    <textarea class="textarea-fit">
-
-                                                    </textarea>
+                                                <td class="p-0 align-middle">
+                                                    <div style="height: 60px;display:flex;align-items:center;justify-content:center;">
+                                                        3
+                                                    </div>
                                                 </td>
-                                                <td class="p-0">
-                                                    <textarea class="textarea-fit">
-
-                                                    </textarea>
+                                                <td class="p-0 align-middle">
+                                                    <div style="height: 60px;display:flex;align-items:center;justify-content:center;">
+                                                        2
+                                                    </div>
                                                 </td>
-                                                <td class="p-0">
-                                                    <textarea class="textarea-fit">
-
-                                                    </textarea>
+                                                <td class="p-0 align-middle">
+                                                    <div style="height: 60px;display:flex;align-items:center;justify-content:center;">
+                                                        1
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>

@@ -6,12 +6,12 @@
                     <div class="card">
                         <div class="card-header calendar-title row">
                             <div class="col-md-6 col-12 row">
-                                <h4 class="card-title col-4 mb-0">テラル保育園</h4>
-                                <label class="card-title col-4 mb-0">ー連絡帳ー</label>
-                                <label class="card-title col-4 mb-0">山田　三越</label>
+                                <h5 class="card-title col-4 mb-0 px-0">テラル保育園</h5>
+                                <div class="col-4 mb-0 px-0">ー連絡帳ー</div>
+                                <div class="col-4 mb-0 px-0">山田　三越</div>
                             </div>
                             <div class="col-md-6 col-12 row d-flex align-items-center">
-                                <div class="col-8 d-flex align-items-center">
+                                <div class="col-7 d-flex align-items-center p-0">
                                     <datepicker
                                     :language="ja"
                                     :format="customFormatter"
@@ -20,22 +20,22 @@
                                     @selected="getAttendanceData"
                                     v-model="selectedDate">
                                     </datepicker>
-                                    <button type="button" class="btn btn-sm btn-outline mx-2" @click="openDatePicker()">
+                                    <button type="button" class="btn btn-sm btn-outline mx-0" @click="openDatePicker()">
                                     <i class="fas fa-calendar-alt fa-2x"></i>
                                     </button>
                                 </div>
-                                <div class="col-4 d-flex align-items-center">
-                                    <label for="weatherStauts" class="col-form-label mr-1">天気</label>
-                                    <input type="text" class="form-control fixed-width-80" value="晴れ" id="weatherStauts"/>
+                                <div class="col-5 d-flex align-items-center px-0">
+                                    <div for="weatherStauts" class="col-form-label mr-2">天気</div>
+                                    <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts"/>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="form-group row">
-                                <div class="col-md-4 col-sm-12">
+                                <div class="col-md-4 col-12 mb-1">
                                     記入者 保護者様名：山田　三越
                                 </div>
-                                <div class="col-md-3 col-sm-10" style="display:flex;">
+                                <div class="col-md-3 col-10" style="display:flex;">
                                     <label for="mindername" style="min-width: 80px;">保育士名：</label>
                                     <input type="text" class="form-control" id="mindername" style="width: calc(100% - 85px);"/>
                                 </div>
@@ -62,7 +62,6 @@
                                 </div>
                             </div>
                             <div class="float-right d-flex align-items-center mt-2">
-                                <button class="btn btn-primary float-right mr-2">編集</button>
                                 <button class="btn btn-primary float-right mr-2">登録</button>
                                 <button class="btn btn-primary float-right">Excel出力</button>
                             </div>
@@ -78,8 +77,8 @@ import Datepicker from "vuejs-datepicker";
 import { ja } from 'vuejs-datepicker/dist/locale';
 import moment from 'moment-timezone';
 import { mapState } from 'vuex';
-import actionLoading from '../mixin/actionLoading';
-import api, { apiErrorHandler } from '../global/api';
+import actionLoading from '../../mixin/actionLoading';
+import api, { apiErrorHandler } from '../../global/api';
 
 export default {
     components: {
@@ -280,4 +279,21 @@ export default {
         display: flex;
         align-items: center;
     }
+    @media (max-width: 500px) {
+       h5.card-title {
+           font-size: 13px!important;
+       }
+    }
+</style>
+<style>
+div.vdp-datepicker input{
+    width: 145px;
+}
+@media (max-width: 500px) {
+
+    div.vdp-datepicker input{
+        font-size: 10px;
+        width: 100px;
+    }
+}
 </style>

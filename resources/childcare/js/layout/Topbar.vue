@@ -4,6 +4,7 @@
             <li class="nav-item">
                 <a
                     class="nav-link"
+                    data-widget="pushmenu"
                     href="#"
                     role="button"
                 >
@@ -15,9 +16,8 @@
             <li class="nav-item kintai-system system-unselected">
                 <a
                     class="nav-link px-4"
-                    href="#"
+                    href="/"
                     role="button"
-                    @click="toLateralSystem"
                 >
                     勤怠
                 </a>
@@ -27,7 +27,6 @@
                     class="nav-link px-4"
                     href="#"
                     role="button"
-                    @click="toSubSystem"
                 >
                     保育
                 </a>

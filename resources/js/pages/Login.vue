@@ -107,31 +107,68 @@ export default {
         onSubmit() {
             if (this.actionLoading || !this.enableLogin) return;
             if (this.form.validate().errors().any()) return;
-            this.setActionLoading();
-            api.post('login', null, this.form.all())
-                .then(({token, user}) => {
-                    this.unsetActionLoading();
-                    LocalStorage.removeLoginFailure();
-                    LocalStorage.removeLoginTimeStamp();
-                    clearInterval(this.loginTimeInterval);
-                    LocalStorage.saveToken(token);
-                    this.$store.commit('session/setSession', user);
-                    this.$router.push({ name: 'stamp' })
-                })
-                .catch(e => {
-                    this.unsetActionLoading();
-                    //apiErrorHandler(e);
-                    LocalStorage.saveLoginFailure();
-                    LocalStorage.saveLoginTimeStamp();
-                    this.loginFailure = true;
-                    // setTimeout(() => {
-                    //     this.loginFailure = false;
-                    // }, 3000);
-                    if(LocalStorage.getLoginFailure() >= 5) {
-                        this.enableLogin = false;
-                        this.loginTimeInterval = setInterval(this.enableLoginTimer, 1000);
-                    }
-                });
+            if (!this.validateEmail(this.form.number)) {
+                this.setActionLoading();
+                api.post('login', null, this.form.all())
+                    .then(({token, user}) => {
+                        this.unsetActionLoading();
+                        LocalStorage.removeLoginFailure();
+                        LocalStorage.removeLoginTimeStamp();
+                        clearInterval(this.loginTimeInterval);
+                        LocalStorage.saveToken(token);
+                        this.$store.commit('session/setSession', user);
+                        this.$router.push({ name: 'stamp' })
+                    })
+                    .catch(e => {
+                        this.unsetActionLoading();
+                        //apiErrorHandler(e);
+                        LocalStorage.saveLoginFailure();
+                        LocalStorage.saveLoginTimeStamp();
+                        this.loginFailure = true;
+                        // setTimeout(() => {
+                        //     this.loginFailure = false;
+                        // }, 3000);
+                        if(LocalStorage.getLoginFailure() >= 5) {
+                            this.enableLogin = false;
+                            this.loginTimeInterval = setInterval(this.enableLoginTimer, 1000);
+                        }
+                    });
+            } else {
+                this.setActionLoading();
+                this.form.email = this.form.number;
+                api.post(process.env.MIX_APP_BASE_URL + 'child-api/login', null, this.form.all())
+                    .then(({token, user}) => {
+                        this.unsetActionLoading();
+                        LocalStorage.removeLoginFailure();
+                        LocalStorage.removeLoginTimeStamp();
+                        clearInterval(this.loginTimeInterval);
+                        LocalStorage.saveToken(token);
+                        this.$store.commit('session/setSession', user);
+                        location.href = "/child/parent";
+                    })
+                    .catch(e => {
+                        this.unsetActionLoading();
+                        //apiErrorHandler(e);
+                        LocalStorage.saveLoginFailure();
+                        LocalStorage.saveLoginTimeStamp();
+                        this.loginFailure = true;
+                        // setTimeout(() => {
+                        //     this.loginFailure = false;
+                        // }, 3000);
+                        if(LocalStorage.getLoginFailure() >= 5) {
+                            this.enableLogin = false;
+                            this.loginTimeInterval = setInterval(this.enableLoginTimer, 1000);
+                        }
+                    });
+            }
+        },
+        validateEmail(inputText) {
+            var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if(String(inputText).toLowerCase().match(mailFormat)) {
+                return true;
+            } else {
+                return false;
+            }
         },
         onFormChange() {
             this.form.validate();

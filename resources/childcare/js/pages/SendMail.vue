@@ -11,7 +11,7 @@
                             <div class="form-group row">
                                 <div class="col-md-1"></div>
                                 <label for="inputEmail3" class="col-form-label col-md-1 text-justify-content">宛先</label>
-                                <div class="col-md-1 d-flex text-justify-content">
+                                <div class="col-md-2 d-flex text-justify-content">
                                     <div class="align-self-center">
                                         ひよこ保育園
                                     </div>
@@ -37,13 +37,13 @@
                             <div class="form-group row">
                                 <div class="col-md-1"></div>
                                 <label for="inputEmail3" class="col-form-label col-md-1 text-justify-content">件名</label>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <input type="text" class="form-control" id="inputEmail3" placeholder="">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-1"></div>
-                                <div class="col-md-6">
+                                <div class="col-md-7">
                                     <textarea class="form-control" rows="20">
 保護者様各位
 　ひよこ保育園からのお知らせです。
@@ -57,7 +57,7 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-2"></div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <button class="btn btn-primary float-right" @click="sendMail">送信</button>
                                 </div>
                             </div>

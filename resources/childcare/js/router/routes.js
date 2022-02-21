@@ -1,6 +1,7 @@
 import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
 import ChlidrenAttendances from "../pages/ChlidrenAttendances";
+import ParentChlidrenAttendances from "../pages/ParentChlidrenAttendances";
 import ChildrenDetail from '../pages/ChildrenDetail';
 import ChildrenRegistry from '../pages/ChildrenRegistry';
 import ChildrenList from '../pages/ChildrenList';
@@ -12,9 +13,13 @@ import PresentManagement from "../pages/PresentManagement";
 import BroadcastMail from "../pages/BroadcastMail";
 import EmergeMail from "../pages/EmergeMail";
 import SendMail from "../pages/SendMail";
-import ContactBook0 from "../pages/ContactBook0";
-import ContactBook1 from "../pages/ContactBook1";
-import ContactBook2 from "../pages/ContactBook2";
+import ContactBook from "../pages/ContactBook";
+import ContactBook0 from "../pages/ContactBook/ContactBook0";
+import ContactBook1 from "../pages/ContactBook/ContactBook1";
+import ContactBook2 from "../pages/ContactBook/ContactBook2";
+import ParentContactBook0 from "../pages/ParentContactBook0";
+import ParentContactBook1 from "../pages/ParentContactBook1";
+import ParentContactBook2 from "../pages/ParentContactBook2";
 import ChildcareDiary from "../pages/ChildCareDiary";
 import ApplicationTable from "../pages/ApplicationTable";
 import BaseLayout from '../layout/BaseLayout';
@@ -53,7 +58,7 @@ export default [
                 }
             },
             {
-                path: "children-detail",
+                path: "children-detail/:id",
                 name: "children-detail",
                 components: { default: ChildrenDetail },
                 meta: {
@@ -66,8 +71,21 @@ export default [
                 }
             },
             {
-                path: "children-registry",
-                name: "children-registry",
+                path: "children-register",
+                name: "children-register",
+                components: { default: ChildrenRegistry },
+                meta: {
+                    icon: "fas fa-address-book",
+                    anchor: "園児台帳",
+                    menu: false,
+                    guards: [
+                        Guards.CHILD_MINDER
+                    ]
+                }
+            },
+            {
+                path: "children-edit/:id",
+                name: "children-edit",
                 components: { default: ChildrenRegistry },
                 meta: {
                     icon: "fas fa-address-book",
@@ -196,16 +214,15 @@ export default [
                 }
             },
             {
-                path: "contact-book0",
-                name: "contact-book0",
-                components: { default: ContactBook0 },
+                path: "contact-book/:id",
+                name: "contact-book",
+                components: { default: ContactBook },
                 meta: {
                     icon: "",
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER,
-                        Guards.PARENT,
+                        Guards.CHILD_MINDER
                     ]
                 }
             },
@@ -218,8 +235,7 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER,
-                        Guards.PARENT,
+                        Guards.CHILD_MINDER
                     ]
                 }
             },
@@ -232,8 +248,7 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER,
-                        Guards.PARENT,
+                        Guards.CHILD_MINDER
                     ]
                 }
             },
@@ -246,8 +261,7 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER,
-                        Guards.PARENT,
+                        Guards.CHILD_MINDER
                     ]
                 }
             }
@@ -259,8 +273,8 @@ export default [
         children: [
             {
                 path: "",
-                name: "present-management",
-                components: { default: PresentManagement },
+                name: "parent-children-attendance",
+                components: { default: ParentChlidrenAttendances },
                 meta: {
                     icon: "fas fa-school",
                     anchor: "登降園",
@@ -272,13 +286,41 @@ export default [
                 }
             },
             {
-                path: "contact-book",
-                name: "contact-book",
-                components: { default: ContactBook1 },
+                path: "parent-contact-book0",
+                name: "parent-contact-book0",
+                components: { default: ParentContactBook0 },
                 meta: {
                     icon: "fas fa-file-alt",
                     anchor: "連絡帳",
                     menu: true,
+                    guards: [
+                        Guards.CHILD_MINDER,
+                        Guards.PARENT
+                    ]
+                }
+            },
+            {
+                path: "parent-contact-book1",
+                name: "parent-contact-book1",
+                components: { default: ParentContactBook1 },
+                meta: {
+                    icon: "fas fa-file-alt",
+                    anchor: "連絡帳",
+                    menu: false,
+                    guards: [
+                        Guards.CHILD_MINDER,
+                        Guards.PARENT
+                    ]
+                }
+            },
+            {
+                path: "parent-contact-book2",
+                name: "parent-contact-book2",
+                components: { default: ParentContactBook2 },
+                meta: {
+                    icon: "fas fa-file-alt",
+                    anchor: "連絡帳",
+                    menu: false,
                     guards: [
                         Guards.CHILD_MINDER,
                         Guards.PARENT
