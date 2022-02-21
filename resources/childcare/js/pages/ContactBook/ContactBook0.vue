@@ -1,6 +1,5 @@
 <template>
-    <section class="content">
-        <div class="container-fluid">
+    <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="card">
@@ -8,7 +7,7 @@
                             <div class="col-md-6 col-12 row">
                                 <h5 class="card-title col-4 mb-0 px-0">テラル保育園</h5>
                                 <div class="col-4 mb-0 px-0">ー連絡帳ー</div>
-                                <div class="col-4 mb-0 px-0">山田　三越</div>
+                                <div class="col-4 mb-0 px-0">{{child.name}}</div>
                             </div>
                             <div class="col-md-6 col-12 row d-flex align-items-center">
                                 <div class="col-7 d-flex align-items-center p-0">
@@ -17,7 +16,7 @@
                                     :format="customFormatter"
                                     ref="programaticOpen"
                                     :placeholder="todayDate"
-                                    @selected="getAttendanceData"
+                                    @selected="getContact"
                                     v-model="selectedDate">
                                     </datepicker>
                                     <button type="button" class="btn btn-sm btn-outline mx-0" @click="openDatePicker()">
@@ -26,7 +25,7 @@
                                 </div>
                                 <div class="col-5 d-flex align-items-center px-0">
                                     <div for="weatherStauts" class="col-form-label mr-2">天気</div>
-                                    <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts"/>
+                                    <input type="text" class="form-control fixed-width-80 px-0" id="weatherStauts" v-model="formData.weather" @change="dataChanged = true;"/>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +36,7 @@
                                 </div>
                                 <div class="col-md-3 col-sm-10" style="display:flex;">
                                     <label for="mindername" style="min-width: 80px;">保育士名：</label>
-                                    <input type="text" class="form-control" id="mindername" style="width: calc(100% - 85px);"/>
+                                    <input type="text" class="form-control" id="mindername" style="width: calc(100% - 85px);" @change="dataChanged = true;"/>
                                 </div>
                             </div>
                             <div class="row" style="padding-left:15px; padding-right:15px;">
@@ -48,11 +47,11 @@
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
                                     <div class="light-pink form-check text-center py-2">
-                                        <input class="form-check-input" type="radio" name="radio1">
+                                        <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="1" @change="dataChanged = true;">
                                         <label class="form-check-label mr-4">普通</label>
-                                        <input class="form-check-input" type="radio" name="radio1">
+                                        <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="2" @change="dataChanged = true;">
                                         <label class="form-check-label mr-4">良い</label>
-                                        <input class="form-check-input" type="radio" name="radio1">
+                                        <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="3" @change="dataChanged = true;">
                                         <label class="form-check-label mr-4">悪い</label>
                                     </div>
                                 </div>
@@ -63,19 +62,12 @@
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <div>
-                                            <input type="number" class="form-control p-1" min="0" max="24">
-
-                                        </div>
-                                        <span class="p-1">:</span>
-                                        <div>
-                                            <input type="number" class="form-control p-1" min="0" max="60">
-                                        </div>
+                                        <hour-minute-input v-model="formData.pickUpTime" @change="dataChanged = true;"/>
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <input type="text" class="form-control" style="max-width: 40%;"/>℃　
+                                        <input type="text" class="form-control" style="max-width: 40%;" @change="dataChanged = true;"/>℃　
                                     </div>
                                 </div>
                             </div>
@@ -87,14 +79,7 @@
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <div>
-                                            <input type="number" class="form-control p-1" min="0" max="24">
-
-                                        </div>
-                                        <span class="p-1">:</span>
-                                        <div>
-                                            <input type="number" class="form-control p-1" min="0" max="60">
-                                        </div>
+                                       <hour-minute-input v-model="formData.pickUpTime" @change="dataChanged = true;"/>
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
@@ -121,33 +106,35 @@
                                         </tr>
                                     </thead>
                                         <tbody class="text-center contactbook-tr">
-                                            <template v-for="(hour, index) in hours">
+                                            <template v-for="hour in hours">
                                                 <tr :key="hour.time+'hours'">
                                                     <td rowspan="2" class="align-middle contactbook-fix">{{hour.time}}時</td>
-                                                    <td class="text-center" style="position:relative;" @click="setHour(index, 1)">
-                                                        <div v-if="hour.enabled1" style="background-color: #8BB3FC; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
+                                                    <td class="text-center" style="position:relative;" @click="setHour(hour.time, 1)">
+                                                        <div v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`] == 1" style="background-color: #EBCB42; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
+                                                        <div v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`] == 1" style="background-color: #8BB3FC; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
                                                     </td>
                                                     <td rowspan="2">
                                                         <div class="d-flex justify-content-center" style="width: fit-content; margin: auto;">
-                                                            <input type="text" class="form-control"/>
+                                                            <input type="text" class="form-control" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" @change="dataChanged = true;"/>
                                                             <label class="align-self-center m-0 ml-1">℃</label>
                                                         </div>
                                                     </td>
                                                     <td rowspan="2">
-                                                        <select class="form-control">
-                                                            <option>-</option>
-                                                            <option>普通</option>
-                                                            <option>軟い</option>
-                                                            <option>固い</option>
+                                                        <select class="form-control" v-model="formData[`defecation${hour.time}School`]" @change="dataChanged = true;">
+                                                            <option :value="0">-</option>
+                                                            <option :value="1">普通</option>
+                                                            <option :value="2">軟い</option>
+                                                            <option :value="3">固い</option>
                                                         </select>
                                                     </td>
                                                     <td rowspan="2">
-                                                        <input type="text" class="form-control px-2" />
+                                                        <input type="text" class="form-control px-2" v-model="formData[`meal${hour.time}School`]" @change="dataChanged = true;"/>
                                                     </td>
                                                 </tr>
                                                 <tr :key="hour.time+'30mins'">
-                                                    <td class="text-center" style="position:relative;" @click="setHour(index, 2)">
-                                                        <div v-if="hour.enabled2" style="background-color: #8BB3FC; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
+                                                    <td class="text-center" style="position:relative;" @click="setHour(hour.time, 2)">
+                                                        <div v-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}School`] == 1" style="background-color: #EBCB42; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
+                                                        <div v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}Home`] == 1" style="background-color: #8BB3FC; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
                                                     </td>
                                                 </tr>
                                             </template>
@@ -160,7 +147,7 @@
                                         家庭での様子
                                     </div>
                                     <div class="light-blue p-4 mt-1" style="height: 300px;">
-                                        夜泣きがありましたが、その後はぐっすり眠りました。
+                                        {{formData.state0Home}}
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
@@ -168,7 +155,7 @@
                                         保育園での様子
                                     </div>
                                     <div class="light-yellow p-4 mt-1" style="height: 300px;">
-                                        <textarea class="form-control" style="height: 95%;">
+                                        <textarea class="form-control" style="height: 95%;" v-model="formData.state0School" @change="dataChanged = true;">
 
                                         </textarea>
                                     </div>
@@ -181,7 +168,7 @@
                                         家庭からの連絡事項
                                     </div>
                                     <div class="light-blue p-4 mt-1" style="height: 300px;">
-                                        夜泣きがありましたが、その後はぐっすり眠りました。
+                                        {{formData.contact0Home}}
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-12">
@@ -189,22 +176,21 @@
                                         保育園からの連絡事項
                                     </div>
                                     <div class="light-yellow p-4 mt-1" style="height: 300px;">
-                                        <textarea class="form-control" style="height: 95%;">
+                                        <textarea class="form-control" style="height: 95%;" v-model="formData.contact0School" @change="dataChanged = true;">
 
                                         </textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="float-right d-flex align-items-center mt-2">
-                                <button class="btn btn-primary float-right mr-2">登録</button>
+                                <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
                                 <button class="btn btn-primary float-right">Excel出力</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
-    </section>
+    </div>
 </template>
 <script>
 import Datepicker from "vuejs-datepicker";
@@ -213,18 +199,155 @@ import moment from 'moment-timezone';
 import { mapState } from 'vuex';
 import actionLoading from '../../mixin/actionLoading';
 import api, { apiErrorHandler } from '../../global/api';
+import HourMinuteInput from '../../components/HourMinuteInput.vue';
+import { showSuccess } from '../../helpers/error';
 
+const initialFormData = {
+    date: new Date(),
+    weather: '',
+    mood: null,
+    pickUpPerson: null,
+    pickUpTime: null,
+    sleep0100School: false,
+    sleep0130School: false,
+    sleep0200School: false,
+    sleep0230School: false,
+    sleep0300School: false,
+    sleep0330School: false,
+    sleep0400School: false,
+    sleep0430School: false,
+    sleep0500School: false,
+    sleep0530School: false,
+    sleep0600School: false,
+    sleep0630School: false,
+    sleep0700School: false,
+    sleep0730School: false,
+    sleep0800School: false,
+    sleep0830School: false,
+    sleep0900School: false,
+    sleep0930School: false,
+    sleep1000School: false,
+    sleep1030School: false,
+    sleep1100School: false,
+    sleep1130School: false,
+    sleep1200School: false,
+    sleep1230School: false,
+    sleep1300School: false,
+    sleep1330School: false,
+    sleep1400School: false,
+    sleep1430School: false,
+    sleep1500School: false,
+    sleep1530School: false,
+    sleep1600School: false,
+    sleep1630School: false,
+    sleep1700School: false,
+    sleep1730School: false,
+    sleep1800School: false,
+    sleep1830School: false,
+    sleep1900School: false,
+    sleep1930School: false,
+    sleep2000School: false,
+    sleep2030School: false,
+    sleep2100School: false,
+    sleep2130School: false,
+    sleep2200School: false,
+    sleep2230School: false,
+    sleep2300School: false,
+    sleep2330School: false,
+    sleep2400School: false,
+    sleep2430School: false,
+    temperature01School: null,
+    temperature02School: null,
+    temperature03School: null,
+    temperature04School: null,
+    temperature05School: null,
+    temperature06School: null,
+    temperature07School: null,
+    temperature08School: null,
+    temperature09School: null,
+    temperature10School: null,
+    temperature11School: null,
+    temperature12School: null,
+    temperature13School: null,
+    temperature14School: null,
+    temperature15School: null,
+    temperature16School: null,
+    temperature17School: null,
+    temperature18School: null,
+    temperature19School: null,
+    temperature20School: null,
+    temperature21School: null,
+    temperature22School: null,
+    temperature23School: null,
+    temperature24School: null,
+    defecation1School: null,
+    defecation2School: null,
+    defecation3School: null,
+    defecation4School: null,
+    defecation5School: null,
+    defecation6School: null,
+    defecation7School: null,
+    defecation8School: null,
+    defecation9School: null,
+    defecation10School: null,
+    defecation11School: null,
+    defecation12School: null,
+    defecation13School: null,
+    defecation14School: null,
+    defecation15School: null,
+    defecation16School: null,
+    defecation17School: null,
+    defecation18School: null,
+    defecation19School: null,
+    defecation20School: null,
+    defecation21School: null,
+    defecation22School: null,
+    defecation23School: null,
+    defecation24School: null,
+    meal1School: '',
+    meal2School: '',
+    meal3School: '',
+    meal4School: '',
+    meal5School: '',
+    meal6School: '',
+    meal7School: '',
+    meal8School: '',
+    meal9School: '',
+    meal10School: '',
+    meal11School: '',
+    meal12School: '',
+    meal13School: '',
+    meal14School: '',
+    meal15School: '',
+    meal16School: '',
+    meal17School: '',
+    meal18School: '',
+    meal19School: '',
+    meal20School: '',
+    meal21School: '',
+    meal22School: '',
+    meal23School: '',
+    meal24School: '',
+    state0School: '',
+    contact0School: '',
+}
 export default {
     components: {
-        Datepicker
+        Datepicker,
+        HourMinuteInput
     },
     mixins: [actionLoading],
+    props: {
+        contact: {},
+        child: {},
+        date: null,
+    },
     data () {
         return {
-            editmode: false,
+            dataChanged: false,
+            formData: {...initialFormData},
             currentDate: new Date(),
             todayDate: "",
-            days: [],
             hours: [
                 {
                     time:'18',
@@ -346,68 +469,64 @@ export default {
                     enabled1: true,
                     enabled2: true,
                 }],
-            attends : [],
-            selectedAttend : null,
-            selectedUser: null,
-            requests : [],
-            offices: [],
-            officeName: '',
-            officeId: 1,
             selectedDate: new Date(),
             ja: ja,
-            selectedApp: {},
-            selectedAppUserName: '',
         }
     },
     methods: {
+        convertToFormData() {
+            //this.initializeFormData();
+            if (this.contact) {
+                this.formData = {...this.contact};
+            }
+        },
+        initializeFormData() {
+            this.formData = {
+
+            };
+        },
+        initFormError() {
+            this.errors = {
+
+            }
+        },
         setHour(hourIndex, number) {
-            if(number == 1)
-                this.hours[hourIndex].enabled1 = !this.hours[hourIndex].enabled1;
-            else if(number == 2)
-                this.hours[hourIndex].enabled2 = !this.hours[hourIndex].enabled2;
-        },
-        getOffices() {
-            api.get('office/user-capable')
-                .then(response => {
-                    this.offices = response;
-                    const office = this.offices.find(office => office.id === this.officeId);
-                    this.officeName = office ? office.name : '';
-                })
-                .catch(e => apiErrorHandler(e))
-        },
-        onEditClicked(attend, userId) {
-            if(!attend) return;
-            this.selectedAttend = attend;
-            this.selectedUser = userId;
-            this.showEditForm();
-        },
-        showEditForm() {
-            $("#attend-edit-form").modal('show');
-        },
-        isHonShya(officeId) {
-            const office = this.offices.find(office => office.id === officeId);
-            let name = office ? office.name : '';
-            if(name.indexOf('本社') !== -1) {
-                return true;
-            } else {
-                return false;
+            this.dataChanged = true;
+            if(number == 1) {
+                if(this.formData[`sleep${('0' + hourIndex).slice(-2) + '00'}Home`] != 1) {
+                    this.formData[`sleep${('0' + hourIndex).slice(-2) + '00'}School`] = 1 - this.formData[`sleep${('0' + hourIndex).slice(-2) + '00'}School`];
+                }
+            }
+            else if(number == 2) {
+                if(this.formData[`sleep${('0' + hourIndex).slice(-2) + '30'}Home`] != 1) {
+                    this.formData[`sleep${('0' + hourIndex).slice(-2) + '30'}School`] = 1 - this.formData[`sleep${('0' + hourIndex).slice(-2) + '30'}School`];
+                }
             }
         },
-        isNormalStaff(employmentStatusId) {
-            if(employmentStatusId === 1) {
-                return true;
-            } else {
-                return false;
-            }
+        saveContact() {
+            if(this.actionLoading) return;
+            if (!this.validate()) return;
+            const requestData = this.formData;
+            requestData['date'] = moment(this.selectedDate).format('YYYY-MM-DD');
+            requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
+            this.setActionLoading();
+            api.post('contact-book/child/' + this.child.id + '/school/0', null, requestData)
+            .then(() => {
+                this.unsetActionLoading();
+                showSuccess(this.$t('Successfully saved'));
+                this.dataChanged = false;
+            })
+            .catch(e => {
+                this.dataChanged = false;
+                apiErrorHandler(e);
+                this.unsetActionLoading();
+            });
         },
-        notZero(number) {
-            if(number > 0) {
-                return Math.floor(number).toString() + '分';
-            } else {
-                return '-';
-            }
+        validate() {
+            let valid = true;
+            return valid;
         },
-        getAttendanceData(date) {
+        getContact(date) {
             if(this.actionLoading) return;
             this.setActionLoading();
             if(date){
@@ -416,60 +535,21 @@ export default {
                 this.selectedDate = new Date();
             }
             this.selectedDate = moment(this.selectedDate).format('YYYY-MM-DD');
-            api.get('attend/' + this.officeId, null, {date: this.selectedDate})
+            api.get('contact-book/child/' + this.child.id, null, {date: this.selectedDate})
                 .then(response => {
                     this.unsetActionLoading();
-                    this.attends = response;
-                    const office = this.offices.find(office => office.id === this.officeId);
-                    this.officeName = office ? office.name : '';
+                    this.dataChanged = false;
+                    if (response.contactBook) {
+                        this.formData = response.contactBook;
+                    } else {
+                        this.formData = {...initialFormData};
+                    }
                 })
                 .catch(e => {
+                    this.dataChanged = false;
                     this.unsetActionLoading();
                     apiErrorHandler(e);
                 });
-        },
-        onWorkStatusSaved() {
-            this.getAttendanceData(this.selectedDate);
-            $("#attend-edit-form").modal('hide');
-        },
-        onAppSaved() {
-            this.getAttendanceData(this.selectedDate);
-            $("#app-aprove-form").modal('hide');
-        },
-        isThisMonth() {
-            const today = new Date();
-            return this.currentDate.getFullYear() == today.getFullYear() && this.currentDate.getMonth() == today.getMonth();
-        },
-        getNextMonthDate() {
-            const date = this.currentDate;
-            return new Date(date.getFullYear(), date.getMonth() + 1, 1);
-        },
-        getPrevMonthDate() {
-            const date = this.currentDate;
-            return new Date(date.getFullYear(), date.getMonth() - 1, 1);
-        },
-        getResults(month_date) {
-            // this.$Progress.start();
-            // this.loadAttends(month_date);
-            // this.loadRequests(month_date);
-            this.updateTable(month_date);
-            // this.$Progress.finish();
-        },
-        createRequest(){
-            $('#addNew').modal('hide');
-            //TODO: this.form.post
-            this.loadRequests();
-        },
-        updateRequest(){
-            $('#addNew').modal('hide');
-            //TODO: this.form.post
-            this.loadRequests();
-        },
-        onApprove(application, userName){
-            this.editmode = true;
-            this.selectedApp = application;
-            this.selectedAppUserName = userName;
-            $('#app-aprove-form').modal('show');
         },
         getCurrentDate(){
             return moment().format('YYYY年 M月 D日 (ddd)');
@@ -482,29 +562,6 @@ export default {
             + today.getHours() + ":"
             + today.getMinutes();
         },
-        loadAttends(date){
-            //TODO: axios.get
-            this.attends = [
-                {
-                    date: new Date('2021/09/01'),
-                },
-            ];
-        },
-        loadRequests(date){
-            //TODO: axios.get
-            this.requests = {
-
-            };
-        },
-        updateTable(date){
-            this.currentDate = date;
-            var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDate();
-            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-            for(let day = firstDay; day <= lastDay; day++) {
-                this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
-            }
-
-        },
         customFormatter(date) {
             return moment(date).format('YYYY年 M月 D日 (ddd)');
         },
@@ -516,6 +573,9 @@ export default {
             }
         },
         openDatePicker(){
+            if(this.dataChanged) {
+                if(!confirm(this.$t('Are you sure moving to other date without saving data?'))) return;
+            }
             this.$refs.programaticOpen.showCalendar();
         }
     },
@@ -523,10 +583,10 @@ export default {
 
     },
     mounted() {
-        //this.getResults(this.currentDate);
         this.todayDate = this.getCurrentDate().toString();
-        //this.getOffices();
-        //this.getAttendanceData(this.currentDate);
+        this.selectedDate = this.date;
+        this.convertToFormData();
+        this.initFormError();
     }
 }
 </script>
