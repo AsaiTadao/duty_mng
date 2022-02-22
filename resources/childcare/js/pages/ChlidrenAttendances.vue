@@ -49,7 +49,7 @@
                                                         <td class="align-middle">{{getAbsenceName(indiAttendance.reasonForAbsenceId)}}</td>
                                                         <td class="align-middle">{{indiAttendance.extension}}</td>
                                                         <td class="align-middle">
-                                                            <router-link :to="{name: 'contact-book', params: {id: indiAttendance.id}}">
+                                                            <router-link :to="{name: 'contact-book', params: {id: indiAttendance.id, date: selectedDate}}">
                                                                 確認
                                                             </router-link>
                                                         </td>
@@ -288,7 +288,6 @@ export default {
 
     },
     mounted() {
-        //this.getResults(this.currentDate);
         this.todayDate = this.getCurrentDate().toString();
         this.getAttendanceData(this.currentDate);
     }
