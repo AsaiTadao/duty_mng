@@ -166,7 +166,7 @@ export default {
             this.setActionLoading();
             api.post(`plan-days/${this.childId}`, null, {
                 month: this.currentDate.format('YYYY-MM'),
-                data: this.planDays.filter(item => item && item.startTime)
+                data: this.planDays.filter(item => item && (item.startTime || item.absent))
             })
             .then(() =>{
                 showSuccess(this.$t('Successfully saved'));
@@ -235,7 +235,7 @@ export default {
                     let endTime = planItem.endTime ? moment(planItem.endTime, 'HH:mm:ss').format('HH:mm') : '';
                     this.planDays.push({...planItem, startTime, endTime});
                 } else {
-                    this.planDays.push({...defaultPlanItem})
+                    this.planDays.push({...defaultPlanItem, date: this.currentDate.set('date', day).format('YYYY-MM-DD')})
                 }
                 this.planDayErrors.push({...defaultPlanDayError});
             }
