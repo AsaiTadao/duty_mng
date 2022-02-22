@@ -25,14 +25,7 @@
                             <div class="form-group row">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-6">
-                                    <textarea class="form-control" rows="20">
-保護者様各位
-　ひよこ保育園からのお知らせです。
-----------------------------------------------
-　ひよこ保育園
-　仙台市青葉区花京院2-1
-　TEL:022-797-7717
-　FAX:022-797-7718
+                                    <textarea class="form-control" rows="20" v-model="content">
                                     </textarea>
                                 </div>
                             </div>
@@ -50,21 +43,33 @@
     </section>
 </template>
 <script>
-import api from '../global/api';
-
+import api, { apiErrorHandler } from '../global/api';
+import actionLoading from '../mixin/actionLoading';
 
 export default {
+    mixins: [actionLoading],
     data() {
         return {
-
+            content: ''
         }
+    },
+    mounted() {
+        this.fetchData();
     },
     methods: {
         sendMail() {
             if (!confirm(this.$t("Are you sure you want to send mail?"))) return;
         },
         fetchData() {
-            api.get('')
+            this.setActionLoading();
+            api.get('mail-template', null, {type: 0})
+            .then((response) => {
+                this.content = response.content;
+            })
+            .catch(apiErrorHandler)
+            .finally(() => {
+                this.unsetActionLoading();
+            })
         }
     }
 };

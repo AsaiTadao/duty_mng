@@ -23,6 +23,9 @@ class ChildcareDiaryController extends BaseController
         if (!$diary)
         {
             $diary = new ChildcareDiary(['office_id' => $user->office_id]);
+            $diary->create_user_id = $user->id;
+        } else {
+            $diary->update_user_id = $user->id;
         }
         $diary->fill($data);
         $diary->save();
