@@ -46,5 +46,6 @@
     "Please select other time in order to avoid time overlap": "時間の重複を避けるために他の時間を選択してください",
     "firstMonth must be later than lastMonth": "最初の月は先月より遅くなければなりません",
     "You are not allowed": "権限なし",
-    "Are you sure you want to send mail?": "メールを送信します。内容に間違いありませんか？"
+    "Are you sure you want to send mail?": "メールを送信します。内容に間違いありませんか？",
+    "Are you sure moving to other date without saving data?": "変更内容が登録されていません。内容を破棄して日付を変更してよろしいですか？"
 }

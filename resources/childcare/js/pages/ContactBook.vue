@@ -1,42 +1,25 @@
 <template>
     <section class="content">
-        <div class="container-fluid">
-            <div class="row justify-content-center">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header calendar-title row">
-                            <div class="col-md-6 col-12 row">
-                                <h5 class="card-title col-4 mb-0 px-0">テラル保育園</h5>
-                                <div class="col-4 mb-0 px-0">ー連絡帳ー</div>
-                                <div class="col-4 mb-0 px-0">山田　三越</div>
-                            </div>
-                            <div class="col-md-6 col-12 row d-flex align-items-center">
-                                <div class="col-7 d-flex align-items-center p-0">
-                                    <datepicker
-                                    :language="ja"
-                                    :format="customFormatter"
-                                    ref="programaticOpen"
-                                    :placeholder="todayDate"
-                                    @selected="getContactBook"
-                                    v-model="selectedDate">
-                                    </datepicker>
-                                    <button type="button" class="btn btn-sm btn-outline mx-0" @click="openDatePicker()">
-                                    <i class="fas fa-calendar-alt fa-2x"></i>
-                                    </button>
-                                </div>
-                                <div class="col-5 d-flex align-items-center px-0">
-                                    <div for="weatherStauts" class="col-form-label mr-2">天気</div>
-                                    <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <template v-if="child">
+            <contact-book-0 v-if="childAge < 1"
+                :contact="contactBook"
+                :date="selectedDate"
+                :child="child"
+                v-on:success="onSaved">
+            </contact-book-0>
+            <contact-book-1 v-else-if="childAge >= 1 && childAge < 3"
+                :contact="contactBook"
+                :date="selectedDate"
+                :child="child"
+                v-on:success="onSaved">
+            </contact-book-1>
+            <contact-book-2 v-else-if="childAge > 3"
+                :contact="contactBook"
+                :date="selectedDate"
+                :child="child"
+                v-on:success="onSaved">
+            </contact-book-2>
+        </template>
     </section>
 </template>
 <script>
@@ -59,9 +42,8 @@ export default {
         return {
             editmode: false,
             currentDate: new Date(),
-            todayDate: "",
             days: [],
-            contactBooks : {},
+            contactBook : {},
             selectedUser: null,
             requests : [],
             offices: [],
@@ -72,7 +54,8 @@ export default {
             selectedApp: {},
             selectedAppUserName: '',
             childId: null,
-            classId: null
+            child: null,
+            childAge: 0
         }
     },
     methods: {
@@ -126,10 +109,11 @@ export default {
             api.get('contact-book/child/' + this.childId, null, {date: this.selectedDate})
                 .then(response => {
                     this.unsetActionLoading();
-                    this.contactBooks = response;
-                    const child = this.contactBooks.child;
-                    this.classId = child ? child.classId : null;
-                    const childAge = this.getAge(child.birthDay);
+                    this.contactBook = response.contactBook;
+                    console.log(response);
+                    const child = response.child;
+                    this.child = child ? child : null;
+                    const childAge = this.getAge(child.birthday);
                     this.childAge = childAge;
                 })
                 .catch(e => {
@@ -148,9 +132,9 @@ export default {
             this.getAttendanceData(this.selectedDate);
             $("#attend-edit-form").modal('hide');
         },
-        onAppSaved() {
-            this.getAttendanceData(this.selectedDate);
-            $("#app-aprove-form").modal('hide');
+        onSaved() {
+            // this.getContactBook(this.selectedDate);
+            // $("#app-aprove-form").modal('hide');
         },
         isThisMonth() {
             const today = new Date();
@@ -247,9 +231,9 @@ export default {
     },
     mounted() {
         const childId = this.$route.params.id;
+        const paramDate = this.$route.params.date;
         this.childId = parseInt(childId);
-        //this.getResults(this.currentDate);
-        this.todayDate = this.getCurrentDate().toString();
+        this.currentDate = paramDate;
         this.getContactBook(this.currentDate);
     }
 }
