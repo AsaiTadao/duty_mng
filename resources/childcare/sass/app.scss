@@ -589,3 +589,8 @@ nav.main-header {
     padding-top: 57px;
 }
 @import "./common.scss";
+.is-invalid-light {
+    border-color: #dc3545;
+    padding-right: 0.375rem 0.75rem;
+    background-image: none;
+}

@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container child-detail-container">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
@@ -9,10 +9,10 @@
                                 <h3 class="card-title mb-0">保育システム</h3>
                             </div>
                             <div class="col-md-3">
-                                <button type="submit" class="btn btn-sm btn-primary float-right" @click="childcarePlan()">
+                                <router-link type="button" class="btn btn-sm btn-primary float-right" :to="{ name: 'childcare-plan', params: {childId: this.childId}}">
                                     託児計画作成
-                                </button>
-                                <button type="submit" class="btn btn-sm btn-primary float-right mr-2">
+                                </router-link>
+                                <button type="button" class="btn btn-sm btn-primary float-right mr-2">
                                     <i class="fas fa-qrcode fa-lg"></i>
                                     QRコード発行
                                 </button>
@@ -125,23 +125,17 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="table-responsive p-0">
+                        <div class="table-responsive p-0" v-if="plans.length > 0">
                             <table class="table table-bordered table-hover">
                                 <tbody>
                                     <tr>
-                                        <td rowspan="3" class="text-center text-white dark-pink align-middle" style="width: 200px">
+                                        <td :rowspan="plans.length + 1" class="text-center text-white dark-pink align-middle" style="width: 200px">
                                             登園予定
                                         </td>
-                                        <td class="light-pink text-center">火曜・水曜・木曜</td>
-                                        <td class="light-pink text-center">8:00～17:00</td>
                                     </tr>
-                                    <tr class="light-pink text-center">
-                                        <td>月曜・金曜</td>
-                                        <td>9:00～18:00</td>
-                                    </tr>
-                                    <tr class="light-pink text-center">
-                                        <td>ー</td>
-                                        <td>ー</td>
+                                    <tr v-for="(plan, index) in plans" :key="index">
+                                        <td class="light-pink text-center">{{ getDayOfWeeksString(plan) }}</td>
+                                        <td class="light-pink text-center">{{ getPeriodOfPlan(plan) }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -249,8 +243,9 @@ export default {
                 certificateOfPayment: null,
                 certificateExpirationDate: null,
                 taxExemptHousehold: null,
-                remarks: null
+                remarks: null,
             },
+            plans: []
         }
     },
     computed: {
@@ -260,9 +255,6 @@ export default {
         }),
     },
     methods: {
-        childcarePlan() {
-            this.$router.push('childcare-plan');
-        },
         presentManagement() {
             this.$router.push('present-management');
         },
@@ -318,12 +310,33 @@ export default {
             const y = Math.floor(ageInMonth / 12);
             const m = ageInMonth % 12;
             return (y ? y + '歳' : '') + (m ? m + 'ヶ月' : '');
+        },
+        getPlan() {
+            console.log("here");
+            api.get(`plan/${this.childId}`)
+            .then(response => {
+                this.plans = response
+            })
+            .catch (e => apiErrorHandler(e))
+        },
+        getDayOfWeeksString(plan) {
+            const dayStrings = ['日曜', '月曜','火曜','水曜','木曜','金曜','土曜'];
+            return plan.dayOfWeeks.map(d => dayStrings[d]).join('・')
+        },
+        getPeriodOfPlan(plan) {
+            return moment(plan.startTime, 'HH:mm:ss').format('HH:mm') + '～' + moment(plan.endTime, 'HH:mm:ss').format('HH:mm')
         }
     },
     mounted() {
         const childId = this.$route.params.id;
         this.childId = parseInt(childId);
         this.getChildInfor();
+        this.getPlan();
     }
 };
 </script>
+<style scoped>
+.child-detail-container table td {
+    height: 38px;
+}
+</style>

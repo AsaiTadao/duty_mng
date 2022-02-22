@@ -9,13 +9,21 @@
                                 <h3 class="card-title mb-0">保育システム</h3>
                             </div>
                             <div class="col-md-3">
-                                山田　光子
+                                {{ child.name }}
                             </div>
                             <div class="col-md-3">
-                                <select class="form-control">
-                                    <option>2021年10月</option>
-                                    <option>2021年11月</option>
-                                </select>
+                                <div class="calendar-center flex-grow-1">
+                                    <button type="button" class="btn btn-sm btn-outline" @click="onPrev">
+                                        <i class="fas fa-caret-left fa-2x"></i>
+                                    </button>
+                                    <div class="mx-2">{{ displayDate }}</div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary mx-2">
+                                        今月
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline" @click="onNext">
+                                        <i class="fas fa-caret-right fa-2x"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -24,1257 +32,73 @@
                             <table
                                 class="table table-bordered table-striped table-calendar table-head-fixed table-hover mb-0"
                             >
-                                <!-- <thead class="text-center">
-                                    <tr class="dark-yellow text-white">
-                                        <th>
-                                            日付
-                                        </th>
-                                        <th>
-                                            従業員枠企業名
-                                        </th>
-                                    </tr>
-                                </thead> -->
-                                <tbody class="text-center">
+                                <tbody class="text-center" v-for="(week, weekIndex) in planIndices" :key="weekIndex">
                                     <tr class="dark-yellow">
                                         <td width="5%">
                                             日付
                                         </td>
-                                        <td width="13%">
+                                        <td width="13%" v-for="(item, dayIndex) in week" :key="dayIndex" :class="{'red': dayIndex === 6}">
+                                            <template v-if="item">
+                                                {{ item.label }}
+                                            </template>
+                                            <template v-else>
                                             -
-                                        </td>
-                                        <td width="13%">
-                                            -
-                                        </td>
-                                        <td width="13%">
-                                            -
-                                        </td>
-                                        <td width="13%">
-                                            -
-                                        </td>
-                                        <td width="13%">
-                                            1日[月]
-                                        </td>
-                                        <td width="13%">
-                                            2日[火]
-                                        </td>
-                                        <td width="13%">
-                                            3日[火]
+                                            </template>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             登園
                                         </td>
-                                        <td>
+                                        <td width="13%" v-for="(item, dayIndex) in week" :key="dayIndex">
+                                            <template v-if="item">
+                                                <hour-minute-input v-model="planDays[item.index].startTime" type="text"
+                                                    :disabled="planDays[item.index].absent > 0"
+                                                    :error="planDayErrors[item.index].startTime"
+                                                    @input="() => {planDayErrors[item.index].startTime = null}"
+                                                    :light="true"
+                                                />
+                                            </template>
+                                            <template v-else>
                                             -
+                                            </template>
                                         </td>
+                                    </tr>
+                                    <tr>
                                         <td>
+                                            降園
+                                        </td>
+                                        <td width="13%" v-for="(item, dayIndex) in week" :key="dayIndex">
+                                            <template v-if="item">
+                                                <hour-minute-input v-model="planDays[item.index].endTime"
+                                                    type="text" :disabled="planDays[item.index].absent > 0"
+                                                    :error="planDayErrors[item.index].endTime"
+                                                    @input="() => {planDayErrors[item.index].endTime = null}"
+                                                    :light="true"
+                                                />
+                                            </template>
+                                            <template v-else>
                                             -
-                                        </td>
-                                        <td>
-                                            -
-                                        </td>
-                                        <td>
-                                            -
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            降園
-                                        </td>
-                                        <td>
-
-                                        </td>
-                                        <td>
-
-                                        </td>
-                                        <td>
-
-                                        </td>
-                                        <td>
-
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
+                                            </template>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             欠席
                                         </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tbody class="text-center">
-                                    <tr class="dark-yellow">
-                                        <td width="5%">
-                                            日付
-                                        </td>
-                                        <td width="13%">
-                                            ４日[木]
-                                        </td>
-                                        <td width="13%">
-                                            5日[金]
-                                        </td>
-                                        <td width="13%">
-                                            6日[土]
-                                        </td>
-                                        <td width="13%" class="red">
-                                            7日[日]
-                                        </td>
-                                        <td width="13%">
-                                            8日[月]
-                                        </td>
-                                        <td width="13%">
-                                            9日[火]
-                                        </td>
-                                        <td width="13%">
-                                            10日[水]
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            登園
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            降園
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            欠席
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tbody class="text-center">
-                                    <tr class="dark-yellow">
-                                        <td width="5%">
-                                            日付
-                                        </td>
-                                        <td width="13%">
-                                            11日[木]
-                                        </td>
-                                        <td width="13%">
-                                            12日[金]
-                                        </td>
-                                        <td width="13%">
-                                            13日[土]
-                                        </td>
-                                        <td width="13%" class="red">
-                                            14日[日]
-                                        </td>
-                                        <td width="13%">
-                                            15日[月]
-                                        </td>
-                                        <td width="13%">
-                                            16日[火]
-                                        </td>
-                                        <td width="13%">
-                                            17日[水]
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            登園
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            降園
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            欠席
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tbody class="text-center">
-                                    <tr class="dark-yellow">
-                                        <td width="5%">
-                                            日付
-                                        </td>
-                                        <td width="13%">
-                                            18日[木]
-                                        </td>
-                                        <td width="13%">
-                                            19日[金]
-                                        </td>
-                                        <td width="13%">
-                                            20日[土]
-                                        </td>
-                                        <td width="13%" class="red">
-                                            21日[日]
-                                        </td>
-                                        <td width="13%">
-                                            22日[月]
-                                        </td>
-                                        <td width="13%">
-                                            23日[火]
-                                        </td>
-                                        <td width="13%">
-                                            24日[水]
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            登園
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            降園
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            欠席
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tbody class="text-center">
-                                    <tr class="dark-yellow">
-                                        <td width="5%">
-                                            日付
-                                        </td>
-                                        <td width="13%">
-                                            25日[木]
-                                        </td>
-                                        <td width="13%">
-                                            26日[金]
-                                        </td>
-                                        <td width="13%">
-                                            27日[土]
-                                        </td>
-                                        <td width="13%" class="red">
-                                            28日[日]
-                                        </td>
-                                        <td width="13%">
-                                            29日[月]
-                                        </td>
-                                        <td width="13%">
-                                            30日[火]
-                                        </td>
-                                        <td width="13%">
-                                            31日[水]
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            登園
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            降園
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                </div>
-                                                <span class="p-1">:</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                                                    <span v-if="errors.startTime" class="error invalid-feedback">
-                                                        {{ errors.startTime }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            欠席
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
-                                        </td>
-                                        <td>
-                                            <input type="checkbox" class="align-middle">
+                                        <td width="13%" v-for="(item, dayIndex) in week" :key="dayIndex">
+                                            <template v-if="item">
+                                                <input type="checkbox" v-model="planDays[item.index].absent"
+                                                    @change="() => {planDayErrors[item.index].endTime = null; planDayErrors[item.index].startTime = null}"
+                                                />
+                                            </template>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="float-right d-flex align-items-center mt-2">
-                            <button class="btn btn-primary float-right">登録</button>
+                            <button class="btn btn-primary float-right" type="button" @click="onSubmit">登録</button>
                         </div>
                     </div>
                 </div>
@@ -1283,19 +107,170 @@
     </div>
 </template>
 <script>
+import moment from 'moment';
+import api, { apiErrorHandler } from '../global/api';
+import actionLoading from '../mixin/actionLoading';
+import HourMinuteInput from '../components/HourMinuteInput.vue';
+import { validateHhMm } from '../helpers/datetime';
+import { showSuccess } from '../helpers/error';
 
+const defaultPlanItem = {
+    absent: 0,
+    startTime: '',
+    endTime: '',
+}
+const defaultPlanDayError = {
+    startTime: null,
+    endTime: null
+}
 
 export default {
+  components: { HourMinuteInput },
+    mixins: [actionLoading],
     data() {
         return {
             retiredDisplay: false,
             errors: [],
+            currentDate: moment(),
+            childId: null,
+            planIndices: [],
+            planDays: [],
+            planDayErrors: [],
+            child: {}
         }
+    },
+    computed: {
+        displayDate() {
+            return this.currentDate.format('YYYY年 MM月');
+        }
+    },
+    mounted() {
+        this.childId = this.$route.params.childId;
+        this.fetchData();
+        this.fetchChild();
     },
     methods: {
         childcarePlan() {
             this.$router.push('childcare-plan');
-        }
+        },
+        onNext() {
+            this.currentDate = moment(this.currentDate.add(1, 'months').format('YYYY-MM-DD'), 'YYYY-MM-DD');
+            this.fetchData();
+        },
+        onPrev() {
+            this.currentDate = moment(this.currentDate.add(-1, 'months').format('YYYY-MM-DD'), 'YYYY-MM-DD');
+            this.fetchData();
+        },
+        onSubmit() {
+            if (!this.validate()) return;
+            this.setActionLoading();
+            api.post(`plan-days/${this.childId}`, null, {
+                month: this.currentDate.format('YYYY-MM'),
+                data: this.planDays.filter(item => item && item.startTime)
+            })
+            .then(() =>{
+                showSuccess(this.$t('Successfully saved'));
+            })
+            .catch(apiErrorHandler)
+            .finally(() => this.unsetActionLoading())
+        },
+        fetchData() {
+            this.setActionLoading();
+            api.get(`plan-days/${this.childId}`, null, {month: this.currentDate.format('YYYY-MM')})
+            .then(response => {
+                this.unpack(response);
+            })
+            .catch(e => {
+                apiErrorHandler(e);
+                console.error(e)
+            })
+            .finally(() => {
+                this.unsetActionLoading();
+            })
+        },
+        fetchChild () {
+            api.get(`child/${this.childId}`)
+            .then(response => {
+                this.child = response
+            })
+            .catch(e => apiErrorHandler(e));
+        },
+        validate() {
+            let valid = true;
+            this.planDays.forEach((plan, index) => {
+                if (plan.absent) return;
+                // if (!plan.startTime) {
+                //     valid = false;
+                //     this.planDayErrors[index].startTime = this.$t('Please input start time');
+                // }
+                // if (!plan.endTime) {
+                //     valid = false;
+                //     this.planDayErrors[index].endTime = this.$t('Please input end time');
+                // }
+                if (plan.startTime && !validateHhMm(plan.startTime)) {
+                    this.planDayErrors[index].startTime = this.$t('Invalid time format');
+                }
+                if (plan.endTime && !validateHhMm(plan.endTime)) {
+                    this.planDayErrors[index].endTime = this.$t('Invalid time format');
+                }
+                if (plan.startTime && plan.startTime === plan.endTime) {
+                    valid = false;
+                    this.planDayErrors[index].endTime = this.$t('Invalid time period');
+                }
+                plan.date = this.currentDate.format('YYYY-MM') + '-' + String(index + 1).padStart(2, '0');
+                return valid;
+            })
+            return valid;
+        },
+        unpack(data) {
+            let firstDay = this.currentDate.day();
+            this.planDays = [];
+            this.planDayErrors = [];
+            let daysInMonth = this.currentDate.daysInMonth();
+
+            for (let day = 1; day < daysInMonth + 1; day++) {
+                let planItem = data.find(item => item.day === day);
+                if (planItem) {
+                    let startTime = planItem.startTime ? moment(planItem.startTime, 'HH:mm:ss').format('HH:mm') : '';
+                    let endTime = planItem.endTime ? moment(planItem.endTime, 'HH:mm:ss').format('HH:mm') : '';
+                    this.planDays.push({...planItem, startTime, endTime});
+                } else {
+                    this.planDays.push({...defaultPlanItem})
+                }
+                this.planDayErrors.push({...defaultPlanDayError});
+            }
+
+            this.planIndices = [];
+            let padding = [];
+            if (firstDay > 1) {
+                padding = Array(firstDay - 1).fill({padded: true});
+            }
+            let weeks = Math.floor((daysInMonth + (firstDay - 1)) / 7);
+            if ((daysInMonth + (firstDay - 1)) % 7 > 0) {
+                weeks++;
+            }
+            let day = 0;
+            let dayOfWeeks = ['月', '火', '水', '木', '金', '土', '日'];
+            for (let i = 0; i < weeks; i++) {
+                this.planIndices[i] = [];
+                for (let dayOfWeek = 1; dayOfWeek < 8; dayOfWeek++) {
+                    if ((i === 0 && dayOfWeek < firstDay) || (day >= daysInMonth)) {
+                        this.planIndices[i].push(null);
+                        continue;
+                    } else {
+                        this.planIndices[i].push({ index: day, label: `${day + 1}日[${dayOfWeeks[dayOfWeek - 1]}]`});
+                        day++;
+                    }
+                }
+            }
+        },
     }
 };
 </script>
+<style scoped>
+.calendar-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+</style>

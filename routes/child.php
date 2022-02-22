@@ -30,6 +30,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
 
         Route::get('/plan/{child}', [ChildPlanController::class, 'retrieve'])->middleware('can:handle-child,child');
         Route::post('/plan/{child}', [ChildPlanController::class, 'save'])->middleware('can:handle-child,child');
+        Route::get('/plan-days/{child}', [ChildPlanController::class, 'retrieveDailyPlan'])->middleware('can:handle-child,child');
         Route::post('/plan-days/{child}', [ChildPlanController::class, 'saveDayPlan'])->middleware('can:handle-child,child');
         Route::get('/attendance-daily-stat', [AttendanceController::class, 'dailyStat']);
         Route::post('/mail', [MailController::class, 'dispatchMail']);

@@ -2,11 +2,15 @@
     <div class="home-minute-input-container">
         <div class="home-minute-input-wrapper">
             <div class="home-minute-input">
-                <input type="number" class="form-control" min="0" max="24" :value="hour" :class="{'is-invalid' : error}" @input="inputHour">
+                <input :type="type" class="form-control" min="0" max="24" :value="hour"
+                    :class="{'is-invalid' : error && !light, 'is-invalid-light': error && light}"
+                    @input="inputHour" :disabled="disabled" />
             </div>
             :
             <div class="home-minute-input">
-                <input type="number" class="form-control" min="0" max="60" :value="minute" :class="{'is-invalid' : error}" @input="inputMinute">
+                <input :type="type" class="form-control" min="0" max="60" :value="minute"
+                    :class="{'is-invalid' : error && !light, 'is-invalid-light': error && light}"
+                    @input="inputMinute" :disabled="disabled" />
             </div>
         </div>
         <div v-if="error" class="home-minute-input-error">
@@ -18,7 +22,19 @@
 export default {
     props: {
         value: String,
-        error: String
+        error: String,
+        type: {
+            type: String,
+            default: 'number'
+        },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
+        light: {
+            type: Boolean,
+            default: false
+        }
     },
     computed: {
         hour() {
@@ -35,9 +51,6 @@ export default {
     methods: {
         inputHour(e) {
             let hour = e.target.value;
-            if (!hour) {
-                hour = '00';
-            }
             this.$emit('input', hour + ':' + this.minute);
         },
         inputMinute(e) {

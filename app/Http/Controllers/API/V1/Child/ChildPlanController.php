@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API\V1\Child;
 
 use App\Http\Controllers\API\V1\BaseController;
+use App\Http\Requests\Child\ChildPlanDayQuery;
 use App\Http\Requests\Child\ChildPlanDayRequest;
 use App\Http\Requests\Child\ChildPlanRequest;
+use App\Http\Resources\ChildcarePlanDayResource;
 use App\Models\Child;
 use App\Models\ChildcarePlan;
 use App\Models\ChildcarePlanDay;
@@ -40,7 +42,19 @@ class ChildPlanController extends BaseController
             $childPlan->save();
             $childPlans[] = $childPlan;
         }
+        if (!$child->plan_registered) {
+            $child->plan_registered = true;
+            $child->save();
+        }
         return $this->sendResponse($childPlans);
+    }
+    public function retrieveDailyPlan(Child $child, ChildPlanDayQuery $request)
+    {
+        $data = $request->validated();
+        $month = $data['month'];
+        [$year, $month] = explode('-', $data['month']);
+        $planDays = ChildcarePlanDay::where(['child_id' => $child->id])->whereYear('date', $year)->whereMonth('date', $month)->get();
+        return $this->sendResponse(ChildcarePlanDayResource::collection($planDays));
     }
     public function saveDayPlan(Child $child, ChildPlanDayRequest $request)
     {
@@ -66,6 +80,11 @@ class ChildPlanController extends BaseController
             }
             $planDay->update_user_id = $user->id;
             $planDay->save();
+        }
+
+        if (!$child->plan_registered) {
+            $child->plan_registered = true;
+            $child->save();
         }
         return $this->sendResponse();
     }

@@ -67,7 +67,7 @@
                                         <td v-else></td>
                                         <td>{{getAge(child.birthday)}}</td>
                                         <td>{{child.classId}}</td>
-                                        <td></td>
+                                        <td>{{ child.planRegistered ? '登録有' : '未登録' }}</td>
                                         <td>
                                             <router-link
                                                 :to="{name: 'children-detail', params: {id: child.id} }"

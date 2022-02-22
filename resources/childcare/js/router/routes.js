@@ -136,7 +136,7 @@ export default [
                 }
             },
             {
-                path: "childcare-calendar",
+                path: ":childId/childcare-calendar",
                 name: "childcare-calendar",
                 components: { default: ChildCareCalendar },
                 meta: {
