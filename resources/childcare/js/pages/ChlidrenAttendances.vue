@@ -58,10 +58,16 @@
                                                         </td>
                                                         <td v-if="index2 == 0" :rowspan="attendance.length" class="align-middle">
                                                             <div>
-                                                                <button class="btn btn-primary mb-1" @click="openDiary(indiAttendance.id)">日誌閲覧</button>
+                                                                <router-link class="btn btn-primary mb-1"
+                                                                    :to="{name: 'childcare-diary', params: {classId: index1 + 1}, query: {date: selectedDateLabel}}">
+                                                                    日誌閲覧
+                                                                </router-link>
                                                             </div>
                                                             <div>
-                                                                <button class="btn btn-primary" @click="openDiary(indiAttendance.id)">日誌作成</button>
+                                                                <router-link class="btn btn-primary mb-1"
+                                                                    :to="{name: 'childcare-diary', params: {classId: index1}, query: {date: selectedDateLabel}}">
+                                                                    日誌作成
+                                                                </router-link>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -122,7 +128,10 @@ export default {
     computed: {
         ...mapState({
                 reasonForAbsences: state => state.constants.reasonForAbsences
-            })
+            }),
+        selectedDateLabel() {
+            return moment(this.selectedDate).format('YYYY-MM-DD');
+        }
     },
     methods: {
         onEditClicked(childId) {
