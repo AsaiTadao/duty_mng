@@ -7,9 +7,9 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" placeholder="園児ID, 園児氏名, メールアドレス">
+                                    <input type="text" class="form-control" placeholder="園児ID, 園児氏名, メールアドレス" v-model="searchInput">
                                     <span class="input-group-append">
-                                        <button type="button" class="btn btn-info btn-flat">検索</button>
+                                        <button type="button" class="btn btn-info btn-flat" @click="getChildrenList">検索</button>
                                     </span>
                                 </div>
                             </div>
@@ -100,7 +100,6 @@ export default {
             childrenList: [],
             searchInput: '',
             childcareRegistered: 0,
-
         }
     },
     methods: {

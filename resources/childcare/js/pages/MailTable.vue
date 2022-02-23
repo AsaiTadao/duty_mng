@@ -18,29 +18,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>2022-03-01 12:10</td>
-                                <td>ひよこ園  ０歳児クラス</td>
-                                <td>20</td>
-                                <td>臨時休園のお知らせ</td>
-                                <td><a href="">確認</a></td>
-                            </tr>
-                            <tr>
-                                <td>2022-03-01 12:10</td>
-                                <td>ひよこ園  ０歳児クラス</td>
-                                <td>20</td>
-                                <td>臨時休園のお知らせ</td>
-                                <td><a href="">確認</a></td>
-                            </tr>
-                            <tr>
-                                <td>2022-03-01 12:10</td>
-                                <td>ひよこ園  ０歳児クラス</td>
-                                <td>20</td>
-                                <td>臨時休園のお知らせ</td>
-                                <td><a href="">確認</a></td>
+                            <tr v-for="mail in mails" :key="mail.id">
+                                <td>{{getCreatedAt(mail.createdAt)}}</td>
+                                <td>{{mail.officeName}}{{getChildClassName(mail.childrenClassId)}}</td>
+                                <td>{{mail.cnt}}</td>
+                                <td>{{mail.subject}}</td>
+                                <td><a href="javascript:void(0)" @click="viewMailContent(mail.content)">確認</a></td>
                             </tr>
                         </tbody>
                     </table>
+                    <div class="pager-wrapper">
+                        <pagination v-model="pager.current" :records="pager.total" :per-page="pager.size" :options="{texts: pager.texts}" @paginate="getMails"/>
+                        <div class="pager-per-page">
+                            <select class="form-control" @change="onPerPageChange">
+                                <option v-for="(page, index) in perPages" :key="index" :value="page">{{ page }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="mail-view-form" tabindex="-1" role="dialog" aria-labelledby="mail-view-form" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <view-form :mailContent="mailContent"></view-form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,8 +47,90 @@
 </template>
 <script>
 
+import moment from 'moment';
+import { mapState } from 'vuex';
+import api, { apiErrorHandler } from '../global/api';
+import actionLoading from '../mixin/actionLoading';
+import { showSuccess } from '../helpers/error';
+import ViewForm from './Mail/ViewForm.vue';
+import Pagination from 'vue-pagination-2';
 
 export default {
-
+    components: {Pagination, ViewForm},
+    mixins: [actionLoading],
+    data() {
+        return {
+            mails: [],
+            pager: {
+                current: 1,
+                size: 10,
+                total: 100,
+                texts: {
+                    count: '{from} から {to} / 全体　{count}||',
+                    first: '&laquo;前へ',
+                    last: '次へ &raquo;'
+                },
+            },
+            perPages: [
+                10, 20, 50, 100
+            ],
+            mailContent: ''
+        }
+    },
+    computed: {
+        ...mapState({
+            session: state =>  state.session.info,
+            childrenClasses: state => state.constants.childrenClasses
+         }),
+    },
+    methods: {
+        getMails(page = 1) {
+            if(this.actionLoading) return;
+            this.setActionLoading();
+            const query = {page, perPage: this.pager.size};
+            api.get('mail-history', null, query)
+            .then(response => {
+                this.unsetActionLoading();
+                this.mails = response.data;
+                this.pager.current = response.currentPage;
+                this.pager.total = parseInt(response.total);
+                this.pager.size = parseInt(response.perPage);
+            })
+            .catch(e => {
+                apiErrorHandler(e);
+                this.unsetActionLoading();
+            })
+        },
+        onPerPageChange(e) {
+            this.pager.size = parseInt(e.target.value);
+            this.getMails();
+        },
+        viewMailContent(viewMailContent) {
+            this.mailContent = viewMailContent;
+            $("#mail-view-form").modal('show');
+        },
+        getCreatedAt(createdAt) {
+            return moment(createdAt).format("YYYY-MM-DD H:m");
+        },
+        getChildClassName(classId) {
+            if(!classId) return null;
+            const childClass = this.childrenClasses.find(item => classId == item.id);
+            if(childClass) return childClass.name;
+            return null;
+        }
+    },
+    mounted() {
+        this.getMails();
+    }
 };
 </script>
+<style scoped>
+    .pager-wrapper {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+    .pager-per-page {
+        max-width: 200px;
+    }
+</style>
