@@ -6,6 +6,7 @@
                     <div class="card">
                         <div class="card-header calendar-title">
                             <h3 class="card-title mb-0">テラル保育園</h3>
+                            <div class="card-title mb-0 ml-3">山田　三越</div>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
                                     <i class="fas fa-caret-left fa-2x"></i>
@@ -25,11 +26,10 @@
                                     <thead class="text-center text-white">
                                         <tr class="dark-brown">
                                             <th class="children-present-fix" style="left: 0px; z-index: 12 !important; outline: white solid 1px;">日付</th>
-                                            <th class="children-present-fix-140" style="z-index: 12 !important; outline: white solid 1px;">曜日</th>
+                                            <th class="children-present-fix-60" style="z-index: 12 !important; outline: white solid 1px;">曜日</th>
                                             <th>登園時間</th>
                                             <th>降園時間</th>
                                             <th>欠席</th>
-                                            <th>遅刻</th>
                                             <th>延長</th>
                                             <th>連絡帳</th>
                                         </tr>
@@ -37,7 +37,7 @@
                                         <tbody class="text-center children-present-tr">
                                             <tr v-for="day in days" :key="day.getDate()">
                                                 <td class="children-present-fix">{{day.getDate()}}日</td>
-                                                <td class="children-present-fix-140">
+                                                <td class="children-present-fix-60">
                                                     <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
                                                     <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
                                                     <div v-else>{{day|formatWeek}}</div>
@@ -45,7 +45,6 @@
                                                 <td>8:58</td>
                                                 <td>18:00</td>
                                                 <td>コロナ欠席</td>
-                                                <td>3分</td>
                                                 <td>2.00</td>
                                                 <td>
                                                     <router-link to="/parent/parent-contact-book0">

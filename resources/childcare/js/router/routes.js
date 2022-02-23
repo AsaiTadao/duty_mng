@@ -277,7 +277,7 @@ export default [
                 components: { default: ParentChlidrenAttendances },
                 meta: {
                     icon: "fas fa-school",
-                    anchor: "登降園",
+                    anchor: "登降園状況",
                     menu: true,
                     guards: [
                         Guards.CHILD_MINDER,

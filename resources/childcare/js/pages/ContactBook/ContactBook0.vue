@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <input type="text" class="form-control" style="max-width: 40%;" @change="dataChanged = true;"/>℃　
+                                        <input type="text" class="form-control" style="max-width: 55%;" @change="dataChanged = true;"/>℃　
                                     </div>
                                 </div>
                             </div>
@@ -109,17 +109,17 @@
                                             <template v-for="hour in hours">
                                                 <tr :key="hour.time+'hours'">
                                                     <td rowspan="2" class="align-middle contactbook-fix">{{hour.time}}時</td>
-                                                    <td class="text-center" style="position:relative;" @click="setHour(hour.time, 1)">
+                                                    <td class="text-center contact-book-click" style="position:relative;" @click="setHour(hour.time, 1)">
                                                         <div v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`] == 1" style="background-color: #EBCB42; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
                                                         <div v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`] == 1" style="background-color: #8BB3FC; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
                                                     </td>
-                                                    <td rowspan="2">
+                                                    <td rowspan="2" style="width: 120px;">
                                                         <div class="d-flex justify-content-center" style="width: fit-content; margin: auto;">
                                                             <input type="text" class="form-control" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" @change="dataChanged = true;"/>
                                                             <label class="align-self-center m-0 ml-1">℃</label>
                                                         </div>
                                                     </td>
-                                                    <td rowspan="2">
+                                                    <td rowspan="2" class="contact-book-mood">
                                                         <select class="form-control" v-model="formData[`defecation${hour.time}School`]" @change="dataChanged = true;">
                                                             <option :value="0">-</option>
                                                             <option :value="1">普通</option>

@@ -12,7 +12,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="navbar-nav ml-3">
+        <!-- <ul class="navbar-nav ml-3">
             <li class="nav-item kintai-system system-selected">
                 <a
                     class="nav-link px-4"
@@ -22,7 +22,7 @@
                     保護者
                 </a>
             </li>
-        </ul>
+        </ul> -->
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="#">
