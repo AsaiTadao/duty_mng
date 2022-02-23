@@ -84,7 +84,6 @@ export default {
             content: '',
             subject: '',
             type: 0,
-            office: {},
             error: {
                 subject: null,
                 type: null,
@@ -95,13 +94,13 @@ export default {
     computed: {
         ...mapState({
             childrenClasses: state => state.constants.childrenClasses,
+            office: state => state.session.info.office
         }),
     },
     mounted() {
         this.childrenClassId = this.$route.query.childrenClassId;
         this.type = this.$route.query.type;
         this.fetchData();
-        this.fetchOffice();
     },
     methods: {
         sendMail() {
@@ -144,11 +143,6 @@ export default {
                 this.unsetActionLoading();
             })
         },
-        fetchOffice() {
-            api.get('current-office')
-            .then(response => this.office = response)
-            .catch(apiErrorHandler)
-        }
     }
 };
 </script>

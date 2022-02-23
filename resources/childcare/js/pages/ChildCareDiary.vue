@@ -230,7 +230,6 @@ export default {
             remarks: '',
             specialNote: '',
 
-            office: {},
             stat: {
                 all: '',
                 attend: '',
@@ -241,6 +240,7 @@ export default {
     computed: {
         ...mapState({
             childrenClasses: state => state.constants.childrenClasses,
+            office: state => state.session.info.office
         }),
         classLabel() {
             const claz = this.childrenClasses.find(item => item.id === this.childrenClassId)
@@ -254,7 +254,6 @@ export default {
         }
         this.childrenClassId = this.$route.params.classId;
         this.fetchData();
-        this.fetchOffice();
         this.fetchStat();
     },
     methods: {
@@ -295,11 +294,6 @@ export default {
             })
             .catch(apiErrorHandler)
             .finally(this.unsetActionLoading);
-        },
-        fetchOffice() {
-            api.get('current-office')
-            .then(response => this.office = response)
-            .catch(apiErrorHandler)
         },
         fetchStat() {
             api.get('attendance-daily-stat', null, { date: this.date.format('YYYY-MM-DD' ), childrenClassId: this.childrenClassId})
