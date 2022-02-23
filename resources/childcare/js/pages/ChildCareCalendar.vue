@@ -17,7 +17,7 @@
                                         <i class="fas fa-caret-left fa-2x"></i>
                                     </button>
                                     <div class="mx-2">{{ displayDate }}</div>
-                                    <button type="button" class="btn btn-sm btn-outline-primary mx-2">
+                                    <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="onCurrentMonth">
                                         今月
                                     </button>
                                     <button type="button" class="btn btn-sm btn-outline" @click="onNext">
@@ -161,6 +161,10 @@ export default {
             this.currentDate = moment(this.currentDate.add(-1, 'months').format('YYYY-MM-DD'), 'YYYY-MM-DD');
             this.fetchData();
         },
+        onCurrentMonth(){
+            this.currentDate = moment();
+            this.fetchData();
+        },
         onSubmit() {
             if (!this.validate()) return;
             this.setActionLoading();
@@ -223,7 +227,7 @@ export default {
             return valid;
         },
         unpack(data) {
-            let firstDay = this.currentDate.day();
+            let firstDay = this.currentDate.set('date', 1).day();
             this.planDays = [];
             this.planDayErrors = [];
             let daysInMonth = this.currentDate.daysInMonth();
