@@ -92,11 +92,11 @@
                                         <tbody class="text-center">
                                             <tr>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit" v-model="reasonForAbsence">
+                                                    <textarea class="textarea-fit" v-model="reasonForAbsence" readonly>
                                                     </textarea>
                                                 </td>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit" v-model="specialNote">
+                                                    <textarea class="textarea-fit" v-model="specialNote" readonly>
                                                     </textarea>
                                                 </td>
                                             </tr>
@@ -122,12 +122,12 @@
                                             </tr>
                                             <tr>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit" v-model="aim">
+                                                    <textarea class="textarea-fit" v-model="aim" readonly>
 
                                                     </textarea>
                                                 </td>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit" v-model="activityContent">
+                                                    <textarea class="textarea-fit" v-model="activityContent" readonly>
 
                                                     </textarea>
                                                 </td>
@@ -137,7 +137,7 @@
                                                     援助<br>配慮事項
                                                 </td>
                                                 <td colspan="2" class="p-0">
-                                                    <textarea class="textarea-fit" v-model="consideration">
+                                                    <textarea class="textarea-fit" v-model="consideration" readonly>
                                                     </textarea>
                                                 </td>
                                             </tr>
@@ -146,7 +146,7 @@
                                                     保育の実際<br>評価・反省
                                                 </td>
                                                 <td colspan="2" class="p-0">
-                                                    <textarea class="textarea-fit" v-model="evaluationReflection">
+                                                    <textarea class="textarea-fit" v-model="evaluationReflection" readonly>
                                                     </textarea>
                                                 </td>
                                             </tr>
@@ -166,7 +166,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit" style="height: 100px;" v-model="healthStatus">
+                                                    <textarea class="textarea-fit" style="height: 100px;" v-model="healthStatus" readonly>
 
                                                     </textarea>
                                                 </td>
@@ -187,7 +187,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit" style="height: 100px;" v-model="remarks">
+                                                    <textarea class="textarea-fit" style="height: 100px;" v-model="remarks" readonly>
 
                                                     </textarea>
                                                 </td>
@@ -198,7 +198,7 @@
                             </div>
                             <div class="float-right d-flex align-items-center mt-2">
                                 <button class="btn btn-primary float-right mr-2">Excel出力</button>
-                                <button class="btn btn-primary float-right" type="button" @click="onSubmit">登録</button>
+                                <button class="btn btn-primary float-right" type="button" @click="onEdit">編集</button>
                             </div>
                         </div>
                     </div>
@@ -258,26 +258,8 @@ export default {
         this.fetchStat();
     },
     methods: {
-        onSubmit() {
-            this.setActionLoading();
-            api.post('child-diary', null, {
-                date: this.date.format('YYYY-MM-DD'),
-                childrenClassId: this.childrenClassId,
-                weather: this.weather,
-                reasonForAbsence: this.reasonForAbsence,
-                aim: this.aim,
-                activityContent: this.activityContent,
-                consideration: this.consideration,
-                specialNote: this.specialNote,
-                evaluationReflection: this.evaluationReflection,
-                healthStatus: this.healthStatus,
-                remarks: this.remarks
-            })
-            .then(() => {
-                showSuccess(this.$t('Successfully saved'));
-            })
-            .catch(apiErrorHandler)
-            .finally(this.unsetActionLoading)
+        onEdit() {
+            this.$router.push({name: 'childcare-diary', params: {classId: this.$route.params.classId}, query: {date: this.$route.query.date}});
         },
         fetchData() {
             this.setActionLoading();

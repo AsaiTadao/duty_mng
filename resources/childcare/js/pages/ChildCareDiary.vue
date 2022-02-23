@@ -197,7 +197,6 @@
                                 </div>
                             </div>
                             <div class="float-right d-flex align-items-center mt-2">
-                                <button class="btn btn-primary float-right mr-2">Excel出力</button>
                                 <button class="btn btn-primary float-right" type="button" @click="onSubmit">登録</button>
                             </div>
                         </div>

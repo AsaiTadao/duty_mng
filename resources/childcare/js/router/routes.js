@@ -309,7 +309,9 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             }

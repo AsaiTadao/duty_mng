@@ -7,13 +7,13 @@
                 :child="child"
                 v-on:success="onSaved">
             </contact-book-0>
-            <contact-book-1 v-else-if="childAge >= 1 && childAge < 3"
+            <contact-book-1 v-else-if="childAge == 1"
                 :contact="contactBook"
                 :date="selectedDate"
                 :child="child"
                 v-on:success="onSaved">
             </contact-book-1>
-            <contact-book-2 v-else-if="childAge > 3"
+            <contact-book-2 v-else-if="childAge == 2"
                 :contact="contactBook"
                 :date="selectedDate"
                 :child="child"
@@ -113,20 +113,13 @@ export default {
                     console.log(response);
                     const child = response.child;
                     this.child = child ? child : null;
-                    const childAge = this.getAge(child.birthday);
+                    const childAge = this.getAge(child.classId);
                     this.childAge = childAge;
                 })
                 .catch(e => {
                     this.unsetActionLoading();
                     apiErrorHandler(e);
                 });
-        },
-        getAge(birthDay) {
-           if (!birthDay) return null;
-            const ageInMonth = moment().diff(birthDay, 'months');
-            const y = Math.floor(ageInMonth / 12);
-            const m = ageInMonth % 12;
-            return (y ? y + '歳' : '') + (m ? m + 'ヶ月' : '');
         },
         onWorkStatusSaved() {
             this.getAttendanceData(this.selectedDate);
@@ -218,12 +211,11 @@ export default {
         openDatePicker(){
             this.$refs.programaticOpen.showCalendar();
         },
-        getAge(birthDay) {
-           if (!birthDay) return null;
-            const ageInMonth = moment().diff(birthDay, 'months');
-            const y = Math.floor(ageInMonth / 12);
-            const m = ageInMonth % 12;
-            return y;
+        getAge(classId) {
+            if (!birthDay) return null;
+            if(classId < 1) return 0;
+            if(classId >= 1 && classId < 3) return 1;
+            if(classId >= 3) return 2;
         }
     },
     created() {
