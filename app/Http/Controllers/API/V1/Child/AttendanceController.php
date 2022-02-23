@@ -11,11 +11,15 @@ use App\Http\Resources\ChildAttendanceResource;
 use App\Models\Child;
 use App\Models\ChildrenAttendence;
 use App\Models\Year;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class AttendanceController extends BaseController
 {
+    use ChildcareAuthUserTrait;
+
     public function save(Child $child, AttendanceRequest $request)
     {
         $data = $request->validated();
@@ -83,6 +87,11 @@ class AttendanceController extends BaseController
 
     public function monthlyList(Child $child, AttendanceMonthlyQuery $request)
     {
+        $user = $this->getUser();
+        if (!Gate::forUser($user)->allows('handle-child', $child))
+        {
+            abort(403, trans('You are not allowed'));
+        }
         $data = $request->validated();
         [$year, $month] = explode('-', $data['month']);
         return $this->sendResponse(ChildrenAttendence::where(['child_id' => $child->id, 'month' => $month])
