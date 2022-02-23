@@ -209,7 +209,7 @@
                         </div>
 
                         <div class="float-right d-flex align-items-center mt-2">
-                            <button class="btn btn-primary float-right mr-2" @click="presentManagement()">登降園管理</button>
+                            <router-link class="btn btn-primary float-right mr-2" :to="{name: 'present-management', params: {childId}}">登降園管理</router-link>
                             <button class="btn btn-primary float-right" @click="editChild()">編集</button>
                         </div>
                     </div>

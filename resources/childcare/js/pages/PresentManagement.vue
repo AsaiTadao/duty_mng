@@ -7,14 +7,14 @@
                         <div class="card-header calendar-title">
                             <h3 class="card-title mb-0">テラル保育園</h3>
                             <div class="card-tools calendar-center flex-grow-1">
-                                <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
+                                <button type="button" class="btn btn-sm btn-outline" @click="onPrev">
                                     <i class="fas fa-caret-left fa-2x"></i>
                                 </button>
                                 <div class="mx-2">{{displayDate}}</div>
-                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="getResults(getThisMonthDate())">
+                                <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="onCurrentMonth">
                                     今月
                                 </button>
-                                <button type="button" class="btn btn-sm btn-outline" :hidden="isThisMonth()" @click="getResults(getNextMonthDate())">
+                                <button type="button" class="btn btn-sm btn-outline" :hidden="isCurrentMonth" @click="onNext">
                                     <i class="fas fa-caret-right fa-2x"></i>
                                 </button>
                             </div>
@@ -33,20 +33,20 @@
                                         </tr>
                                     </thead>
                                         <tbody class="text-center children-present-tr">
-                                            <tr v-for="day in days" :key="day.getDate()">
+                                            <tr v-for="(item, index) in attendances" :key="index">
                                                 <td class="children-present-fix">
-                                                    {{day.getDate()}}
+                                                    {{ item.day }}
                                                 </td>
                                                 <td class="children-present-fix-140">
-                                                    <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
-                                                    <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
-                                                    <div v-else>{{day|formatWeek}}</div>
+                                                    <div v-if="getDayOfWeek(item.day) === 6" class="blue">{{currentDate.format('ddd')}}</div>
+                                                    <div v-else-if="getDayOfWeek(item.day) === 0" class="red">{{currentDate.format('ddd')}}</div>
+                                                    <div v-else>{{currentDate.format('ddd')}}</div>
                                                 </td>
-                                                <td>8:58</td>
-                                                <td>18:00</td>
-                                                <td>-</td>
+                                                <td>{{ formatTime(item.commutingTime) }}</td>
+                                                <td>{{ formatTime(item.leaveTime) }}</td>
+                                                <td>{{ item.extension ? item.extension : '' }}</td>
                                                 <td>
-                                                    <a href="javascript:void(0)" class="mx-2" @click="openEditForm">
+                                                    <a href="javascript:void(0)" class="mx-2" @click="openEditForm(item.day)">
                                                         <i class="far fa-edit fa-lg"></i>
                                                     </a>
                                                 </td>
@@ -60,7 +60,7 @@
                             <!-- Modal -->
                             <div class="modal fade" id="attend-edit-form" tabindex="-1" role="dialog" aria-labelledby="attend-edit-form" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
-                                    <edit-form></edit-form>
+                                    <edit-form :editData="formData" :date="selectedDate" v-on:success="onAttendSaved"></edit-form>
                                 </div>
                             </div>
                         </div>
@@ -77,92 +77,95 @@ import { mapState } from 'vuex';
 import actionLoading from '../mixin/actionLoading';
 import { showSuccess } from '../helpers/error';
 import EditForm from './ChildrenAttendances/EditForm.vue';
+import api, { apiErrorHandler } from '../global/api';
+
+const defaultAttendance = {
+    id: null,
+    commutingTimeHour: '',
+    commutingTimMin: '',
+    leaveTimeHour: '',
+    leaveTimeMin: '',
+    reasonForAbsenceId: null,
+    extension: '',
+};
 
 export default {
     components: {
         EditForm
     },
+    mixins: [actionLoading],
     data() {
         return {
             editmode: false,
-            currentDate: new Date(),
-            displayDate: new Date(),
-            days: [],
-            attendance: {},
-            total: {},
-            selectedMonth: '',
-            month: new Date('YYYY-MM'),
-            officeName: '',
-            offices: [],
+            currentDate: moment(),
+            childId: null,
+            attendances: [],
+            selectedDate: new Date(),
+            formData: { ...defaultAttendance }
+        }
+    },
+    computed: {
+        displayDate() {
+            return this.currentDate.format('YYYY年 MM月');
+        },
+        isCurrentMonth() {
+            return this.currentDate.format('YYYY-MM') === moment().format('YYYY-MM');
         }
     },
     methods: {
-        getWeekEnd(day) {
-            const weekDay = moment(day).format("ddd");;
-            if (weekDay === '土'){
-                return 1;
-            } else if(weekDay === '日'){
-                return 2;
-            } else {
-                return 0;
-            }
+        onNext() {
+            this.currentDate = moment(this.currentDate.add(1, 'months').format('YYYY-MM-DD'), 'YYYY-MM-DD');
+            this.fetchData();
         },
-        isThisMonth() {
-            const today = new Date();
-            return this.currentDate.getFullYear() == today.getFullYear() && this.currentDate.getMonth() == today.getMonth();
+        onPrev() {
+            this.currentDate = moment(this.currentDate.add(-1, 'months').format('YYYY-MM-DD'), 'YYYY-MM-DD');
+            this.fetchData();
         },
-        getThisMonthDate() {
-            const date = new Date();
-            this.displayDate = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY年 M月');
-            this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYYMM');
-            this.month = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY-MM');
-            return new Date(date.getFullYear(), date.getMonth(), 1);
+        onCurrentMonth(){
+            this.currentDate = moment();
+            this.fetchData();
         },
-        getNextMonthDate() {
-            const date = this.currentDate;
-            this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY年 M月');
-            this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYYMM');
-            this.month = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY-MM');
-            return new Date(date.getFullYear(), date.getMonth() + 1, 1);
-        },
-        getPrevMonthDate() {
-            const date = this.currentDate;
-            this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY年 M月');
-            this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYYMM');
-            this.month = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY-MM');
-            return new Date(date.getFullYear(), date.getMonth() - 1, 1);
-        },
-        getResults(month_date) {
-            this.updateTable(month_date);
-        },
-        currentTime(){
-            var today = new Date();
-            var month = today.getMonth() + 1;
-            var day = today.getDate();
-            return month + "月" + day + "日 "
-            + today.getHours() + ":"
-            + today.getMinutes();
-        },
-        updateTable(date){
-            this.currentDate = date;
-            var firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDate();
-            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-            this.days = [];
-            for(let day = firstDay; day <= lastDay; day++) {
-                this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
-            }
-        },
-        openEditForm() {
+        openEditForm(day) {
+            this.selectedDate = moment(this.currentDate.format('YYYY-MM-') + String(day).padStart(2, '0')).toDate();
+            console.log(this.selectedDate);
+            const formData = this.attendances.find(item => item.day === day);
+            this.formData = {...formData };
             $("#attend-edit-form").modal('show');
+        },
+        onAttendSaved() {
+            $("#attend-edit-form").modal('hide');
+            this.fetchData();
+        },
+        fetchData() {
+            this.setActionLoading();
+            api.get(`monthly-attendance/${this.childId}`, null, { month: this.currentDate.format('YYYY-MM') })
+            .then(this.unpack)
+            .catch(apiErrorHandler)
+            .finally(this.unsetActionLoading)
+        },
+        unpack(attendances) {
+            this.attendances = [];
+            const daysInMonth = this.currentDate.daysInMonth();
+            for (let day = 1; day <= daysInMonth; day++) {
+                const attendance = attendances.find(item => item.day === day);
+                if (attendance) {
+                    this.attendances.push(attendance);
+                } else {
+                    this.attendances.push({...defaultAttendance, day});
+                }
+            }
+        },
+        getDayOfWeek(day) {
+            this.currentDate.set('date', day);
+            return this.currentDate.day();
+        },
+        formatTime(time) {
+            return time ? moment(time).format('HH:mm') : '';
         }
     },
-    created() {
-        this.selectedMonth = moment(this.displayDate).format('YYYYMM');
-        this.month = moment(this.displayDate).format('YYYY-MM');
-        this.displayDate = moment(this.displayDate).format('YYYY年 M月');
-        this.getResults(this.getThisMonthDate());
-    },
     mounted() {
+        this.childId = this.$route.params.childId;
+        this.fetchData();
     }
 };
 </script>

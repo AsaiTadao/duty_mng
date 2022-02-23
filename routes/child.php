@@ -15,6 +15,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
     Route::middleware(ChildcareAuth::class)->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
         Route::get('/current-office', [AuthController::class, 'currentOffice']);
+        Route::get('/monthly-attendance/{child}', [AttendanceController::class, 'monthlyList']);
     });
     Route::middleware(['auth:api'])->group(function () {
         Route::put('/register/{child}', [ChildController::class, 'update'])->middleware('can:handle-child,child');

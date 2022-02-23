@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\V1\Child;
 
 use App\Http\Controllers\API\V1\BaseController;
 use App\Http\Requests\Child\AttendanceDailyStatQuery;
+use App\Http\Requests\Child\AttendanceMonthlyQuery;
 use App\Http\Requests\Child\AttendanceQuery;
 use App\Http\Requests\Child\AttendanceRequest;
 use App\Http\Resources\ChildAttendanceResource;
@@ -78,6 +79,15 @@ class AttendanceController extends BaseController
             ->select('children_attendences.*', 'children.id', 'children.class_id', 'children.name')
             ->get();
         return $this->sendResponse(ChildAttendanceResource::collection($childrenAttendences));
+    }
+
+    public function monthlyList(Child $child, AttendanceMonthlyQuery $request)
+    {
+        $data = $request->validated();
+        [$year, $month] = explode('-', $data['month']);
+        return $this->sendResponse(ChildrenAttendence::where(['child_id' => $child->id, 'month' => $month])
+            ->whereYear('date', $year)
+            ->get());
     }
 
     public function dailyStat(AttendanceDailyStatQuery $request)

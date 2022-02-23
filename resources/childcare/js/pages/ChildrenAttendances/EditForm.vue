@@ -215,10 +215,10 @@ import { showSuccess } from '../../helpers/error';
                 this.initializeFormData();
                 if (this.editData) {
                     this.formData.id = this.editData.id;
-                    this.formData.commutingTimeHour = this.editData.commutingTime ? moment(this.editData.commutingTime).tz('asia/Tokyo').format('HH') : '';
-                    this.formData.commutingTimeMin = this.editData.commutingTime ? moment(this.editData.commutingTime).tz('asia/Tokyo').format('mm') : '';
-                    this.formData.leaveTimeHour = this.editData.leaveTime ? moment(this.editData.leaveTime).tz('asia/Tokyo').format('HH') : '';
-                    this.formData.leaveTimeMin = this.editData.leaveTime ? moment(this.editData.leaveTime).tz('asia/Tokyo').format('mm') : '';
+                    this.formData.commutingTimeHour = this.editData.commutingTime ? moment(this.editData.commutingTime).format('HH') : '';
+                    this.formData.commutingTimeMin = this.editData.commutingTime ? moment(this.editData.commutingTime).format('mm') : '';
+                    this.formData.leaveTimeHour = this.editData.leaveTime ? moment(this.editData.leaveTime).format('HH') : '';
+                    this.formData.leaveTimeMin = this.editData.leaveTime ? moment(this.editData.leaveTime).format('mm') : '';
                     this.formData.reasonForAbsenceId = this.editData.reasonForAbsenceId ? this.editData.reasonForAbsenceId : '';
                     this.formData.extension = this.editData.extension ? this.editData.extension : null;
                 }

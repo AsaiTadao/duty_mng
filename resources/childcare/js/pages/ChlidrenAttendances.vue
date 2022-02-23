@@ -65,7 +65,7 @@
                                                             </div>
                                                             <div>
                                                                 <router-link class="btn btn-primary mb-1"
-                                                                    :to="{name: 'childcare-diary', params: {classId: index1}, query: {date: selectedDateLabel}}">
+                                                                    :to="{name: 'childcare-diary', params: {classId: index1 + 1}, query: {date: selectedDateLabel}}">
                                                                     日誌作成
                                                                 </router-link>
                                                             </div>
@@ -208,13 +208,6 @@ export default {
                 return null;
             }
         },
-        changeTimeFormat(date) {
-            if(date) {
-                return moment(date).tz('Asia/Tokyo').format('HH:mm');
-            } else {
-                return "";
-            }
-        },
         onWorkStatusSaved() {
             this.getAttendanceData(this.selectedDate);
             $("#attend-edit-form").modal('hide');
@@ -281,7 +274,7 @@ export default {
         },
         changeTimeFormat(date) {
             if(date) {
-                return moment(date).tz('Asia/Tokyo').format('HH:mm');
+                return moment(date).format('HH:mm');
             } else {
                 return "-";
             }

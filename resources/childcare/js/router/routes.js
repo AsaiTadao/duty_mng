@@ -162,7 +162,7 @@ export default [
                 }
             },
             {
-                path: "present-management",
+                path: ":childId/present-management",
                 name: "present-management",
                 components: { default: PresentManagement },
                 meta: {
