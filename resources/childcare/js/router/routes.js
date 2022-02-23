@@ -21,6 +21,7 @@ import ParentContactBook0 from "../pages/ParentContactBook0";
 import ParentContactBook1 from "../pages/ParentContactBook1";
 import ParentContactBook2 from "../pages/ParentContactBook2";
 import ChildcareDiary from "../pages/ChildCareDiary";
+import ChildcareDiaryRead from "../pages/ChildCareDiaryRead";
 import ApplicationTable from "../pages/ApplicationTable";
 import BaseLayout from '../layout/BaseLayout';
 import ParentBaseLayout from '../layout/ParentBaseLayout';
@@ -102,7 +103,7 @@ export default [
                 components: { default: MailList },
                 meta: {
                     icon: "far fa-envelope",
-                    anchor: "一斉メール",
+                    anchor: "メール",
                     menu: true,
                     guards: [
                         Guards.CHILD_MINDER
@@ -115,7 +116,7 @@ export default [
                 components: { default: MailTable },
                 meta: {
                     icon: "far fa-envelope",
-                    anchor: "一斉メール",
+                    anchor: "メール",
                     menu: false,
                     guards: [
                         Guards.CHILD_MINDER
@@ -256,6 +257,19 @@ export default [
                 path: "childcare-diary/:classId",
                 name: "childcare-diary",
                 components: { default: ChildcareDiary },
+                meta: {
+                    icon: "",
+                    anchor: "",
+                    menu: false,
+                    guards: [
+                        Guards.CHILD_MINDER
+                    ]
+                }
+            },
+            {
+                path: "childcare-diary-read/:classId",
+                name: "childcare-diary-read",
+                components: { default: ChildcareDiaryRead },
                 meta: {
                     icon: "",
                     anchor: "",
