@@ -16,6 +16,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
         Route::get('/current-office', [AuthController::class, 'currentOffice']);
         Route::get('/monthly-attendance/{child}', [AttendanceController::class, 'monthlyList']);
+        Route::get('/contact-book/child/{child}', [ContactBookController::class, 'retrieve']);
     });
     Route::middleware(['auth:api'])->group(function () {
         Route::put('/register/{child}', [ChildController::class, 'update'])->middleware('can:handle-child,child');
@@ -26,7 +27,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
         Route::post('/attendance/{child}', [AttendanceController::class, 'save'])->middleware('can:handle-child,child');
         Route::get('/attendance', [AttendanceController::class, 'list']);
 
-        Route::get('/contact-book/child/{child}', [ContactBookController::class, 'retrieve'])->middleware('can:handle-child,child');
+
         Route::post('/contact-book/child/{child}/school/0', [ContactBookController::class, 'schoolSave0'])->middleware('can:handle-child,child');
         Route::post('/contact-book/child/{child}/school/1', [ContactBookController::class, 'schoolSave12'])->middleware('can:handle-child,child');
         Route::post('/contact-book/child/{child}/school/2', [ContactBookController::class, 'schoolSave345'])->middleware('can:handle-child,child');
