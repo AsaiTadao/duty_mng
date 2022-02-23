@@ -41,6 +41,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
         Route::get('/attendance-daily-stat', [AttendanceController::class, 'dailyStat']);
         Route::post('/mail', [MailController::class, 'dispatchMail']);
         Route::get('/mail-template', [MailController::class, 'getMailTemplate']);
+        Route::get('/mail-history', [MailController::class, 'listMailJob']);
     });
     Route::middleware(['auth:childcare'])->group(function () {
         Route::post('/contact-book/child/{child}/home/0', [ContactBookController::class, 'homeSave0'])->middleware('can:handle-child,child');

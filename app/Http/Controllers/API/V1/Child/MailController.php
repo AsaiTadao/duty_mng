@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API\V1\Child;
 
 use App\Http\Controllers\API\V1\BaseController;
+use App\Http\Requests\Child\MailJobQuery;
 use App\Http\Requests\Child\MailRequest;
 use App\Http\Requests\Child\MailTemplateQuery;
 use App\Jobs\MailNotifJob;
 use App\Models\MailHistory;
+use App\Models\MailJobHistory;
 use Illuminate\Support\Facades\Storage;
 
 class MailController extends BaseController
@@ -15,7 +17,11 @@ class MailController extends BaseController
     {
         $user = auth()->user();
         $data = $request->validated();
-        MailNotifJob::dispatch($data['subject'], $data['content'], $data['children_class_id'], $data['type'], $user->id, $user->office_id);
+        $mailJobHistory = new MailJobHistory($data);
+        $mailJobHistory->user_id = $user->id;
+        $mailJobHistory->office_id = $user->office_id;
+        $mailJobHistory->save();
+        MailNotifJob::dispatch($mailJobHistory);
         return $this->sendResponse();
     }
 
@@ -26,5 +32,24 @@ class MailController extends BaseController
 
         $content = Storage::get('mail_template/' .($type === MailHistory::TYPE_NORMAL ? 'normal' : 'urgent') . '.txt');
         return $this->sendResponse(['content' => $content]);
+    }
+
+    public function listMailJob(MailJobQuery $request)
+    {
+        $user = auth()->user();
+        $data = $request->validated();
+        if (empty($data['per_page']))
+        {
+            $size = 20;
+        } else {
+            $size = $data['per_page'];
+        }
+        $mails = MailJobHistory::where(['office_id' => $user->office_id])->paginate($size);
+        return $this->sendResponse([
+            'data'  =>  $mails->items(),
+            'total' =>  $mails->total(),
+            'per_page'  =>  $mails->perPage(),
+            'current_page'  =>  $mails->currentPage()
+        ]);
     }
 }
