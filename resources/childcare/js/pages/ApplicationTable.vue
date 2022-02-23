@@ -29,13 +29,13 @@
                                     [{{displayDate}}]
                                 </div>
                                 <div class="m-2">
-                                    ラテラル保育園
+                                    {{total.officeName}}
                                 </div>
                                 <div class="m-2">
                                     定員
                                 </div>
                                 <div class="m-2">
-                                    定員
+                                    {{total.employeeCount}}
                                 </div>
                             </div>
                             <div class="row">
@@ -47,7 +47,7 @@
                                                     0歳児
                                                 </td>
                                                 <td class="align-middle">
-                                                    5名
+                                                    {{total.childrenStat[1]}}名
                                                 </td>
                                             </tr>
                                             <tr>
@@ -55,7 +55,7 @@
                                                     1歳児
                                                 </td>
                                                 <td class="align-middle">
-                                                    5名
+                                                    {{total.childrenStat[2]}}名
                                                 </td>
                                             </tr>
                                             <tr>
@@ -63,7 +63,7 @@
                                                     2歳児
                                                 </td>
                                                 <td class="align-middle">
-                                                    5名
+                                                    {{total.childrenStat[3]}}名
                                                 </td>
                                             </tr>
                                             <tr>
@@ -71,7 +71,7 @@
                                                     3歳児
                                                 </td>
                                                 <td class="align-middle">
-                                                    5名
+                                                    {{total.childrenStat[4]}}名
                                                 </td>
                                             </tr>
                                             <tr>
@@ -79,7 +79,7 @@
                                                     4歳児
                                                 </td>
                                                 <td class="align-middle">
-                                                    5名
+                                                    {{total.childrenStat[5]}}名
                                                 </td>
                                             </tr>
                                             <tr>
@@ -87,7 +87,7 @@
                                                     5歳児
                                                 </td>
                                                 <td class="align-middle">
-                                                    5名
+                                                    {{total.childrenStat[6]}}名
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -101,7 +101,7 @@
                                                     従業員枠
                                                 </td>
                                                 <td class="align-middle">
-                                                    11名
+                                                    {{total.childrenTypeStat.employeeQuota}}名
                                                 </td>
                                             </tr>
                                             <tr>
@@ -109,7 +109,7 @@
                                                     地域枠
                                                 </td>
                                                 <td class="align-middle">
-                                                    8名
+                                                    {{total.childrenTypeStat.regional}}名
                                                 </td>
                                             </tr>
                                             <tr>
@@ -117,7 +117,7 @@
                                                     従業員枠割合
                                                 </td>
                                                 <td class="align-middle">
-                                                    58%
+                                                    {{total.childrenTypeStat.employeeQuotaRatio}}%
                                                 </td>
                                             </tr>
                                             <tr>
@@ -125,7 +125,7 @@
                                                     地域枠割合
                                                 </td>
                                                 <td class="align-middle">
-                                                    42%
+                                                    {{total.childrenTypeStat.regionalRatio}}%
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -139,8 +139,8 @@
                                                     <th class="dark-blue header-fix-sub" style="width:10%; left: 0; z-index: 12 !important;outline: 1px;" colspan="3">
                                                         日付
                                                     </th>
-                                                    <th v-for="day in days" :key="day.getDate()" class="align-middle light-blue" style="left: 77px;z-index: 13 !important;outline: 1px;">
-                                                        {{day.getDate()}}
+                                                    <th v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex" class="align-middle light-blue" style="left: 77px;z-index: 13 !important;outline: 1px;">
+                                                        {{dayIndex}}
                                                     </th>
                                                     <th rowspan="2" class="align-middle">
                                                         合計
@@ -148,10 +148,10 @@
                                                 </tr>
                                                 <tr>
                                                     <th class="align-middle dark-blue header-fix-sub" colspan="3">曜日</th>
-                                                    <th v-for="day in days" :key="day.getDate()" class="align-middle light-blue">
-                                                        <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
-                                                        <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
-                                                        <div v-else>{{day|formatWeek}}</div>
+                                                    <th v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex" class="align-middle light-blue">
+                                                        <div v-if="getWeekEnd(dayIndex) === 1" class="blue">{{getDay(dayIndex)|formatWeek}}</div>
+                                                        <div v-else-if="getWeekEnd(dayIndex) === 2" class="red">{{getDay(dayIndex)|formatWeek}}</div>
+                                                        <div v-else>{{getDay(dayIndex)|formatWeek}}</div>
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -166,8 +166,8 @@
                                                     <td class="light-blue header-fix-sub-210">
                                                         A
                                                     </td>
-                                                    <td v-for="day in days" :key="day+'A'" class="align-middle">
-                                                        1
+                                                    <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'A'" class="align-middle">
+                                                        {{extension.a}}
                                                     </td>
                                                     <td></td>
                                                 </tr>
@@ -178,8 +178,8 @@
                                                     <td class="light-blue header-fix-sub-210">
                                                         B
                                                     </td>
-                                                    <td v-for="day in days" :key="day+'B'" class="align-middle">
-                                                        1
+                                                    <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'B'" class="align-middle">
+                                                        {{extension.b}}
                                                     </td>
                                                     <td></td>
                                                 </tr>
@@ -190,8 +190,8 @@
                                                     <td class="light-blue header-fix-sub-210">
                                                         C
                                                     </td>
-                                                    <td v-for="day in days" :key="day+'C'" class="align-middle">
-                                                        1
+                                                    <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'C'" class="align-middle">
+                                                        {{extension.c}}
                                                     </td>
                                                     <td></td>
                                                 </tr>
@@ -202,8 +202,8 @@
                                                     <td class="light-blue header-fix-sub-210">
                                                         D
                                                     </td>
-                                                    <td v-for="day in days" :key="day+'D'" class="align-middle">
-                                                        1
+                                                    <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'D'" class="align-middle">
+                                                        {{extension.d}}
                                                     </td>
                                                     <td></td>
                                                 </tr>
@@ -214,8 +214,8 @@
                                                     <td class="light-blue header-fix-sub-210">
                                                         E
                                                     </td>
-                                                    <td v-for="day in days" :key="day+'E'" class="align-middle">
-                                                        1
+                                                    <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'E'" class="align-middle">
+                                                        {{extension.e}}
                                                     </td>
                                                     <td></td>
                                                 </tr>
@@ -226,14 +226,14 @@
                             </div>
                             <br>
                             <div class="w-100 overflow-scroll-x">
-                                <table class="table table-bordered table-diary text-center w-3200-px">
+                                <table v-for="(childrenClass, index) in total.childrenTable" :key="index" class="table table-bordered table-diary text-center w-3200-px">
                                     <thead>
 
                                     </thead>
                                     <tbody>
                                         <tr class="dark-yellow">
                                             <td rowspan="7" class="light-green header-fix-sub align-middle" style="width: 40px;">
-                                            0歳児
+                                            {{index - 1}}歳児
                                             </td>
                                             <td rowspan="2" class="header-fix-sub-40 dark-yellow align-middle" style="width:55px;">
                                                 No.
@@ -248,7 +248,7 @@
                                                 生年月日
                                             </td>
                                             <td rowspan="2" class="align-middle">
-                                                クラス
+                                                年齢
                                             </td>
                                             <td rowspan="2" class="align-middle">
                                                 区分
@@ -282,749 +282,44 @@
                                             <td rowspan="2" class="align-middle">備　　　考</td>
                                         </tr>
                                         <tr class="light-yellow">
-                                            <td v-for="day in days" :key="day.getDate()" class="align-middle">
+                                            <td v-for="day in days" :key="day + '-childtable'" class="align-middle">
                                                 <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
                                                 <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
                                                 <div v-else>{{day|formatWeek}}</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr v-for="(child, index) in childrenClass" :key="index">
                                             <td class="header-fix-sub-40 bg-white">
-                                                1
+                                                {{index}}
                                             </td>
                                             <td class="header-fix-sub-95 bg-white">
-                                                2021年10月1日
+                                                {{changeBirthFormat(child.birthDay)}}
                                             </td>
                                             <td class="header-fix-sub-235 bg-white">
-                                                山田　太郎
+                                                {{child.name}}
                                             </td>
                                             <td>
-                                                2021年3月1日
+                                                {{changeBirthFormat(child.birthDay)}}
                                             </td>
-                                            <td>0歳7ヶ月</td>
-                                            <td>従業員枠（他社）</td>
-                                            <td>（株）仙台商事</td>
-                                            <td>対象</td>
-                                            <td>有り</td>
-                                            <td>2022年1月1日</td>
-                                            <td>〇</td>
-                                            <td v-for="day in days" :key="day+'AB'" class="align-middle">
-                                                B
+                                            <td>{{getAge(child.birthday)}}</td>
+                                            <td>{{child.type}}</td>
+                                            <td>{{child.type}}</td>
+                                            <td>{{child.freeOfCharge}}</td>
+                                            <td>{{child.certificateOfPayment}}</td>
+                                            <td>{{child.certificateExpirationDate}}</td>
+                                            <td>{{child.taxExemptHousehold}}</td>
+                                            <td v-for="(stat,dayIndex) in child.extensionState" :key="dayIndex+'AB'" class="align-middle">
+                                                {{stat}}
                                             </td>
+                                            <td>{{child.attendCount}}</td>
+                                            <td>{{child.absentCount}}</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>〇</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-sub-40 bg-white">
-                                                2
-                                            </td>
-                                            <td class="header-fix-sub-95 bg-white">
-                                                2021年10月1日
-                                            </td>
-                                            <td class="header-fix-sub-235 bg-white">
-                                                山田　太郎
-                                            </td>
-                                            <td>
-                                                2021年3月1日
-                                            </td>
-                                            <td>0歳7ヶ月</td>
-                                            <td>従業員枠（他社）</td>
-                                            <td>（株）仙台商事</td>
-                                            <td>対象</td>
-                                            <td>有り</td>
-                                            <td>2022年1月1日</td>
-                                            <td>〇</td>
-                                            <td v-for="day in days" :key="day+'AB'" class="align-middle">
-                                                B
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>〇</td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered table-diary text-center w-3200-px">
-                                    <thead>
-
-                                    </thead>
-                                    <tbody>
-                                        <tr class="dark-yellow">
-                                            <td rowspan="7" class="light-green header-fix-sub align-middle" style="width: 40px;">
-                                            1歳児
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-40 dark-yellow align-middle" style="width:55px;">
-                                                No.
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-95 dark-yellow align-middle" style="width:140px;">
-                                                入園日
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-235 dark-yellow align-middle" style="width:120px;">
-                                                氏名
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                生年月日
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                クラス
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                区分
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                従業員枠企業名
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                無償化
-                                            </td>
-                                            <td rowspan="2" class="align-middle">支給認定証</td>
-                                            <td rowspan="2" class="align-middle">認定証有効期限</td>
-                                            <td rowspan="2" class="align-middle">非課税世帯</td>
-                                            <td v-for="day in days" :key="day+'0child'" class="align-middle">
-                                                {{day.getDate()}}
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                登園日数
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                欠席日数
-                                            </td>
-                                            <td rowspan="2" class="align-middle">コロナ</td>
-                                            <td rowspan="2" class="align-middle">都合</td>
-                                            <td rowspan="2" class="align-middle">忌引</td>
-                                            <td rowspan="2" class="align-middle">病欠</td>
-                                            <td rowspan="2" class="align-middle">停止</td>
-                                            <td rowspan="2" class="align-middle">休園</td>
-                                            <td rowspan="2" class="align-middle">退園日</td>
-                                            <td rowspan="2" class="align-middle">規定日数</td>
-                                            <td rowspan="2" class="align-middle">備　　　考</td>
-                                        </tr>
-                                        <tr class="light-yellow">
-                                            <td v-for="day in days" :key="day.getDate()" class="align-middle">
-                                                <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
-                                                <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
-                                                <div v-else>{{day|formatWeek}}</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-sub-40 bg-white">
-                                                1
-                                            </td>
-                                            <td class="header-fix-sub-95 bg-white">
-                                                2021年10月1日
-                                            </td>
-                                            <td class="header-fix-sub-235 bg-white">
-                                                山田　太郎
-                                            </td>
-                                            <td>
-                                                2021年3月1日
-                                            </td>
-                                            <td>0歳7ヶ月</td>
-                                            <td>従業員枠（他社）</td>
-                                            <td>（株）仙台商事</td>
-                                            <td>対象</td>
-                                            <td>有り</td>
-                                            <td>2022年1月1日</td>
-                                            <td>〇</td>
-                                            <td v-for="day in days" :key="day+'AB'" class="align-middle">
-                                                B
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>〇</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-sub-40 bg-white">
-                                                2
-                                            </td>
-                                            <td class="header-fix-sub-95 bg-white">
-                                                2021年10月1日
-                                            </td>
-                                            <td class="header-fix-sub-235 bg-white">
-                                                山田　太郎
-                                            </td>
-                                            <td>
-                                                2021年3月1日
-                                            </td>
-                                            <td>0歳7ヶ月</td>
-                                            <td>従業員枠（他社）</td>
-                                            <td>（株）仙台商事</td>
-                                            <td>対象</td>
-                                            <td>有り</td>
-                                            <td>2022年1月1日</td>
-                                            <td>〇</td>
-                                            <td v-for="day in days" :key="day+'AB'" class="align-middle">
-                                                B
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>〇</td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered table-diary text-center w-3200-px">
-                                    <thead>
-
-                                    </thead>
-                                    <tbody>
-                                        <tr class="dark-yellow">
-                                            <td rowspan="7" class="light-green header-fix-sub align-middle" style="width: 40px;">
-                                            2歳児
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-40 dark-yellow align-middle" style="width:55px;">
-                                                No.
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-95 dark-yellow align-middle" style="width:140px;">
-                                                入園日
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-235 dark-yellow align-middle" style="width:120px;">
-                                                氏名
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                生年月日
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                クラス
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                区分
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                従業員枠企業名
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                無償化
-                                            </td>
-                                            <td rowspan="2" class="align-middle">支給認定証</td>
-                                            <td rowspan="2" class="align-middle">認定証有効期限</td>
-                                            <td rowspan="2" class="align-middle">非課税世帯</td>
-                                            <td v-for="day in days" :key="day+'0child'" class="align-middle">
-                                                {{day.getDate()}}
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                登園日数
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                欠席日数
-                                            </td>
-                                            <td rowspan="2" class="align-middle">コロナ</td>
-                                            <td rowspan="2" class="align-middle">都合</td>
-                                            <td rowspan="2" class="align-middle">忌引</td>
-                                            <td rowspan="2" class="align-middle">病欠</td>
-                                            <td rowspan="2" class="align-middle">停止</td>
-                                            <td rowspan="2" class="align-middle">休園</td>
-                                            <td rowspan="2" class="align-middle">退園日</td>
-                                            <td rowspan="2" class="align-middle">規定日数</td>
-                                            <td rowspan="2" class="align-middle">備　　　考</td>
-                                        </tr>
-                                        <tr class="light-yellow">
-                                            <td v-for="day in days" :key="day.getDate()" class="align-middle">
-                                                <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
-                                                <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
-                                                <div v-else>{{day|formatWeek}}</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-sub-40 bg-white">
-                                                1
-                                            </td>
-                                            <td class="header-fix-sub-95 bg-white">
-                                                2021年10月1日
-                                            </td>
-                                            <td class="header-fix-sub-235 bg-white">
-                                                山田　太郎
-                                            </td>
-                                            <td>
-                                                2021年3月1日
-                                            </td>
-                                            <td>0歳7ヶ月</td>
-                                            <td>従業員枠（他社）</td>
-                                            <td>（株）仙台商事</td>
-                                            <td>対象</td>
-                                            <td>有り</td>
-                                            <td>2022年1月1日</td>
-                                            <td>〇</td>
-                                            <td v-for="day in days" :key="day+'AB'" class="align-middle">
-                                                B
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>〇</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-sub-40 bg-white">
-                                                2
-                                            </td>
-                                            <td class="header-fix-sub-95 bg-white">
-                                                2021年10月1日
-                                            </td>
-                                            <td class="header-fix-sub-235 bg-white">
-                                                山田　太郎
-                                            </td>
-                                            <td>
-                                                2021年3月1日
-                                            </td>
-                                            <td>0歳7ヶ月</td>
-                                            <td>従業員枠（他社）</td>
-                                            <td>（株）仙台商事</td>
-                                            <td>対象</td>
-                                            <td>有り</td>
-                                            <td>2022年1月1日</td>
-                                            <td>〇</td>
-                                            <td v-for="day in days" :key="day+'AB'" class="align-middle">
-                                                B
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>〇</td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered table-diary text-center w-3200-px">
-                                    <thead>
-
-                                    </thead>
-                                    <tbody>
-                                        <tr class="dark-yellow">
-                                            <td rowspan="7" class="light-green header-fix-sub align-middle" style="width: 40px;">
-                                            3歳児
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-40 dark-yellow align-middle" style="width:55px;">
-                                                No.
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-95 dark-yellow align-middle" style="width:140px;">
-                                                入園日
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-235 dark-yellow align-middle" style="width:120px;">
-                                                氏名
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                生年月日
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                クラス
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                区分
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                従業員枠企業名
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                無償化
-                                            </td>
-                                            <td rowspan="2" class="align-middle">支給認定証</td>
-                                            <td rowspan="2" class="align-middle">認定証有効期限</td>
-                                            <td rowspan="2" class="align-middle">非課税世帯</td>
-                                            <td v-for="day in days" :key="day+'0child'" class="align-middle">
-                                                {{day.getDate()}}
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                登園日数
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                欠席日数
-                                            </td>
-                                            <td rowspan="2" class="align-middle">コロナ</td>
-                                            <td rowspan="2" class="align-middle">都合</td>
-                                            <td rowspan="2" class="align-middle">忌引</td>
-                                            <td rowspan="2" class="align-middle">病欠</td>
-                                            <td rowspan="2" class="align-middle">停止</td>
-                                            <td rowspan="2" class="align-middle">休園</td>
-                                            <td rowspan="2" class="align-middle">退園日</td>
-                                            <td rowspan="2" class="align-middle">規定日数</td>
-                                            <td rowspan="2" class="align-middle">備　　　考</td>
-                                        </tr>
-                                        <tr class="light-yellow">
-                                            <td v-for="day in days" :key="day.getDate()" class="align-middle">
-                                                <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
-                                                <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
-                                                <div v-else>{{day|formatWeek}}</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-sub-40 bg-white">
-                                                1
-                                            </td>
-                                            <td class="header-fix-sub-95 bg-white">
-                                                2021年10月1日
-                                            </td>
-                                            <td class="header-fix-sub-235 bg-white">
-                                                山田　太郎
-                                            </td>
-                                            <td>
-                                                2021年3月1日
-                                            </td>
-                                            <td>0歳7ヶ月</td>
-                                            <td>従業員枠（他社）</td>
-                                            <td>（株）仙台商事</td>
-                                            <td>対象</td>
-                                            <td>有り</td>
-                                            <td>2022年1月1日</td>
-                                            <td>〇</td>
-                                            <td v-for="day in days" :key="day+'AB'" class="align-middle">
-                                                B
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>〇</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-sub-40 bg-white">
-                                                2
-                                            </td>
-                                            <td class="header-fix-sub-95 bg-white">
-                                                2021年10月1日
-                                            </td>
-                                            <td class="header-fix-sub-235 bg-white">
-                                                山田　太郎
-                                            </td>
-                                            <td>
-                                                2021年3月1日
-                                            </td>
-                                            <td>0歳7ヶ月</td>
-                                            <td>従業員枠（他社）</td>
-                                            <td>（株）仙台商事</td>
-                                            <td>対象</td>
-                                            <td>有り</td>
-                                            <td>2022年1月1日</td>
-                                            <td>〇</td>
-                                            <td v-for="day in days" :key="day+'AB'" class="align-middle">
-                                                B
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>〇</td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered table-diary text-center w-3200-px">
-                                    <thead>
-
-                                    </thead>
-                                    <tbody>
-                                        <tr class="dark-yellow">
-                                            <td rowspan="7" class="light-green header-fix-sub align-middle" style="width: 40px;">
-                                            4歳児
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-40 dark-yellow align-middle" style="width:55px;">
-                                                No.
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-95 dark-yellow align-middle" style="width:140px;">
-                                                入園日
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-235 dark-yellow align-middle" style="width:120px;">
-                                                氏名
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                生年月日
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                クラス
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                区分
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                従業員枠企業名
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                無償化
-                                            </td>
-                                            <td rowspan="2" class="align-middle">支給認定証</td>
-                                            <td rowspan="2" class="align-middle">認定証有効期限</td>
-                                            <td rowspan="2" class="align-middle">非課税世帯</td>
-                                            <td v-for="day in days" :key="day+'0child'" class="align-middle">
-                                                {{day.getDate()}}
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                登園日数
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                欠席日数
-                                            </td>
-                                            <td rowspan="2" class="align-middle">コロナ</td>
-                                            <td rowspan="2" class="align-middle">都合</td>
-                                            <td rowspan="2" class="align-middle">忌引</td>
-                                            <td rowspan="2" class="align-middle">病欠</td>
-                                            <td rowspan="2" class="align-middle">停止</td>
-                                            <td rowspan="2" class="align-middle">休園</td>
-                                            <td rowspan="2" class="align-middle">退園日</td>
-                                            <td rowspan="2" class="align-middle">規定日数</td>
-                                            <td rowspan="2" class="align-middle">備　　　考</td>
-                                        </tr>
-                                        <tr class="light-yellow">
-                                            <td v-for="day in days" :key="day.getDate()" class="align-middle">
-                                                <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
-                                                <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
-                                                <div v-else>{{day|formatWeek}}</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-sub-40 bg-white">
-                                                1
-                                            </td>
-                                            <td class="header-fix-sub-95 bg-white">
-                                                2021年10月1日
-                                            </td>
-                                            <td class="header-fix-sub-235 bg-white">
-                                                山田　太郎
-                                            </td>
-                                            <td>
-                                                2021年3月1日
-                                            </td>
-                                            <td>0歳7ヶ月</td>
-                                            <td>従業員枠（他社）</td>
-                                            <td>（株）仙台商事</td>
-                                            <td>対象</td>
-                                            <td>有り</td>
-                                            <td>2022年1月1日</td>
-                                            <td>〇</td>
-                                            <td v-for="day in days" :key="day+'AB'" class="align-middle">
-                                                B
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>〇</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-sub-40 bg-white">
-                                                2
-                                            </td>
-                                            <td class="header-fix-sub-95 bg-white">
-                                                2021年10月1日
-                                            </td>
-                                            <td class="header-fix-sub-235 bg-white">
-                                                山田　太郎
-                                            </td>
-                                            <td>
-                                                2021年3月1日
-                                            </td>
-                                            <td>0歳7ヶ月</td>
-                                            <td>従業員枠（他社）</td>
-                                            <td>（株）仙台商事</td>
-                                            <td>対象</td>
-                                            <td>有り</td>
-                                            <td>2022年1月1日</td>
-                                            <td>〇</td>
-                                            <td v-for="day in days" :key="day+'AB'" class="align-middle">
-                                                B
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>〇</td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <table class="table table-bordered table-diary text-center w-3200-px">
-                                    <thead>
-
-                                    </thead>
-                                    <tbody>
-                                        <tr class="dark-yellow">
-                                            <td rowspan="7" class="light-green header-fix-sub align-middle" style="width: 40px;">
-                                            5歳児
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-40 dark-yellow align-middle" style="width:55px;">
-                                                No.
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-95 dark-yellow align-middle" style="width:140px;">
-                                                入園日
-                                            </td>
-                                            <td rowspan="2" class="header-fix-sub-235 dark-yellow align-middle" style="width:120px;">
-                                                氏名
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                生年月日
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                クラス
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                区分
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                従業員枠企業名
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                無償化
-                                            </td>
-                                            <td rowspan="2" class="align-middle">支給認定証</td>
-                                            <td rowspan="2" class="align-middle">認定証有効期限</td>
-                                            <td rowspan="2" class="align-middle">非課税世帯</td>
-                                            <td v-for="day in days" :key="day+'0child'" class="align-middle">
-                                                {{day.getDate()}}
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                登園日数
-                                            </td>
-                                            <td rowspan="2" class="align-middle">
-                                                欠席日数
-                                            </td>
-                                            <td rowspan="2" class="align-middle">コロナ</td>
-                                            <td rowspan="2" class="align-middle">都合</td>
-                                            <td rowspan="2" class="align-middle">忌引</td>
-                                            <td rowspan="2" class="align-middle">病欠</td>
-                                            <td rowspan="2" class="align-middle">停止</td>
-                                            <td rowspan="2" class="align-middle">休園</td>
-                                            <td rowspan="2" class="align-middle">退園日</td>
-                                            <td rowspan="2" class="align-middle">規定日数</td>
-                                            <td rowspan="2" class="align-middle">備　　　考</td>
-                                        </tr>
-                                        <tr class="light-yellow">
-                                            <td v-for="day in days" :key="day.getDate()" class="align-middle">
-                                                <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
-                                                <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
-                                                <div v-else>{{day|formatWeek}}</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-sub-40 bg-white">
-                                                1
-                                            </td>
-                                            <td class="header-fix-sub-95 bg-white">
-                                                2021年10月1日
-                                            </td>
-                                            <td class="header-fix-sub-235 bg-white">
-                                                山田　太郎
-                                            </td>
-                                            <td>
-                                                2021年3月1日
-                                            </td>
-                                            <td>0歳7ヶ月</td>
-                                            <td>従業員枠（他社）</td>
-                                            <td>（株）仙台商事</td>
-                                            <td>対象</td>
-                                            <td>有り</td>
-                                            <td>2022年1月1日</td>
-                                            <td>〇</td>
-                                            <td v-for="day in days" :key="day+'AB'" class="align-middle">
-                                                B
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>〇</td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="header-fix-sub-40 bg-white">
-                                                2
-                                            </td>
-                                            <td class="header-fix-sub-95 bg-white">
-                                                2021年10月1日
-                                            </td>
-                                            <td class="header-fix-sub-235 bg-white">
-                                                山田　太郎
-                                            </td>
-                                            <td>
-                                                2021年3月1日
-                                            </td>
-                                            <td>0歳7ヶ月</td>
-                                            <td>従業員枠（他社）</td>
-                                            <td>（株）仙台商事</td>
-                                            <td>対象</td>
-                                            <td>有り</td>
-                                            <td>2022年1月1日</td>
-                                            <td>〇</td>
-                                            <td v-for="day in days" :key="day+'AB'" class="align-middle">
-                                                B
-                                            </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{child.exitDate}}</td>
                                             <td>〇</td>
                                             <td></td>
                                         </tr>
@@ -1040,7 +335,10 @@
 </template>
 <script>
 import moment from 'moment';
+import { mapState } from 'vuex';
 import actionLoading from '../mixin/actionLoading';
+import { showSuccess } from '../helpers/error';
+import api, { apiErrorHandler } from '../global/api';
 
 export default {
     mixins: [actionLoading],
@@ -1050,17 +348,26 @@ export default {
             currentDate: new Date(),
             displayDate: new Date(),
             days: [],
-            attendance: {},
-            total: {},
+            applications: {},
+            total: {
+                childrenStat: [],
+                childrenTypeStat: {
+                    employeeQuota: null,
+                    regional: null,
+                    employeeQuotaRatio: null,
+                    regionalRatio: null
+                }
+            },
             selectedMonth: '',
             month: new Date('YYYY-MM'),
             officeName: '',
+            officeId: 1,
             offices: [],
         }
     },
     methods: {
-        getWeekEnd(day) {
-            const weekDay = moment(day).format("ddd");;
+        getWeekEnd(index) {
+            const weekDay = moment(this.month + '-' + ('0' + index).slice(-2)).format('ddd');
             if (weekDay === '土'){
                 return 1;
             } else if(weekDay === '日'){
@@ -1078,6 +385,7 @@ export default {
             this.displayDate = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY年 M月');
             this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYYMM');
             this.month = moment(new Date(date.getFullYear(), date.getMonth(), 1)).format('YYYY-MM');
+            this.getTotalData();
             return new Date(date.getFullYear(), date.getMonth(), 1);
         },
         getNextMonthDate() {
@@ -1085,6 +393,7 @@ export default {
             this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY年 M月');
             this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYYMM');
             this.month = moment(new Date(date.getFullYear(), date.getMonth() + 1, 1)).format('YYYY-MM');
+            this.getTotalData();
             return new Date(date.getFullYear(), date.getMonth() + 1, 1);
         },
         getPrevMonthDate() {
@@ -1092,6 +401,7 @@ export default {
             this.displayDate = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY年 M月');
             this.selectedMonth = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYYMM');
             this.month = moment(new Date(date.getFullYear(), date.getMonth() - 1, 1)).format('YYYY-MM');
+            this.getTotalData();
             return new Date(date.getFullYear(), date.getMonth() - 1, 1);
         },
         getResults(month_date) {
@@ -1114,15 +424,57 @@ export default {
                 this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
             }
         },
+        getOffices() {
+                api.get('office/user-capable')
+                    .then(response => {
+                        this.offices = response;
+                        const office = this.offices.find(office => office.id === this.officeId);
+                        this.officeName = office ? office.name : '';
+                        if(this.offices && this.offices.length > 0) {
+                            this.officeId = this.offices[0].id;
+                            this.getTotalData();
+                        }
+                    })
+                    .catch(e => apiErrorHandler(e))
+        },
+        getTotalData() {
+                if(this.actionLoading) return;
+                this.setActionLoading();
+                api.get(process.env.MIX_API_BASE_URL + '/childcare-application-table/' + this.officeId, null, {month: this.month})
+                    .then(response => {
+                        this.unsetActionLoading();
+                        this.total = response;
+                        console.log(this.total);
+                    })
+                    .catch(e => {
+                        this.unsetActionLoading();
+                        apiErrorHandler(e);
+                    });
+        },
+        getDay(dayIndex) {
+            return moment(this.month + '-' + ('0' + dayIndex).slice(-2)).format('YYYY-MM-DD');
+        },
+        getAge(birthDay) {
+           if (!birthDay) return null;
+            const ageInMonth = moment().diff(birthDay, 'months');
+            const y = Math.floor(ageInMonth / 12);
+            const m = ageInMonth % 12;
+            return (y ? y + '歳' : '') + (m ? m + 'ヶ月' : '');
+        },
+        changeBirthFormat(birthDay) {
+            if(birthDay) {
+                return moment(birthDay).format('YYYY年 M月 D日');
+            }
+            return null;
+        }
     },
-    created() {
+    mounted() {
         this.selectedMonth = moment(this.displayDate).format('YYYYMM');
         this.month = moment(this.displayDate).format('YYYY-MM');
         this.displayDate = moment(this.displayDate).format('YYYY年 M月');
         this.getResults(this.getThisMonthDate());
-    },
-    mounted() {
-
+        //this.getOffices();
+        this.getTotalData();
     }
 }
 </script>
