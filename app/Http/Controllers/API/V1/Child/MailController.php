@@ -44,7 +44,7 @@ class MailController extends BaseController
         } else {
             $size = $data['per_page'];
         }
-        $mails = MailJobHistory::where(['office_id' => $user->office_id])->paginate($size);
+        $mails = MailJobHistory::with('office')->where(['office_id' => $user->office_id])->paginate($size);
         return $this->sendResponse([
             'data'  =>  $mails->items(),
             'total' =>  $mails->total(),
