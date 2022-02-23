@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Mail\MailNotification;
 use App\Models\Child;
 use App\Models\MailHistory;
+use App\Models\MailJobHistory;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -19,33 +20,16 @@ class MailNotifJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $subject;
-    protected $content;
-    protected $children_class_id;
-    protected $type;
-    protected $user_id;
-    protected $office_id;
+    protected $mailJobHistory;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(
-        $subject,
-        $content,
-        $children_class_id,
-        $type,
-        $user_id,
-        $office_id
-    ) {
+    public function __construct(MailJobHistory $mailJobHistory) {
         //
-        $this->subject = $subject;
-        $this->content = $content;
-        $this->children_class_id = $children_class_id;
-        $this->type = $type;
-        $this->user_id = $user_id;
-        $this->office_id = $office_id;
+        $this->mailJobHistory = $mailJobHistory;
     }
 
     /**
@@ -55,11 +39,15 @@ class MailNotifJob implements ShouldQueue
      */
     public function handle()
     {
+        $children_class_id = $this->mailJobHistory->children_class_id;
+        $office_id = $this->mailJobHistory->office_id;
+        $subject = $this->mailJobHistory->subject;
+        $content = $this->mailJobHistory->content;
         //
-        $qb = Child::where(['office_id' => $this->office_id]);
-        if ($this->children_class_id)
+        $qb = Child::where(['office_id' => $office_id]);
+        if ($children_class_id)
         {
-            $qb->where(['class_id' => $this->children_class_id]);
+            $qb->where(['class_id' => $children_class_id]);
         }
         $children = $qb->get();
         foreach ($children as $child)
@@ -71,14 +59,16 @@ class MailNotifJob implements ShouldQueue
             $mailHistory = MailHistory::create([
                 'mail_address'  =>  $child->email,
                 'status'        =>  MailHistory::STATUS_PENDING,
-                'subject'       =>  $this->subject,
-                'content'       =>  $this->content,
-                'children_class_id'=> $this->children_class_id
+                'subject'       =>  $subject,
+                'content'       =>  $content,
+                'children_class_id'=> $children_class_id
             ]);
-            $mailHistory->save();
+            $this->mailJobHistory->mails()->save($mailHistory);
             try {
-                Mail::to($child->email)->send(new MailNotification($this->subject, $this->content));
+                Mail::to($child->email)->send(new MailNotification($subject, $content));
                 $mailHistory->status = MailHistory::STATUS_SUCCESS;
+                $this->mailJobHistory->cnt++;
+                $this->mailJobHistory->save();
             } catch (Exception $ex)
             {
                 Log::info($ex->getMessage());
