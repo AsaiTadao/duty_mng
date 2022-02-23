@@ -115,6 +115,10 @@ class ChildController extends BaseController
             });
         }
         // TODO search plan_registered
+        if (isset($data['plan_registered']))
+        {
+            $qb->where(['plan_registered' => $data['plan_registered']]);
+        }
         return $this->sendResponse($qb->get());
     }
 }
