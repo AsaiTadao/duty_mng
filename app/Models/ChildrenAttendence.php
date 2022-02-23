@@ -23,4 +23,8 @@ class ChildrenAttendence extends Model
         'month',
         'day'
     ];
+    public function child()
+    {
+        return $this->belongsTo(Child::class);
+    }
 }
