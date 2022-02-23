@@ -469,9 +469,15 @@ tbody.header-fix-x-tr tr:nth-of-type(even) > td {
 .fixed-height-40 {
     height: 40px !important;
 }
+.fixed-height-46 {
+    height: 46px !important;
+}
 .one-digit-time {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
+}
+.hour-minute-input > input {
+    padding: 2px;
 }
 .font-size-25 {
     font-size: 25px;
@@ -567,13 +573,50 @@ nav.main-header {
     }
 }
 @media (max-width: 768px) {
+    #children_attendance_table {
+        overflow-x: scroll;
+    }
+    #children_attendance_table > table {
+        width: 800px;
+    }
+    .children-present-fix {
+        width: 60px;
+        position: sticky;
+        left: 0;
+        z-index: 11 !important;
+        outline: 1px solid white;
+    }
+    .children-present-fix-60 {
+        width: 60px;
+        position: sticky;
+        left: 60px;
+        z-index: 11 !important;
+        outline: 1px solid white;
+    }
+    tbody.children-present-tr tr:nth-of-type(odd) > td {
+        background-color: #dcd5bc;
+        border: 1px solid white;
+    }
+    tbody.children-present-tr tr:nth-of-type(even) > td {
+        background-color: #eeeade;
+        border: 1px solid white;
+    }
+}
+@media (max-width: 768px) {
     #contactbook {
         overflow-x: scroll;
     }
     #contactbook > table {
         width: 800px;
     }
+    .contact-book-click {
+        width: 60px;
+    }
+    .contact-book-mood {
+        width: 80px;
+    }
     .contactbook-fix {
+        width: 60px;
         position: sticky;
         left: 0;
         z-index: 11 !important;
