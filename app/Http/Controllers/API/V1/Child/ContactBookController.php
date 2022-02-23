@@ -12,9 +12,12 @@ use App\Http\Requests\Child\ContactBook345SchoolRequest;
 use App\Http\Requests\Child\ContactBookQuery;
 use App\Models\Child;
 use App\Models\ContactBook;
+use Illuminate\Support\Facades\Gate;
 
 class ContactBookController extends BaseController
 {
+    use ChildcareAuthUserTrait;
+
     public function schoolSave0(Child $child, ContactBook0SchoolRequest $request)
     {
         $data = $request->validated();
@@ -103,6 +106,11 @@ class ContactBookController extends BaseController
 
     public function retrieve(Child $child, ContactBookQuery $request)
     {
+        $user = $this->getUser();
+        if (!Gate::forUser($user)->allows('handle-child', $child))
+        {
+            abort(403, trans('You are not allowed'));
+        }
         $data = $request->validated();
         $date = $data['date'];
         $contactBook = ContactBook::where(['child_id' => $child->id, 'date' => $date])->first();
