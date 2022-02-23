@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class ChildcareAuth
 {
@@ -18,12 +17,12 @@ class ChildcareAuth
     public function handle(Request $request, Closure $next)
     {
         // $token = $request->bearerToken();
-        $user = auth('childcare')->user();
+        $user = auth('api')->user();
         if ($user) {
             $request->user = $user;
             return $next($request);
         }
-        $child = auth('api')->user();
+        $child = auth('childcare')->user();
         if ($child) {
             $request->user = $child;
             return $next($request);
