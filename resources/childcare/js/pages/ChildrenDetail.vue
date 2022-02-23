@@ -291,7 +291,7 @@ export default {
         getChildType() {
             if(this.childInfor != null) {
                 const result = Object.values(this.childTypes).find(element => {
-                return element.key == this.childInfor.type;
+                    return element.key == this.childInfor.type;
                 });
                 if(result)
                     return result.value;

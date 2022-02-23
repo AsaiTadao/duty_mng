@@ -11,8 +11,8 @@ class ChildPlanDayRequest extends FormRequest {
             'month'                =>  ['required', 'date_format:Y-m'],
             'data'                 =>  ['array', 'min:1', 'max:31'],
             'data.*.date'          =>  ['required', 'date_format:Y-m-d'],
-            'data.*.start_time'    =>  ['required', 'date_format:H:i'],
-            'data.*.end_time'      =>  ['required', 'date_format:H:i'],
+            'data.*.start_time'    =>  ['nullable', 'date_format:H:i'],
+            'data.*.end_time'      =>  ['nullable', 'date_format:H:i'],
             'data.*.absent'        =>  ['nullable', 'boolean'],
         ];
     }

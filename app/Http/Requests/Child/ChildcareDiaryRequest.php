@@ -12,6 +12,7 @@ class ChildcareDiaryRequest extends FormRequest {
             'weather'   =>  ['nullable', 'string'],
             'reason_for_absence' => ['nullable', 'string'],
             'aim'       =>  ['nullable', 'string'],
+            'special_note'       =>  ['nullable', 'string'],
             'activity_content'=> ['nullable', 'string'],
             'consideration' => ['nullable', 'string'],
             'evaluation_reflection' => ['nullable', 'string'],

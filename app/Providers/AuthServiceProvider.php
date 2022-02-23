@@ -169,6 +169,7 @@ class AuthServiceProvider extends ServiceProvider
             if (!$targetUser->office) return false;
             return $shiftGuard($user, $targetUser->office, $targetUser);
         });
+        Gate::define('get-child-application-table', $userOfficeGuard);
         $this->registerChildPolicies();
     }
 

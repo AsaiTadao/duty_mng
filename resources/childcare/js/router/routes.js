@@ -253,7 +253,7 @@ export default [
                 }
             },
             {
-                path: "childcare-diary",
+                path: "childcare-diary/:classId",
                 name: "childcare-diary",
                 components: { default: ChildcareDiary },
                 meta: {

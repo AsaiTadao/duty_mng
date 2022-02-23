@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\V1\Child\AttendanceController;
 use App\Http\Controllers\API\V1\Child\AuthController;
+use App\Http\Controllers\API\V1\Child\ChildcareDiaryController;
 use App\Http\Controllers\API\V1\Child\ChildController;
 use App\Http\Controllers\API\V1\Child\ChildPlanController;
 use App\Http\Controllers\API\V1\Child\ContactBookController;
@@ -13,6 +14,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::middleware(ChildcareAuth::class)->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
+        Route::get('/current-office', [AuthController::class, 'currentOffice']);
     });
     Route::middleware(['auth:api'])->group(function () {
         Route::put('/register/{child}', [ChildController::class, 'update'])->middleware('can:handle-child,child');
@@ -27,6 +29,9 @@ Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
         Route::post('/contact-book/child/{child}/school/0', [ContactBookController::class, 'schoolSave0'])->middleware('can:handle-child,child');
         Route::post('/contact-book/child/{child}/school/1', [ContactBookController::class, 'schoolSave12'])->middleware('can:handle-child,child');
         Route::post('/contact-book/child/{child}/school/2', [ContactBookController::class, 'schoolSave345'])->middleware('can:handle-child,child');
+
+        Route::get('/child-diary', [ChildcareDiaryController::class, 'retrieve']);
+        Route::post('/child-diary', [ChildcareDiaryController::class, 'save']);
 
         Route::get('/plan/{child}', [ChildPlanController::class, 'retrieve'])->middleware('can:handle-child,child');
         Route::post('/plan/{child}', [ChildPlanController::class, 'save'])->middleware('can:handle-child,child');
