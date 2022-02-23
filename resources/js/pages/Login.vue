@@ -144,7 +144,7 @@ export default {
                         clearInterval(this.loginTimeInterval);
                         LocalStorage.saveToken(token);
                         this.$store.commit('session/setSession', user);
-                        location.href = "/child/parent";
+                        location.href = "/child/parent/";
                     })
                     .catch(e => {
                         this.unsetActionLoading();

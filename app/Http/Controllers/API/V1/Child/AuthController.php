@@ -40,6 +40,8 @@ class AuthController extends BaseController
     }
     public function me(Request $request)
     {
+        $user = $request->user;
+        $user->office;
         return $this->sendResponse($request->user);
     }
     public function currentOffice(Request $request)

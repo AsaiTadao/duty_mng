@@ -1,14 +1,13 @@
 <template>
     <div class="wrapper">
-        <template>
-        <!-- <template v-if="session"> -->
+        <template v-if="session">
             <parent-topbar />
             <parent-sidebar />
             <div class="content-wrapper">
                 <route-consumer></route-consumer>
             </div>
         </template>
-        <!-- <loading :active="!session || actionLoading" color="#007BFF"></loading> -->
+        <loading :active="!session || actionLoading" color="#007BFF"></loading>
     </div>
 </template>
 <script>
@@ -29,18 +28,18 @@ export default {
         Loading,
         RouteConsumer,
     },
-    // computed: mapState({
-    //     session: state =>  state.session.info,
-    // }),
+    computed: mapState({
+        session: state =>  state.session.info,
+    }),
     mounted() {
-        // const token = LocalStorage.getToken();
-        // if (token && !this.session) {
-        //     this.$store.dispatch('session/fetchSession');
-        // }
-        // if (!token) {
-        //     handleSignOut();
-        //     return;
-        // }
+        const token = LocalStorage.getToken();
+        if (token && !this.session) {
+            this.$store.dispatch('session/fetchSession');
+        }
+        if (!token) {
+            handleSignOut();
+            return;
+        }
     }
 };
 </script>
