@@ -59,7 +59,7 @@
                                                         <td v-if="index2 == 0" :rowspan="attendance.length" class="align-middle">
                                                             <div>
                                                                 <router-link class="btn btn-primary mb-1"
-                                                                    :to="{name: 'childcare-diary', params: {classId: index1 + 1}, query: {date: selectedDateLabel}}">
+                                                                    :to="{name: 'childcare-diary-read', params: {classId: index1 + 1}, query: {date: selectedDateLabel}}">
                                                                     日誌閲覧
                                                                 </router-link>
                                                             </div>

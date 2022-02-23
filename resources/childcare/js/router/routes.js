@@ -5,6 +5,7 @@ import ParentChlidrenAttendances from "../pages/ParentChlidrenAttendances";
 import ChildrenDetail from '../pages/ChildrenDetail';
 import ChildrenRegistry from '../pages/ChildrenRegistry';
 import ChildrenList from '../pages/ChildrenList';
+import Mail from '../pages/Mail';
 import MailList from '../pages/MailList';
 import MailTable from '../pages/MailTable';
 import ChildCarePlan from "../pages/ChildcarePlan";
@@ -108,13 +109,28 @@ export default [
                 }
             },
             {
+                path: "mail",
+                name: "mail",
+                components: { default: Mail },
+                meta: {
+                    icon: "far fa-envelope",
+                    anchor: "メール",
+                    menu: true,
+                    guards: [
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
+                    ]
+                }
+            },
+            {
                 path: "mail-list",
                 name: "mail-list",
                 components: { default: MailList },
                 meta: {
                     icon: "far fa-envelope",
                     anchor: "メール",
-                    menu: true,
+                    menu: false,
                     guards: [
                         Guards.OFFICE_MANAGER,
                         Guards.USER_A,
@@ -309,7 +325,9 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             }

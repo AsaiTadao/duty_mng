@@ -3,7 +3,7 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header calendar-title">
+                        <div class="card-header calendar-title row">
                             <div class="col-md-6 col-12 row">
                                 <h5 class="card-title col-4 mb-0 px-0">{{ currentOfficeName }}</h5>
                                 <div class="col-4 mb-0 px-0">ー連絡帳ー</div>
