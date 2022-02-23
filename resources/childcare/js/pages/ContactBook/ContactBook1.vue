@@ -542,7 +542,7 @@
 
                                     <div class="form-group row">
                                         <div class="col-md-1 col-2 pr-0">
-                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
+                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center fixed-height-40">
                                                 <label class="mb-0">
                                                     入浴
                                                 </label>
