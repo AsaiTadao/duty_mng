@@ -231,7 +231,7 @@
                                     <div class="form-group row">
                                         <div class="col-md-1 col-2 pr-0">
                                             <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center fixed-height-40">
-                                                <label>
+                                                <label class="mb-0">
                                                     入浴
                                                 </label>
                                             </div>
@@ -323,19 +323,19 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-5 col-12 px-md-0 pl-0">
+                                                <div class="col-md-6 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
-                                                        <div class="form-check text-center py-2">
-                                                            <input class="form-check-input" type="radio" name="radio1" :value="1" v-model="formData.mealAmount1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio1" :value="2" v-model="formData.mealAmount1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio1" :value="3" v-model="formData.mealAmount1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="1" v-model="formData.mealAmount1School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="2" v-model="formData.mealAmount1School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="3" v-model="formData.mealAmount1School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-12 pl-0">
+                                                <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
                                                             <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo1School" @change="dataChanged = true;"/>
@@ -349,19 +349,19 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-5 col-12 px-md-0 pl-0">
+                                                <div class="col-md-6 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
-                                                        <div class="form-check text-center py-2">
-                                                            <input class="form-check-input" type="radio" name="radio2" :value="1" v-model="formData.mealAmount2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio2" :value="2" v-model="formData.mealAmount2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio2" :value="3" v-model="formData.mealAmount2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="1" v-model="formData.mealAmount2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="2" v-model="formData.mealAmount2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="3" v-model="formData.mealAmount2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-12 pl-0">
+                                                <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
                                                             <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo2School" @change="dataChanged = true;"/>
@@ -375,19 +375,19 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-5 col-12 px-md-0 pl-0">
+                                                <div class="col-md-6 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2">
-                                                        <div class="form-check text-center py-2">
-                                                            <input class="form-check-input" type="radio" name="radio3" :value="1" v-model="formData.mealAmount3School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio3" :value="2" v-model="formData.mealAmount3School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio3" :value="3" v-model="formData.mealAmount3School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="1" v-model="formData.mealAmount3School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="2" v-model="formData.mealAmount3School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="3" v-model="formData.mealAmount3School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-12 pl-0">
+                                                <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
                                                             <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo3School" @change="dataChanged = true;"/>
@@ -414,14 +414,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="radio4" :value="1" v-model="formData.mood1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio4" :value="2" v-model="formData.mood1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio4" :value="3" v-model="formData.mood1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                    <div class="light-brown text-center white-lb-border-2">
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="1" v-model="formData.mood1School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="2" v-model="formData.mood1School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="3" v-model="formData.mood1School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -431,14 +431,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="radio5" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio5" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio5" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                    <div class="light-brown text-center white-l-border-2">
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -462,14 +462,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="radio6" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio6" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio6" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                    <div class="light-brown text-center white-lb-border-2">
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -486,14 +486,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="radio7" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio7" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio7" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                    <div class="light-brown text-center white-l-border-2">
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -542,8 +542,8 @@
 
                                     <div class="form-group row">
                                         <div class="col-md-1 col-2 pr-0">
-                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
-                                                <label>
+                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center fixed-height-40">
+                                                <label class="mb-0">
                                                     入浴
                                                 </label>
                                             </div>
@@ -934,6 +934,9 @@ export default {
     .calendar-title {
         display: flex;
         align-items: center;
+    }
+    .hour-minute-input > input {
+        padding: 2px!important;
     }
 @media (max-width: 500px) {
        h5.card-title {

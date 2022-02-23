@@ -5,7 +5,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title row">
-                            <div class="col-md-4 col-12 row">
+                            <div class="col-md-6 col-12 row">
                                 <h5 class="card-title col-4 mb-0 px-0">テラル保育園</h5>
                                 <div class="col-4 mb-0 px-0">ー連絡帳ー</div>
                                 <div class="col-4 mb-0 px-0">山田　三越</div>
@@ -27,11 +27,6 @@
                                 <div class="col-5 d-flex align-items-center px-0">
                                     <div for="weatherStauts" class="col-form-label mr-2">天気</div>
                                     <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts"/>
-                                </div>
-                            </div>
-                            <div class="col-md-2 row">
-                                <div class="col-12 px-0 mx-0">
-                                    <button class="btn btn-primary float-right m-2" @click="openHouse">登降園状況</button>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +75,7 @@
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <input type="text" class="form-control" style="max-width: 40%;"/>℃　
+                                        <input type="text" class="form-control" style="max-width: 55%;"/>℃　
                                     </div>
                                 </div>
                             </div>
@@ -129,16 +124,16 @@
                                             <template v-for="(hour, index) in hours">
                                                 <tr :key="hour.time+'hours'">
                                                     <td rowspan="2" class="align-middle contactbook-fix">{{hour.time}}時</td>
-                                                    <td class="text-center" style="position:relative;" @click="setHour(index, 1)">
+                                                    <td class="text-center contact-book-click" style="position:relative;" @click="setHour(index, 1)">
                                                         <div v-if="hour.enabled1" style="background-color: #8BB3FC; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
                                                     </td>
-                                                    <td rowspan="2">
+                                                    <td rowspan="2" style="width: 120px;">
                                                         <div class="d-flex justify-content-center" style="width: fit-content; margin: auto;">
                                                             <input type="text" class="form-control"/>
                                                             <label class="align-self-center m-0 ml-1">℃</label>
                                                         </div>
                                                     </td>
-                                                    <td rowspan="2">
+                                                    <td rowspan="2" class="contact-book-mood">
                                                         <select class="form-control">
                                                             <option>-</option>
                                                             <option>普通</option>
