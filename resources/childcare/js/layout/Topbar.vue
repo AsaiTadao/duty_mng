@@ -40,13 +40,13 @@
                             <img src="/images/dummy-avatar.png" />
                         </div>
                         <div class="top-profile-name">
-                            <!-- {{ session.name }} -->
+                            {{ session.name }}
                         </div>
                     </div>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" style="font-size: 20px;">
+                <a href="#" class="nav-link" style="font-size: 20px;" @click="signOut">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
             </li>
@@ -58,25 +58,15 @@ import { handleSignOut } from '../helpers/error';
 import { mapState } from 'vuex';
 
 export default {
-    // computed: mapState({
-    //     session: state => state.session.info
-    // }),
+    computed: {
+        ... mapState({
+            session: state => state.session.info
+        }),
+    },
     methods: {
-        // signOut() {
-        //     handleSignOut();
-        // }
-        toLateralSystem() {
-            $('.childcare-system').removeClass('system-selected');
-            $('.childcare-system').addClass('system-unselected');
-            $('.kintai-system').removeClass('system-unselected');
-            $('.kintai-system').addClass('system-selected');
+        signOut() {
+            handleSignOut();
         },
-        toSubSystem() {
-            $('.kintai-system').removeClass('system-selected');
-            $('.kintai-system').addClass('system-unselected');
-            $('.childcare-system').removeClass('system-unselected');
-            $('.childcare-system').addClass('system-selected');
-        }
     }
 };
 </script>

@@ -6,7 +6,7 @@
                     <div class="card">
                         <div class="card-header calendar-title row">
                             <div class="col-md-4 col-12 row">
-                                <h5 class="card-title col-4 mb-0 px-0">テラル保育園</h5>
+                                <h5 class="card-title col-4 mb-0 px-0">{{ currentOfficeName }}</h5>
                                 <div class="col-4 mb-0 px-0">ー連絡帳ー</div>
                                 <div class="col-4 mb-0 px-0">山田　三越</div>
                             </div>
@@ -743,6 +743,14 @@ export default {
             selectedApp: {},
             selectedAppUserName: '',
         }
+    },
+    computed: {
+        ...mapState({
+            currentOfficeName: state =>  {
+                if (state.session.info.office) return state.session.info.office.name;
+                return '';
+            }
+        }),
     },
     methods: {
         getOffices() {

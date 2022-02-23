@@ -5,7 +5,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title">
-                            <h3 class="card-title mb-0">テラル保育園</h3>
+                            <h3 class="card-title mb-0">{{ officeName }}</h3>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <datepicker
                                 :language="ja"
@@ -116,7 +116,6 @@ export default {
             selectedUser: null,
             requests : [],
             offices: [],
-            officeName: '',
             officeId: 1,
             selectedDate: new Date(),
             ja: ja,
@@ -127,10 +126,15 @@ export default {
     },
     computed: {
         ...mapState({
-                reasonForAbsences: state => state.constants.reasonForAbsences
+                reasonForAbsences: state => state.constants.reasonForAbsences,
+                session: state => state.session.info
             }),
         selectedDateLabel() {
             return moment(this.selectedDate).format('YYYY-MM-DD');
+        },
+        officeName() {
+            if (!this.session.office) return '';
+            return this.session.office.name;
         }
     },
     methods: {

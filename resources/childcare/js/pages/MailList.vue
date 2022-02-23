@@ -4,7 +4,7 @@
         <br>
         <div class="card">
             <div class="card-header calendar-title">
-                <h3 class="card-title mb-0">テラル保育園</h3>
+                <h3 class="card-title mb-0">{{ officeName }}</h3>
             </div>
             <div class="card-body">
                 <div class="row justify-content-center">
@@ -99,9 +99,17 @@
     </div>
 </template>
 <script>
+import { mapState } from 'vuex';
 
 
 export default {
-
+    computed: {
+        ...mapState({
+            officeName: state =>  {
+                if (state.session.info.office) return state.session.info.office.name;
+                return '';
+            }
+        }),
+    },
 };
 </script>

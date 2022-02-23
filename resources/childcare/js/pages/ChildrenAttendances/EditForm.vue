@@ -20,7 +20,7 @@
                     事業所
                 </div>
                 <div class="col-md-5">
-                    ラテラル保育園
+                    {{ currentOfficeName }}
                 </div>
             </div>
             <div class="form-group row">
@@ -120,7 +120,11 @@ import { showSuccess } from '../../helpers/error';
         },
         computed: {
             ...mapState({
-                reasonForAbsences: state => state.constants.reasonForAbsences
+                reasonForAbsences: state => state.constants.reasonForAbsences,
+                currentOfficeName: state =>  {
+                    if (state.session.info.office) return state.session.info.office.name;
+                    return '';
+                }
             })
         },
         watch: {

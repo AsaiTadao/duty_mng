@@ -41,7 +41,9 @@ export default [
                     anchor: "登降園状況",
                     menu: true,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -54,7 +56,9 @@ export default [
                     anchor: "園児台帳",
                     menu: true,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -67,7 +71,9 @@ export default [
                     anchor: "園児台帳",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -80,7 +86,9 @@ export default [
                     anchor: "園児台帳",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -93,7 +101,9 @@ export default [
                     anchor: "園児台帳",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -106,7 +116,9 @@ export default [
                     anchor: "メール",
                     menu: true,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -119,7 +131,9 @@ export default [
                     anchor: "メール",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -132,7 +146,9 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -145,7 +161,9 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -158,7 +176,7 @@ export default [
                     anchor: "申請用帳票",
                     menu: true,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.ADMIN
                     ]
                 }
             },
@@ -171,7 +189,9 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -184,7 +204,9 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -197,7 +219,9 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -210,7 +234,9 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -223,7 +249,9 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -236,7 +264,9 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -249,7 +279,9 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -262,7 +294,9 @@ export default [
                     anchor: "",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
@@ -294,7 +328,6 @@ export default [
                     anchor: "登降園状況",
                     menu: true,
                     guards: [
-                        Guards.CHILD_MINDER,
                         Guards.PARENT
                     ]
                 }
@@ -308,7 +341,6 @@ export default [
                     anchor: "連絡帳",
                     menu: true,
                     guards: [
-                        Guards.CHILD_MINDER,
                         Guards.PARENT
                     ]
                 }
@@ -322,7 +354,6 @@ export default [
                     anchor: "連絡帳",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER,
                         Guards.PARENT
                     ]
                 }
@@ -336,7 +367,6 @@ export default [
                     anchor: "連絡帳",
                     menu: false,
                     guards: [
-                        Guards.CHILD_MINDER,
                         Guards.PARENT
                     ]
                 }
@@ -344,27 +374,14 @@ export default [
         ]
     },
     {
-        path: "/login",
-        name: "login",
-        component: Login,
-        guards: [
-            Guards.CHILD_MINDER,
-        ],
-    },
-    {
-        path: "/parent/login",
-        name: "parent-login",
-        component: Login,
-        guards: [
-            Guards.PARENT,
-        ],
-    },
-    {
         path: "*",
         component: NotFound,
         guards: [
-            Guards.CHILD_MINDER,
-            Guards.PARENT
+            Guards.OFFICE_MANAGER,
+            Guards.USER_A,
+            Guards.USER_B,
+            Guards.ADMIN,
+            Guards.PARENT,
         ],
     }
 ];

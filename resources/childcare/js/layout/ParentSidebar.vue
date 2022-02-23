@@ -36,13 +36,13 @@
 </template>
 <script>
 import { mapState } from 'vuex';
+import { Guards } from '../global/consts';
 import routes from "../router/routes";
 
 export default {
     data() {
         return {
             routes: [],
-            roleId: 1,
         };
     },
     computed: {
@@ -50,9 +50,9 @@ export default {
             const route = this.$route.path;
             return route;
         },
-        // ...mapState({
-        //     roleId: state =>  state.session.info.roleId
-        // })
+        ...mapState({
+            roleId: state =>  state.session.info.roleId || Guards.PARENT
+        })
     },
     methods: {
     },

@@ -5,7 +5,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title">
-                            <h3 class="card-title mb-0">テラル保育園</h3>
+                            <h3 class="card-title mb-0">{{ currentOfficeName }}</h3>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <button type="button" class="btn btn-sm btn-outline" @click="onPrev">
                                     <i class="fas fa-caret-left fa-2x"></i>
@@ -110,7 +110,13 @@ export default {
         },
         isCurrentMonth() {
             return this.currentDate.format('YYYY-MM') === moment().format('YYYY-MM');
-        }
+        },
+        ...mapState({
+            currentOfficeName: state =>  {
+                if (state.session.info.office) return state.session.info.office.name;
+                return '';
+            }
+        }),
     },
     methods: {
         onNext() {

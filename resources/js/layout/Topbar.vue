@@ -25,7 +25,7 @@
             <li class="nav-item childcare-system system-unselected">
                 <a
                     class="nav-link px-4"
-                    href="/child"
+                    :href="isAdmin ? '/child/application-table' : '/child/'"
                     role="button"
                 >
                     保育
@@ -56,11 +56,17 @@
 <script>
 import { handleSignOut } from '../helpers/error';
 import { mapState } from 'vuex';
+import { Guards } from '../../childcare/js/global/consts';
 
 export default {
-    computed: mapState({
-        session: state => state.session.info
-    }),
+    computed: {
+        ...mapState({
+            session: state => state.session.info
+        }),
+        isAdmin() {
+            return this.session.roleId === Guards.ADMIN
+        }
+    },
     methods: {
         signOut() {
             handleSignOut();

@@ -12,17 +12,17 @@
                 </a>
             </li>
         </ul>
-        <!-- <ul class="navbar-nav ml-3">
+        <ul class="navbar-nav ml-3">
             <li class="nav-item kintai-system system-selected">
                 <a
                     class="nav-link px-4"
-                    href
+                    href="#"
                     role="button"
                 >
                     保護者
                 </a>
             </li>
-        </ul> -->
+        </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
                 <a class="nav-link" href="#">
@@ -31,13 +31,13 @@
                             <img src="/images/dummy-avatar.png" />
                         </div>
                         <div class="top-profile-name">
-                            <!-- {{ session.name }} -->
+                            {{ session.name }}
                         </div>
                     </div>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link" style="font-size: 20px;">
+                <a href="#" class="nav-link" style="font-size: 20px;" @click="signOut">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
             </li>
@@ -49,13 +49,13 @@ import { handleSignOut } from '../helpers/error';
 import { mapState } from 'vuex';
 
 export default {
-    // computed: mapState({
-    //     session: state => state.session.info
-    // }),
+    computed: mapState({
+        session: state => state.session.info
+    }),
     methods: {
-        // signOut() {
-        //     handleSignOut();
-        // }
+        signOut() {
+            handleSignOut();
+        }
     }
 };
 </script>

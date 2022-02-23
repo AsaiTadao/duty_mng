@@ -5,7 +5,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title">
-                            <h3 class="card-title mb-0">テラル保育園</h3>
+                            <h3 class="card-title mb-0">{{ officeName }}</h3>
                             <div class="card-title mb-0 ml-3">山田　三越</div>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
@@ -93,9 +93,16 @@ export default {
             total: {},
             selectedMonth: '',
             month: new Date('YYYY-MM'),
-            officeName: '',
             offices: [],
         }
+    },
+    computed: {
+        ...mapState({
+            officeName: state =>  {
+                if (state.session.info.office) return state.session.info.office.name;
+                return '';
+            }
+        }),
     },
     methods: {
         getWeekEnd(day) {
