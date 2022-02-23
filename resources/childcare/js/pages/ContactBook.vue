@@ -212,10 +212,10 @@ export default {
             this.$refs.programaticOpen.showCalendar();
         },
         getAge(classId) {
-            if (!birthDay) return null;
-            if(classId < 1) return 0;
-            if(classId >= 1 && classId < 3) return 1;
-            if(classId >= 3) return 2;
+            if (!classId) return null;
+            if(classId < 2) return 0;
+            else if(classId >= 2 && classId < 4) return 1;
+            else return 2;
         }
     },
     created() {
