@@ -1,14 +1,13 @@
 <template>
-    <section class="content">
-        <div class="container-fluid">
+    <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title row">
-                            <div class="col-md-4 col-12 row">
+                            <div class="col-md-6 col-12 row">
                                 <h5 class="card-title col-4 mb-0 px-0">{{ currentOfficeName }}</h5>
                                 <div class="col-4 mb-0 px-0">ー連絡帳ー</div>
-                                <div class="col-4 mb-0 px-0">山田　三越</div>
+                                <div class="col-4 mb-0 px-0">{{child.name}}</div>
                             </div>
                             <div class="col-md-6 col-12 row d-flex align-items-center">
                                 <div class="col-7 d-flex align-items-center p-0">
@@ -17,7 +16,7 @@
                                     :format="customFormatter"
                                     ref="programaticOpen"
                                     :placeholder="todayDate"
-                                    @selected="getAttendanceData"
+                                    @selected="getContact"
                                     v-model="selectedDate">
                                     </datepicker>
                                     <button type="button" class="btn btn-sm btn-outline mx-0" @click="openDatePicker()">
@@ -26,12 +25,7 @@
                                 </div>
                                 <div class="col-5 d-flex align-items-center px-0">
                                     <div for="weatherStauts" class="col-form-label mr-2">天気</div>
-                                    <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts"/>
-                                </div>
-                            </div>
-                            <div class="col-md-2 row">
-                                <div class="col-12 px-0 mx-0">
-                                    <button class="btn btn-primary float-right m-2" @click="openHouse">登降園状況</button>
+                                    <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" v-model="formData.weather" @change="dataChanged = true;"/>
                                 </div>
                             </div>
                         </div>
@@ -42,27 +36,27 @@
                                 </div>
                                 <div class="col-md-3 col-sm-10" style="display:flex;">
                                     <label for="mindername" style="min-width: 80px;">保育士名：</label>
-                                    <input type="text" class="form-control" id="mindername" style="width: calc(100% - 85px);"/>
+                                    <input type="text" class="form-control" id="mindername" style="width: calc(100% - 85px);" @change="dataChanged = true;"/>
                                 </div>
                             </div>
                             <div class="row" style="padding-left:15px; padding-right:15px;">
                                 <div class="col-md-2 col-4" style="padding:1px;">
-                                    <div class="dark-pink text-center text-white py-2">
+                                    <div class="dark-pink text-center text-white py-2 fixed-height-40">
                                         お迎え時間
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
-                                    <div class="light-pink text-center py-2">
-                                        18:00
+                                    <div class="light-pink text-center py-2 fixed-height-40">
+                                        {{formData.pickUpTime}}
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
-                                    <div class="dark-pink text-center text-white py-2">
+                                    <div class="dark-pink text-center text-white py-2 fixed-height-40">
                                         お迎えの方
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
-                                    <div class="light-pink text-center py-2">
+                                    <div class="light-pink text-center py-2 fixed-height-40">
                                         山田　光子
                                     </div>
                                 </div>
@@ -70,7 +64,7 @@
                             <br>
                             <div class="form-group row">
                                 <div class="col-md-6 col-12">
-                                    <div class="dark-blue text-center py-2 text-white mb-1">
+                                    <div class="dark-blue text-center py-2 text-white mb-1 fixed-height-40">
                                         家庭より
                                     </div>
                                     <div class="form-group row">
@@ -84,48 +78,48 @@
                                         <div class="col-md-11 col-10">
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                        19:30
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.mealTime1Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                        完食
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.mealAmount1Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                    完食完食完食完食完食
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.mealMemo1Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                        19:30
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.mealTime2Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                    完食
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                    {{formData.mealAmount2Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                    完食完食完食完食完食
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                    {{formData.mealMemo2Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                        19:30
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formData.mealTime3Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                    完食
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formData.mealAmount3Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                    完食完食完食完食完食
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formData.mealMemo3Home}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -148,8 +142,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                    良い
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.mood1Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
@@ -158,8 +152,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                    普通
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                    {{formData.mood2Home}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -177,33 +171,33 @@
                                         <div class="col-md-11 col-10">
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="dark-blue text-center text-white white-lb-border-2 py-2">
+                                                    <div class="dark-blue text-center text-white white-lb-border-2 py-2 fixed-height-40">
                                                         前夜
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                        普
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.defecationCount1Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                    1
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.defecationCount1Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="dark-blue text-center text-white white-l-border-2 py-2">
+                                                    <div class="dark-blue text-center text-white white-l-border-2 py-2 fixed-height-40">
                                                         今朝
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                        軟
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formData.defecationCount2Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                    1
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formData.defecationCount2Home}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -222,12 +216,12 @@
                                             <div class="row">
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2">
-                                                    21:30 ~ 6:45
+                                                    {{formData.sleepStart1Home}} ~ {{formData.sleepEnd1Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2">
-                                                    ~
+                                                    {{formData.sleepStart2Home}} ~ {{formData.sleepEnd2Home}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -236,8 +230,8 @@
 
                                     <div class="form-group row">
                                         <div class="col-md-1 col-2 pr-0">
-                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
-                                                <label>
+                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center fixed-height-40">
+                                                <label class="mb-0">
                                                     入浴
                                                 </label>
                                             </div>
@@ -245,8 +239,8 @@
                                         <div class="col-md-11 col-10">
                                             <div class="row">
                                                 <div class="col-md-12 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                    有り
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                    {{formData.bathingHome}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -264,33 +258,33 @@
                                         <div class="col-md-11 col-10">
                                             <div class="row">
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                        18:00
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperatureTime1Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                        7:30
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperatureTime2Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                    -
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperatureTime3Home}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                        36.5℃
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperature1Home}}℃
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                        36.2℃
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperature2Home}}℃
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                    -
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperature3Home}}℃
                                                     </div>
                                                 </div>
                                             </div>
@@ -302,9 +296,7 @@
                                                 家庭での様子
                                             </div>
                                             <div class="light-blue p-4 mt-1" style="height: 300px;">
-                                                <textarea class="form-control" style="height: 95%;">
-
-                                                </textarea>
+                                                {{formData.state1Home}}
                                             </div>
                                         </div>
                                     </div>
@@ -327,98 +319,78 @@
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="24">
-
-                                                            </div>
-                                                            <span class="p-1">:</span>
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="60">
-                                                            </div>
+                                                            <hour-minute-input v-model="formData.mealTime1School" :error="errors.mealTime1School" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-5 col-12 px-md-0 pl-0">
+                                                <div class="col-md-6 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
-                                                        <div class="form-check text-center py-2">
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="1" v-model="formData.mealAmount1School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="2" v-model="formData.mealAmount1School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="3" v-model="formData.mealAmount1School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-12 pl-0">
+                                                <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ"/>
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo1School" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="24">
-                                                            </div>
-                                                            <span class="p-1">:</span>
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="60">
-                                                            </div>
+                                                            <hour-minute-input v-model="formData.mealTime2School" :error="errors.mealTime2School" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-5 col-12 px-md-0 pl-0">
+                                                <div class="col-md-6 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
-                                                        <div class="form-check text-center py-2">
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="1" v-model="formData.mealAmount2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="2" v-model="formData.mealAmount2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="3" v-model="formData.mealAmount2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-12 pl-0">
+                                                <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ"/>
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo2School" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-bottom: 1px; padding-top: 1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="24">
-
-                                                            </div>
-                                                            <span class="p-1">:</span>
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="60">
-                                                            </div>
+                                                            <hour-minute-input v-model="formData.mealTime3School" :error="errors.mealTime3School" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-5 col-12 px-md-0 pl-0">
+                                                <div class="col-md-6 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2">
-                                                        <div class="form-check text-center py-2">
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="1" v-model="formData.mealAmount3School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="2" v-model="formData.mealAmount3School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="3" v-model="formData.mealAmount3School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 col-12 pl-0">
+                                                <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ"/>
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo3School" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -442,14 +414,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                    <div class="light-brown text-center white-lb-border-2">
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="1" v-model="formData.mood1School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="2" v-model="formData.mood1School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="3" v-model="formData.mood1School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -459,14 +431,14 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                    <div class="light-brown text-center white-l-border-2">
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -490,21 +462,21 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                    <div class="light-brown text-center white-lb-border-2">
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="number" class="form-control" min="0" max="24">
+                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount1School" @change="dataChanged = true;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -514,21 +486,21 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                        <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">少ない</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
-                                                            <label class="form-check-label mr-4">多い</label>
+                                                    <div class="light-brown text-center white-l-border-2">
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="number" class="form-control" min="0" max="24">
+                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount2School" @change="dataChanged = true;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -549,42 +521,18 @@
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="24">
-                                                            </div>
-                                                            <span class="p-1">:</span>
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="60">
-                                                            </div>
+                                                            <hour-minute-input v-model="formData.sleepStart1School" :error="errors.sleepStart1School" @change="dataChanged = true;"/>
                                                             ~
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="24">
-                                                            </div>
-                                                            <span class="p-1">:</span>
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="60">
-                                                            </div>
+                                                            <hour-minute-input v-model="formData.sleepEnd1School" :error="errors.sleepEnd1School" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="24">
-                                                            </div>
-                                                            <span class="p-1">:</span>
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="60">
-                                                            </div>
+                                                            <hour-minute-input v-model="formData.sleepStart2School" :error="errors.sleepStart2School" @change="dataChanged = true;"/>
                                                             ~
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="24">
-                                                            </div>
-                                                            <span class="p-1">:</span>
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="60">
-                                                            </div>
+                                                            <hour-minute-input v-model="formData.sleepEnd2School" :error="errors.sleepEnd2School" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -594,8 +542,8 @@
 
                                     <div class="form-group row">
                                         <div class="col-md-1 col-2 pr-0">
-                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
-                                                <label>
+                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center fixed-height-40">
+                                                <label class="mb-0">
                                                     入浴
                                                 </label>
                                             </div>
@@ -605,9 +553,9 @@
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2">
                                                         <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="radio1">
+                                                            <input class="form-check-input" type="radio" name="radio8" :value="1" v-model="formData.bathingSchool" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-5">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio1">
+                                                            <input class="form-check-input" type="radio" name="radio8" :value="2" v-model="formData.bathingSchool" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-5">少ない</label>
                                                         </div>
                                                     </div>
@@ -629,46 +577,28 @@
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="24">
-                                                            </div>
-                                                            <span class="p-1">:</span>
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="60">
-                                                            </div>
+                                                            <hour-minute-input v-model="formData.temperatureTime1Home" :error="errors.temperatureTime1Home" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="24">
-                                                            </div>
-                                                            <span class="p-1">:</span>
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="60">
-                                                            </div>
+                                                            <hour-minute-input v-model="formData.temperatureTime2Home" :error="errors.temperatureTime2Home" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="24">
-                                                            </div>
-                                                            <span class="p-1">:</span>
-                                                            <div>
-                                                                <input type="number" class="form-control p-1" min="0" max="60">
-                                                            </div>
+                                                            <hour-minute-input v-model="formData.temperatureTime3Home" :error="errors.temperatureTime3Home" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="24" >
+                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.temperature1Home" @change="dataChanged = true;">
                                                         </div>
                                                         <label class="align-self-center mb-0">℃</label>
                                                     </div>
@@ -676,7 +606,7 @@
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="24" >
+                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.temperature2Home" @change="dataChanged = true;">
                                                         </div>
                                                         <label class="align-self-center mb-0">℃</label>
                                                     </div>
@@ -684,7 +614,7 @@
                                                 <div class="col-md-4 col-12 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="24" >
+                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.temperature3Home" @change="dataChanged = true;">
                                                         </div>
                                                         <label class="align-self-center mb-0">℃</label>
                                                     </div>
@@ -696,12 +626,18 @@
                                     <div class="row">
                                         <div class="col-md-12 col-12">
                                             <div class="dark-yellow text-center py-2 text-white">
-                                                保育園での様子
+                                                <textarea class="form-control" style="height: 95%;" v-model="formData.state1Home" @change="dataChanged = true;">
+
+                                                </textarea>
                                             </div>
                                             <div class="light-yellow p-4 mt-1" style="height: 300px;">
-                                                夜泣きがありましたが、その後はぐっすり眠りました。
+                                                保育園での様子
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="float-right d-flex align-items-center mt-2">
+                                        <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
+                                        <button class="btn btn-primary float-right">Excel出力</button>
                                     </div>
                                 </div>
                             </div>
@@ -710,91 +646,207 @@
                 </div>
             </div>
         </div>
-    </section>
 </template>
 <script>
 import Datepicker from "vuejs-datepicker";
 import { ja } from 'vuejs-datepicker/dist/locale';
 import moment from 'moment-timezone';
 import { mapState } from 'vuex';
-import actionLoading from '../mixin/actionLoading';
-import api, { apiErrorHandler } from '../global/api';
+import actionLoading from '../../mixin/actionLoading';
+import api, { apiErrorHandler } from '../../global/api';
+import HourMinuteInput from '../../components/HourMinuteInput.vue';
+import { showSuccess } from '../../helpers/error';
+import { validateHhMm } from '../../helpers/datetime';
+
+const initialFormData = {
+    date: new Date(),
+    weather: '',
+    mood: null,
+    pickUpPerson: null,
+    pickUpTime: null,
+    mealTime1Home: null,
+    mealTime2Home: null,
+    mealTime3Home: null,
+    mealAmount1Home: null,
+    mealAmount2Home: null,
+    mealAmount3Home: null,
+    mealMemo1Home: '',
+    mealMemo2Home: '',
+    mealMemo3Home: '',
+    mood1Home: null,
+    mood2Home: null,
+    defecation1Home: null,
+    defecation2Home: null,
+    defecationCount1Home: null,
+    defecationCount2Home: null,
+    sleepStart1Home: null,
+    sleepEnd1Home: null,
+    sleepStart2Home: null,
+    sleepEnd2Home: null,
+    bathingHome: null,
+    temperatureTime1Home: null,
+    temperature1Home: '',
+    temperatureTime2Home: null,
+    temperature2Home: '',
+    temperatureTime3Home: null,
+    temperature3Home: '',
+    state0Home: '',
+}
 
 export default {
     components: {
-        Datepicker
+        Datepicker,
+        HourMinuteInput
     },
     mixins: [actionLoading],
-    data () {
-        return {
-            editmode: false,
-            currentDate: new Date(),
-            todayDate: "",
-            days: [],
-            attends : [],
-            selectedAttend : null,
-            selectedUser: null,
-            requests : [],
-            offices: [],
-            officeName: '',
-            officeId: 1,
-            selectedDate: new Date(),
-            ja: ja,
-            selectedApp: {},
-            selectedAppUserName: '',
-        }
-    },
     computed: {
         ...mapState({
             currentOfficeName: state =>  {
                 if (state.session.info.office) return state.session.info.office.name;
                 return '';
             }
-        }),
+        })
+    },
+    props: {
+        contact: {},
+        child: {},
+        date: null,
+    },
+    data () {
+        return {
+            dataChanged: false,
+            formData: {...initialFormData},
+            errors: {},
+            currentDate: new Date(),
+            todayDate: "",
+            selectedDate: new Date(),
+            ja: ja,
+        }
     },
     methods: {
-        getOffices() {
-            api.get('office/user-capable')
-                .then(response => {
-                    this.offices = response;
-                    const office = this.offices.find(office => office.id === this.officeId);
-                    this.officeName = office ? office.name : '';
-                })
-                .catch(e => apiErrorHandler(e))
-        },
-        onEditClicked(attend, userId) {
-            if(!attend) return;
-            this.selectedAttend = attend;
-            this.selectedUser = userId;
-            this.showEditForm();
-        },
-        showEditForm() {
-            $("#attend-edit-form").modal('show');
-        },
-        isHonShya(officeId) {
-            const office = this.offices.find(office => office.id === officeId);
-            let name = office ? office.name : '';
-            if(name.indexOf('本社') !== -1) {
-                return true;
-            } else {
-                return false;
+        convertToFormData() {
+            //this.initializeFormData();
+            if (this.contact) {
+                this.formData = {...this.contact};
             }
         },
-        isNormalStaff(employmentStatusId) {
-            if(employmentStatusId === 1) {
-                return true;
-            } else {
-                return false;
+        initializeFormData() {
+            this.formData = {
+
+            };
+        },
+        saveContact() {
+            if(this.actionLoading) return;
+            if (!this.validate()) return;
+            const requestData = this.formData;
+            requestData['date'] = moment(this.selectedDate).format('YYYY-MM-DD');
+            if(this.formData.pickUpTime)
+                requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
+            else
+                requestData['pick_up_time'] = moment().format('HH:mm');
+
+            if(this.formData.mealTime1Home)
+                requestData['meal_time_1_home'] = moment(this.formData.mealTime1Home, 'h:mm:ss').format('HH:mm');
+
+            if(this.formData.mealTime2Home)
+                requestData['meal_time_2_home'] = moment(this.formData.mealTime2Home, 'h:mm:ss').format('HH:mm');
+
+            if(this.formData.mealTime3Home)
+                requestData['meal_time_3_home'] = moment(this.formData.mealTime3Home, 'h:mm:ss').format('HH:mm');
+
+            if(this.formData.sleepStart1Home)
+                requestData['sleep_start_1_home'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
+
+            if(this.formData.sleepEnd1Home)
+                requestData['sleep_end_1_home'] = moment(this.formData.sleepEnd1Home, 'h:mm:ss').format('HH:mm');
+
+            if(this.formData.sleepStart2Home)
+                requestData['sleep_start_2_home'] = moment(this.formData.sleepStart2Home, 'h:mm:ss').format('HH:mm');
+
+            if(this.formData.sleepEnd2Home)
+                requestData['sleep_end_2_home'] = moment(this.formData.sleepEnd2Home, 'h:mm:ss').format('HH:mm');
+
+            if(this.formData.temperatureTime1Home)
+                requestData['temperature_time_1_home'] = moment(this.formData.temperatureTime1Home, 'h:mm:ss').format('HH:mm');
+
+            if(this.formData.temperatureTime2Home)
+                requestData['temperature_time_2_home'] = moment(this.formData.temperatureTime2Home, 'h:mm:ss').format('HH:mm');
+
+            if(this.formData.temperatureTime3Home)
+                requestData['temperature_time_3_home'] = moment(this.formData.temperatureTime3Home, 'h:mm:ss').format('HH:mm');
+
+            this.setActionLoading();
+            api.post('contact-book/child/' + this.child.id + '/home/1', null, requestData)
+            .then(() => {
+                this.unsetActionLoading();
+                showSuccess(this.$t('Successfully saved'));
+                this.dataChanged = false;
+            })
+            .catch(e => {
+                this.dataChanged = false;
+                apiErrorHandler(e);
+                this.unsetActionLoading();
+            });
+        },
+        validate() {
+            let valid = true;
+            if(this.formData.mealTime1Home && !validateHhMm(this.formData.mealTime1Home)) {
+                this.errors.mealTime1Home = this.$t('Invalid time format');
+                valid = false;
+            }
+            if(this.formData.mealTime2Home && !validateHhMm(this.formData.mealTime2Home)) {
+                this.errors.mealTime2Home = this.$t('Invalid time format');
+                valid = false;
+            }
+            if(this.formData.mealTime3Home && !validateHhMm(this.formData.mealTime3Home)) {
+                this.errors.mealTime3Home = this.$t('Invalid time format');
+                valid = false;
+            }
+            if(this.formData.sleepStart1Home && !validateHhMm(this.formData.sleepStart1Home)) {
+                this.errors.sleepStart1Home = this.$t('Invalid time format');
+                valid = false;
+            }
+            if(this.formData.sleepEnd1Home && !validateHhMm(this.formData.sleepEnd1Home)) {
+                this.errors.sleepEnd1Home = this.$t('Invalid time format');
+                valid = false;
+            }
+            if(this.formData.sleepStart2Home && !validateHhMm(this.formData.sleepStart2Home)) {
+                this.errors.sleepStart2Home = this.$t('Invalid time format');
+                valid = false;
+            }
+            if(this.formData.sleepEnd2Home && !validateHhMm(this.formData.sleepEnd2Home)) {
+                this.errors.sleepEnd2Home = this.$t('Invalid time format');
+                valid = false;
+            }
+            if(this.formData.temperatureTime1Home && !validateHhMm(this.formData.temperatureTime1Home)) {
+                this.errors.temperatureTime1Home = this.$t('Invalid time format');
+                valid = false;
+            }
+            if(this.formData.temperatureTime2Home && !validateHhMm(this.formData.temperatureTime2Home)) {
+                this.errors.temperatureTime2Home = this.$t('Invalid time format');
+                valid = false;
+            }
+            if(this.formData.temperatureTime3Home && !validateHhMm(this.formData.temperatureTime3Home)) {
+                this.errors.temperatureTime3Home = this.$t('Invalid time format');
+                valid = false;
+            }
+            return valid;
+        },
+        initFormError() {
+            this.errors = {
+                mealTime1Home: null,
+                mealTime2Home: null,
+                mealTime3Home: null,
+                sleepStart1Home: null,
+                sleepEnd1Home: null,
+                sleepStart2Home: null,
+                sleepEnd2Home: null,
+                temperatureTime1Home: null,
+                temperatureTime2Home: null,
+                temperatureTime3Home: null,
             }
         },
-        notZero(number) {
-            if(number > 0) {
-                return Math.floor(number).toString() + '分';
-            } else {
-                return '-';
-            }
-        },
-        getAttendanceData(date) {
+        getContact(date) {
             if(this.actionLoading) return;
             this.setActionLoading();
             if(date){
@@ -803,60 +855,21 @@ export default {
                 this.selectedDate = new Date();
             }
             this.selectedDate = moment(this.selectedDate).format('YYYY-MM-DD');
-            api.get('attend/' + this.officeId, null, {date: this.selectedDate})
+            api.get('contact-book/child/' + this.child.id, null, {date: this.selectedDate})
                 .then(response => {
                     this.unsetActionLoading();
-                    this.attends = response;
-                    const office = this.offices.find(office => office.id === this.officeId);
-                    this.officeName = office ? office.name : '';
+                    this.dataChanged = false;
+                    if (response.contactBook) {
+                        this.formData = response.contactBook;
+                    } else {
+                        this.formData = {...initialFormData};
+                    }
                 })
                 .catch(e => {
+                    this.dataChanged = false;
                     this.unsetActionLoading();
                     apiErrorHandler(e);
                 });
-        },
-        onWorkStatusSaved() {
-            this.getAttendanceData(this.selectedDate);
-            $("#attend-edit-form").modal('hide');
-        },
-        onAppSaved() {
-            this.getAttendanceData(this.selectedDate);
-            $("#app-aprove-form").modal('hide');
-        },
-        isThisMonth() {
-            const today = new Date();
-            return this.currentDate.getFullYear() == today.getFullYear() && this.currentDate.getMonth() == today.getMonth();
-        },
-        getNextMonthDate() {
-            const date = this.currentDate;
-            return new Date(date.getFullYear(), date.getMonth() + 1, 1);
-        },
-        getPrevMonthDate() {
-            const date = this.currentDate;
-            return new Date(date.getFullYear(), date.getMonth() - 1, 1);
-        },
-        getResults(month_date) {
-            // this.$Progress.start();
-            // this.loadAttends(month_date);
-            // this.loadRequests(month_date);
-            this.updateTable(month_date);
-            // this.$Progress.finish();
-        },
-        createRequest(){
-            $('#addNew').modal('hide');
-            //TODO: this.form.post
-            this.loadRequests();
-        },
-        updateRequest(){
-            $('#addNew').modal('hide');
-            //TODO: this.form.post
-            this.loadRequests();
-        },
-        onApprove(application, userName){
-            this.editmode = true;
-            this.selectedApp = application;
-            this.selectedAppUserName = userName;
-            $('#app-aprove-form').modal('show');
         },
         getCurrentDate(){
             return moment().format('YYYY年 M月 D日 (ddd)');
@@ -903,20 +916,20 @@ export default {
             }
         },
         openDatePicker(){
+            if(this.dataChanged) {
+                if(!confirm(this.$t('Are you sure moving to other date without saving data?'))) return;
+            }
             this.$refs.programaticOpen.showCalendar();
-        },
-        openHouse() {
-            this.$router.push("/parent", () => {});
         }
     },
     created() {
 
     },
     mounted() {
-        //this.getResults(this.currentDate);
         this.todayDate = this.getCurrentDate().toString();
-        //this.getOffices();
-        //this.getAttendanceData(this.currentDate);
+        this.selectedDate = this.date;
+        this.convertToFormData();
+        this.initFormError();
     }
 }
 </script>
@@ -929,6 +942,9 @@ export default {
     .calendar-title {
         display: flex;
         align-items: center;
+    }
+    .hour-minute-input > input {
+        padding: 2px!important;
     }
 @media (max-width: 500px) {
        h5.card-title {

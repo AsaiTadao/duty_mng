@@ -4,7 +4,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title row">
-                            <div class="col-md-6 col-12">
+                            <div class="col-md-6 col-12 row">
                                 <h5 class="card-title col-4 mb-0 px-0">{{ currentOfficeName }}</h5>
                                 <div class="col-4 mb-0 px-0">ー連絡帳ー</div>
                                 <div class="col-4 mb-0 px-0">{{child.name}}</div>
@@ -516,7 +516,8 @@ export default {
             if (!this.validate()) return;
             const requestData = this.formData;
             requestData['date'] = moment(this.selectedDate).format('YYYY-MM-DD');
-            requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
+            if(this.formData.pickUpTime)
+                requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
             this.setActionLoading();
             api.post('contact-book/child/' + this.child.id + '/school/0', null, requestData)
             .then(() => {

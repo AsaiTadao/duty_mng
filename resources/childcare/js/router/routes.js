@@ -18,9 +18,10 @@ import ContactBook from "../pages/ContactBook";
 import ContactBook0 from "../pages/ContactBook/ContactBook0";
 import ContactBook1 from "../pages/ContactBook/ContactBook1";
 import ContactBook2 from "../pages/ContactBook/ContactBook2";
-import ParentContactBook0 from "../pages/ParentContactBook0";
-import ParentContactBook1 from "../pages/ParentContactBook1";
-import ParentContactBook2 from "../pages/ParentContactBook2";
+import ParentContactBook from "../pages/ParentContactBook";
+import ParentContactBook0 from "../pages/ParentContactBook/ParentContactBook0";
+import ParentContactBook1 from "../pages/ParentContactBook/ParentContactBook1";
+import ParentContactBook2 from "../pages/ParentContactBook/ParentContactBook2";
 import ChildcareDiary from "../pages/ChildCareDiary";
 import ChildcareDiaryRead from "../pages/ChildCareDiaryRead";
 import ApplicationTable from "../pages/ApplicationTable";
@@ -351,13 +352,26 @@ export default [
                 }
             },
             {
+                path: "parent-contact-book",
+                name: "parent-contact-book",
+                components: { default: ParentContactBook },
+                meta: {
+                    icon: "fas fa-file-alt",
+                    anchor: "連絡帳",
+                    menu: true,
+                    guards: [
+                        Guards.PARENT
+                    ]
+                }
+            },
+            {
                 path: "parent-contact-book0",
                 name: "parent-contact-book0",
                 components: { default: ParentContactBook0 },
                 meta: {
                     icon: "fas fa-file-alt",
                     anchor: "連絡帳",
-                    menu: true,
+                    menu: false,
                     guards: [
                         Guards.PARENT
                     ]
