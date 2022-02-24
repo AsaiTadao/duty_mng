@@ -84,6 +84,8 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
             Route::put('/office-master/{office}', [OfficeController::class, 'update'])->name('office_master.update');
             Route::delete('/office-master/{office}', [OfficeController::class, 'delete'])->name('office_master.delete');
 
+            Route::get('/office-master-nursery', [OfficeController::class, 'getNurseryOffices'])->name('office.get.nursery');
+
             Route::get('/office-master/{office}/scheduled-working', [OfficeController::class, 'getScheduleWorkings'])->name('office_master.scheduled_working.get');
             Route::post('/office-master/{office}/scheduled-working', [OfficeController::class, 'saveScheduleWorking'])->name('office_master.scheduled_working.save');
 

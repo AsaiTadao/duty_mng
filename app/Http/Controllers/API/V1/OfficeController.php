@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\OfficeMasterRequest;
 use App\Http\Requests\OfficeQuery;
 use App\Http\Requests\ScheduledWorkingRequest;
+use App\Http\Resources\OfficeResource;
 use App\Models\Office;
 use App\Models\OfficeInformation;
 use App\Models\ScheduledWorking;
@@ -41,7 +42,7 @@ class OfficeController extends BaseController
         } else {
             $offices = $qb->get();
         }
-        return $this->sendResponse($offices);
+        return $this->sendResponse(OfficeResource::collection($offices));
     }
     public function create(OfficeMasterRequest $request)
     {
@@ -53,7 +54,7 @@ class OfficeController extends BaseController
             $officeInformation = new OfficeInformation($data);
             $office->office_information()->save($officeInformation);
         }
-        return $this->sendResponse($office);
+        return $this->sendResponse(new OfficeResource($office));
     }
 
     public function update(Office $office, OfficeMasterRequest $request)
@@ -61,7 +62,18 @@ class OfficeController extends BaseController
         $data = $request->validated();
         $office->fill($data);
         $office->save();
-        return $this->sendResponse($office);
+
+        if ($office->type === Office::TYPE_NURSERY)
+        {
+            $officeInformation = new OfficeInformation($data);
+            $office->office_information()->save($officeInformation);
+        }
+        return $this->sendResponse(new OfficeResource($office));
+    }
+
+    public function getNurseryOffices()
+    {
+        return $this->sendResponse(Office::where(['type' => Office::TYPE_NURSERY])->get());
     }
 
     public function delete(Office $office)
