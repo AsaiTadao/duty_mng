@@ -36,7 +36,7 @@
                             </div>
                             <div class="col-md-3 col-10" style="display:flex;">
                                 <label for="mindername" style="min-width: 80px;">保育士名：</label>
-                                <input type="text" class="form-control" id="mindername" style="width: calc(100% - 85px);" @change="dataChanged = true;"/>
+                                <div>山田　三越</div>
                             </div>
                         </div>
                         <br>
