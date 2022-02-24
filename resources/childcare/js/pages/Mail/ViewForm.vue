@@ -8,7 +8,7 @@
         </div>
         <div class="modal-body">
             <div class="form-group row">
-                <div class="col-md-10">
+                <div class="col-md-10 mail-content">
                     {{mailContent}}
                 </div>
             </div>
@@ -34,3 +34,8 @@
         }
     }
 </script>
+<style scoped>
+.mail-content {
+    white-space: pre-line;
+}
+</style>

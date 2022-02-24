@@ -24,7 +24,7 @@ class OfficeController extends BaseController
     {
         $data = $request->validated();
 
-        $qb = Office::whereRaw('1=1');
+        $qb = Office::with('office_information')->whereRaw('1=1');
         if (!empty($data['region_id']))
         {
             $qb->where(['region_id' => $data['region_id']]);
