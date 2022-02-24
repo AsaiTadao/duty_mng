@@ -27,4 +27,8 @@ class ChildrenAttendence extends Model
     {
         return $this->belongsTo(Child::class);
     }
+    public function reason_for_absence()
+    {
+        return $this->belongsTo(ReasonForAbsence::class);
+    }
 }

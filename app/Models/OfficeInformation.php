@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class OfficeInformation extends Model
 {
     use HasFactory;
+
+    public function office()
+    {
+        return $this->belongsTo(Office::class);
+    }
 }

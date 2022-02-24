@@ -17,7 +17,8 @@ class ChildcareSeeder extends Seeder
         $this->call([
             ChildrenClassSeeder::class,
             ChildTypesSeeder::class,
-            ChildMoodTypeSeeder::class
+            ChildMoodTypeSeeder::class,
+            ReasonForAbsenceSeeder::class
         ]);
     }
 }

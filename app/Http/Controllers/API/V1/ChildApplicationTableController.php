@@ -3,16 +3,20 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Constants\CodeGroups;
+use App\Exports\ChildApplicationTableExport;
 use App\Http\Requests\ChildApplicationTableQuery;
 use App\Models\Child;
 use App\Models\ChildrenAttendence;
 use App\Models\ChildrenClass;
 use App\Models\Code;
 use App\Models\Office;
+use App\Models\ReasonForAbsence;
 use App\Models\User;
 use App\Services\Child\AttendanceService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Sanctum\PersonalAccessToken;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ChildApplicationTableController extends BaseController
 {
@@ -35,6 +39,35 @@ class ChildApplicationTableController extends BaseController
         $table = $this->getTable($office, $data['month']);
         return $this->sendResponse($table);
     }
+
+    public function exportExcel(Office $office, ChildApplicationTableQuery $request)
+    {
+        if (!$request->has('token'))
+        {
+            abort(403, "You are not allowed");
+        }
+        $token = $request->input('token');
+        $token = PersonalAccessToken::findToken($token);
+        if (!$token) {
+            abort(403, "You are not allowed");
+        }
+        $currentUser = $token->tokenable;
+        if (!$currentUser) {
+            abort(403, "You are not allowed");
+        }
+
+        if (!Gate::forUser($currentUser)->allows('get-child-application-table', $office))
+        {
+            abort(403, trans('You are not allowed'));
+        }
+
+        $data = $request->validated();
+
+        $table = $this->getTable($office, $data['month']);
+        $title = $office->name . '_' . $data['month'];
+        return Excel::download(new ChildApplicationTableExport($table, $office, $data['month']), $title . '.xlsx');
+    }
+
 
     private function getTable($office, $date)
     {
@@ -84,6 +117,12 @@ class ChildApplicationTableController extends BaseController
         $baseDay = Carbon::parse($date . '-01');
         $daysInMonth = $baseDay->daysInMonth;
         $data['children_stat']['extension_stat'] = [];
+        $data['children_stat']['absent_stat'] = [];
+
+        $sumA = 0; $sumB = 0; $sumC = 0; $sumD = 0; $sumE = 0;
+
+        $sumAbsentCorona = 0; $sumAbsentPrivate = 0; $sumAbsentKibiki = 0; $sumAbsentSick = 0; $sumAbsentSuspension = 0; $sumAbsentVacation = 0;
+
         for ($i = 1; $i <= $daysInMonth; $i++)
         {
             $date = $baseDay->day($i)->format('Y-m-d');
@@ -91,19 +130,75 @@ class ChildApplicationTableController extends BaseController
                 return $value->date === $date && !$value->extension;
             })->count();
             $b = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->extension && $value->extension <= 30;
+                return $value->date === $date && $value->extension && $value->extension * 60 <= 30;
             })->count();
             $c = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->extension && $value->extension > 30 && $value->extension <= 60;
+                return $value->date === $date && $value->extension && $value->extension * 60 > 30 && $value->extension * 60 <= 60;
             })->count();
             $d = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->extension && $value->extension > 60 && $value->extension <= 90;
+                return $value->date === $date && $value->extension && $value->extension * 60 > 60 && $value->extension * 60 <= 90;
             })->count();
             $e = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->extension && $value->extension > 90;
+                return $value->date === $date && $value->extension && $value->extension * 60 > 90;
             })->count();
             $data['children_stat']['extension_stat'][$i] = compact('a', 'b', 'c', 'd', 'e');
+
+            $sumA += $a; $sumB += $b; $sumC += $c; $sumD += $d; $sumE += $e;
+
+            $sumAbsentCorona = 0; $sumAbsentPrivate = 0; $sumAbsentKibiki = 0; $sumAbsentSick = 0; $sumAbsentSuspension = 0; $sumAbsentVacation = 0;
+
+            $absentCorona = $attendances->filter(function ($value, $key) use ($date) {
+                return $value->date === $date && $value->reason_for_absence_id === ReasonForAbsence::REASON_CORONA;
+            })->count();
+            $absentPrivate = $attendances->filter(function ($value, $key) use ($date) {
+                return $value->date === $date && $value->reason_for_absence_id === ReasonForAbsence::REASON_PRIVATE;
+            })->count();
+            $absentKibiki = $attendances->filter(function ($value, $key) use ($date) {
+                return $value->date === $date && $value->reason_for_absence_id === ReasonForAbsence::REASON_KIBIKI;
+            })->count();
+            $absentSick = $attendances->filter(function ($value, $key) use ($date) {
+                return $value->date === $date && $value->reason_for_absence_id === ReasonForAbsence::REASON_SICK;
+            })->count();
+            $absentSuspension = $attendances->filter(function ($value, $key) use ($date) {
+                return $value->date === $date && $value->reason_for_absence_id === ReasonForAbsence::REASON_SUSPENSION;
+            })->count();
+            $absentVacation = $attendances->filter(function ($value, $key) use ($date) {
+                return $value->date === $date && $value->reason_for_absence_id === ReasonForAbsence::REASON_VACATION;
+            })->count();
+
+            $data['children_stat']['absent_stat'][$i] = [
+                ReasonForAbsence::REASON_CORONA =>  $absentCorona,
+                ReasonForAbsence::REASON_PRIVATE    =>  $absentPrivate,
+                ReasonForAbsence::REASON_KIBIKI =>  $absentKibiki,
+                ReasonForAbsence::REASON_SICK   =>  $absentSick,
+                ReasonForAbsence::REASON_SUSPENSION =>  $absentSuspension,
+                ReasonForAbsence::REASON_VACATION   =>  $absentVacation,
+            ];
+            $sumAbsentCorona += $absentCorona;
+            $sumAbsentPrivate += $absentPrivate;
+            $sumAbsentKibiki += $absentKibiki;
+            $sumAbsentSick += $absentSick;
+            $sumAbsentSuspension += $absentSuspension;
+            $sumAbsentVacation += $absentVacation;
+
         }
+
+        $data['children_stat']['extension_stat_sum'] = [
+            'a' =>  $sumA,
+            'b' =>  $sumB,
+            'c' =>  $sumC,
+            'd' =>  $sumD,
+            'e' =>  $sumE,
+        ];
+
+        $data['children_stat']['absent_stat_sum'] = [
+            ReasonForAbsence::REASON_CORONA =>  $sumAbsentCorona,
+            ReasonForAbsence::REASON_PRIVATE    =>  $sumAbsentPrivate,
+            ReasonForAbsence::REASON_KIBIKI =>  $sumAbsentKibiki,
+            ReasonForAbsence::REASON_SICK   =>  $sumAbsentSick,
+            ReasonForAbsence::REASON_SUSPENSION =>  $sumAbsentSuspension,
+            ReasonForAbsence::REASON_VACATION   =>  $sumAbsentVacation,
+        ];
 
         $childrenClasses = ChildrenClass::get();
 
@@ -129,6 +224,8 @@ class ChildApplicationTableController extends BaseController
                     'name'      =>  $child->name,
                     'birthday'  =>  $child->birthday ? Carbon::parse($child->birthday)->format('Y-m-d') : '',
                     'type'      =>  $this->getChildTypeLabel($child),
+                    'company_name'  =>  $child->company_name,
+                    'admission_date'    =>  $child->admission_date,
                     'free_of_charge' => $child->free_of_charge_label,
                     'certificate_of_payment'    =>  $child->certificate_of_payment_label,
                     'certificate_expiration_date'=> $child->certificate_expiration_date_label,
@@ -142,22 +239,36 @@ class ChildApplicationTableController extends BaseController
                 });
 
                 $extensionState = [];
+                $absentState = [
+                    ReasonForAbsence::REASON_CORONA =>  0,
+                    ReasonForAbsence::REASON_PRIVATE    =>  0,
+                    ReasonForAbsence::REASON_KIBIKI =>  0,
+                    ReasonForAbsence::REASON_SICK   =>  0,
+                    ReasonForAbsence::REASON_SUSPENSION =>  0,
+                    ReasonForAbsence::REASON_VACATION   =>  0,
+                ];
 
                 for ($i = 1; $i <= $daysInMonth; $i++)
                 {
                     $attendance = $childAttendances->firstWhere('day', $i);
                     if ($attendance)
                     {
-                        if ($attendance->extension > 90) $extensionState[$i] = 'E';
-                        else if ($attendance->extension > 60) $extensionState[$i] = 'D';
-                        else if ($attendance->extension > 30) $extensionState[$i] = 'C';
-                        else if ($attendance->extension > 0) $extensionState[$i] = 'B';
+                        if ($attendance->extension * 60 > 90) $extensionState[$i] = 'E';
+                        else if ($attendance->extension * 60 > 60) $extensionState[$i] = 'D';
+                        else if ($attendance->extension * 60 > 30) $extensionState[$i] = 'C';
+                        else if ($attendance->extension * 60 > 0) $extensionState[$i] = 'B';
                         else $extensionState[$i] = 'A';
+                        if ($attendance->reason_for_absence_id)
+                        {
+                            $extensionState[$i] = $attendance->reason_for_absence->ruby;
+                            $absentState[$attendance->reason_for_absence_id]++;
+                        }
                     } else {
                         $extensionState[$i] = '';
                     }
                 }
                 $childItem['extension_state'] = $extensionState;
+                $childItem['absent_state'] = $absentState;
 
                 $childTable[$childrenClass->id][] = $childItem;
             }
