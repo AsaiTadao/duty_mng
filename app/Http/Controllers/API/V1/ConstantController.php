@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Constants\CodeGroups;
 use App\Http\Requests\OfficeMasterRequest;
 use App\Models\ApplicationClass;
+use App\Models\BusinessType;
 use App\Models\ChildrenClass;
 use App\Models\Code;
 use App\Models\EmploymentStatus;
@@ -43,6 +44,7 @@ class ConstantController extends BaseController
         $childrenClasses = ChildrenClass::get();
         $reasonForAbsences = ReasonForAbsence::get();
 
+        $businessTypes = BusinessType::get();
 
         return $this->sendResponse([
             'application_classes'   =>  $applicationClasses,
@@ -57,7 +59,8 @@ class ConstantController extends BaseController
             'office_groups'         =>  $officeGroups,
             'children_classes'      =>  $childrenClasses,
             'child_types'           =>  $childTypes,
-            'reason_for_absences'   =>  $reasonForAbsences
+            'reason_for_absences'   =>  $reasonForAbsences,
+            'business_types'        =>  $businessTypes
         ]);
     }
 }
