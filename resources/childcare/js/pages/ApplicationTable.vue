@@ -226,7 +226,7 @@
                             </div>
                             <br>
                             <div class="w-100 overflow-scroll-x">
-                                <table v-for="(childrenClass, index) in total.childrenTable" :key="index" class="table table-bordered table-diary text-center w-3200-px">
+                                <table v-for="(childrenClass, index) in total.childrenTable" :key="index" class="table table-bordered table-diary text-center w-3500-px">
                                     <thead>
 
                                     </thead>
@@ -244,23 +244,23 @@
                                             <td rowspan="2" class="header-fix-sub-235 dark-yellow align-middle" style="width:120px;">
                                                 氏名
                                             </td>
-                                            <td rowspan="2" class="align-middle">
+                                            <td rowspan="2" class="align-middle" style="width:150px;">
                                                 生年月日
                                             </td>
-                                            <td rowspan="2" class="align-middle">
+                                            <td rowspan="2" class="align-middle" style="width:100px;">
                                                 年齢
                                             </td>
-                                            <td rowspan="2" class="align-middle">
+                                            <td rowspan="2" class="align-middle" style="width:200px;">
                                                 区分
                                             </td>
-                                            <td rowspan="2" class="align-middle">
+                                            <td rowspan="2" class="align-middle" style="width:150px;">
                                                 従業員枠企業名
                                             </td>
-                                            <td rowspan="2" class="align-middle">
+                                            <td rowspan="2" class="align-middle" style="width:80px;">
                                                 無償化
                                             </td>
-                                            <td rowspan="2" class="align-middle">支給認定証</td>
-                                            <td rowspan="2" class="align-middle">認定証有効期限</td>
+                                            <td rowspan="2" class="align-middle" style="width:100px;">支給認定証</td>
+                                            <td rowspan="2" class="align-middle" style="width:150px;">認定証有効期限</td>
                                             <td rowspan="2" class="align-middle">非課税世帯</td>
                                             <td v-for="day in days" :key="day+'0child'" class="align-middle">
                                                 {{day.getDate()}}
@@ -279,7 +279,7 @@
                                             <td rowspan="2" class="align-middle">休園</td>
                                             <td rowspan="2" class="align-middle">退園日</td>
                                             <td rowspan="2" class="align-middle">規定日数</td>
-                                            <td rowspan="2" class="align-middle">備　　　考</td>
+                                            <td rowspan="2" class="align-middle">備考</td>
                                         </tr>
                                         <tr class="light-yellow">
                                             <td v-for="day in days" :key="day + '-childtable'" class="align-middle">
@@ -290,7 +290,7 @@
                                         </tr>
                                         <tr v-for="(child, index) in childrenClass" :key="index">
                                             <td class="header-fix-sub-40 bg-white">
-                                                {{index}}
+                                                {{index + 1}}
                                             </td>
                                             <td class="header-fix-sub-95 bg-white">
                                                 {{changeBirthFormat(child.birthDay)}}
