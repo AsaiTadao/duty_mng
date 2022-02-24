@@ -13,6 +13,7 @@ export default {
         applicationDeadlineOptions: [],
         applicationStatusOptions: [],
         officeGroups: [],
+        businessTypes: [],
     },
     getters: {
         getApplicationClasses(state) {
@@ -37,7 +38,8 @@ export default {
                 salaryDeductionOptions,
                 applicationDeadlineOptions,
                 applicationStatusOptions,
-                officeGroups
+                officeGroups,
+                businessTypes
             } = payload;
             state.applicationClasses = applicationClasses;
             state.reasonForVacations = reasonForVacations;
@@ -48,6 +50,7 @@ export default {
             state.applicationStatusOptions = applicationStatusOptions;
             state.overtimePayOptions = overtimePayOptions;
             state.officeGroups = officeGroups;
+            state.businessTypes = businessTypes;
             return
         }
     },

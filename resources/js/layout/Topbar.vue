@@ -12,7 +12,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="navbar-nav ml-3">
+        <ul class="navbar-nav ml-3" v-if="showChangeBtn()">
             <li class="nav-item kintai-system system-selected">
                 <a
                     class="nav-link px-4"
@@ -70,6 +70,14 @@ export default {
     methods: {
         signOut() {
             handleSignOut();
+        },
+        showChangeBtn() {
+            if(this.session) {
+                if(this.session.office.isNursery || this.isAdmin)
+                    return true;
+                else
+                    return false;
+            }
         }
     }
 };

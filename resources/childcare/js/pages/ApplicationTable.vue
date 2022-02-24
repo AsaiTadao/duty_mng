@@ -5,8 +5,13 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title">
-                            <h3 class="card-title mb-0">仙台本社</h3>
+                            <h3 class="card-title mb-0">{{officeName}}</h3>
                             <div class="mx-5">申請用帳票</div>
+                            <div class="form-group mx-4 mb-0" style="width: 250px;">
+                                <select class="form-control" v-model="officeId" @change="selectOffice()">
+                                    <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
+                                </select>
+                            </div>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
                                     <i class="fas fa-caret-left fa-2x"></i>
@@ -425,18 +430,23 @@ export default {
                 this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
             }
         },
-        getOffices() {
-                api.get('office/user-capable')
-                    .then(response => {
-                        this.offices = response;
-                        const office = this.offices.find(office => office.id === this.officeId);
-                        this.officeName = office ? office.name : '';
-                        if(this.offices && this.offices.length > 0) {
-                            this.officeId = this.offices[0].id;
-                            this.getTotalData();
-                        }
-                    })
-                    .catch(e => apiErrorHandler(e))
+        getNurseryOffices() {
+            api.get(process.env.MIX_API_BASE_URL + '/office-master-nursery')
+                .then(response => {
+                    this.offices = response;
+                    const office = this.offices.find(office => office.id === this.officeId);
+                    this.officeName = office ? office.name : '';
+                    if(this.offices && this.offices.length > 0) {
+                        this.officeId = this.offices[0].id;
+                        this.getTotalData();
+                    }
+                })
+                .catch(e => apiErrorHandler(e))
+        },
+        selectOffice() {
+            const office = this.offices.find(office => office.id === this.officeId);
+            this.officeName = office ? office.name : '';
+            this.getTotalData();
         },
         getTotalData() {
                 if(this.actionLoading) return;
@@ -445,7 +455,6 @@ export default {
                     .then(response => {
                         this.unsetActionLoading();
                         this.total = response;
-                        console.log(this.total);
                     })
                     .catch(e => {
                         this.unsetActionLoading();
@@ -478,8 +487,8 @@ export default {
         this.month = moment(this.displayDate).format('YYYY-MM');
         this.displayDate = moment(this.displayDate).format('YYYY年 M月');
         this.getResults(this.getThisMonthDate());
-        //this.getOffices();
-        this.getTotalData();
+        this.getNurseryOffices();
+        // this.getTotalData();
     }
 }
 </script>

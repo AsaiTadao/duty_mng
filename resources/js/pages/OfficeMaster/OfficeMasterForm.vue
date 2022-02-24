@@ -14,7 +14,7 @@
                         <input type="text" name="office_number"
                             class="form-control"
                             placeholder="事業所No入力"
-                            v-model="data.number"
+                            v-model="formData.number"
                             :class="{'is-invalid' : errors.number}"
                             @keyup="errors.number = null"
                         />
@@ -26,7 +26,7 @@
                         <input type="text" name="office_name"
                             class="form-control"
                             placeholder="事業所名入力"
-                            v-model="data.name"
+                            v-model="formData.name"
                             :class="{'is-invalid' : errors.name}"
                             @keyup="errors.name = null"
                         />
@@ -40,7 +40,7 @@
                 <div class="form-row align-items-center">
                     <template v-for="restDeduction in restDeductions">
                         <div class="col-md-5" :key="restDeduction.id">
-                            <input type="radio" name="type" :value="restDeduction.id" v-model="data.restDeductionId" @change="errors.restDeductionId = null">
+                            <input type="radio" name="type" :value="restDeduction.id" v-model="formData.restDeductionId" @change="errors.restDeductionId = null">
                             <label class="ml-auto">{{ restDeduction.name }}</label>
                         </div>
                         <div class="col-md-1" :key="restDeduction.id + '_space'"></div>
@@ -54,16 +54,16 @@
             <div class="form-group">
                 <div class="form-row">
                     <div class="col-md-1">
-                        <input type="radio" name="kind" :value="1" v-model="nurseOffice">
+                        <input type="radio" name="kind" :value="true" v-model="formData.isNursery">
                         <label class="ml-auto">保育園</label>
                     </div>
                     <div class="col-md-1">
-                        <input type="radio" name="kind" :value="0" v-model="nurseOffice">
+                        <input type="radio" name="kind" :value="false" v-model="formData.isNursery">
                         <label class="ml-auto">その他</label>
                     </div>
                 </div>
             </div>
-            <template v-if="nurseOffice">
+            <template v-if="formData.isNursery">
             <div class="form-group">
                 <div class="form-row">
                     <div class="col-md-4">
@@ -75,28 +75,28 @@
                         開所時間：
                     </div>
                     <div class="col-md-1">
-                        <input type="number" class="form-control" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                        <input type="number" class="form-control" min="0" max="24" v-model="formData.openTimeHour" :class="{'is-invalid' : errors.openTimeHour}" @change="errors.openTimeHour = null">
                         <span v-if="errors.startTime" class="error invalid-feedback">
                             {{ errors.startTime }}
                         </span>
                     </div>
                     :
                     <div class="col-md-1">
-                        <input type="number" class="form-control" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                        <input type="number" class="form-control" min="0" max="60" v-model="formData.openTimeMin" :class="{'is-invalid' : errors.openTimeMin}" @change="errors.openTimeMin = null">
                         <span v-if="errors.startTime" class="error invalid-feedback">
                             {{ errors.startTime }}
                         </span>
                     </div>
                     ~
                     <div class="col-md-1">
-                        <input type="number" class="form-control" min="0" max="24" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
+                        <input type="number" class="form-control" min="0" max="24" v-model="formData.closeTimeHour" :class="{'is-invalid' : errors.closeTimeHour}" @change="errors.closeTimeHour = null">
                         <span v-if="errors.endTime" class="error invalid-feedback">
                             {{ errors.endTime }}
                         </span>
                     </div>
                     :
                     <div class="col-md-1">
-                        <input type="number" class="form-control" min="0" max="60" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
+                        <input type="number" class="form-control" min="0" max="60" v-model="formData.closeTimeMin" :class="{'is-invalid' : errors.closeTimeMin}" @change="errors.closeTimeMin = null">
                         <span v-if="errors.endTime" class="error invalid-feedback">
                             {{ errors.endTime }}
                         </span>
@@ -107,12 +107,12 @@
                         定員数：
                     </div>
                     <div class="col-md-1">
-                        <div class="d-flex">
-                        <input type="number" class="form-control" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                        名
-                        <span v-if="errors.startTime" class="error invalid-feedback">
-                            {{ errors.startTime }}
-                        </span>
+                        <div class="d-flex align-items-center">
+                            <input type="number" class="form-control" min="0" max="24" v-model="formData.capacity" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            名
+                            <span v-if="errors.startTime" class="error invalid-feedback">
+                                {{ errors.startTime }}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -124,36 +124,36 @@
                     <div class="col-md-2">
                         <div class="d-flex mb-1 align-middle">
                             <div class="mr-1 align-self-center">0歳児</div>
-                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" v-model="formData.appropriateNumber0" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
                             <div class="ml-1 align-self-center">名</div>
                         </div>
                         <div class="d-flex">
                             <div class="mr-1 align-self-center">3歳児</div>
-                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" v-model="formData.appropriateNumber3" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
                             <div class="ml-1 align-self-center">名</div>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="d-flex mb-1">
                             <div class="mr-1 align-self-center">1歳児</div>
-                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" v-model="formData.appropriateNumber1" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
                             <div class="ml-1 align-self-center">名</div>
                         </div>
                         <div class="d-flex mb-1">
                             <div class="mr-1 align-self-center">4歳児</div>
-                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" v-model="formData.appropriateNumber4" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
                             <div class="ml-1 align-self-center">名</div>
                         </div>
                     </div>
                     <div class="col-md-2">
                         <div class="d-flex mb-1">
                             <div class="mr-1 align-self-center">2歳児</div>
-                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" v-model="formData.appropriateNumber2" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
                             <div class="ml-1 align-self-center">名</div>
                         </div>
                         <div class="d-flex">
                             <div class="mr-1 align-self-center">5歳児</div>
-                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" v-model="formData.appropriateNumber5" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
                             <div class="ml-1 align-self-center">名</div>
                         </div>
                     </div>
@@ -163,9 +163,8 @@
                         事業種別：
                     </div>
                     <div class="col-md-6">
-                        <select class="form-control">
-                            <option>全業主導型保育事業所</option>
-                            <option></option>
+                        <select class="form-control" v-model="formData.businessTypeId">
+                            <option v-for="business in businessTypes" :key="business.id" :value="business.id">{{business.label}}</option>
                         </select>
                     </div>
                 </div>
@@ -183,6 +182,7 @@ import { mapState } from 'vuex';
 import api, { apiErrorHandler } from '../../global/api';
 import actionLoading from '../../mixin/actionLoading';
 import { showSuccess } from '../../helpers/error';
+import moment from 'moment';
 
     export default {
         mixins: [actionLoading],
@@ -194,6 +194,7 @@ import { showSuccess } from '../../helpers/error';
         computed: {
             ...mapState({
                 restDeductions: state => state.constants.restDeductions,
+                businessTypes: state => state.constants.businessTypes
             })
         },
         watch: {
@@ -201,23 +202,55 @@ import { showSuccess } from '../../helpers/error';
                 this.errors = {
                     name: '',
                     number: '',
-                    restDeductionId: ''
+                    restDeductionId: '',
+                    openTimeHour: null,
+                    openTimeMin: null,
+                    closeTimeHour: null,
+                    closeTimeMin: null,
                 };
+                this.convertToFormData();
             },
             'modalOpen' : function (){
                 this.errors = {
                     name: '',
                     number: '',
-                    restDeductionId: ''
+                    restDeductionId: '',
+                    openTimeHour: null,
+                    openTimeMin: null,
+                    closeTimeHour: null,
+                    closeTimeMin: null,
                 };
+                this.convertToFormData();
             },
         },
         data() {
             return {
+                formData: {
+                    number: '',
+                    name: '',
+                    restDeductionId: '',
+                    isNursery: false,
+                    openTimeHour: null,
+                    openTimeMin: null,
+                    closeTimeHour: null,
+                    closeTimeMin: null,
+                    capacity: null,
+                    appropriateNumber0: null,
+                    appropriateNumber1: null,
+                    appropriateNumber2: null,
+                    appropriateNumber3: null,
+                    appropriateNumber4: null,
+                    appropriateNumber5: null,
+                    businessTypeId: null
+                },
                 errors: {
                     name: '',
                     number: '',
-                    restDeductionId: ''
+                    restDeductionId: '',
+                    openTimeHour: null,
+                    openTimeMin: null,
+                    closeTimeHour: null,
+                    closeTimeMin: null,
                 },
                 nurseOffice: 0,
             }
@@ -228,10 +261,14 @@ import { showSuccess } from '../../helpers/error';
                 if (!this.validate()) return;
                 this.setActionLoading();
                 let request;
+                if(this.formData.openTimeHour && this.formData.openTimeMin) {
+                    this.formData['open_time'] = this.formData.openTimeHour + ":" + this.formData.openTimeMin;
+                    this.formData['close_time'] = this.formData.closeTimeHour + ":" + this.formData.closeTimeMin;
+                }
                 if (this.data.id) {
-                    request = api.put('office-master/' + this.data.id, null, this.data);
+                    request = api.put('office-master/' + this.data.id, null, this.formData);
                 } else {
-                    request = api.post('office-master', null, this.data);
+                    request = api.post('office-master', null, this.formData);
                 }
                 request.then(() => {
                         this.unsetActionLoading();
@@ -244,25 +281,34 @@ import { showSuccess } from '../../helpers/error';
                         this.unsetActionLoading();
                     });
             },
+            convertToFormData() {
+                if(this.data) {
+                    this.formData = {...this.data};
+                    this.formData['openTimeHour'] = this.data.openTime ? moment(this.data.openTime).tz('asia/Tokyo').format('HH') : '';
+                    this.formData['openTimeMin'] = this.data.openTime ? moment(this.data.openTime).tz('asia/Tokyo').format('mm') : '';
+                    this.formData['closeTimeHour'] = this.data.closeTime ? moment(this.data.closeTime).tz('asia/Tokyo').format('HH') : '';
+                    this.formData['closeTimeMin'] = this.data.closeTime ? moment(this.data.closeTime).tz('asia/Tokyo').format('mm') : '';
+                }
+            },
             validate() {
                 let valid = true;
-                if (!this.data.number) {
+                if (!this.formData.number) {
                     this.errors.number = this.$t('Please input number');                            // need trans
                     valid = false;
                 }
-                if (this.data.number && this.data.number.length > 20) {
+                if (this.formData.number && this.formData.number.length > 20) {
                     this.errors.number = this.$t('Please enter 20 characters or less');                            // need trans
                     valid = false;
                 }
-                if (!this.data.name) {
+                if (!this.formData.name) {
                     this.errors.name = this.$t('Please input name');                                 // need trans
                     valid = false;
                 }
-                if (this.data.name && this.data.name.length > 50) {
+                if (this.formData.name && this.formData.name.length > 50) {
                     this.errors.name = this.$t('Please enter 50 characters or less');                                 // need trans
                     valid = false;
                 }
-                if (!this.data.restDeductionId) {
+                if (!this.formData.restDeductionId) {
                     this.errors.restDeductionId = this.$t('Please select rest deduction type');       // need trans
                     valid = false;
                 }
