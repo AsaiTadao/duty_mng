@@ -23,13 +23,13 @@
                             >
                                 <thead class="text-center">
                                     <tr class="dark-brown text-white">
-                                        <th>
+                                        <th width="15%">
                                             園児ID
                                         </th>
-                                        <th>
+                                        <th width="20%">
                                             園児氏名
                                         </th>
-                                        <th>
+                                        <th width="10%">
                                             性別
                                         </th>
                                         <th>
@@ -38,7 +38,7 @@
                                         <th>
                                             年齢
                                         </th>
-                                        <th>
+                                        <th width="15%">
                                             クラス
                                         </th>
                                     </tr>
@@ -92,10 +92,10 @@
                                             </div>
                                         </td>
                                         <td>
-                                            0歳7ヶ月
+                                            {{ age }}
                                         </td>
                                         <td>
-                                            <select class="form-control" v-model="formData.classId" :class="{'is-invalid' : errors.gender}">
+                                            <select class="form-control" v-model="formData.classId" :class="{'is-invalid' : errors.classId}">
                                                 <option v-for="childrenClass in childrenClasses" :key="childrenClass.id" :value="childrenClass.id">{{childrenClass.name}}</option>
                                             </select>
                                             <span v-if="errors.classId" class="error invalid-feedback">
@@ -116,10 +116,10 @@
                                         <th>
                                             退園日
                                         </th>
-                                        <th>
+                                        <th width="15%">
                                             メールアドレス
                                         </th>
-                                        <th>
+                                        <th width="10%">
                                             パスワード
                                         </th>
                                     </tr>
@@ -407,6 +407,15 @@ export default {
             childrenClasses: state => state.constants.childrenClasses,
             childTypes: state => state.constants.childTypes
         }),
+        age() {
+            if (!this.formData.birthYear || !this.formData.birthMonth || !this.formData.birthDay) return null;
+            const birthday = moment(this.formData.birthYear + '-' + this.formData.birthMonth + '-' + this.formData.birthDay).format("YYYY-MM-DD");
+            if (birthday === 'Invalid date') return null;
+            const ageInMonth = moment().diff(birthday, 'months');
+            const y = Math.floor(ageInMonth / 12);
+            const m = ageInMonth % 12;
+            return y + '歳' + (m ? m + 'ヶ月' : '');
+        }
     },
     methods: {
         getChildInfor() {
