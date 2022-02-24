@@ -1,6 +1,6 @@
 <template>
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <router-link to="/" class="brand-link text-center sidebar-logo">
+        <router-link to="" class="brand-link text-center sidebar-logo">
             <span class="brand-text font-weight-bolder">Lateral kids</span>
         </router-link>
         <div class="sidebar">
