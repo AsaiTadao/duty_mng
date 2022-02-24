@@ -16,6 +16,7 @@ class ContactBook extends Model
         'date',
         'pick_up_person',
         'pick_up_time',
+        'nurse_name',
         'sleep_0100_home',
         'sleep_0130_home',
         'sleep_0200_home',
