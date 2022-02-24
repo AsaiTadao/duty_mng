@@ -34,16 +34,16 @@ class OfficeResource extends JsonResource
             "is_headquarter"    =>  $this->is_headquarter,
             "is_nursery"    => $this->is_nursery,
 
-            'open_time' =>  $office_info ? $office_info->open_time : '',
-            'close_time'    =>  $office_info ? $office_info->close_time : '',
-            'capacity'  =>  $office_info ? $office_info->capacity : '',
-            'appropriate_number_0'  =>  $office_info ? $office_info->appropriate_number_0 : '',
-            'appropriate_number_1'  =>  $office_info ? $office_info->appropriate_number_1 : '',
-            'appropriate_number_2'  =>  $office_info ? $office_info->appropriate_number_2 : '',
-            'appropriate_number_3'  =>  $office_info ? $office_info->appropriate_number_3 : '',
-            'appropriate_number_4'  =>  $office_info ? $office_info->appropriate_number_4 : '',
-            'appropriate_number_5'  =>  $office_info ? $office_info->appropriate_number_5 : '',
-            'business_type_id'  =>  $office_info ? $office_info->business_type_id : '',
+            'open_time' =>  $office_info ? $office_info->open_time : null,
+            'close_time'    =>  $office_info ? $office_info->close_time : null,
+            'capacity'  =>  $office_info ? $office_info->capacity : null,
+            'appropriate_number_0'  =>  $office_info ? $office_info->appropriate_number_0 : null,
+            'appropriate_number_1'  =>  $office_info ? $office_info->appropriate_number_1 : null,
+            'appropriate_number_2'  =>  $office_info ? $office_info->appropriate_number_2 : null,
+            'appropriate_number_3'  =>  $office_info ? $office_info->appropriate_number_3 : null,
+            'appropriate_number_4'  =>  $office_info ? $office_info->appropriate_number_4 : null,
+            'appropriate_number_5'  =>  $office_info ? $office_info->appropriate_number_5 : null,
+            'business_type_id'  =>  $office_info ? $office_info->business_type_id : null,
         ];
         // return parent::toArray($request);
     }
