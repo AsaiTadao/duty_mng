@@ -44,7 +44,7 @@ class ConstantController extends BaseController
         $childrenClasses = ChildrenClass::get();
         $reasonForAbsences = ReasonForAbsence::get();
 
-        $businessTypes = BusinessType::get();
+        $businessTypes = BusinessType::orderBy('sort_no', 'asc')->get();
 
         return $this->sendResponse([
             'application_classes'   =>  $applicationClasses,
