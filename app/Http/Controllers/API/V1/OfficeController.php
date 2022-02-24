@@ -42,7 +42,12 @@ class OfficeController extends BaseController
         } else {
             $offices = $qb->get();
         }
-        return $this->sendResponse(OfficeResource::collection($offices));
+        return $this->sendResponse([
+            'current_page'  =>  $offices->currentPage(),
+            'per_page'      =>  $offices->perPage(),
+            'total'         =>  $offices->total(),
+            'data'          =>  OfficeResource::collection($offices->items())
+        ]);
     }
     public function create(OfficeMasterRequest $request)
     {
