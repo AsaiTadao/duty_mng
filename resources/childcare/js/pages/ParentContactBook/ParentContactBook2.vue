@@ -46,7 +46,9 @@
                                     家庭からの連絡事項
                                 </div>
                                 <div class="light-blue p-4 mt-1" style="height: 300px;">
-                                    {{formData.contact0Home}}
+                                    <textarea class="form-control" style="height: 95%;" v-model="formData.contact0Home" @change="dataChanged = true;">
+
+                                    </textarea>
                                 </div>
                             </div>
                             <div class="col-md-6 col-12">
@@ -54,9 +56,7 @@
                                     保育園からの連絡事項
                                 </div>
                                 <div class="light-yellow p-4 mt-1" style="height: 300px;">
-                                    <textarea class="form-control" style="height: 95%;" v-model="formData.contact0School" @change="dataChanged = true;">
-
-                                    </textarea>
+                                    {{formData.contact0School}}
                                 </div>
                             </div>
                         </div>
@@ -86,7 +86,7 @@ const initialFormData = {
     mood: null,
     pickUpPerson: null,
     pickUpTime: null,
-    contact0School: '',
+    contact0Home: '',
 }
 
 export default {
@@ -152,7 +152,7 @@ export default {
             if(this.formData.pickUpTime)
                 requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
             this.setActionLoading();
-            api.post('contact-book/child/' + this.child.id + '/school/2', null, requestData)
+            api.post('contact-book/child/' + this.child.id + '/home/2', null, requestData)
             .then(() => {
                 this.unsetActionLoading();
                 showSuccess(this.$t('Successfully saved'));
