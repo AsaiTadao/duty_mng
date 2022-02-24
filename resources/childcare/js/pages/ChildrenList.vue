@@ -7,18 +7,18 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" placeholder="園児ID, 園児氏名, メールアドレス">
+                                    <input type="text" class="form-control" placeholder="園児ID, 園児氏名, メールアドレス" v-model="searchInput">
                                     <span class="input-group-append">
-                                        <button type="button" class="btn btn-info btn-flat">検索</button>
+                                        <button type="button" class="btn btn-info btn-flat" @click="getChildrenList">検索</button>
                                     </span>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <label>託児計画作成</label>
-                                <select>
-                                    <option>全て</option>
-                                    <option>未登録</option>
-                                    <option>登録有</option>
+                                <select v-model="planRegistered" @change="getChildrenList">
+                                    <option :value="-1">全て</option>
+                                    <option :value="0">未登録</option>
+                                    <option :value="1">登録有</option>
                                 </select>
                             </div>
                             <div class="col-md-3">
@@ -99,16 +99,21 @@ export default {
             retiredDisplay: false,
             childrenList: [],
             searchInput: '',
-            childcareRegistered: 0,
+            planRegistered: -1,
 
+            searchFilter: '',
         }
     },
     methods: {
         getChildrenList() {
             if (this.actionLoading) return;
+            this.searchFilter = this.searchInput;
             this.setActionLoading();
-            const query = {query: this.searchInput, plan_registered: this.childcareRegistered};
-            console.log({query});
+            let query;
+            if(this.planRegistered != -1)
+                query = {query: this.searchFilter, plan_registered: this.planRegistered};
+            else
+                query = {query: this.searchFilter};
             api.get('child', null, query)
                 .then(response => {
                     this.unsetActionLoading();

@@ -14,11 +14,6 @@
                             <div class="col-md-3">
 
                             </div>
-                            <div class="col-md-3">
-                                <button type="submit" class="btn btn-sm btn-primary float-right">
-                                    新規登録
-                                </button>
-                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -217,7 +212,7 @@
                                             <div class="d-flex align-middle d-flex">
                                                 <div v-for="childType in childTypes" :key = "childType.key" class="d-flex align-items-center mr-3">
                                                     <input type="radio" class="align-middle" :value="childType.key" v-model="formData.type">
-                                                    <label class="ml-1 mr-4">{{childType.value}}</label>
+                                                    <label class="ml-1 mr-4 mb-0">{{childType.value}}</label>
                                                     <span v-if="errors.type" class="error invalid-feedback">
                                                         {{ errors.type }}
                                                     </span>
