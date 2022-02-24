@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\Office;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTypeToOfficesTable extends Migration
+class AddStdTemperatureToContactBooksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +13,10 @@ class AddTypeToOfficesTable extends Migration
      */
     public function up()
     {
-        Schema::table('offices', function (Blueprint $table) {
+        Schema::table('contact_books', function (Blueprint $table) {
             //
-            $table->smallInteger('type')->default(Office::TYPE_OTHERS);
+            $table->time('temperature_time_std')->nullable();
+            $table->float('temperature_std', 3, 1)->nullable();
         });
     }
 
@@ -27,7 +27,7 @@ class AddTypeToOfficesTable extends Migration
      */
     public function down()
     {
-        Schema::table('offices', function (Blueprint $table) {
+        Schema::table('contact_books', function (Blueprint $table) {
             //
         });
     }

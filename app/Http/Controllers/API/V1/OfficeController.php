@@ -8,6 +8,7 @@ use App\Http\Requests\OfficeMasterRequest;
 use App\Http\Requests\OfficeQuery;
 use App\Http\Requests\ScheduledWorkingRequest;
 use App\Models\Office;
+use App\Models\OfficeInformation;
 use App\Models\ScheduledWorking;
 use App\Models\User;
 use App\Models\Year;
@@ -23,7 +24,7 @@ class OfficeController extends BaseController
     {
         $data = $request->validated();
 
-        $qb = Office::whereRaw('1=1');
+        $qb = Office::with('office_information')->whereRaw('1=1');
         if (!empty($data['region_id']))
         {
             $qb->where(['region_id' => $data['region_id']]);
@@ -46,6 +47,12 @@ class OfficeController extends BaseController
     {
         $data = $request->validated();
         $office = Office::create($data);
+
+        if ($office->type === Office::TYPE_NURSERY)
+        {
+            $officeInformation = new OfficeInformation($data);
+            $office->office_information()->save($officeInformation);
+        }
         return $this->sendResponse($office);
     }
 

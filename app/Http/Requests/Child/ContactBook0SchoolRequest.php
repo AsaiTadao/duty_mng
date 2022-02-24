@@ -14,6 +14,8 @@ class ContactBook0SchoolRequest extends FormRequest {
             'pick_up_person'    =>  ['nullable', 'string'],
             'pick_up_time'      =>  ['nullable', 'date_format:H:i'],
             'nurse_name'        =>  ['nullable', 'string'],
+            'temperature_time_std'  =>  ['nullable', 'date_format:H:i'],
+            'temperature_std'   =>  ['nullable', 'numeric'],
             'sleep_0100_school' =>  ['nullable', 'boolean'],
             'sleep_0130_school' =>  ['nullable', 'boolean'],
             'sleep_0200_school' =>  ['nullable', 'boolean'],
