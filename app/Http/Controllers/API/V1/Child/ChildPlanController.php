@@ -10,6 +10,7 @@ use App\Http\Resources\ChildcarePlanDayResource;
 use App\Models\Child;
 use App\Models\ChildcarePlan;
 use App\Models\ChildcarePlanDay;
+use App\Services\Child\PlanService;
 use Illuminate\Support\Carbon;
 
 class ChildPlanController extends BaseController
@@ -48,12 +49,17 @@ class ChildPlanController extends BaseController
         }
         return $this->sendResponse($childPlans);
     }
-    public function retrieveDailyPlan(Child $child, ChildPlanDayQuery $request)
+    public function retrieveDailyPlan(Child $child, ChildPlanDayQuery $request, PlanService $planService)
     {
         $data = $request->validated();
         $month = $data['month'];
         [$year, $month] = explode('-', $data['month']);
         $planDays = ChildcarePlanDay::where(['child_id' => $child->id])->whereYear('date', $year)->whereMonth('date', $month)->get();
+
+        if ($planDays->count() === 0)
+        {
+            $planDays = $planService->createPlanDaysFromWeeklyPlan($child, $data['month']);
+        }
         return $this->sendResponse(ChildcarePlanDayResource::collection($planDays));
     }
     public function saveDayPlan(Child $child, ChildPlanDayRequest $request)

@@ -6,12 +6,14 @@ use App\Http\Controllers\API\V1\Child\ChildcareDiaryController;
 use App\Http\Controllers\API\V1\Child\ChildController;
 use App\Http\Controllers\API\V1\Child\ChildPlanController;
 use App\Http\Controllers\API\V1\Child\ContactBookController;
+use App\Http\Controllers\API\V1\Child\HolidayController;
 use App\Http\Controllers\API\V1\Child\MailController;
 use App\Http\Middleware\ChildcareAuth;
 use Illuminate\Support\Facades\Route;
 
 Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/holiday', [HolidayController::class, 'get']);
     Route::middleware(ChildcareAuth::class)->group(function () {
         Route::get('/me', [AuthController::class, 'me']);
         Route::get('/current-office', [AuthController::class, 'currentOffice']);

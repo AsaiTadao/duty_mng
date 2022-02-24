@@ -17,13 +17,17 @@ class Office extends Model
         'region_id',
         'industry_group_id',
         'office_group_id',
-        'rest_deduction_id'
+        'rest_deduction_id',
+        'type'
     ];
 
     protected $appends = [
         'is_headquarter',
         'is_nursery'
     ];
+
+    const TYPE_HEADQUARTER = 1;
+    const TYPE_NURSERY = 2;
 
     public function region()
     {

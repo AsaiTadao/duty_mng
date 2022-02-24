@@ -37,7 +37,7 @@
                                         <td width="5%">
                                             日付
                                         </td>
-                                        <td width="13%" v-for="(item, dayIndex) in week" :key="dayIndex" :class="{'red': dayIndex === 6}">
+                                        <td width="13%" v-for="(item, dayIndex) in week" :key="dayIndex" :class="{'red': dayIndex === 6 || (item && item.holiday)}">
                                             <template v-if="item">
                                                 {{ item.label }}
                                             </template>
@@ -136,7 +136,9 @@ export default {
             planIndices: [],
             planDays: [],
             planDayErrors: [],
-            child: {}
+            child: {},
+
+            holidays: []
         }
     },
     computed: {
@@ -146,6 +148,9 @@ export default {
     },
     mounted() {
         this.childId = this.$route.params.childId;
+        if (this.$route.query.month) {
+            this.currentDate = moment(this.$route.query.month + '-01');
+        }
         this.fetchData();
         this.fetchChild();
     },
@@ -155,14 +160,17 @@ export default {
         },
         onNext() {
             this.currentDate = moment(this.currentDate.add(1, 'months').format('YYYY-MM-DD'), 'YYYY-MM-DD');
+            this.$router.push({name: 'childcare-calendar', params: {childId: this.childId}, query: { month: this.currentDate.format('YYYY-MM')}});
             this.fetchData();
         },
         onPrev() {
             this.currentDate = moment(this.currentDate.add(-1, 'months').format('YYYY-MM-DD'), 'YYYY-MM-DD');
+            this.$router.push({name: 'childcare-calendar', params: {childId: this.childId}, query: { month: this.currentDate.format('YYYY-MM')}});
             this.fetchData();
         },
         onCurrentMonth(){
             this.currentDate = moment();
+            this.$router.push({name: 'childcare-calendar', params: {childId: this.childId}, query: { month: this.currentDate.format('YYYY-MM')}});
             this.fetchData();
         },
         onSubmit() {
@@ -178,8 +186,9 @@ export default {
             .catch(apiErrorHandler)
             .finally(() => this.unsetActionLoading())
         },
-        fetchData() {
+        async fetchData() {
             this.setActionLoading();
+            await this.fetchHolidays();
             api.get(`plan-days/${this.childId}`, null, {month: this.currentDate.format('YYYY-MM')})
             .then(response => {
                 this.unpack(response);
@@ -191,6 +200,13 @@ export default {
             .finally(() => {
                 this.unsetActionLoading();
             })
+        },
+        fetchHolidays() {
+            api.get(`holiday`, null, {month: this.currentDate.format('YYYY-MM')})
+            .then(response => {
+                this.holidays = response
+            })
+            .catch(apiErrorHandler)
         },
         fetchChild () {
             api.get(`child/${this.childId}`)
@@ -227,7 +243,8 @@ export default {
             return valid;
         },
         unpack(data) {
-            let firstDay = this.currentDate.set('date', 1).day();
+            this.currentDate.set('date', 1)
+            let firstDay = this.currentDate.day();
             this.planDays = [];
             this.planDayErrors = [];
             let daysInMonth = this.currentDate.daysInMonth();
@@ -245,16 +262,13 @@ export default {
             }
 
             this.planIndices = [];
-            let padding = [];
-            if (firstDay > 1) {
-                padding = Array(firstDay - 1).fill({padded: true});
-            }
             let weeks = Math.floor((daysInMonth + (firstDay - 1)) / 7);
             if ((daysInMonth + (firstDay - 1)) % 7 > 0) {
                 weeks++;
             }
             let day = 0;
             let dayOfWeeks = ['月', '火', '水', '木', '金', '土', '日'];
+            if (firstDay === 0) firstDay = 7;
             for (let i = 0; i < weeks; i++) {
                 this.planIndices[i] = [];
                 for (let dayOfWeek = 1; dayOfWeek < 8; dayOfWeek++) {
@@ -262,8 +276,9 @@ export default {
                         this.planIndices[i].push(null);
                         continue;
                     } else {
-                        this.planIndices[i].push({ index: day, label: `${day + 1}日[${dayOfWeeks[dayOfWeek - 1]}]`});
                         day++;
+                        const holiday = this.holidays.find(item => item.day === day);
+                        this.planIndices[i].push({ index: day - 1, label: `${day}日[${dayOfWeeks[dayOfWeek - 1]}]`, holiday});
                     }
                 }
             }
