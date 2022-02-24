@@ -19,7 +19,7 @@
                                     <i class="fas fa-caret-right fa-2x"></i>
                                 </button>
                             </div>
-                            <button type="button" class="btn btn-primary float-right" @click="printExcel()">
+                            <button type="button" class="btn btn-primary float-right" @click="exportExcel()">
                                 Excel出力
                             </button>
                         </div>
@@ -339,6 +339,7 @@ import { mapState } from 'vuex';
 import actionLoading from '../mixin/actionLoading';
 import { showSuccess } from '../helpers/error';
 import api, { apiErrorHandler } from '../global/api';
+import LocalStorage from '../helpers/localStorage';
 
 export default {
     mixins: [actionLoading],
@@ -466,6 +467,10 @@ export default {
                 return moment(birthDay).format('YYYY年 M月 D日');
             }
             return null;
+        },
+        exportExcel() {
+            console.log(this.officeId);
+            location.href = process.env.MIX_APP_BASE_URL + 'childcare-application-table/excel/' + this.officeId + '?month=' + this.month + '&token=' + LocalStorage.getToken();
         }
     },
     mounted() {

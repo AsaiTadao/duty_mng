@@ -60,11 +60,17 @@ class Child extends Authenticatable
     {
         if (!$this->child_info) return '';
         if (!$this->child_info->certificate_expiration_date) return '';
-        return Carbon::parse($this->child_info->certificate_expiration_date)->format('Y年m月d日');
+        return Carbon::parse($this->child_info->certificate_expiration_date)->format('Y-m-d');
     }
     public function getTaxExemptHouseholdLabelAttribute()
     {
         if (!$this->child_info) return '';
         return $this->child_info->tax_exempt_household ? '〇' : '';
+    }
+
+    public function getCompanyNameAttribute()
+    {
+        if (!$this->child_info) return '';
+        return $this->child_info->company_name ? $this->child_info->company_name : '';
     }
 }

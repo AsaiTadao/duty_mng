@@ -53,4 +53,15 @@ class Office extends Model
         if (!$this->attributes['name']) return false;
         return Str::endsWith($this->attributes['name'], '保育園');
     }
+
+    public function office_information()
+    {
+        return $this->hasOne(OfficeInformation::class);
+    }
+
+    public function getCapacityAttribute()
+    {
+        if ($this->office_information) return $this->office_information->capacity;
+        return null;
+    }
 }

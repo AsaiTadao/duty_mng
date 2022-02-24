@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\ChildApplicationTableController;
 use App\Http\Controllers\API\V1\ShiftController;
 use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\V1\WorkTotalController;
@@ -35,6 +36,8 @@ Route::get('/user/csv', [UserController::class, 'csv']);
 Route::get('/work-total/csv/{office}', [WorkTotalController::class, 'csv'])->name('work_total.csv.get');
 Route::get("/test", [TestController::class, 'test']);
 Route::get('/individual-summary/excel', [WorkTotalController::class, 'exportIndividual']);
+
+Route::get('/childcare-application-table/excel/{office}', [ChildApplicationTableController::class, 'exportExcel']);
 
 // Route::get('/child', [ChildcareController::class, 'index']);
 Route::get('/child/{path?}', [ChildcareController::class, 'index'])
