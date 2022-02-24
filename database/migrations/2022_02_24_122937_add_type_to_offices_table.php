@@ -16,7 +16,7 @@ class AddTypeToOfficesTable extends Migration
     {
         Schema::table('offices', function (Blueprint $table) {
             //
-            $table->smallInteger('type')->default(Office::TYPE_HEADQUARTER);
+            $table->smallInteger('type')->default(Office::TYPE_OTHERS);
         });
     }
 

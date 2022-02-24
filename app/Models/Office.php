@@ -26,7 +26,7 @@ class Office extends Model
         'is_nursery'
     ];
 
-    const TYPE_HEADQUARTER = 1;
+    const TYPE_OTHERS = 1;
     const TYPE_NURSERY = 2;
 
     public function region()
