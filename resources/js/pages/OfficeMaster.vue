@@ -29,7 +29,7 @@
                             >
                                 <thead class="text-center">
                                     <tr class="dark-grey text-white">
-                                        <th>
+                                        <th width="30%">
                                             事業所No
                                         </th>
                                         <th>
@@ -43,33 +43,122 @@
                                 </thead>
                                 <tbody class="text-center">
                                     <template v-for="office in offices">
-                                        <tr :key="office.id">
-                                            <td>
-                                                {{ office.number }}
-                                            </td>
-                                            <td>
-                                                {{ office.name }}
-                                            </td>
-                                            <td class="align-middle" rowspan="2">
-                                                <a href="#" class="mx-2" @click="onScheduleEditClick(office.id)">
-                                                    <i class="far fa-edit fa-lg"></i>
-                                                </a>
-                                            </td>
-                                            <td class="align-middle" rowspan="2">
-                                                <a href="#" class="mx-2" @click="onEditClicked(office.id)">
-                                                    <i class="far fa-edit fa-lg"></i>
-                                                </a>
-                                                <a href="#" @click="onOfficeDeleteClick(office.id)">
-                                                    <i class="far fa-trash-alt fa-lg"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr :key="office.id + '_rest_type'">
-                                            <td colspan="2">
-                                            <!-- 休憩時間の控除：6時間以上の勤務で1時間を自動控除 -->
-                                            {{ getRestDeductionLabel(office.restDeductionId) }}
-                                            </td>
-                                        </tr>
+                                        <template v-if="office.isNursery">
+                                            <tr :key="office.id">
+                                                <td>
+                                                    {{ office.number }}
+                                                </td>
+                                                <td>
+                                                    {{ office.name }}
+                                                </td>
+                                                <td class="align-middle" rowspan="4">
+                                                    <a href="#" class="mx-2" @click="onScheduleEditClick(office.id)">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="align-middle" rowspan="4">
+                                                    <a href="#" class="mx-2" @click="onEditClicked(office.id)">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                    <a href="#" @click="onOfficeDeleteClick(office.id)">
+                                                        <i class="far fa-trash-alt fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr :key="office.id + '_rest_type'">
+                                                <td colspan="2">
+                                                <!-- 休憩時間の控除：6時間以上の勤務で1時間を自動控除 -->
+                                                {{ getRestDeductionLabel(office.restDeductionId) }}
+                                                </td>
+                                            </tr>
+                                            <tr :key="office.id + '_open_time'">
+                                                <td>
+                                                    開所時間：{{office.openTime}}
+                                                </td>
+                                                <td>
+                                                    定員数：{{office.capacity}}
+                                                </td>
+                                            </tr>
+                                            <tr :key="office.id + '_members'">
+                                                <td>
+                                                    <div class="form-row">
+                                                        <div class="col-md-4">
+                                                            適正職員数：<br>
+                                                            (一人当たり)
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="d-flex mb-1 align-middle">
+                                                                <div class="mr-1 align-self-center">0歳児</div>
+                                                                <div>{{office.appropriateNumber0}}</div>
+                                                                <div class="ml-1 align-self-center">名</div>
+                                                            </div>
+                                                            <div class="d-flex mb-1 align-middle">
+                                                                <div class="mr-1 align-self-center">2歳児</div>
+                                                                <div>{{office.appropriateNumber1}}</div>
+                                                                <div class="ml-1 align-self-center">名</div>
+                                                            </div>
+                                                            <div class="d-flex mb-1 align-middle">
+                                                                <div class="mr-1 align-self-center">4歳児</div>
+                                                                <div>{{office.appropriateNumber3}}</div>
+                                                                <div class="ml-1 align-self-center">名</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="d-flex mb-1 align-middle">
+                                                                <div class="mr-1 align-self-center">1歳児</div>
+                                                                <div>{{office.appropriateNumber2}}</div>
+                                                                <div class="ml-1 align-self-center">名</div>
+                                                            </div>
+                                                            <div class="d-flex mb-1 align-middle">
+                                                                <div class="mr-1 align-self-center">2歳児</div>
+                                                                <div>{{office.appropriateNumber4}}</div>
+                                                                <div class="ml-1 align-self-center">名</div>
+                                                            </div>
+                                                            <div class="d-flex mb-1 align-middle">
+                                                                <div class="mr-1 align-self-center">5歳児</div>
+                                                                <div>{{office.appropriateNumber5}}</div>
+                                                                <div class="ml-1 align-self-center">名</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex mb-1 align-middle">
+                                                        <div class="mr-1 align-self-center">事業種別：</div>
+                                                        <div>{{getBusineesTypeName(office.businessTypeId)}}</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <template v-else>
+                                            <tr :key="office.id">
+                                                <td>
+                                                    {{ office.number }}
+                                                </td>
+                                                <td>
+                                                    {{ office.name }}
+                                                </td>
+                                                <td class="align-middle" rowspan="2">
+                                                    <a href="#" class="mx-2" @click="onScheduleEditClick(office.id)">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                                <td class="align-middle" rowspan="2">
+                                                    <a href="#" class="mx-2" @click="onEditClicked(office.id)">
+                                                        <i class="far fa-edit fa-lg"></i>
+                                                    </a>
+                                                    <a href="#" @click="onOfficeDeleteClick(office.id)">
+                                                        <i class="far fa-trash-alt fa-lg"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr :key="office.id + '_rest_type'">
+                                                <td colspan="2">
+                                                <!-- 休憩時間の控除：6時間以上の勤務で1時間を自動控除 -->
+                                                {{ getRestDeductionLabel(office.restDeductionId) }}
+                                                </td>
+                                            </tr>
+                                        </template>
                                     </template>
                                 </tbody>
                             </table>
@@ -160,6 +249,7 @@ export default {
         computed: {
             ... mapState({
                 restDeductions: state =>  state.constants.restDeductions,
+                businessTypes: state => state.constants.businessTypes
             }),
         },
         methods: {
@@ -243,6 +333,11 @@ export default {
                 const restDeduction = this.restDeductions.find(({id}) => id === restDeductionId);
                 if (!restDeduction) return '';
                 return restDeduction.name;
+            },
+            getBusineesTypeName(businessTypeId){
+                const businessType = this.businessTypes.find(({id}) => id === businessTypeId);
+                if (!businessType) return '';
+                return businessType.label;
             },
             modalClose() {
                 this.modalOpen = false;

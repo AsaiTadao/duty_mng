@@ -3,40 +3,42 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header calendar-title row">
-                            <div class="col-md-6 col-12 row">
-                                <h5 class="card-title col-4 mb-0 px-0">{{ currentOfficeName }}</h5>
-                                <div class="col-4 mb-0 px-0">ー連絡帳ー</div>
-                                <div class="col-4 mb-0 px-0">{{child.name}}</div>
-                            </div>
-                            <div class="col-md-6 col-12 row d-flex align-items-center">
-                                <div class="col-7 d-flex align-items-center p-0">
-                                    <datepicker
-                                    :language="ja"
-                                    :format="customFormatter"
-                                    ref="programaticOpen"
-                                    :placeholder="todayDate"
-                                    @selected="getContact"
-                                    v-model="selectedDate">
-                                    </datepicker>
-                                    <button type="button" class="btn btn-sm btn-outline mx-0" @click="openDatePicker()">
-                                    <i class="fas fa-calendar-alt fa-2x"></i>
-                                    </button>
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-6 col-12 d-flex align-items-center">
+                                    <h5 class="card-title mb-0 pr-5">{{ currentOfficeName }}</h5>
+                                    <div class="mb-0 px-3">ー連絡帳ー</div>
+                                    <div class="mb-0 pl-4">{{child.name}}</div>
                                 </div>
-                                <div class="col-5 d-flex align-items-center px-0">
-                                    <div for="weatherStauts" class="col-form-label mr-2">天気</div>
-                                    <input type="text" class="form-control fixed-width-80 px-0" id="weatherStauts" v-model="formData.weather" @change="dataChanged = true;"/>
+                                <div class="col-md-6 col-12 d-flex align-items-center">
+                                    <div class="d-flex align-items-center p-0">
+                                        <datepicker
+                                        :language="ja"
+                                        :format="customFormatter"
+                                        ref="programaticOpen"
+                                        :placeholder="todayDate"
+                                        @selected="getContact"
+                                        v-model="selectedDate">
+                                        </datepicker>
+                                        <button type="button" class="btn btn-sm btn-outline mx-0" @click="openDatePicker()">
+                                        <i class="fas fa-calendar-alt fa-2x"></i>
+                                        </button>
+                                    </div>
+                                    <div class="d-flex align-items-center px-3">
+                                        <div for="weatherStauts" class="form-label mr-2">天気</div>
+                                        <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" v-model="formData.weather" @change="dataChanged = true;"/>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="form-group row">
-                                <div class="col-md-4 col-sm-12">
+                                <div class="col-md-4 col-sm-12 align-self-center">
                                     記入者 保護者様名：山田　三越
                                 </div>
-                                <div class="col-md-3 col-sm-10" style="display:flex;">
-                                    <label for="mindername" style="min-width: 80px;">保育士名：</label>
-                                    <input type="text" class="form-control" id="mindername" style="width: calc(100% - 85px);" @change="dataChanged = true;"/>
+                                <div class="col-md-3 col-sm-10 align-items-center" style="display:flex;">
+                                    <label for="mindername" style="min-width: 80px; margin-bottom:0px;">保育士名：</label>
+                                    <input type="text" class="form-control" id="mindername" style="width: calc(100% - 85px);" v-model="formData.nurseName" @change="dataChanged = true;"/>
                                 </div>
                             </div>
                             <div class="row" style="padding-left:15px; padding-right:15px;">
@@ -62,12 +64,12 @@
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <hour-minute-input v-model="formData.pickUpTime" @change="dataChanged = true;"/>
+                                        <hour-minute-input v-model="formData.temperatureTimeStd" @change="dataChanged = true;"/>
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <input type="text" class="form-control" style="max-width: 55%;" @change="dataChanged = true;"/>℃　
+                                        <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.temperatureStd" @change="dataChanged = true;"/>℃　
                                     </div>
                                 </div>
                             </div>
@@ -88,8 +90,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
-                                    <div class="light-pink text-center py-2">
-                                        山田　光子
+                                    <div class="light-pink d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
+                                        <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.pickUpPerson" @change="dataChanged = true;"/>
                                     </div>
                                 </div>
                             </div>
@@ -115,12 +117,40 @@
                                                     </td>
                                                     <td rowspan="2" style="width: 120px;">
                                                         <div class="d-flex justify-content-center" style="width: fit-content; margin: auto;">
-                                                            <input type="text" class="form-control" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" @change="dataChanged = true;"/>
+                                                            <input type="text" class="form-control" v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`] == 1" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" @change="dataChanged = true;"/>
+                                                            <input type="text" class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`] == 1" v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" @change="dataChanged = true;"/>
+                                                            <input type="text" class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}School`] == 1" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" @change="dataChanged = true;"/>
+                                                            <input type="text" class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}Home`] == 1" v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" @change="dataChanged = true;"/>
+                                                            <input type="text" class="form-control" v-else v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" @change="dataChanged = true;"/>
                                                             <label class="align-self-center m-0 ml-1">℃</label>
                                                         </div>
                                                     </td>
                                                     <td rowspan="2" class="contact-book-mood">
-                                                        <select class="form-control" v-model="formData[`defecation${hour.time}School`]" @change="dataChanged = true;">
+                                                        <select class="form-control" v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`] == 1" v-model="formData[`defecation${hour.time}School`]" @change="dataChanged = true;">
+                                                            <option :value="0">-</option>
+                                                            <option :value="1">普通</option>
+                                                            <option :value="2">軟い</option>
+                                                            <option :value="3">固い</option>
+                                                        </select>
+                                                        <select class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`] == 1" v-model="formData[`defecation${hour.time}Home`]" @change="dataChanged = true;">
+                                                            <option :value="0">-</option>
+                                                            <option :value="1">普通</option>
+                                                            <option :value="2">軟い</option>
+                                                            <option :value="3">固い</option>
+                                                        </select>
+                                                        <select class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}School`] == 1" v-model="formData[`defecation${hour.time}School`]" @change="dataChanged = true;">
+                                                            <option :value="0">-</option>
+                                                            <option :value="1">普通</option>
+                                                            <option :value="2">軟い</option>
+                                                            <option :value="3">固い</option>
+                                                        </select>
+                                                        <select class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}Home`] == 1" v-model="formData[`defecation${hour.time}Home`]" @change="dataChanged = true;">
+                                                            <option :value="0">-</option>
+                                                            <option :value="1">普通</option>
+                                                            <option :value="2">軟い</option>
+                                                            <option :value="3">固い</option>
+                                                        </select>
+                                                        <select class="form-control" v-else v-model="formData[`defecation${hour.time}School`]" @change="dataChanged = true;">
                                                             <option :value="0">-</option>
                                                             <option :value="1">普通</option>
                                                             <option :value="2">軟い</option>
@@ -128,7 +158,11 @@
                                                         </select>
                                                     </td>
                                                     <td rowspan="2">
-                                                        <input type="text" class="form-control px-2" v-model="formData[`meal${hour.time}School`]" @change="dataChanged = true;"/>
+                                                        <input type="text" class="form-control px-2" v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`] == 1" v-model="formData[`meal${hour.time}School`]" @change="dataChanged = true;"/>
+                                                        <input type="text" class="form-control px-2" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`] == 1" v-model="formData[`meal${hour.time}Home`]" @change="dataChanged = true;"/>
+                                                        <input type="text" class="form-control px-2" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}School`] == 1" v-model="formData[`meal${hour.time}School`]" @change="dataChanged = true;"/>
+                                                        <input type="text" class="form-control px-2" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}Home`] == 1" v-model="formData[`meal${hour.time}Home`]" @change="dataChanged = true;"/>
+                                                        <input type="text" class="form-control px-2" v-else v-model="formData[`meal${hour.time}School`]" @change="dataChanged = true;"/>
                                                     </td>
                                                 </tr>
                                                 <tr :key="hour.time+'30mins'">
@@ -206,8 +240,11 @@ const initialFormData = {
     date: new Date(),
     weather: '',
     mood: null,
+    nurseName: '',
     pickUpPerson: null,
     pickUpTime: null,
+    temperatureStd: '',
+    temperatureTimeStd: null,
     sleep0100School: false,
     sleep0130School: false,
     sleep0200School: false,
