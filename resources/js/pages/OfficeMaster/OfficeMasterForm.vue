@@ -164,6 +164,7 @@
                     </div>
                     <div class="col-md-6">
                         <select class="form-control" v-model="formData.businessTypeId">
+                            <option></option>
                             <option v-for="business in businessTypes" :key="business.id" :value="business.id">{{business.label}}</option>
                         </select>
                     </div>
@@ -264,6 +265,9 @@ import moment from 'moment';
                 if(this.formData.openTimeHour && this.formData.openTimeMin) {
                     this.formData['open_time'] = this.formData.openTimeHour + ":" + this.formData.openTimeMin;
                     this.formData['close_time'] = this.formData.closeTimeHour + ":" + this.formData.closeTimeMin;
+                }
+                if(!this.formData.businessTypeId) {
+                    this.formData['business_type_id'] = null;
                 }
                 if (this.data.id) {
                     request = api.put('office-master/' + this.data.id, null, this.formData);
