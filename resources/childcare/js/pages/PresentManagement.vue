@@ -60,7 +60,7 @@
                             <!-- Modal -->
                             <div class="modal fade" id="attend-edit-form" tabindex="-1" role="dialog" aria-labelledby="attend-edit-form" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
-                                    <edit-form :editData="formData" :date="selectedDate" v-on:success="onAttendSaved"></edit-form>
+                                    <edit-form :editData="formData" :date="selectedDate" :childId="childId" v-on:success="onAttendSaved"></edit-form>
                                 </div>
                             </div>
                         </div>
@@ -127,6 +127,7 @@ export default {
         },
         openEditForm(day) {
             this.selectedDate = moment(this.currentDate.format('YYYY-MM-') + String(day).padStart(2, '0')).toDate();
+            this.selectedDate = moment(this.selectedDate).format('YYYY-MM-DD');
             console.log(this.selectedDate);
             const formData = this.attendances.find(item => item.day === day);
             this.formData = {...formData };

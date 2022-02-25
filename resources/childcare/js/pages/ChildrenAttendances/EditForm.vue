@@ -70,6 +70,7 @@
                 <div class="col-md-3">欠席</div>
                 <div class="col-md-6">
                     <select class="form-control" v-model="formData.reasonForAbsenceId">
+                        <option></option>
                         <option v-for="reason in reasonForAbsences" :key="reason.id" :value="reason.id">{{reason.name}}</option>
                     </select>
                     <span v-if="errors.reasonForAbsenceId" class="error invalid-feedback">
@@ -116,7 +117,8 @@ import { showSuccess } from '../../helpers/error';
         mixins: [actionLoading],
         props: {
             editData: {},
-            date: null
+            date: null,
+            childId: null
         },
         computed: {
             ...mapState({
@@ -179,7 +181,13 @@ import { showSuccess } from '../../helpers/error';
                 }
 
                 this.setActionLoading();
-                api.post('attendance/' + this.formData.id, null, requestData)
+                let childId;
+                if(this.formData.id) {
+                    childId = this.formData.id;
+                } else {
+                    childId = this.childId;
+                }
+                api.post('attendance/' + childId, null, requestData)
                 .then(() => {
                     this.unsetActionLoading();
                     showSuccess(this.$t('Successfully saved'));
