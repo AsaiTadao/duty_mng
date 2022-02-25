@@ -565,7 +565,7 @@ export default {
                 this.errors.email = this.$t('Please input email');
                 valid = false;
             }
-            if (!this.formData.password) {
+            if (!this.childId && !this.formData.password) {
                 this.errors.password = this.$t('Please input password');
                 valid = false;
             }
