@@ -130,7 +130,7 @@ export default {
             this.selectedDate = moment(this.selectedDate).format('YYYY-MM-DD');
             console.log(this.selectedDate);
             const formData = this.attendances.find(item => item.day === day);
-            this.formData = {...formData };
+            this.formData = {...formData, id: this.childId };
             $("#attend-edit-form").modal('show');
         },
         onAttendSaved() {

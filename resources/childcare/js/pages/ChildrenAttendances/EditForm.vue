@@ -181,13 +181,7 @@ import { showSuccess } from '../../helpers/error';
                 }
 
                 this.setActionLoading();
-                let childId;
-                if(this.formData.id) {
-                    childId = this.formData.id;
-                } else {
-                    childId = this.childId;
-                }
-                api.post('attendance/' + childId, null, requestData)
+                api.post('attendance/' + this.formData.id, null, requestData)
                 .then(() => {
                     this.unsetActionLoading();
                     showSuccess(this.$t('Successfully saved'));
