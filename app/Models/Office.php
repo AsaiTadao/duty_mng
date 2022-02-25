@@ -51,7 +51,7 @@ class Office extends Model
     public function getIsNurseryAttribute()
     {
         if (!$this->attributes['name']) return false;
-        return Str::endsWith($this->attributes['name'], '保育園');
+        return $this->type === self::TYPE_NURSERY;
     }
 
     public function office_information()
