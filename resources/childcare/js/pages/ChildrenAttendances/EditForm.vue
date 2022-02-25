@@ -69,7 +69,7 @@
             <div class="form-group row">
                 <div class="col-md-3">欠席</div>
                 <div class="col-md-6">
-                    <select class="form-control" v-model="formData.reasonForAbsenceId" :class="{'is-invalid' : errors.reasonForAbsenceId}" @change="() => {errors.reasonForAbsenceId=null}">
+                    <select class="form-control" v-model="formData.reasonForAbsenceId">
                         <option v-for="reason in reasonForAbsences" :key="reason.id" :value="reason.id">{{reason.name}}</option>
                     </select>
                     <span v-if="errors.reasonForAbsenceId" class="error invalid-feedback">
@@ -209,10 +209,10 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.leaveTimeMin = this.$t('Please input number');
                     valid = false;
                 }
-                if (!this.formData.reasonForAbsenceId) {
-                    this.errors.reasonForAbsenceId = this.$t('Please select reason of absence');
-                    valid = false;
-                }
+                // if (!this.formData.reasonForAbsenceId) {
+                //     this.errors.reasonForAbsenceId = this.$t('Please select reason of absence');
+                //     valid = false;
+                // }
                 return valid;
             },
             convertToFormData() {
