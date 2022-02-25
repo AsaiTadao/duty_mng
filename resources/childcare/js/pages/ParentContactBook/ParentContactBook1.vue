@@ -756,7 +756,7 @@ export default {
                 requestData['meal_time_3_home'] = moment(this.formData.mealTime3Home, 'h:mm:ss').format('HH:mm');
 
             if(this.formData.sleepStart1Home)
-                requestData['sleep_start_1_home'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
+                requestData['sleep_start_1_home'] = moment(this.formData.sleepStart1Home, 'h:mm:ss').format('HH:mm');
 
             if(this.formData.sleepEnd1Home)
                 requestData['sleep_end_1_home'] = moment(this.formData.sleepEnd1Home, 'h:mm:ss').format('HH:mm');

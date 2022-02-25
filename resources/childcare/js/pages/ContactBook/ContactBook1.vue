@@ -759,7 +759,7 @@ export default {
                 requestData['meal_time_3_school'] = moment(this.formData.mealTime3School, 'h:mm:ss').format('HH:mm');
 
             if(this.formData.sleepStart1School)
-                requestData['sleep_start_1_school'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
+                requestData['sleep_start_1_school'] = moment(this.formData.sleepStart1School, 'h:mm:ss').format('HH:mm');
 
             if(this.formData.sleepEnd1School)
                 requestData['sleep_end_1_school'] = moment(this.formData.sleepEnd1School, 'h:mm:ss').format('HH:mm');
