@@ -33,12 +33,13 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group row">
-                                <div class="col-md-4 col-sm-12 align-self-center">
-                                    記入者 保護者様名：山田　三越
+                                <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
+                                    <label for="parentname" style="min-width: 100px; margin-bottom:0px;">記入者 保護者様名：</label>
+                                    <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" @change="dataChanged = true;"/>
                                 </div>
-                                <div class="col-md-3 col-sm-10 align-items-center" style="display:flex;">
+                                <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                     <label for="mindername" style="min-width: 80px; margin-bottom:0px;">保育士名：</label>
-                                    <input type="text" class="form-control" id="mindername" style="width: calc(100% - 85px);" v-model="formData.nurseName" @change="dataChanged = true;"/>
+                                    <input type="text" class="form-control" id="mindername" style="width: calc(90% - 80px);" v-model="formData.nurseName" @change="dataChanged = true;"/>
                                 </div>
                             </div>
                             <div class="row" style="padding-left:15px; padding-right:15px;">
@@ -664,6 +665,7 @@ const initialFormData = {
     date: new Date(),
     weather: '',
     mood: null,
+    guardian: '',
     pickUpPerson: null,
     pickUpTime: null,
     mealTime1School: null,
