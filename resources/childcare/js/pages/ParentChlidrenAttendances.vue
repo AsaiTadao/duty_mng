@@ -156,8 +156,9 @@ export default {
             }
         },
         getDayOfWeek(day) {
-            this.currentDate.set('date', day);
-            return this.currentDate.day();
+            const newDate = moment(this.currentDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+            newDate.set('date', day);
+            return newDate.day();
         },
         formatTime(time) {
             return time ? moment(time).format('HH:mm') : '';

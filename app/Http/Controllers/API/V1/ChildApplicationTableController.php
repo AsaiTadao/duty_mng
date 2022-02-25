@@ -126,21 +126,21 @@ class ChildApplicationTableController extends BaseController
 
         for ($i = 1; $i <= $daysInMonth; $i++)
         {
-            $date = $baseDay->day($i)->format('Y-m-d');
-            $a = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && !$value->extension;
+            $targetDate = $baseDay->day($i)->format('Y-m-d');
+            $a = $attendances->filter(function ($value, $key) use ($targetDate) {
+                return $value->date === $targetDate && !$value->extension;
             })->count();
-            $b = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->extension && $value->extension * 60 <= 30;
+            $b = $attendances->filter(function ($value, $key) use ($targetDate) {
+                return $value->date === $targetDate && $value->extension && $value->extension * 60 <= 30;
             })->count();
-            $c = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->extension && $value->extension * 60 > 30 && $value->extension * 60 <= 60;
+            $c = $attendances->filter(function ($value, $key) use ($targetDate) {
+                return $value->date === $targetDate && $value->extension && $value->extension * 60 > 30 && $value->extension * 60 <= 60;
             })->count();
-            $d = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->extension && $value->extension * 60 > 60 && $value->extension * 60 <= 90;
+            $d = $attendances->filter(function ($value, $key) use ($targetDate) {
+                return $value->date === $targetDate && $value->extension && $value->extension * 60 > 60 && $value->extension * 60 <= 90;
             })->count();
-            $e = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->extension && $value->extension * 60 > 90;
+            $e = $attendances->filter(function ($value, $key) use ($targetDate) {
+                return $value->date === $targetDate && $value->extension && $value->extension * 60 > 90;
             })->count();
             $data['children_stat']['extension_stat'][$i] = compact('a', 'b', 'c', 'd', 'e');
 
@@ -148,23 +148,23 @@ class ChildApplicationTableController extends BaseController
 
             $sumAbsentCorona = 0; $sumAbsentPrivate = 0; $sumAbsentKibiki = 0; $sumAbsentSick = 0; $sumAbsentSuspension = 0; $sumAbsentVacation = 0;
 
-            $absentCorona = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->reason_for_absence_id === ReasonForAbsence::REASON_CORONA;
+            $absentCorona = $attendances->filter(function ($value, $key) use ($targetDate) {
+                return $value->date === $targetDate && $value->reason_for_absence_id === ReasonForAbsence::REASON_CORONA;
             })->count();
-            $absentPrivate = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->reason_for_absence_id === ReasonForAbsence::REASON_PRIVATE;
+            $absentPrivate = $attendances->filter(function ($value, $key) use ($targetDate) {
+                return $value->date === $targetDate && $value->reason_for_absence_id === ReasonForAbsence::REASON_PRIVATE;
             })->count();
-            $absentKibiki = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->reason_for_absence_id === ReasonForAbsence::REASON_KIBIKI;
+            $absentKibiki = $attendances->filter(function ($value, $key) use ($targetDate) {
+                return $value->date === $targetDate && $value->reason_for_absence_id === ReasonForAbsence::REASON_KIBIKI;
             })->count();
-            $absentSick = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->reason_for_absence_id === ReasonForAbsence::REASON_SICK;
+            $absentSick = $attendances->filter(function ($value, $key) use ($targetDate) {
+                return $value->date === $targetDate && $value->reason_for_absence_id === ReasonForAbsence::REASON_SICK;
             })->count();
-            $absentSuspension = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->reason_for_absence_id === ReasonForAbsence::REASON_SUSPENSION;
+            $absentSuspension = $attendances->filter(function ($value, $key) use ($targetDate) {
+                return $value->date === $targetDate && $value->reason_for_absence_id === ReasonForAbsence::REASON_SUSPENSION;
             })->count();
-            $absentVacation = $attendances->filter(function ($value, $key) use ($date) {
-                return $value->date === $date && $value->reason_for_absence_id === ReasonForAbsence::REASON_VACATION;
+            $absentVacation = $attendances->filter(function ($value, $key) use ($targetDate) {
+                return $value->date === $targetDate && $value->reason_for_absence_id === ReasonForAbsence::REASON_VACATION;
             })->count();
 
             $data['children_stat']['absent_stat'][$i] = [
@@ -214,7 +214,7 @@ class ChildApplicationTableController extends BaseController
             {
                 [$attendCount, $absentCount] = $this->attendanceService->countMonthlyAttend($child, $date);
                 $exitDate = Carbon::parse($child->exit_date);
-                if ($exitDate->format('Y-m') === $date)
+                if ($child->exit_date && $exitDate->format('Y-m') === $date)
                 {
                     $currentExitDate = $exitDate->format('d日');
                 } else {

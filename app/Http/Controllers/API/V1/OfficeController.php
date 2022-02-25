@@ -74,8 +74,9 @@ class OfficeController extends BaseController
             {
                 $officeInformation = $office->office_information;
             } else {
-                $officeInformation = new OfficeInformation($data);
+                $officeInformation = new OfficeInformation();
             }
+            $officeInformation->fill($data);
             $office->office_information()->save($officeInformation);
         }
         return $this->sendResponse(new OfficeResource($office));

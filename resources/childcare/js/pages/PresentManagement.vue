@@ -114,15 +114,19 @@ export default {
     },
     methods: {
         onNext() {
-            this.currentDate = moment(this.currentDate.add(1, 'months').format('YYYY-MM-DD'), 'YYYY-MM-DD');
+            this.currentDate = moment(this.currentDate.add(1, 'months').format('YYYY-MM') + '-01', 'YYYY-MM-DD');
             this.fetchData();
         },
         onPrev() {
-            this.currentDate = moment(this.currentDate.add(-1, 'months').format('YYYY-MM-DD'), 'YYYY-MM-DD');
+
+            console.log("onPrev", this.currentDate.format('YYYY-MM-DD'));
+
+            this.currentDate = moment(this.currentDate.add(-1, 'months').format('YYYY-MM') + '-01', 'YYYY-MM-DD');
             this.fetchData();
         },
         onCurrentMonth(){
-            this.currentDate = moment();
+            this.currentDate = moment(new Date());
+            console.log("on current month", this.currentDate.format('YYYY-MM-DD'));
             this.fetchData();
         },
         openEditForm(day) {
@@ -157,8 +161,9 @@ export default {
             }
         },
         getDayOfWeek(day) {
-            this.currentDate.set('date', day);
-            return this.currentDate.day();
+            const newDate = moment(this.currentDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+            newDate.set('date', day);
+            return newDate.day();
         },
         formatTime(time) {
             return time ? moment(time).format('HH:mm') : '';
