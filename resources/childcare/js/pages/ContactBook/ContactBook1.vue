@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
                                     <div class="light-pink d-flex justify-content-center fixed-height-40" style="padding-top:1px; padding-bottom:1px;">
-                                        <input type="text" class="form-control" style="max-width: 55%;" @change="dataChanged = true;"/>
+                                        <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.pickUpPerson" @change="dataChanged = true;"/>
                                     </div>
                                 </div>
                             </div>
@@ -217,13 +217,13 @@
                                         <div class="col-md-11 col-10">
                                             <div class="row">
                                                 <div class="col-md-12 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                    {{formData.sleepStart1Home}} ~ {{formData.sleepEnd1Home}}
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                    {{formatSleepTime(formData.sleepStart1Home, formData.sleepEnd1Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                    {{formData.sleepStart2Home}} ~ {{formData.sleepEnd2Home}}
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                    {{formatSleepTime(formData.sleepStart2Home, formData.sleepEnd2Home)}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -276,17 +276,17 @@
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperature1Home}}℃
+                                                        {{formatTemperature(formData.temperature1Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperature2Home}}℃
+                                                        {{formatTemperature(formData.temperature2Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperature3Home}}℃
+                                                        {{formatTemperature(formData.temperature3Home)}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -466,11 +466,11 @@
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="1" v-model="formData.defecation1School" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="2" v-model="formData.defecation1School" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">少ない</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="3" v-model="formData.defecation1School" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
@@ -490,11 +490,11 @@
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2">
                                                         <div class="d-flex justify-content-center py-2">
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="1" v-model="formData.defecation2School" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="2" v-model="formData.defecation2School" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">少ない</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="3" v-model="formData.defecation2School" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
@@ -922,6 +922,20 @@ export default {
                 if(!confirm(this.$t('Are you sure moving to other date without saving data?'))) return;
             }
             this.$refs.programaticOpen.showCalendar();
+        },
+        formatSleepTime(sleepTimeStart, sleepTimeEnd) {
+            if(sleepTimeStart && sleepTimeEnd) {
+                return sleepTimeStart + "~" + sleepTimeEnd;
+            } else {
+                return '';
+            }
+        },
+        formatTemperature(temperature){
+            if(temperature) {
+                return temperature + "℃";
+            } else {
+                return '';
+            }
         }
     },
     created() {
