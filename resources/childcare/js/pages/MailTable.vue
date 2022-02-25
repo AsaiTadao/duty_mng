@@ -4,6 +4,7 @@
         <br>
         <div class="card">
             <div class="card-header calendar-title">
+                <h3 class="card-title mb-0">{{ officeName }}</h3>
             </div>
             <div class="card-body">
                 <div class="">
@@ -80,7 +81,11 @@ export default {
     computed: {
         ...mapState({
             session: state =>  state.session.info,
-            childrenClasses: state => state.constants.childrenClasses
+            childrenClasses: state => state.constants.childrenClasses,
+            officeName: state =>  {
+                if (state.session.info.office) return state.session.info.office.name;
+                return '';
+            }
          }),
     },
     methods: {
