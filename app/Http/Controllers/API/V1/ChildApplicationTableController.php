@@ -73,7 +73,8 @@ class ChildApplicationTableController extends BaseController
     {
         $data = [
             'office_name'   =>  $office->name,
-            'employee_count'    =>  $office->users()->count()
+            'employee_count'    =>  $office->users()->count(),
+            'capacity'      =>  $office->capacity
         ];
         [$year, $month] = explode('-', $date);
 

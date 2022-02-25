@@ -40,7 +40,7 @@
                                     定員
                                 </div>
                                 <div class="m-2">
-                                    {{total.employeeCount}}
+                                    {{total.capacity}}
                                 </div>
                             </div>
                             <div class="row">
