@@ -38,7 +38,7 @@ class ContactBook12SchoolRequest extends FormRequest {
             'bathing_school'        =>  ['nullable', 'in:1,2'],
             'temperature_time_1_school' =>  ['nullable', 'date_format:H:i'],
             'temperature_1_school'  =>  ['nullable', 'numeric'],
-            'temperature_time_1_school' =>  ['nullable', 'date_format:H:i'],
+            'temperature_time_2_school' =>  ['nullable', 'date_format:H:i'],
             'temperature_2_school'  =>  ['nullable', 'numeric'],
             'temperature_time_3_school' =>  ['nullable', 'date_format:H:i'],
             'temperature_3_school'  =>  ['nullable', 'numeric'],
