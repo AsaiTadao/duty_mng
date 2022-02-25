@@ -298,13 +298,13 @@
                                                 {{index + 1}}
                                             </td>
                                             <td class="header-fix-sub-95 bg-white">
-                                                {{changeBirthFormat(child.birthDay)}}
+                                                {{changeBirthFormat(child.birthday)}}
                                             </td>
                                             <td class="header-fix-sub-235 bg-white">
                                                 {{child.name}}
                                             </td>
                                             <td>
-                                                {{changeBirthFormat(child.birthDay)}}
+                                                {{changeBirthFormat(child.birthday)}}
                                             </td>
                                             <td>{{getAge(child.birthday)}}</td>
                                             <td>{{child.type}}</td>
