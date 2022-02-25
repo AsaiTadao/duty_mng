@@ -87,7 +87,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealAmount1Home}}
+                                                        {{formatStatus(formData.mealAmount1Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pl-0">
@@ -102,7 +102,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                    {{formData.mealAmount2Home}}
+                                                    {{formatStatus(formData.mealAmount2Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pl-0">
@@ -117,7 +117,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealAmount3Home}}
+                                                        {{formatStatus(formData.mealAmount3Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pl-0">
@@ -146,7 +146,7 @@
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mood1Home}}
+                                                        {{formatStatus(formData.mood1Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
@@ -156,7 +156,7 @@
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                    {{formData.mood2Home}}
+                                                        {{formatStatus(formData.mood2Home)}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -180,7 +180,7 @@
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.defecationCount1Home}}
+                                                        {{formatStatus(formData.defecation1Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
@@ -195,7 +195,7 @@
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.defecationCount2Home}}
+                                                        {{formatStatus(formData.defecation2Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
@@ -243,7 +243,7 @@
                                             <div class="row">
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                    {{formData.bathingHome}}
+                                                    {{formatStatus(formData.bathingHome)}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -935,6 +935,17 @@ export default {
         formatTemperature(temperature){
             if(temperature) {
                 return temperature + "℃";
+            } else {
+                return '';
+            }
+        },
+        formatStatus(status){
+            if(status == 1) {
+                return '普通';
+            } else if(status == 2) {
+                return '少ない';
+            } else if(status == 3) {
+                return '多い';
             } else {
                 return '';
             }

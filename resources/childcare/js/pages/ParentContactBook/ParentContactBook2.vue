@@ -25,8 +25,8 @@
                                     </button>
                                 </div>
                                 <div class="d-flex align-items-center px-3">
-                                    <div for="weatherStauts" class="form-label mr-2">天気</div>
-                                    <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" v-model="formData.weather" @change="dataChanged = true;"/>
+                                    <div for="weatherStauts" class="form-label mr-2">天気:</div>
+                                        {{formData.weather}}
                                 </div>
                             </div>
                         </div>
