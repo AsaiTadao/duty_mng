@@ -32,7 +32,7 @@
                                         <th width="30%">
                                             事業所No
                                         </th>
-                                        <th>
+                                        <th width="45%">
                                             事業所名
                                         </th>
                                         <th rowspan="2">
@@ -43,7 +43,7 @@
                                 </thead>
                                 <tbody class="text-center">
                                     <template v-for="office in offices">
-                                        <template v-if="office.isNursery">
+                                        <template v-if="office.type == 2">
                                             <tr :key="office.id">
                                                 <td>
                                                     {{ office.number }}
