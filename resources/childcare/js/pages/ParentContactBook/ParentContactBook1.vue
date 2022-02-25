@@ -25,8 +25,8 @@
                                         </button>
                                     </div>
                                     <div class="d-flex align-items-center px-3">
-                                        <div for="weatherStauts" class="form-label mr-2">天気</div>
-                                        <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" v-model="formData.weather" @change="dataChanged = true;"/>
+                                        <div for="weatherStauts" class="form-label mr-2">天気:</div>
+                                        {{formData.weather}}
                                     </div>
                                 </div>
                             </div>
@@ -34,7 +34,7 @@
                         <div class="card-body">
                             <div class="form-group row">
                                 <div class="col-md-4 col-sm-12 align-self-center">
-                                    記入者 保護者様名：山田　三越
+                                    記入者 保護者様名：{{formData.guardian}}
                                 </div>
                                 <div class="col-md-3 col-sm-10 align-items-center" style="display:flex;">
                                     <label for="mindername" style="min-width: 80px; margin-bottom:0px;">保育士名：</label>
@@ -80,48 +80,81 @@
                                         <div class="col-md-11 col-10">
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealTime1Home}}
+                                                    <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
+                                                        <div class="text-center d-flex justify-content-center">
+                                                            <hour-minute-input v-model="formData.mealTime1Home" :error="errors.mealTime1Home" @change="dataChanged = true;"/>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealAmount1Home}}
+                                                <div class="col-md-6 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2">
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="1" v-model="formData.mealAmount1Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="2" v-model="formData.mealAmount1Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="3" v-model="formData.mealAmount1Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-7 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealMemo1Home}}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealTime2Home}}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                    {{formData.mealAmount2Home}}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-7 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                    {{formData.mealMemo2Home}}
+                                                <div class="col-md-3 col-12 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center d-flex justify-content-center px-2">
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo1Home" @change="dataChanged = true;"/>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealTime3Home}}
+                                                    <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
+                                                        <div class="text-center d-flex justify-content-center">
+                                                            <hour-minute-input v-model="formData.mealTime2Home" :error="errors.mealTime2Home" @change="dataChanged = true;"/>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealAmount3Home}}
+                                                <div class="col-md-6 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2">
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="1" v-model="formData.mealAmount2Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="2" v-model="formData.mealAmount2Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="3" v-model="formData.mealAmount2Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-7 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealMemo3Home}}
+                                                <div class="col-md-3 col-12 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center d-flex justify-content-center px-2">
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo2Home" @change="dataChanged = true;"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2" style="padding-bottom: 1px; padding-top: 1px;">
+                                                        <div class="text-center d-flex justify-content-center">
+                                                            <hour-minute-input v-model="formData.mealTime3Home" :error="errors.mealTime3Home" @change="dataChanged = true;"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2">
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="1" v-model="formData.mealAmount3Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="2" v-model="formData.mealAmount3Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="3" v-model="formData.mealAmount3Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-12 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center d-flex justify-content-center px-2">
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo3Home" @change="dataChanged = true;"/>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -144,8 +177,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mood1Home}}
+                                                    <div class="light-brown text-center white-lb-border-2">
+                                                        <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="1" v-model="formData.mood1Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="2" v-model="formData.mood1Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="3" v-model="formData.mood1Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">多い</label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
@@ -154,292 +194,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                    {{formData.mood2Home}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-md-1 col-2 pr-0">
-                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
-                                                <label>
-                                                    排便
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-11 col-10">
-                                            <div class="row">
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="dark-blue text-center text-white white-lb-border-2 py-2 fixed-height-40">
-                                                        前夜
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-7 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.defecationCount1Home}}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.defecationCount1Home}}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="dark-blue text-center text-white white-l-border-2 py-2 fixed-height-40">
-                                                        今朝
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-7 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.defecationCount2Home}}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-2 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.defecationCount2Home}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-md-1 col-2 pr-0">
-                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
-                                                <label>
-                                                    睡眠
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-11 col-10">
-                                            <div class="row">
-                                                <div class="col-md-12 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
-                                                    {{formData.sleepStart1Home}} ~ {{formData.sleepEnd1Home}}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
-                                                    {{formData.sleepStart2Home}} ~ {{formData.sleepEnd2Home}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-md-1 col-2 pr-0">
-                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center fixed-height-40">
-                                                <label class="mb-0">
-                                                    入浴
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-11 col-10">
-                                            <div class="row">
-                                                <div class="col-md-12 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                    {{formData.bathingHome}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-md-1 col-2 pr-0">
-                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
-                                                <label>
-                                                    気温
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-11 col-10">
-                                            <div class="row">
-                                                <div class="col-md-4 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime1Home}}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime2Home}}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime3Home}}
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperature1Home}}℃
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperature2Home}}℃
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperature3Home}}℃
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12 col-12">
-                                            <div class="dark-blue text-center py-2 text-white">
-                                                家庭での様子
-                                            </div>
-                                            <div class="light-blue p-4 mt-1" style="height: 300px;">
-                                                {{formData.state1Home}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 col-12">
-                                    <div class="dark-yellow text-center py-2 text-white mb-1">
-                                        保育園より
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-md-1 col-2 pr-0">
-                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
-                                                <label>
-                                                    食事
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-11 col-10">
-                                            <div class="row">
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
-                                                        <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.mealTime1School" :error="errors.mealTime1School" @change="dataChanged = true;"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2">
-                                                        <div class="d-flex justify-content-center py-2">
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="1" v-model="formData.mealAmount1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">普通</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="2" v-model="formData.mealAmount1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">少ない</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="3" v-model="formData.mealAmount1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">多い</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo1School" @change="dataChanged = true;"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
-                                                        <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.mealTime2School" :error="errors.mealTime2School" @change="dataChanged = true;"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2">
-                                                        <div class="d-flex justify-content-center py-2">
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="1" v-model="formData.mealAmount2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">普通</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="2" v-model="formData.mealAmount2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">少ない</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="3" v-model="formData.mealAmount2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">多い</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo2School" @change="dataChanged = true;"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2" style="padding-bottom: 1px; padding-top: 1px;">
-                                                        <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.mealTime3School" :error="errors.mealTime3School" @change="dataChanged = true;"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2">
                                                         <div class="d-flex justify-content-center py-2">
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="1" v-model="formData.mealAmount3School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="1" v-model="formData.mood2Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="2" v-model="formData.mealAmount3School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="2" v-model="formData.mood2Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">少ない</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="3" v-model="formData.mealAmount3School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">多い</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo3School" @change="dataChanged = true;"/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <div class="col-md-1 col-2 pr-0">
-                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
-                                                <label>
-                                                    機嫌
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-11 col-10">
-                                            <div class="row">
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="dark-yellow text-center text-white white-lb-border-2 py-2">
-                                                        前夜
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-9 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2">
-                                                        <div class="d-flex justify-content-center py-2">
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="1" v-model="formData.mood1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">普通</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="2" v-model="formData.mood1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">少ない</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="3" v-model="formData.mood1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">多い</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="dark-yellow text-center text-white white-l-border-2 py-2">
-                                                        今朝
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-9 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2">
-                                                        <div class="d-flex justify-content-center py-2">
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">普通</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">少ない</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="3" v-model="formData.mood2Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
@@ -459,18 +220,18 @@
                                         <div class="col-md-11 col-10">
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="dark-yellow text-center text-white white-lb-border-2 py-2">
+                                                    <div class="dark-blue text-center text-white white-lb-border-2 py-2">
                                                         前夜
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="1" v-model="formData.defecation1Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="2" v-model="formData.defecation1Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">少ない</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="3" v-model="formData.defecation1Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
@@ -478,23 +239,23 @@
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount1School" @change="dataChanged = true;">
+                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount1Home" @change="dataChanged = true;">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="dark-yellow text-center text-white white-l-border-2 py-2">
+                                                    <div class="dark-blue text-center text-white white-l-border-2 py-2">
                                                         今朝
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2">
                                                         <div class="d-flex justify-content-center py-2">
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="1" v-model="formData.defecation2Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="2" v-model="formData.defecation2Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">少ない</label>
-                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="3" v-model="formData.defecation2Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">多い</label>
                                                         </div>
                                                     </div>
@@ -502,7 +263,7 @@
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount2School" @change="dataChanged = true;">
+                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount2Home" @change="dataChanged = true;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -523,18 +284,18 @@
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.sleepStart1School" :error="errors.sleepStart1School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.sleepStart1Home" :error="errors.sleepStart1Home" @change="dataChanged = true;"/>
                                                             ~
-                                                            <hour-minute-input v-model="formData.sleepEnd1School" :error="errors.sleepEnd1School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.sleepEnd1Home" :error="errors.sleepEnd1Home" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.sleepStart2School" :error="errors.sleepStart2School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.sleepStart2Home" :error="errors.sleepStart2Home" @change="dataChanged = true;"/>
                                                             ~
-                                                            <hour-minute-input v-model="formData.sleepEnd2School" :error="errors.sleepEnd2School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.sleepEnd2Home" :error="errors.sleepEnd2Home" @change="dataChanged = true;"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -555,9 +316,9 @@
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2">
                                                         <div class="form-check text-center">
-                                                            <input class="form-check-input" type="radio" name="radio8" :value="1" v-model="formData.bathingSchool" @change="dataChanged = true;">
+                                                            <input class="form-check-input" type="radio" name="radio8" :value="1" v-model="formData.bathingHome" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-5">普通</label>
-                                                            <input class="form-check-input" type="radio" name="radio8" :value="2" v-model="formData.bathingSchool" @change="dataChanged = true;">
+                                                            <input class="form-check-input" type="radio" name="radio8" :value="2" v-model="formData.bathingHome" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-5">少ない</label>
                                                         </div>
                                                     </div>
@@ -624,16 +385,255 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-md-12 col-12">
-                                            <div class="dark-yellow text-center py-2 text-white">
+                                            <div class="dark-blue text-center py-2 text-white">
+                                                家庭での様子
+                                            </div>
+                                            <div class="light-blue p-4 mt-1" style="height: 300px;">
                                                 <textarea class="form-control" style="height: 95%;" v-model="formData.state1Home" @change="dataChanged = true;">
 
                                                 </textarea>
                                             </div>
-                                            <div class="light-yellow p-4 mt-1" style="height: 300px;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="dark-yellow text-center py-2 text-white mb-1">
+                                        保育園より
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-1 col-2 pr-0">
+                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
+                                                <label>
+                                                    食事
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-11 col-10">
+                                            <div class="row">
+                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.mealTime1School}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formatStatus(formData.mealAmount1School)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7 col-12 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.mealMemo1School}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.mealTime2School}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                    {{formatStatus(formData.mealAmount2School)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7 col-12 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                    {{formData.mealMemo2School}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formData.mealTime3School}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formatStatus(formData.mealAmount3School)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7 col-12 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formData.mealMemo3School}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-md-1 col-2 pr-0">
+                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
+                                                <label>
+                                                    機嫌
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-11 col-10">
+                                            <div class="row">
+                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                    <div class="dark-yellow text-center text-white white-lb-border-2 py-2">
+                                                        前夜
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-9 col-12 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formatStatus(formData.mood1School)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                    <div class="dark-yellow text-center text-white white-l-border-2 py-2">
+                                                        今朝
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-9 col-12 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                    {{formatStatus(formData.mood2School)}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-md-1 col-2 pr-0">
+                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
+                                                <label>
+                                                    排便
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-11 col-10">
+                                            <div class="row">
+                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                    <div class="dark-yellow text-center text-white white-lb-border-2 py-2 fixed-height-40">
+                                                        前夜
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formatStatus(formData.defecation1School)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 col-12 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.defecationCount1School}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                    <div class="dark-yellow text-center text-white white-l-border-2 py-2 fixed-height-40">
+                                                        今朝
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-7 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formatStatus(formData.defecation2School)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 col-12 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formData.defecationCount2School}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-md-1 col-2 pr-0">
+                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
+                                                <label>
+                                                    睡眠
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-11 col-10">
+                                            <div class="row">
+                                                <div class="col-md-12 col-12 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2">
+                                                        {{formatSleepTime(formData.sleepStart1School, formData.sleepEnd1School)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 col-12 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2">
+                                                        {{formatSleepTime(formData.sleepStart2School, formData.sleepEnd2School)}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-md-1 col-2 pr-0">
+                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center fixed-height-40">
+                                                <label class="mb-0">
+                                                    入浴
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-11 col-10">
+                                            <div class="row">
+                                                <div class="col-md-12 col-12 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                    {{formatStatus(formData.bathingSchool)}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-md-1 col-2 pr-0">
+                                            <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
+                                                <label>
+                                                    気温
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-11 col-10">
+                                            <div class="row">
+                                                <div class="col-md-4 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperatureTime1School}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperatureTime2School}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-12 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperatureTime3School}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formatTemperature(formData.temperature1School)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-12 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formatTemperature(formData.temperature2School)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-12 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formatTemperature(formData.temperature3School)}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12 col-12">
+                                            <div class="dark-yellow text-center py-2 text-white">
                                                 保育園での様子
+                                            </div>
+                                            <div class="light-yellow p-4 mt-1" style="height: 300px;">
+                                                {{formData.state1School}}
                                             </div>
                                         </div>
                                     </div>
@@ -921,6 +921,31 @@ export default {
                 if(!confirm(this.$t('Are you sure moving to other date without saving data?'))) return;
             }
             this.$refs.programaticOpen.showCalendar();
+        },
+        formatSleepTime(sleepTimeStart, sleepTimeEnd) {
+            if(sleepTimeStart && sleepTimeEnd) {
+                return sleepTimeStart + "~" + sleepTimeEnd;
+            } else {
+                return '';
+            }
+        },
+        formatTemperature(temperature){
+            if(temperature) {
+                return temperature + "℃";
+            } else {
+                return '';
+            }
+        },
+        formatStatus(status){
+            if(status == 1) {
+                return '普通';
+            } else if(status == 2) {
+                return '少ない';
+            } else if(status == 3) {
+                return '多い';
+            } else {
+                return '';
+            }
         }
     },
     created() {

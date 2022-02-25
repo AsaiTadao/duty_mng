@@ -54,16 +54,16 @@
             <div class="form-group">
                 <div class="form-row">
                     <div class="col-md-1">
-                        <input type="radio" name="kind" :value="true" v-model="formData.isNursery">
+                        <input type="radio" name="kind" :value="2" v-model="formData.type">
                         <label class="ml-auto">保育園</label>
                     </div>
                     <div class="col-md-1">
-                        <input type="radio" name="kind" :value="false" v-model="formData.isNursery">
+                        <input type="radio" name="kind" :value="1" v-model="formData.type">
                         <label class="ml-auto">その他</label>
                     </div>
                 </div>
             </div>
-            <template v-if="formData.isNursery">
+            <template v-if="formData.type == 2">
             <div class="form-group">
                 <div class="form-row">
                     <div class="col-md-4">
