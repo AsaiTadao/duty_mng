@@ -21,12 +21,12 @@ class CreateOfficeInformationTable extends Migration
             $table->time('open_time')->nullable();
             $table->time('close_time')->nullable();
             $table->smallInteger('capacity')->nullable();
-            $table->smallInteger('appropriate_number_0');
-            $table->smallInteger('appropriate_number_1');
-            $table->smallInteger('appropriate_number_2');
-            $table->smallInteger('appropriate_number_3');
-            $table->smallInteger('appropriate_number_4');
-            $table->smallInteger('appropriate_number_5');
+            $table->smallInteger('appropriate_number_0')->nullable();
+            $table->smallInteger('appropriate_number_1')->nullable();
+            $table->smallInteger('appropriate_number_2')->nullable();
+            $table->smallInteger('appropriate_number_3')->nullable();
+            $table->smallInteger('appropriate_number_4')->nullable();
+            $table->smallInteger('appropriate_number_5')->nullable();
             $table->foreignId('business_type_id')->constrained('business_types');
 
             $table->timestamps();
