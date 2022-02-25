@@ -556,6 +556,8 @@ export default {
             requestData['date'] = moment(this.selectedDate).format('YYYY-MM-DD');
             if(this.formData.pickUpTime)
                 requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
+            if(this.formData.temperatureTimeStd)
+                requestData['temperature_time_std'] = moment(this.formData.temperatureTimeStd, 'h:mm:ss').format('HH:mm');
             this.setActionLoading();
             api.post('contact-book/child/' + this.child.id + '/home/0', null, requestData)
             .then(() => {
