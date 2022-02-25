@@ -34,7 +34,7 @@
                         <div class="card-body">
                             <div class="form-group row">
                                 <div class="col-md-4 col-sm-12 align-self-center">
-                                    記入者 保護者様名：山田　三越
+                                    記入者 保護者様名：{{formData.guardian}}
                                 </div>
                                 <div class="col-md-3 col-sm-10 align-items-center" style="display:flex;">
                                     <label for="mindername" style="min-width: 80px; margin-bottom:0px;">保育士名：</label>
