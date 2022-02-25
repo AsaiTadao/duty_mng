@@ -12,7 +12,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="navbar-nav ml-3">
+        <ul class="navbar-nav ml-3" v-if="showChangeBtn()">
             <li class="nav-item kintai-system system-unselected">
                 <a
                     class="nav-link px-4"
@@ -56,6 +56,7 @@
 <script>
 import { handleSignOut } from '../helpers/error';
 import { mapState } from 'vuex';
+import { Guards } from '../global/consts';
 
 export default {
     computed: {
@@ -67,6 +68,14 @@ export default {
         signOut() {
             handleSignOut();
         },
+        showChangeBtn() {
+            if(this.session) {
+                if(this.session.office.isNursery || this.session.roleId === Guards.ADMIN)
+                    return true;
+                else
+                    return false;
+            }
+        }
     }
 };
 </script>

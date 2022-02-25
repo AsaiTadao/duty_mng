@@ -5,8 +5,13 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header calendar-title">
-                            <h3 class="card-title mb-0">仙台本社</h3>
+                            <h3 class="card-title mb-0">{{officeName}}</h3>
                             <div class="mx-5">申請用帳票</div>
+                            <div class="form-group mx-4 mb-0" style="width: 250px;">
+                                <select class="form-control" v-model="officeId" @change="selectOffice()">
+                                    <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
+                                </select>
+                            </div>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
                                     <i class="fas fa-caret-left fa-2x"></i>
@@ -169,7 +174,7 @@
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'A'" class="align-middle">
                                                         {{extension.a}}
                                                     </td>
-                                                    <td></td>
+                                                    <td>{{total.childrenStat.extensionStatSum.a}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="light-blue header-fix-sub-89">
@@ -181,7 +186,7 @@
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'B'" class="align-middle">
                                                         {{extension.b}}
                                                     </td>
-                                                    <td></td>
+                                                    <td>{{total.childrenStat.extensionStatSum.b}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="light-blue header-fix-sub-89">
@@ -193,7 +198,7 @@
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'C'" class="align-middle">
                                                         {{extension.c}}
                                                     </td>
-                                                    <td></td>
+                                                    <td>{{total.childrenStat.extensionStatSum.c}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="light-blue header-fix-sub-89">
@@ -205,7 +210,7 @@
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'D'" class="align-middle">
                                                         {{extension.d}}
                                                     </td>
-                                                    <td></td>
+                                                    <td>{{total.childrenStat.extensionStatSum.d}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="light-blue header-fix-sub-89">
@@ -217,7 +222,7 @@
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'E'" class="align-middle">
                                                         {{extension.e}}
                                                     </td>
-                                                    <td></td>
+                                                    <td>{{total.childrenStat.extensionStatSum.e}}</td>
                                                 </tr>
                                             </tbody>
                                     </table>
@@ -226,7 +231,7 @@
                             </div>
                             <br>
                             <div class="w-100 overflow-scroll-x">
-                                <table v-for="(childrenClass, index) in total.childrenTable" :key="index" class="table table-bordered table-diary text-center w-3200-px">
+                                <table v-for="(childrenClass, index) in total.childrenTable" :key="index" class="table table-bordered table-diary text-center w-3500-px">
                                     <thead>
 
                                     </thead>
@@ -244,23 +249,23 @@
                                             <td rowspan="2" class="header-fix-sub-235 dark-yellow align-middle" style="width:120px;">
                                                 氏名
                                             </td>
-                                            <td rowspan="2" class="align-middle">
+                                            <td rowspan="2" class="align-middle" style="width:150px;">
                                                 生年月日
                                             </td>
-                                            <td rowspan="2" class="align-middle">
+                                            <td rowspan="2" class="align-middle" style="width:100px;">
                                                 年齢
                                             </td>
-                                            <td rowspan="2" class="align-middle">
+                                            <td rowspan="2" class="align-middle" style="width:200px;">
                                                 区分
                                             </td>
-                                            <td rowspan="2" class="align-middle">
+                                            <td rowspan="2" class="align-middle" style="width:150px;">
                                                 従業員枠企業名
                                             </td>
-                                            <td rowspan="2" class="align-middle">
+                                            <td rowspan="2" class="align-middle" style="width:80px;">
                                                 無償化
                                             </td>
-                                            <td rowspan="2" class="align-middle">支給認定証</td>
-                                            <td rowspan="2" class="align-middle">認定証有効期限</td>
+                                            <td rowspan="2" class="align-middle" style="width:100px;">支給認定証</td>
+                                            <td rowspan="2" class="align-middle" style="width:150px;">認定証有効期限</td>
                                             <td rowspan="2" class="align-middle">非課税世帯</td>
                                             <td v-for="day in days" :key="day+'0child'" class="align-middle">
                                                 {{day.getDate()}}
@@ -279,7 +284,7 @@
                                             <td rowspan="2" class="align-middle">休園</td>
                                             <td rowspan="2" class="align-middle">退園日</td>
                                             <td rowspan="2" class="align-middle">規定日数</td>
-                                            <td rowspan="2" class="align-middle">備　　　考</td>
+                                            <td rowspan="2" class="align-middle">備考</td>
                                         </tr>
                                         <tr class="light-yellow">
                                             <td v-for="day in days" :key="day + '-childtable'" class="align-middle">
@@ -290,7 +295,7 @@
                                         </tr>
                                         <tr v-for="(child, index) in childrenClass" :key="index">
                                             <td class="header-fix-sub-40 bg-white">
-                                                {{index}}
+                                                {{index + 1}}
                                             </td>
                                             <td class="header-fix-sub-95 bg-white">
                                                 {{changeBirthFormat(child.birthDay)}}
@@ -313,12 +318,12 @@
                                             </td>
                                             <td>{{child.attendCount}}</td>
                                             <td>{{child.absentCount}}</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{child.absentState[1]}}</td>
+                                            <td>{{child.absentState[2]}}</td>
+                                            <td>{{child.absentState[3]}}</td>
+                                            <td>{{child.absentState[4]}}</td>
+                                            <td>{{child.absentState[5]}}</td>
+                                            <td>{{child.absentState[6]}}</td>
                                             <td>{{child.exitDate}}</td>
                                             <td>〇</td>
                                             <td></td>
@@ -351,7 +356,9 @@ export default {
             days: [],
             applications: {},
             total: {
-                childrenStat: [],
+                childrenStat: {
+                    extensionStatSum: {}
+                },
                 childrenTypeStat: {
                     employeeQuota: null,
                     regional: null,
@@ -425,18 +432,23 @@ export default {
                 this.days.push(new Date(date.getFullYear(), date.getMonth(), day));
             }
         },
-        getOffices() {
-                api.get('office/user-capable')
-                    .then(response => {
-                        this.offices = response;
-                        const office = this.offices.find(office => office.id === this.officeId);
-                        this.officeName = office ? office.name : '';
-                        if(this.offices && this.offices.length > 0) {
-                            this.officeId = this.offices[0].id;
-                            this.getTotalData();
-                        }
-                    })
-                    .catch(e => apiErrorHandler(e))
+        getNurseryOffices() {
+            api.get(process.env.MIX_API_BASE_URL + '/office-master-nursery')
+                .then(response => {
+                    this.offices = response;
+                    const office = this.offices.find(office => office.id === this.officeId);
+                    this.officeName = office ? office.name : '';
+                    if(this.offices && this.offices.length > 0) {
+                        this.officeId = this.offices[0].id;
+                        this.getTotalData();
+                    }
+                })
+                .catch(e => apiErrorHandler(e))
+        },
+        selectOffice() {
+            const office = this.offices.find(office => office.id === this.officeId);
+            this.officeName = office ? office.name : '';
+            this.getTotalData();
         },
         getTotalData() {
                 if(this.actionLoading) return;
@@ -445,7 +457,6 @@ export default {
                     .then(response => {
                         this.unsetActionLoading();
                         this.total = response;
-                        console.log(this.total);
                     })
                     .catch(e => {
                         this.unsetActionLoading();
@@ -478,8 +489,8 @@ export default {
         this.month = moment(this.displayDate).format('YYYY-MM');
         this.displayDate = moment(this.displayDate).format('YYYY年 M月');
         this.getResults(this.getThisMonthDate());
-        //this.getOffices();
-        this.getTotalData();
+        this.getNurseryOffices();
+        // this.getTotalData();
     }
 }
 </script>

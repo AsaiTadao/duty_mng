@@ -21,7 +21,7 @@
                                         <td class="text-center text-white dark-pink">
                                             曜日指定
                                         </td>
-                                        <td class="light-pink text-center" style="width:80%">
+                                        <td class="light-pink text-center" style="width:80%; height:50px;">
                                             <div class="d-flex align-items-center justify-content-center">
                                                     <input type="checkbox" class="align-middle" :value="1" v-model="plans[index].dayOfWeeks" />
                                                     <div class="ml-1 mr-4">月曜</div>
