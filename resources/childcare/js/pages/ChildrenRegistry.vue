@@ -95,12 +95,10 @@
                                             {{ age }}
                                         </td>
                                         <td>
-                                            <select class="form-control" v-model="formData.classId" :class="{'is-invalid' : errors.classId}">
+                                            <select class="form-control" v-model="formData.classId">
+                                                <option></option>
                                                 <option v-for="childrenClass in childrenClasses" :key="childrenClass.id" :value="childrenClass.id">{{childrenClass.name}}</option>
                                             </select>
-                                            <span v-if="errors.classId" class="error invalid-feedback">
-                                                {{ errors.classId }}
-                                            </span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -209,15 +207,15 @@
                                 <tbody class="text-center">
                                     <tr>
                                         <td>
-                                            <div class="d-flex align-middle d-flex">
+                                            <div class="d-flex align-middle is-invalid">
                                                 <div v-for="childType in childTypes" :key = "childType.key" class="d-flex align-items-center mr-3">
-                                                    <input type="radio" class="align-middle" :value="childType.key" v-model="formData.type">
+                                                    <input type="radio" class="align-middle" :value="childType.key" v-model="formData.type" @change="errors.type = null">
                                                     <label class="ml-1 mr-4 mb-0">{{childType.value}}</label>
-                                                    <span v-if="errors.type" class="error invalid-feedback">
-                                                        {{ errors.type }}
-                                                    </span>
                                                 </div>
                                             </div>
+                                            <span v-if="errors.type" class="error invalid-feedback">
+                                                {{ errors.type }}
+                                            </span>
                                         </td>
                                         <td>
                                             <input class="form-control" v-model="formData.companyName" :class="{'is-invalid' : errors.companyName}" @keyup="errors.companyName = null"/>
@@ -250,21 +248,21 @@
                                 <tbody class="text-center">
                                     <tr>
                                         <td>
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <input type="radio" class="align-middle" :value="1" v-model="formData.freeOfCharge">
+                                            <div class="d-flex align-items-center justify-content-center is-invalid">
+                                                <input type="radio" class="align-middle" :value="1" v-model="formData.freeOfCharge" @change="errors.freeOfCharge = null">
                                                 <div class="ml-1 mr-4">対象</div>
-                                                <input type="radio" class="align-middle" :value="0" v-model="formData.freeOfCharge">
+                                                <input type="radio" class="align-middle" :value="0" v-model="formData.freeOfCharge" @change="errors.freeOfCharge = null">
                                                 <div class="ml-1 mr-4">対象外</div>
-                                                <span v-if="errors.freeOfCharge" class="error invalid-feedback">
-                                                    {{ errors.freeOfCharge }}
-                                                </span>
                                             </div>
+                                            <span v-if="errors.freeOfCharge" class="error invalid-feedback">
+                                                {{ errors.freeOfCharge }}
+                                            </span>
                                         </td>
                                         <td>
-                                            <div class="d-flex align-items-center justify-content-center">
+                                            <div class="d-flex align-items-center justify-content-center is-invalid">
                                                 <input type="radio" class="align-middle" :value="1" v-model="formData.certificateOfPayment" :class="{'is-invalid' : errors.certificateOfPayment}" @change="errors.certificateOfPayment = null">
                                                 <div class="ml-1 mr-4">有り</div>
-                                                <input type="radio" class="align-middle" :value="0" v-model="formData.certificateOfPayment">
+                                                <input type="radio" class="align-middle" :value="0" v-model="formData.certificateOfPayment" @change="errors.certificateOfPayment = null">
                                                 <div class="ml-1 mr-4">無し</div>
                                             </div>
                                             <span v-if="errors.certificateOfPayment" class="error invalid-feedback">
@@ -297,12 +295,15 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="d-flex align-items-center justify-content-center">
-                                                <input type="radio" class="align-middle" :value="1" v-model="formData.taxExemptHousehold">
+                                            <div class="d-flex align-items-center justify-content-center is-invalid">
+                                                <input type="radio" class="align-middle" :value="1" v-model="formData.taxExemptHousehold" @change="errors.taxExemptHousehold = null">
                                                 <div class="ml-1 mr-4">対象</div>
-                                                <input type="radio" class="align-middle" :value="0" v-model="formData.taxExemptHousehold">
+                                                <input type="radio" class="align-middle" :value="0" v-model="formData.taxExemptHousehold" @change="errors.taxExemptHousehold = null">
                                                 <div class="ml-1 mr-4">対象外</div>
                                             </div>
+                                            <span v-if="errors.taxExemptHousehold" class="error invalid-feedback">
+                                                {{ errors.taxExemptHousehold }}
+                                            </span>
                                         </td>
                                     </tr>
                                 </tbody>
