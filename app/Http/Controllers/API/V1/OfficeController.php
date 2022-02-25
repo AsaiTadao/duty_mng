@@ -70,7 +70,12 @@ class OfficeController extends BaseController
 
         if ($office->type === Office::TYPE_NURSERY)
         {
-            $officeInformation = new OfficeInformation($data);
+            if ($office->office_information)
+            {
+                $officeInformation = $office->office_information;
+            } else {
+                $officeInformation = new OfficeInformation($data);
+            }
             $office->office_information()->save($officeInformation);
         }
         return $this->sendResponse(new OfficeResource($office));

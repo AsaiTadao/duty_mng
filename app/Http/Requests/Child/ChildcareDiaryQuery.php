@@ -9,7 +9,7 @@ class ChildcareDiaryQuery extends FormRequest {
     public function rules() {
         return [
             'children_class_id' =>  ['required', 'exists:children_classes,id'],
-            'date'              =>  ['date_format:Y-m-d']
+            'date'              =>  ['required', 'date_format:Y-m-d']
         ];
     }
 }

@@ -15,6 +15,7 @@ class ContactBook12SchoolRequest extends FormRequest {
             'pick_up_person'        =>  ['nullable', 'string'],
             'pick_up_time'          =>  ['nullable', 'date_format:H:i'],
             'nurse_name'        =>  ['nullable', 'string'],
+            'guardian'          =>  ['nullable', 'string'],
             'meal_time_1_school'    =>  ['nullable', 'date_format:H:i'],
             'meal_time_2_school'    =>  ['nullable', 'date_format:H:i'],
             'meal_time_3_school'    =>  ['nullable', 'date_format:H:i'],

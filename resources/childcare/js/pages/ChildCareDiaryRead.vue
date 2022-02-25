@@ -197,7 +197,7 @@
                                 </div>
                             </div>
                             <div class="float-right d-flex align-items-center mt-2">
-                                <button class="btn btn-primary float-right mr-2">Excel出力</button>
+                                <button class="btn btn-primary float-right mr-2" @click="exportExcel">Excel出力</button>
                                 <button class="btn btn-primary float-right" type="button" @click="onEdit">編集</button>
                             </div>
                         </div>
@@ -213,6 +213,7 @@ import { mapState } from 'vuex';
 import api, { apiErrorHandler } from '../global/api';
 import actionLoading from '../mixin/actionLoading';
 import { showSuccess } from '../helpers/error';
+import LocalStorage from '../helpers/localStorage';
 
 export default {
     mixins: [actionLoading],
@@ -287,6 +288,9 @@ export default {
             api.get('attendance-daily-stat', null, { date: this.date.format('YYYY-MM-DD' ), childrenClassId: this.childrenClassId})
             .then(response => {this.stat = response})
             .catch(apiErrorHandler);
+        },
+        exportExcel() {
+            location.href = process.env.MIX_APP_BASE_URL + 'childcare-diary/excel?children_class_id=' + this.childrenClassId + '&date=' + this.date.format('YYYY-MM-DD') + '&token=' + LocalStorage.getToken();
         }
     }
 };

@@ -314,6 +314,7 @@ class ContactBook extends Model
         'state_1_home',
         'state_1_school',
         'contact_3_home',
-        'contact_3_school'
+        'contact_3_school',
+        'guardian'
     ];
 }

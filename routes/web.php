@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\Child\ChildcareDiaryController;
 use App\Http\Controllers\API\V1\ChildApplicationTableController;
 use App\Http\Controllers\API\V1\ShiftController;
 use App\Http\Controllers\API\V1\UserController;
@@ -37,6 +38,7 @@ Route::get('/work-total/csv/{office}', [WorkTotalController::class, 'csv'])->nam
 Route::get("/test", [TestController::class, 'test']);
 Route::get('/individual-summary/excel', [WorkTotalController::class, 'exportIndividual']);
 
+Route::get('/childcare-diary/excel', [ChildcareDiaryController::class, 'excel']);
 Route::get('/childcare-application-table/excel/{office}', [ChildApplicationTableController::class, 'exportExcel']);
 
 // Route::get('/child', [ChildcareController::class, 'index']);
