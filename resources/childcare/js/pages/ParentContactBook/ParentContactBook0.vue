@@ -63,13 +63,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
-                                    <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <hour-minute-input v-model="formData.temperatureTimeStd" @change="dataChanged = true;"/>
+                                    <div class="light-pink text-center justify-content-center fixed-height-40 py-2" style="padding-top:1px; padding-bottom:1px;">
+                                        <!-- <hour-minute-input v-model="formData.temperatureTimeStd" @change="dataChanged = true;"/> -->
+                                        {{formatTemperatureTime(formData.temperatureTimeStd)}}
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
-                                    <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.temperatureStd" @change="dataChanged = true;"/>℃　
+                                    <div class="light-pink text-center justify-content-center fixed-height-40 py-2" style="padding-top:1px; padding-bottom:1px;">
+                                        <!-- <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.temperatureStd" @change="dataChanged = true;"/>℃　 -->
+                                        {{formatTemperature(formData.temperatureStd)}}
                                     </div>
                                 </div>
                             </div>
@@ -556,8 +558,8 @@ export default {
             requestData['date'] = moment(this.selectedDate).format('YYYY-MM-DD');
             if(this.formData.pickUpTime)
                 requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
-            if(this.formData.temperatureTimeStd)
-                requestData['temperature_time_std'] = moment(this.formData.temperatureTimeStd, 'h:mm:ss').format('HH:mm');
+            // if(this.formData.temperatureTimeStd)
+                // requestData['temperature_time_std'] = moment(this.formData.temperatureTimeStd, 'h:mm:ss').format('HH:mm');
             this.setActionLoading();
             api.post('contact-book/child/' + this.child.id + '/home/0', null, requestData)
             .then(() => {
@@ -626,6 +628,17 @@ export default {
                 if(!confirm(this.$t('Are you sure moving to other date without saving data?'))) return;
             }
             this.$refs.programaticOpen.showCalendar();
+        },
+        formatTemperature(temperature){
+            if(temperature) {
+                return temperature + "℃";
+            } else {
+                return '';
+            }
+        },
+        formatTemperatureTime(time) {
+            if(time) return moment(time, 'HH:mm:ss').format('HH:mm');
+            return null;
         }
     },
     created() {
