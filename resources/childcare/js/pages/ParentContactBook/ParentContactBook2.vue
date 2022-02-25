@@ -64,7 +64,6 @@
                         </div>
                         <div class="float-right d-flex align-items-center mt-2">
                             <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
-                            <button class="btn btn-primary float-right">Excel出力</button>
                         </div>
                     </div>
                 </div>

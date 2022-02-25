@@ -174,7 +174,7 @@
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'A'" class="align-middle">
                                                         {{extension.a}}
                                                     </td>
-                                                    <td></td>
+                                                    <td>{{total.childrenStat.extensionStatSum.a}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="light-blue header-fix-sub-89">
@@ -186,7 +186,7 @@
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'B'" class="align-middle">
                                                         {{extension.b}}
                                                     </td>
-                                                    <td></td>
+                                                    <td>{{total.childrenStat.extensionStatSum.b}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="light-blue header-fix-sub-89">
@@ -198,7 +198,7 @@
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'C'" class="align-middle">
                                                         {{extension.c}}
                                                     </td>
-                                                    <td></td>
+                                                    <td>{{total.childrenStat.extensionStatSum.c}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="light-blue header-fix-sub-89">
@@ -210,7 +210,7 @@
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'D'" class="align-middle">
                                                         {{extension.d}}
                                                     </td>
-                                                    <td></td>
+                                                    <td>{{total.childrenStat.extensionStatSum.d}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="light-blue header-fix-sub-89">
@@ -222,7 +222,7 @@
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'E'" class="align-middle">
                                                         {{extension.e}}
                                                     </td>
-                                                    <td></td>
+                                                    <td>{{total.childrenStat.extensionStatSum.e}}</td>
                                                 </tr>
                                             </tbody>
                                     </table>
@@ -318,12 +318,12 @@
                                             </td>
                                             <td>{{child.attendCount}}</td>
                                             <td>{{child.absentCount}}</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{child.absentState[1]}}</td>
+                                            <td>{{child.absentState[2]}}</td>
+                                            <td>{{child.absentState[3]}}</td>
+                                            <td>{{child.absentState[4]}}</td>
+                                            <td>{{child.absentState[5]}}</td>
+                                            <td>{{child.absentState[6]}}</td>
                                             <td>{{child.exitDate}}</td>
                                             <td>〇</td>
                                             <td></td>
@@ -356,7 +356,9 @@ export default {
             days: [],
             applications: {},
             total: {
-                childrenStat: [],
+                childrenStat: {
+                    extensionStatSum: {}
+                },
                 childrenTypeStat: {
                     employeeQuota: null,
                     regional: null,
