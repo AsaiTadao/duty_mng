@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\V1\Child\AttendanceController;
 use App\Http\Controllers\API\V1\Child\ChildcareDiaryController;
+use App\Http\Controllers\API\V1\Child\ContactBookController;
 use App\Http\Controllers\API\V1\ChildApplicationTableController;
 use App\Http\Controllers\API\V1\ShiftController;
 use App\Http\Controllers\API\V1\UserController;
@@ -40,6 +41,7 @@ Route::get("/test", [TestController::class, 'test']);
 Route::get('/individual-summary/excel', [WorkTotalController::class, 'exportIndividual']);
 
 Route::get('/child-monthly-attendance/csv/{child}', [AttendanceController::class, 'monthlyListCsv']);
+Route::get('/childcare-contact-book/excel/{child}', [ContactBookController::class, 'excel']);
 Route::get('/childcare-diary/excel', [ChildcareDiaryController::class, 'excel']);
 Route::get('/childcare-application-table/excel/{office}', [ChildApplicationTableController::class, 'exportExcel']);
 

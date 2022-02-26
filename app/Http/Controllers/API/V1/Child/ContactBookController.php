@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1\Child;
 
+use App\Exports\ContactBookExport;
 use App\Http\Controllers\API\V1\BaseController;
 use App\Http\Requests\Child\ContactBook0HomeRequest;
 use App\Http\Requests\Child\ContactBook0SchoolRequest;
@@ -13,6 +14,9 @@ use App\Http\Requests\Child\ContactBookQuery;
 use App\Models\Child;
 use App\Models\ContactBook;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Sanctum\PersonalAccessToken;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Excel as ExcelExcel;
 
 class ContactBookController extends BaseController
 {
@@ -118,5 +122,37 @@ class ContactBookController extends BaseController
             'child'      => $child,
             'contact_book' => $contactBook
         ]);
+    }
+
+    public function excel(Child $child, ContactBookQuery $request)
+    {
+        if (!$request->has('token'))
+        {
+            abort(403, "You are not allowed");
+        }
+        $token = $request->input('token');
+        $token = PersonalAccessToken::findToken($token);
+
+        if (!$token) {
+            abort(403, "You are not allowed");
+        }
+        $currentUser = $token->tokenable;
+        if (!$currentUser) {
+            abort(403, "You are not allowed");
+        }
+        if (!Gate::forUser($currentUser)->allows('handle-child', $child))
+        {
+            abort(403, trans('You are not allowed'));
+        }
+
+        $data = $request->validated();
+        $date = $data['date'];
+        $contactBook = ContactBook::where(['child_id' => $child->id, 'date' => $date])->first();
+        if (!$contactBook) {
+            $contactBook = new ContactBook();
+        }
+        $fileName = $child->name . '_' . $data['date'] . '_連絡帳.xlsx';
+
+        return Excel::download(new ContactBookExport($child, $child->office, $date, $contactBook), $fileName);
     }
 }

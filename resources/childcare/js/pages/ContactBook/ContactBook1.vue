@@ -422,9 +422,9 @@
                                                             <input class="mr-0 align-self-center" type="radio" name="radio4" :value="1" v-model="formData.mood1School" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio4" :value="2" v-model="formData.mood1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <label class="form-check-label mr-2">良い</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio4" :value="3" v-model="formData.mood1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">多い</label>
+                                                            <label class="form-check-label mr-2">悪い</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -439,9 +439,9 @@
                                                             <input class="mr-0 align-self-center" type="radio" name="radio5" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio5" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <label class="form-check-label mr-2">良い</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio5" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">多い</label>
+                                                            <label class="form-check-label mr-2">悪い</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -640,7 +640,7 @@
                                     </div>
                                     <div class="float-right d-flex align-items-center mt-2">
                                         <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
-                                        <button class="btn btn-primary float-right">Excel出力</button>
+                                        <button class="btn btn-primary float-right" @click="exportExcel">Excel出力</button>
                                     </div>
                                 </div>
                             </div>
@@ -660,6 +660,7 @@ import api, { apiErrorHandler } from '../../global/api';
 import HourMinuteInput from '../../components/HourMinuteInput.vue';
 import { showSuccess } from '../../helpers/error';
 import { validateHhMm } from '../../helpers/datetime';
+import LocalStorage from '../../helpers/localStorage';
 
 const initialFormData = {
     date: new Date(),
@@ -949,6 +950,10 @@ export default {
             } else {
                 return '';
             }
+        },
+        exportExcel() {
+            const date = moment(this.selectedDate).format('YYYY-MM-DD');
+            location.href = process.env.MIX_APP_BASE_URL + 'childcare-contact-book/excel/' + this.child.id + '/?date=' + date + '&token=' + LocalStorage.getToken();
         }
     },
     created() {
