@@ -299,7 +299,7 @@
                                                 家庭での様子
                                             </div>
                                             <div class="light-blue p-4 mt-1" style="height: 300px;">
-                                                {{formData.state1Home}}
+                                                {{formData.state0Home}}
                                             </div>
                                         </div>
                                     </div>
@@ -632,7 +632,7 @@
                                                 保育園での様子
                                             </div>
                                             <div class="light-yellow p-4 mt-1" style="height: 300px;">
-                                                <textarea class="form-control" style="height: 95%;" v-model="formData.state1School" @change="dataChanged = true;">
+                                                <textarea class="form-control" style="height: 95%;" v-model="formData.state0School" @change="dataChanged = true;">
 
                                                 </textarea>
                                             </div>
