@@ -55,7 +55,7 @@
                                 </table>
                             </div>
                             <div class="float-right d-flex align-items-center mt-2">
-                                <button class="btn btn-primary float-right">CSV出力</button>
+                                <button class="btn btn-primary float-right" type="button" @click="onCsv">CSV出力</button>
                             </div>
                             <!-- Modal -->
                             <div class="modal fade" id="attend-edit-form" tabindex="-1" role="dialog" aria-labelledby="attend-edit-form" aria-hidden="true">
@@ -78,6 +78,7 @@ import actionLoading from '../mixin/actionLoading';
 import { showSuccess } from '../helpers/error';
 import EditForm from './ChildrenAttendances/EditForm.vue';
 import api, { apiErrorHandler } from '../global/api';
+import LocalStorage from '../helpers/localStorage';
 
 const defaultAttendance = {
     id: null,
@@ -120,26 +121,27 @@ export default {
         }
     },
     methods: {
+        onCsv() {
+            const url = process.env.MIX_APP_BASE_URL + 'child-monthly-attendance/csv/' + this.childId + '?token=' + LocalStorage.getToken() + '&month=' + this.currentDate.format('YYYY-MM');
+            // console.log({url});
+            location.href=url;
+        },
         onNext() {
             this.currentDate = moment(this.currentDate.add(1, 'months').format('YYYY-MM') + '-01', 'YYYY-MM-DD');
             this.fetchData();
         },
         onPrev() {
 
-            console.log("onPrev", this.currentDate.format('YYYY-MM-DD'));
-
             this.currentDate = moment(this.currentDate.add(-1, 'months').format('YYYY-MM') + '-01', 'YYYY-MM-DD');
             this.fetchData();
         },
         onCurrentMonth(){
             this.currentDate = moment(new Date());
-            console.log("on current month", this.currentDate.format('YYYY-MM-DD'));
             this.fetchData();
         },
         openEditForm(day) {
             this.selectedDate = moment(this.currentDate.format('YYYY-MM-') + String(day).padStart(2, '0')).toDate();
             this.selectedDate = moment(this.selectedDate).format('YYYY-MM-DD');
-            console.log(this.selectedDate);
             const formData = this.attendances.find(item => item.day === day);
             this.formData = {...formData, id: this.childId };
             $("#attend-edit-form").modal('show');
@@ -170,7 +172,6 @@ export default {
         getDayOfWeek(day) {
             const newDate = moment(this.currentDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
             newDate.set('date', day);
-             console.log(newDate.day());
             return newDate.day();
         },
         getDayOfWeekLabel(day){

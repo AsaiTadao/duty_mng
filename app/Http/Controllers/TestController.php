@@ -15,6 +15,7 @@ class TestController extends Controller
     {
         // Mail::to("devcrazy@hotmail.com")->queue(new MonthlySummaryApprove("Test Office", "2021", "2"));
         // return "ok";
-        return view('childcare');
+        // return view('childcare');
+        return response()->json(['test' => 'ok']);
     }
 }

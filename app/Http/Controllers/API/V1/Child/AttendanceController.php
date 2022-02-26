@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\V1\Child;
 
+use App\Exports\MonthlyAttendanceExport;
 use App\Http\Controllers\API\V1\BaseController;
 use App\Http\Requests\Child\AttendanceDailyStatQuery;
 use App\Http\Requests\Child\AttendanceMonthlyQuery;
@@ -15,6 +16,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Sanctum\PersonalAccessToken;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Excel as ExcelExcel;
 
 class AttendanceController extends BaseController
 {
@@ -97,6 +101,34 @@ class AttendanceController extends BaseController
         return $this->sendResponse(ChildrenAttendence::where(['child_id' => $child->id, 'month' => $month])
             ->whereYear('date', $year)
             ->get());
+    }
+    public function monthlyListCsv(Child $child, AttendanceMonthlyQuery $request)
+    {
+        if (!$request->has('token'))
+        {
+            abort(403, "You are not allowed");
+        }
+        $token = $request->input('token');
+        $token = PersonalAccessToken::findToken($token);
+
+        if (!$token) {
+            abort(403, "You are not allowed");
+        }
+        $currentUser = $token->tokenable;
+        if (!$currentUser) {
+            abort(403, "You are not allowed");
+        }
+        if (!Gate::forUser($currentUser)->allows('handle-child', $child))
+        {
+            abort(403, trans('You are not allowed'));
+        }
+        $data = $request->validated();
+        [$year, $month] = explode('-', $data['month']);
+        $attendances = ChildrenAttendence::where(['child_id' => $child->id, 'month' => $month])
+            ->whereYear('date', $year)
+            ->get();
+        $fileName = $child->name . '_' . $data['month'] . '登降園管理';
+        return Excel::download(new MonthlyAttendanceExport($attendances, $data['month']), $fileName . '.csv', ExcelExcel::CSV);
     }
 
     public function dailyStat(AttendanceDailyStatQuery $request)
