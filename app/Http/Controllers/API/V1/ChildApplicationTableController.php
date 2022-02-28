@@ -96,8 +96,13 @@ class ChildApplicationTableController extends BaseController
             return $value->child_info && ($value->child_info->type === 3 || $value->child_info->type === 4);
         })->count();
         $totalCount = $children->count();
-        $employeeQuotaRatio = floor($childEmployeeQuota * 100 / $totalCount);
-        $regionalRatio = floor($childRegional * 100 / $totalCount);
+        if (!$totalCount) {
+            $employeeQuotaRatio = 0;
+            $regionalRatio = 0;
+        } else {
+            $employeeQuotaRatio = floor($childEmployeeQuota * 100 / $totalCount);
+            $regionalRatio = floor($childRegional * 100 / $totalCount);
+        }
 
         $data['children_type_stat'] = [
             'employee_quota'    =>  $childEmployeeQuota,
