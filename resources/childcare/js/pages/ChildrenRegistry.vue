@@ -181,7 +181,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <input class="form-control" v-model="formData.password" :class="{'is-invalid' : errors.password}" @keyup="errors.password = null"/>
+                                            <input class="form-control" type="password" v-model="formData.password" :class="{'is-invalid' : errors.password}" @keyup="errors.password = null"/>
                                             <span v-if="errors.password" class="error invalid-feedback">
                                                 {{ errors.password }}
                                             </span>
@@ -477,10 +477,10 @@ export default {
             this.formData.childNumber = this.childInfor.number;
             this.formData.childName = this.childInfor.name;
             this.formData.gender = this.childInfor.gender;
-            if(this.childInfor.birthDay){
-                this.formData.birthYear = this.childInfor.birthDay.split('-')[0];
-                this.formData.birthMonth = this.childInfor.birthDay.split('-')[1];
-                this.formData.birthDay = this.childInfor.birthDay.split('-')[2];
+            if(this.childInfor.birthday){
+                this.formData.birthYear = this.childInfor.birthday.split('-')[0];
+                this.formData.birthMonth = this.childInfor.birthday.split('-')[1];
+                this.formData.birthDay = this.childInfor.birthday.split('-')[2];
             }
             this.formData.classId = this.childInfor.classId;
             if(this.childInfor.admissionDate) {
@@ -533,10 +533,10 @@ export default {
                 this.errors.birthDay = this.$t('Please input number');                              //need trans
                 valid = false;
             }
-            if (!this.formData.classId) {
-                this.errors.classId = this.$t('Please input number');
-                valid = false;
-            }
+            // if (!this.formData.classId) {
+            //     this.errors.classId = this.$t('Please input number');
+            //     valid = false;
+            // }
             if (!this.formData.admissionDateYear) {
                 this.errors.admissionDateYear = this.$t('Please input number');
                 valid = false;
