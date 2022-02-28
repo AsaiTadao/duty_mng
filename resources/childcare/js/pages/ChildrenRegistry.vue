@@ -467,7 +467,8 @@ export default {
             request.then(() => {
                 this.unsetActionLoading();
                 showSuccess(this.$t('Successfully saved'));
-                this.getChildInfor();
+                // this.getChildInfor();
+                this.$router.push({name: 'children-detail', params: {id: this.childId}});
             })
             .catch(e => {
                 apiErrorHandler(e);
