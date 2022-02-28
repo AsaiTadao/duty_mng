@@ -212,14 +212,14 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.commutingTimeMin = this.$t('Please input number');                              //need trans
                     valid = false;
                 }
-                if (!this.formData.reasonForAbsenceId && !this.formData.leaveTimeHour) {
-                    this.errors.leaveTimeHour = this.$t('Please input number');
-                    valid = false;
-                }
-                if (!this.formData.reasonForAbsenceId && !this.formData.leaveTimeMin) {
-                    this.errors.leaveTimeMin = this.$t('Please input number');
-                    valid = false;
-                }
+                // if (!this.formData.reasonForAbsenceId && !this.formData.leaveTimeHour) {
+                //     this.errors.leaveTimeHour = this.$t('Please input number');
+                //     valid = false;
+                // }
+                // if (!this.formData.reasonForAbsenceId && !this.formData.leaveTimeMin) {
+                //     this.errors.leaveTimeMin = this.$t('Please input number');
+                //     valid = false;
+                // }
                 // if (!this.formData.reasonForAbsenceId) {
                 //     this.errors.reasonForAbsenceId = this.$t('Please select reason of absence');
                 //     valid = false;
