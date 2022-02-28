@@ -23,7 +23,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2">
-                                    <select class="form-control" v-model="type" :class="{'is-invalid': error.type}">
+                                    <select class="form-control" v-model="type" :class="{'is-invalid': error.type}" @change="templateChanged">
                                         <option :value="0">通常メール</option>
                                         <option :value="1">緊急メール</option>
                                     </select>
@@ -103,6 +103,10 @@ export default {
         this.fetchData();
     },
     methods: {
+        templateChanged(e) {
+            this.type = e.target.value;
+            this.fetchData();
+        },
         sendMail() {
             if (!this.validate()) return;
             if (!confirm(this.$t("Are you sure you want to send mail?"))) return;

@@ -30,7 +30,7 @@ class MailController extends BaseController
         $data = $request->validated();
         $type = $data['type'];
 
-        $content = Storage::get('mail_template/' .($type === MailHistory::TYPE_NORMAL ? 'normal' : 'urgent') . '.txt');
+        $content = Storage::get('mail_template/' .($type == MailHistory::TYPE_NORMAL ? 'normal' : 'urgent') . '.txt');
         return $this->sendResponse(['content' => $content]);
     }
 
