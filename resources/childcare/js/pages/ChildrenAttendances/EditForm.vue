@@ -69,7 +69,7 @@
             <div class="form-group row">
                 <div class="col-md-3">欠席</div>
                 <div class="col-md-6">
-                    <select class="form-control" v-model="formData.reasonForAbsenceId">
+                    <select class="form-control" v-model="formData.reasonForAbsenceId" :class="{'is-invalid' : errors.reasonForAbsenceId}" @change="errors.reasonForAbsenceId = null;">
                         <option></option>
                         <option v-for="reason in reasonForAbsences" :key="reason.id" :value="reason.id">{{reason.name}}</option>
                     </select>
@@ -138,7 +138,7 @@ import { showSuccess } from '../../helpers/error';
                     leaveTimeHour: '',
                     leaveTimeMin: '',
                     extension: '',
-                    reasonForAbsenceId: ''
+                    reasonForAbsenceId: null
                 }
                 this.convertToFormData();
                 this.initFormError();
@@ -162,7 +162,7 @@ import { showSuccess } from '../../helpers/error';
                     leaveTimeHour: '',
                     leaveTimeMin: '',
                     extension: '',
-                    reasonForAbsenceId: ''
+                    reasonForAbsenceId: null
                 },
             }
         },
@@ -224,10 +224,10 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.leaveTimeHour = this.$t('start time must be earlier than end time');
                     valid = false;
                 }
-                // if (!this.formData.reasonForAbsenceId) {
-                //     this.errors.reasonForAbsenceId = this.$t('Please select reason of absence');
-                //     valid = false;
-                // }
+                if (this.formData.commutingTimeHour && this.formData.reasonForAbsenceId || this.formData.commutingTimeMin && this.formData.reasonForAbsenceId) {
+                    this.errors.reasonForAbsenceId = this.$t('Please do not select absenceId');
+                    valid = false;
+                }
                 return valid;
             },
             convertToFormData() {

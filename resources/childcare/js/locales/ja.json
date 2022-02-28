@@ -51,5 +51,6 @@
     "Please select at least a day": "少なくとも1日を選択してください",
     "Please input gender": "性別を入力してください",
     "Are you sure you want to send mail?": "メールを送信します。内容に間違いありませんか？",
-    "Are you sure moving to other date without saving data?": "変更内容が登録されていません。内容を破棄して日付を変更してよろしいですか？"
+    "Are you sure moving to other date without saving data?": "変更内容が登録されていません。内容を破棄して日付を変更してよろしいですか？",
+    "Please do not select absenceId": "次席理由を選択しないでください"
 }
