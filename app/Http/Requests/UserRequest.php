@@ -16,7 +16,7 @@ class UserRequest extends FormRequest {
             'email'     =>  ['required', 'email'],
             'password'  =>  ['nullable', 'string', 'max:50'],
             'role_id'   =>  ['nullable', 'exists:roles,id'],
-            'working_hours'=>   ['required', 'numeric', 'min:0', 'max:16'],
+            'working_hours'=>   ['nullable', 'numeric', 'min:0', 'max:16'],
             'sort'      =>  ['nullable', 'numeric']
         ];
     }
