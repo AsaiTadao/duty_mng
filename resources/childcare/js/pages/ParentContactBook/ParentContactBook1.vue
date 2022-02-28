@@ -551,12 +551,12 @@
                                         <div class="col-md-11 col-10">
                                             <div class="row">
                                                 <div class="col-md-12 col-12 pl-0">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                         {{formatSleepTime(formData.sleepStart1School, formData.sleepEnd1School)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
                                                         {{formatSleepTime(formData.sleepStart2School, formData.sleepEnd2School)}}
                                                     </div>
                                                 </div>
