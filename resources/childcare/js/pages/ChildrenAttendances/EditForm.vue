@@ -204,19 +204,19 @@ import { showSuccess } from '../../helpers/error';
             },
             validate() {
                 let valid = true;
-                if (this.formData.reasonForAbsenceId && !this.formData.commutingTimeHour) {
+                if (!this.formData.reasonForAbsenceId && !this.formData.commutingTimeHour) {
                     this.errors.commutingTimeHour = this.$t('Please input number');                                 // need trans
                     valid = false;
                 }
-                if (this.formData.reasonForAbsenceId && !this.formData.commutingTimeMin) {
+                if (!this.formData.reasonForAbsenceId && !this.formData.commutingTimeMin) {
                     this.errors.commutingTimeMin = this.$t('Please input number');                              //need trans
                     valid = false;
                 }
-                if (this.formData.reasonForAbsenceId && !this.formData.leaveTimeHour) {
+                if (!this.formData.reasonForAbsenceId && !this.formData.leaveTimeHour) {
                     this.errors.leaveTimeHour = this.$t('Please input number');
                     valid = false;
                 }
-                if (this.formData.reasonForAbsenceId && !this.formData.leaveTimeMin) {
+                if (!this.formData.reasonForAbsenceId && !this.formData.leaveTimeMin) {
                     this.errors.leaveTimeMin = this.$t('Please input number');
                     valid = false;
                 }
