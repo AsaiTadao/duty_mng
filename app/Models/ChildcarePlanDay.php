@@ -22,4 +22,9 @@ class ChildcarePlanDay extends Model
         'date', 'child_id', 'start_time', 'end_time', 'absent'
     ];
 
+    public function child()
+    {
+        return $this->belongsTo(Child::class);
+    }
+
 }

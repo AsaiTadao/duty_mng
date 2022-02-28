@@ -11,15 +11,26 @@ class PlanService
 {
     protected $holidayService;
 
+    protected $wPlans;
+
     public function __construct(HolidayService $holidayService)
     {
         $this->holidayService = $holidayService;
     }
-    public function createPlanDaysFromWeeklyPlan(Child $child, $month)
+
+    public function setWeeklyPlan($wPlans)
+    {
+        $this->wPlans = $wPlans;
+    }
+    public function createPlanDaysFromWeeklyPlan(Child $child, $month, $createUserId = null)
     {
         $this->holidayService->spanHolidaysInMonth($month);
 
-        $wPlans = ChildcarePlan::where(['child_id' => $child->id])->get();
+        if (!$this->wPlans) {
+            $wPlans = ChildcarePlan::where(['child_id' => $child->id])->get();
+        } else {
+            $wPlans = $this->wPlans;
+        }
         $date = Carbon::parse($month . '-01');
         $daysInMonth = $date->daysInMonth;
 
@@ -27,7 +38,11 @@ class PlanService
         for ($i = 1; $i <= $daysInMonth; $i++)
         {
             $date->day($i);
-            $dPlan = new ChildcarePlanDay(['date' => $date->format('Y-m-d')]);
+            $dPlan = new ChildcarePlanDay(['date' => $date->format('Y-m-d'), 'child_id' => $child->id]);
+            if ($createUserId)
+            {
+                $dPlan->create_user_id = $createUserId;
+            }
             $dayOfWeek = $date->dayOfWeek;
             // check if holiday
             $isHoliday = $this->holidayService->checkIfHoliday($date);
