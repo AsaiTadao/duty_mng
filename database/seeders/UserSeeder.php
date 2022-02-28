@@ -24,7 +24,8 @@ class UserSeeder extends Seeder
             'number'    =>  'admin001',
             'password'  =>  Hash::make('admin001'),
             'role_id'   =>  Roles::ADMIN,
-            'employment_status_id'  =>  EmploymentStatus::NORMAL
+            'employment_status_id'  =>  EmploymentStatus::NORMAL,
+            'office_id' =>  1
         ]);
         $user->id = 1;
         $user->save();
@@ -46,7 +47,8 @@ class UserSeeder extends Seeder
             'number'=>  'office001',
             'password'=> Hash::make('office001'),
             'role_id' => Roles::OFFICE_MANAGER,
-            'employment_status_id'  =>  EmploymentStatus::NORMAL
+            'employment_status_id'  =>  EmploymentStatus::NORMAL,
+            'office_id' =>  2
         ]);
         $user->id = 3;
         $user->save();

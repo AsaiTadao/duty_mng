@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Child;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ class AddFieldsToChildrenTable extends Migration
     {
         Schema::table('children', function (Blueprint $table) {
             //
-            $table->unsignedTinyInteger('gender');
+            $table->unsignedTinyInteger('gender')->default(Child::GENDER_MALE);
             $table->date('birthday')->nullable();
             $table->foreignId('class_id')->nullable()->constrained('children_classes')->nullOnDelete();
             $table->date('admission_date')->nullable();

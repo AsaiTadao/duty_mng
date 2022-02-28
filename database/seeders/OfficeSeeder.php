@@ -18,67 +18,76 @@ class OfficeSeeder extends Seeder
         //
         $data = [
             [
+                'name'  =>  '沖縄本部',
+                'region_id'=>   4,
+                'industry_group_id' =>  1,
+                'office_group_id'   =>  3,
+                'rest_deduction_id' =>  RestDeduction::TYPE_2,
+                'type'          =>  Office::TYPE_OTHERS
+            ],
+            [
                 'name'  =>  '天王寺ひよこ園',
                 'region_id'=>   2,
                 'industry_group_id' =>  2,
                 'office_group_id'   =>  2,
-                'rest_deduction_id' =>  RestDeduction::TYPE_1
+                'rest_deduction_id' =>  RestDeduction::TYPE_1,
+                'type'          =>  Office::TYPE_NURSERY
             ],
             [
                 'name'  =>  '日本橋ひよこ園',
                 'region_id'=>   2,
                 'industry_group_id' =>  2,
                 'office_group_id'   =>  2,
-                'rest_deduction_id' =>  RestDeduction::TYPE_2
+                'rest_deduction_id' =>  RestDeduction::TYPE_2,
+                'type'          =>  Office::TYPE_NURSERY
             ],
             [
                 'name'  =>  '日本橋園',
                 'region_id'=>   2,
                 'industry_group_id' =>  2,
                 'office_group_id'   =>  2,
-                'rest_deduction_id' =>  RestDeduction::TYPE_1
+                'rest_deduction_id' =>  RestDeduction::TYPE_1,
+                'type'          =>  Office::TYPE_NURSERY
             ],
             [
                 'name'  =>  '梅田あひる園',
                 'region_id'=>   2,
                 'industry_group_id' =>  2,
                 'office_group_id'   =>  2,
-                'rest_deduction_id' =>  RestDeduction::TYPE_1
+                'rest_deduction_id' =>  RestDeduction::TYPE_1,
+                'type'          =>  Office::TYPE_NURSERY
             ],
             [
                 'name'  =>  '福岡かえる園',
                 'region_id'=>   3,
                 'industry_group_id' =>  2,
                 'office_group_id'   =>  3,
-                'rest_deduction_id' =>  RestDeduction::TYPE_2
+                'rest_deduction_id' =>  RestDeduction::TYPE_2,
+                'type'          =>  Office::TYPE_NURSERY
             ],
             [
                 'name'  =>  '福岡すずめ園',
                 'region_id'=>   3,
                 'industry_group_id' =>  2,
                 'office_group_id'   =>  3,
-                'rest_deduction_id' =>  RestDeduction::TYPE_1
+                'rest_deduction_id' =>  RestDeduction::TYPE_1,
+                'type'          =>  Office::TYPE_NURSERY
             ],
             [
                 'name'  =>  '新大阪支店',
                 'region_id'=>   2,
                 'industry_group_id' =>  1,
                 'office_group_id'   =>  2,
-                'rest_deduction_id' =>  RestDeduction::TYPE_2
+                'rest_deduction_id' =>  RestDeduction::TYPE_2,
+                'type'          =>  Office::TYPE_OTHERS
             ],
             [
                 'name'  =>  '心斎橋支店',
                 'region_id'=>   2,
                 'industry_group_id' =>  1,
                 'office_group_id'   =>  2,
-                'rest_deduction_id' =>  RestDeduction::TYPE_1
-            ],
-            [
-                'name'  =>  '沖縄本部',
-                'region_id'=>   4,
-                'industry_group_id' =>  1,
-                'office_group_id'   =>  3,
-                'rest_deduction_id' =>  RestDeduction::TYPE_2
+                'rest_deduction_id' =>  RestDeduction::TYPE_1,
+                'type'          =>  Office::TYPE_OTHERS
             ],
         ];
         $i = 1;

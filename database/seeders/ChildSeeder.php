@@ -17,7 +17,7 @@ class ChildSeeder extends Seeder
     {
         //
         $count = 1;
-        for ($i = 1; $i < 7; $i++)
+        for ($i = 1; $i < 6; $i++)
         {
             for ($j = 0; $j < 10; $j++)
             {
@@ -27,7 +27,9 @@ class ChildSeeder extends Seeder
                     'name'  =>  $name,
                     'number'=>  $name,
                     'password'  =>  Hash::make($name),
-                    'office_id' =>  $i
+                    'office_id' =>  $i + 1,
+                    'class_id'  =>  ($j % 6) + 1
+
                 ]);
                 $child->id = $count;
                 $child->save();

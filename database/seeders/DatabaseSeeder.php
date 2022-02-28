@@ -20,11 +20,10 @@ class DatabaseSeeder extends Seeder
             EmploymentStatusSeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
+            OfficeSeeder::class,
             UserSeeder::class,
 
-            OfficeSeeder::class,
             UserSettingSeeder::class,
-            ChildSeeder::class,
             YearSeeder::class,
             ScheduledWorkingSeeder::class,
             ReasonForVacationSeeder::class,
@@ -33,7 +32,13 @@ class DatabaseSeeder extends Seeder
             RestDeductionSeeder::class,
 
             SettingSeeder::class,
-            CodeSeeder::class
+            CodeSeeder::class,
+
+            ChildrenClassSeeder::class,
+            ChildTypesSeeder::class,
+            ChildMoodTypeSeeder::class,
+            ReasonForAbsenceSeeder::class,
+            ChildSeeder::class,
         ]);
     }
 }
