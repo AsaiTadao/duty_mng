@@ -76,6 +76,31 @@ class ChildController extends BaseController
             return response()->json(['message' => trans('This email is already registered')]);
         }
         $child->fill($data);
+
+        if (empty($data['class_id']))
+        {
+            $birthday = Carbon::parse($data['birthday']);
+            $diff_in_months = $birthday->diffInMonths(Carbon::now());
+            $year = floor($diff_in_months / 12);
+            switch($year) {
+                case 0:
+                    $classId = ChildrenClass::AGE_0; break;
+                case 1:
+                    $classId = ChildrenClass::AGE_1; break;
+                case 2:
+                    $classId = ChildrenClass::AGE_2; break;
+                case 3:
+                    $classId = ChildrenClass::AGE_3; break;
+                case 4:
+                    $classId = ChildrenClass::AGE_4; break;
+                case 5:
+                    $classId = ChildrenClass::AGE_5; break;
+                default:
+                    $classId = ChildrenClass::AGE_5; break;
+            }
+            $child->class_id = $classId;
+        }
+
         $child->save();
 
         $childInfo = $child->child_info;

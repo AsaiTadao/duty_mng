@@ -10,7 +10,7 @@ class ContactBook345HomeRequest extends FormRequest {
     {
         return [
             'date'              =>  ['required', 'date_format:Y-m-d'],
-            'contact_0_home'    =>  ['required', 'string']
+            'contact_0_home'    =>  ['nullable', 'string']
         ];
     }
 }

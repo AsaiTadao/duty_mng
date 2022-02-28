@@ -273,6 +273,7 @@ export default {
             })
             .then(() => {
                 showSuccess(this.$t('Successfully saved'));
+                this.$router.push({name: 'childcare-diary-read', params: {classId: this.$route.params.classId}, query: {date: this.$route.query.date}});
             })
             .catch(apiErrorHandler)
             .finally(this.unsetActionLoading)

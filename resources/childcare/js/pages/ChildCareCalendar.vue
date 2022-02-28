@@ -55,7 +55,7 @@
                                                 <hour-minute-input v-model="planDays[item.index].startTime" type="text"
                                                     :disabled="planDays[item.index].absent > 0"
                                                     :error="planDayErrors[item.index].startTime"
-                                                    @input="() => {planDayErrors[item.index].startTime = null}"
+                                                    @input="() => {planDayErrors[item.index].startTime = null;  editing = true;}"
                                                     :light="true"
                                                 />
                                             </template>
@@ -73,7 +73,7 @@
                                                 <hour-minute-input v-model="planDays[item.index].endTime"
                                                     type="text" :disabled="planDays[item.index].absent > 0"
                                                     :error="planDayErrors[item.index].endTime"
-                                                    @input="() => {planDayErrors[item.index].endTime = null}"
+                                                    @input="() => {planDayErrors[item.index].endTime = null; editing = true;}"
                                                     :light="true"
                                                 />
                                             </template>
@@ -89,7 +89,7 @@
                                         <td width="13%" v-for="(item, dayIndex) in week" :key="dayIndex">
                                             <template v-if="item">
                                                 <input type="checkbox" v-model="planDays[item.index].absent"
-                                                    @change="() => {planDayErrors[item.index].endTime = null; planDayErrors[item.index].startTime = null}"
+                                                    @change="() => {planDayErrors[item.index].endTime = null; planDayErrors[item.index].startTime = null; editing = true;}"
                                                 />
                                             </template>
                                         </td>
@@ -138,7 +138,8 @@ export default {
             planDayErrors: [],
             child: {},
 
-            holidays: []
+            holidays: [],
+            editing: false
         }
     },
     computed: {
@@ -154,24 +155,38 @@ export default {
         this.fetchData();
         this.fetchChild();
     },
+    beforeMount() {
+        window.addEventListener("beforeunload", this.preventNav)
+        this.$once("hook:beforeDestroy", () => {
+            window.removeEventListener("beforeunload", this.preventNav);
+        })
+    },
+    beforeRouteLeave (to, from, next) {
+        if (this.editing) {
+            if (confirm(this.$t('Changes are not saved. Are you really quit?'))) {
+                next();
+            } else {
+                return;
+            }
+        } else {
+            next();
+        }
+    },
     methods: {
         childcarePlan() {
             this.$router.push('childcare-plan');
         },
         onNext() {
             this.currentDate = moment(this.currentDate.add(1, 'months').format('YYYY-MM-DD'), 'YYYY-MM-DD');
-            this.$router.push({name: 'childcare-calendar', params: {childId: this.childId}, query: { month: this.currentDate.format('YYYY-MM')}});
-            this.fetchData();
+            location.href = `/child/${this.childId}/childcare-calendar?month=${this.currentDate.format('YYYY-MM')}`;
         },
         onPrev() {
             this.currentDate = moment(this.currentDate.add(-1, 'months').format('YYYY-MM-DD'), 'YYYY-MM-DD');
-            this.$router.push({name: 'childcare-calendar', params: {childId: this.childId}, query: { month: this.currentDate.format('YYYY-MM')}});
-            this.fetchData();
+            location.href = `/child/${this.childId}/childcare-calendar?month=${this.currentDate.format('YYYY-MM')}`;
         },
         onCurrentMonth(){
             this.currentDate = moment();
-            this.$router.push({name: 'childcare-calendar', params: {childId: this.childId}, query: { month: this.currentDate.format('YYYY-MM')}});
-            this.fetchData();
+            location.href = `/child/${this.childId}/childcare-calendar?month=${this.currentDate.format('YYYY-MM')}`;
         },
         onSubmit() {
             if (!this.validate()) return;
@@ -182,9 +197,16 @@ export default {
             })
             .then(() =>{
                 showSuccess(this.$t('Successfully saved'));
+                this.editing = false;
             })
             .catch(apiErrorHandler)
             .finally(() => this.unsetActionLoading())
+        },
+        preventNav(event) {
+            if (!this.editing) return
+            event.preventDefault()
+            event.returnValue = "";
+            this.currentDate = moment(this.$route.query.month + '-01', 'YYYY-MM-DD');
         },
         async fetchData() {
             this.setActionLoading();
