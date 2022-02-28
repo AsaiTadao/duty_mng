@@ -148,10 +148,10 @@ import { showSuccess } from '../../helpers/error';
             return {
                 formData: {
                     id: null,
-                    commutingTimeHour: '',
-                    commutingTimMin: '',
-                    leaveTimeHour: '',
-                    leaveTimeMin: '',
+                    commutingTimeHour: null,
+                    commutingTimMin: null,
+                    leaveTimeHour: null,
+                    leaveTimeMin: null,
                     reasonForAbsenceId: null,
                     extension: '',
                 },
@@ -171,13 +171,23 @@ import { showSuccess } from '../../helpers/error';
                 if (this.actionLoading) return;
                 if(!this.validate()) return;
 
-                const requestData = {
+                let requestData = {
                     'date': this.date,
-                    'commuting_time': ("0" + this.formData.commutingTimeHour).slice(-2) + ":" + ("0" + this.formData.commutingTimeMin).slice(-2),
-                    'leave_time': ("0" + this.formData.leaveTimeHour).slice(-2) + ":" + ("0" + this.formData.leaveTimeMin).slice(-2),
+                    // 'commuting_time': ("0" + this.formData.commutingTimeHour).slice(-2) + ":" + ("0" + this.formData.commutingTimeMin).slice(-2),
+                    // 'leave_time': ("0" + this.formData.leaveTimeHour).slice(-2) + ":" + ("0" + this.formData.leaveTimeMin).slice(-2),
                     'reason_for_absence_id': this.formData.reasonForAbsenceId,
                     'behind_time': this.formData.behindTime,
                     'extension': this.formData.extension,
+                }
+                if(this.formData.commutingTimeHour && this.formData.commutingTimeMin) {
+                    requestData['commuting_time'] = ("0" + this.formData.commutingTimeHour).slice(-2) + ":" + ("0" + this.formData.commutingTimeMin).slice(-2);
+                } else {
+                    requestData['commuting_time'] = null;
+                }
+                if(this.formData.leaveTimeHour && this.formData.leaveTimeMin) {
+                    requestData['leave_time'] = ("0" + this.formData.leaveTimeHour).slice(-2) + ":" + ("0" + this.formData.leaveTimeMin).slice(-2);
+                } else {
+                    requestData['leave_time'] = null;
                 }
 
                 this.setActionLoading();
@@ -194,20 +204,19 @@ import { showSuccess } from '../../helpers/error';
             },
             validate() {
                 let valid = true;
-                console.log(this.formData);
-                if (!this.formData.commutingTimeHour) {
+                if (this.formData.reasonForAbsenceId && !this.formData.commutingTimeHour) {
                     this.errors.commutingTimeHour = this.$t('Please input number');                                 // need trans
                     valid = false;
                 }
-                if (!this.formData.commutingTimeMin) {
+                if (this.formData.reasonForAbsenceId && !this.formData.commutingTimeMin) {
                     this.errors.commutingTimeMin = this.$t('Please input number');                              //need trans
                     valid = false;
                 }
-                if (!this.formData.leaveTimeHour) {
+                if (this.formData.reasonForAbsenceId && !this.formData.leaveTimeHour) {
                     this.errors.leaveTimeHour = this.$t('Please input number');
                     valid = false;
                 }
-                if (!this.formData.leaveTimeMin) {
+                if (this.formData.reasonForAbsenceId && !this.formData.leaveTimeMin) {
                     this.errors.leaveTimeMin = this.$t('Please input number');
                     valid = false;
                 }

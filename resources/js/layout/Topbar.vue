@@ -72,12 +72,13 @@ export default {
             handleSignOut();
         },
         showChangeBtn() {
-            if(this.session) {
+            if(this.session.office) {
                 if(this.session.office.isNursery || this.isAdmin)
                     return true;
                 else
                     return false;
             }
+            return false;
         }
     }
 };

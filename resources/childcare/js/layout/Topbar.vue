@@ -69,12 +69,13 @@ export default {
             handleSignOut();
         },
         showChangeBtn() {
-            if(this.session) {
+            if(this.session.office) {
                 if(this.session.office.isNursery || this.session.roleId === Guards.ADMIN)
                     return true;
                 else
                     return false;
             }
+            return false;
         }
     }
 };
