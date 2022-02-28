@@ -119,6 +119,7 @@ export default {
             })
             .then(() => {
                 showSuccess(this.$t('Successfully saved'));
+                this.$router.push('/mail-table')
             })
             .catch(apiErrorHandler)
             .finally(() => this.unsetActionLoading())

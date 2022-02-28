@@ -90,7 +90,6 @@ export default {
     },
     methods: {
         getMails(page = 1) {
-            if(this.actionLoading) return;
             this.setActionLoading();
             const query = {page, perPage: this.pager.size};
             api.get('mail-history', null, query)
