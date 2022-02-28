@@ -220,6 +220,10 @@ import { showSuccess } from '../../helpers/error';
                 //     this.errors.leaveTimeMin = this.$t('Please input number');
                 //     valid = false;
                 // }
+                if (this.formData.leaveTimeHour && this.formData.leaveTimeMin && this.formData.leaveTimeHour + ":" + this.formData.leaveTimeMin < this.formData.commutingTimeHour + ":" + this.formData.commutingTimMin) {
+                    this.errors.leaveTimeHour = this.$t('start time must be earlier than end time');
+                    valid = false;
+                }
                 // if (!this.formData.reasonForAbsenceId) {
                 //     this.errors.reasonForAbsenceId = this.$t('Please select reason of absence');
                 //     valid = false;
