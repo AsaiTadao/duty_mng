@@ -16,7 +16,6 @@ class CreateChildInformationTable extends Migration
         Schema::create('child_information', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedSmallInteger('no');
             $table->foreignId('child_id')->constrained('children')->cascadeOnDelete();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
