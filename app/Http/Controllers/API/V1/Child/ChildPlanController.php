@@ -85,6 +85,9 @@ class ChildPlanController extends BaseController
                 $planDay->create_user_id = $user->id;
             }
             $planDay->update_user_id = $user->id;
+            if (!$planDay->absent) {
+                $planDay->absent = 0;
+            }
             $planDay->save();
         }
 
