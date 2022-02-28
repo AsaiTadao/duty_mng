@@ -467,6 +467,7 @@ export default {
             request.then(() => {
                 this.unsetActionLoading();
                 showSuccess(this.$t('Successfully saved'));
+                this.getChildInfor();
             })
             .catch(e => {
                 apiErrorHandler(e);
