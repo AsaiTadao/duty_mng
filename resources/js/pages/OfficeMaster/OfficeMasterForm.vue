@@ -107,13 +107,13 @@
                         定員数：
                     </div>
                     <div class="col-md-1">
-                        <div class="d-flex align-items-center">
-                            <input type="number" class="form-control" min="0" max="24" v-model="formData.capacity" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                        <div class="d-flex align-items-center is-invalid">
+                            <input type="number" class="form-control" min="0" max="1000" name="capacity" v-model="formData.capacity" :class="{'is-invalid' : errors.capacity}" @change="errors.capacity = null">
                             名
-                            <span v-if="errors.startTime" class="error invalid-feedback">
-                                {{ errors.startTime }}
-                            </span>
                         </div>
+                        <span v-if="errors.capacity" class="error invalid-feedback">
+                            {{ errors.capacity }}
+                        </span>
                     </div>
                 </div>
                 <div class="form-row mt-1">
@@ -122,40 +122,58 @@
                         (一人当たり)
                     </div>
                     <div class="col-md-2">
-                        <div class="d-flex mb-1 align-middle">
+                        <div class="d-flex mb-1 align-middle is-invalid">
                             <div class="mr-1 align-self-center">0歳児</div>
-                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" v-model="formData.appropriateNumber0" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            <input type="number" class="form-control" style="width:50%" name="appropriateNumber0" min="0" max="1000" v-model="formData.appropriateNumber0" :class="{'is-invalid' : errors.appropriateNumber0}" @change="errors.appropriateNumber0 = null">
                             <div class="ml-1 align-self-center">名</div>
                         </div>
-                        <div class="d-flex">
+                        <span v-if="errors.appropriateNumber0" class="error invalid-feedback">
+                            {{ errors.appropriateNumber0 }}
+                        </span>
+                        <div class="d-flex is-invalid">
                             <div class="mr-1 align-self-center">3歳児</div>
-                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" v-model="formData.appropriateNumber3" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            <input type="number" class="form-control" style="width:50%" name="appropriateNumber3" min="0" max="1000" v-model="formData.appropriateNumber3" :class="{'is-invalid' : errors.appropriateNumber3}" @keyup="errors.appropriateNumber3 = null">
                             <div class="ml-1 align-self-center">名</div>
                         </div>
+                        <span v-if="errors.appropriateNumber3" class="error invalid-feedback">
+                                {{ errors.appropriateNumber3 }}
+                            </span>
                     </div>
                     <div class="col-md-2">
-                        <div class="d-flex mb-1">
+                        <div class="d-flex mb-1 is-invalid">
                             <div class="mr-1 align-self-center">1歳児</div>
-                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" v-model="formData.appropriateNumber1" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            <input type="number" class="form-control" style="width:50%" name="appropriateNumber1" min="0" max="1000" v-model="formData.appropriateNumber1" :class="{'is-invalid' : errors.appropriateNumber1}" @keyup="errors.appropriateNumber1 = null">
                             <div class="ml-1 align-self-center">名</div>
                         </div>
-                        <div class="d-flex mb-1">
+                        <span v-if="errors.appropriateNumber1" class="error invalid-feedback">
+                            {{ errors.appropriateNumber1 }}
+                        </span>
+                        <div class="d-flex mb-1 is-invalid">
                             <div class="mr-1 align-self-center">4歳児</div>
-                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" v-model="formData.appropriateNumber4" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            <input type="number" class="form-control" style="width:50%" name="appropriateNumber4" min="0" max="1000" v-model="formData.appropriateNumber4" :class="{'is-invalid' : errors.appropriateNumber4}" @keyup="errors.appropriateNumber4 = null">
                             <div class="ml-1 align-self-center">名</div>
                         </div>
+                        <span v-if="errors.appropriateNumber4" class="error invalid-feedback">
+                            {{ errors.appropriateNumber4 }}
+                        </span>
                     </div>
                     <div class="col-md-2">
-                        <div class="d-flex mb-1">
+                        <div class="d-flex mb-1 is-invalid">
                             <div class="mr-1 align-self-center">2歳児</div>
-                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" v-model="formData.appropriateNumber2" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                            <div class="ml-1 align-self-center">名</div>
+                            <input type="number" class="form-control" style="width:50%" name="appropriateNumber2" min="0" max="1000" v-model="formData.appropriateNumber2" :class="{'is-invalid' : errors.appropriateNumber2}" @keyup="errors.appropriateNumber2 = null">
+                            <div class="ml-1 align-self-center is-invalid">名</div>
                         </div>
+                        <span v-if="errors.appropriateNumber2" class="error invalid-feedback">
+                            {{ errors.appropriateNumber2 }}
+                        </span>
                         <div class="d-flex">
-                            <div class="mr-1 align-self-center">5歳児</div>
-                            <input type="number" class="form-control" style="width:50%" min="0" max="1000" v-model="formData.appropriateNumber5" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            <div class="mr-1 align-self-center is-invalid">5歳児</div>
+                            <input type="number" class="form-control" style="width:50%" name="appropriateNumber5" min="0" max="1000" v-model="formData.appropriateNumber5" :class="{'is-invalid' : errors.appropriateNumber5}" @keyup="errors.appropriateNumber5 = null">
                             <div class="ml-1 align-self-center">名</div>
                         </div>
+                        <span v-if="errors.appropriateNumber5" class="error invalid-feedback">
+                            {{ errors.appropriateNumber5 }}
+                        </span>
                     </div>
                 </div>
                 <div class="form-row mt-1">
@@ -163,10 +181,13 @@
                         事業種別：
                     </div>
                     <div class="col-md-6">
-                        <select class="form-control" v-model="formData.businessTypeId">
-                            <option></option>
+                        <select class="form-control" v-model="formData.businessTypeId" name="businessTypeId" :class="{'is-invalid' : errors.businessTypeId}" @change="errors.businessTypeId = null">
+                            <option :value="null"></option>
                             <option v-for="business in businessTypes" :key="business.id" :value="business.id">{{business.label}}</option>
                         </select>
+                        <span v-if="errors.businessTypeId" class="error invalid-feedback">
+                            {{ errors.businessTypeId }}
+                        </span>
                     </div>
                 </div>
             </div>
@@ -208,6 +229,14 @@ import moment from 'moment';
                     openTimeMin: null,
                     closeTimeHour: null,
                     closeTimeMin: null,
+                    capacity: null,
+                    appropriateNumber0: null,
+                    appropriateNumber1: null,
+                    appropriateNumber2: null,
+                    appropriateNumber3: null,
+                    appropriateNumber4: null,
+                    appropriateNumber5: null,
+                    businessTypeId: null
                 };
                 this.convertToFormData();
             },
@@ -220,6 +249,14 @@ import moment from 'moment';
                     openTimeMin: null,
                     closeTimeHour: null,
                     closeTimeMin: null,
+                    capacity: null,
+                    appropriateNumber0: null,
+                    appropriateNumber1: null,
+                    appropriateNumber2: null,
+                    appropriateNumber3: null,
+                    appropriateNumber4: null,
+                    appropriateNumber5: null,
+                    businessTypeId: null
                 };
                 this.convertToFormData();
             },
@@ -252,6 +289,14 @@ import moment from 'moment';
                     openTimeMin: null,
                     closeTimeHour: null,
                     closeTimeMin: null,
+                    capacity: null,
+                    appropriateNumber0: null,
+                    appropriateNumber1: null,
+                    appropriateNumber2: null,
+                    appropriateNumber3: null,
+                    appropriateNumber4: null,
+                    appropriateNumber5: null,
+                    businessTypeId: null
                 },
                 nurseOffice: 0,
             }
@@ -315,6 +360,44 @@ import moment from 'moment';
                 if (!this.formData.restDeductionId) {
                     this.errors.restDeductionId = this.$t('Please select rest deduction type');       // need trans
                     valid = false;
+                }
+                if(this.formData.type == 2) {
+                    if(!this.formData.capacity) {
+                        this.errors.capacity = this.$t('Please input number');
+                        valid = false;
+                    }
+                    if(this.formData.capacity && this.formData.capacity < 0) {
+                        this.errors.capacity = this.$t('Please input an integer');
+                        valid = false;
+                    }
+                    if(this.formData.appropriateNumber0 && this.formData.appropriateNumber0 < 0) {
+                        this.errors.appropriateNumber0 = this.$t('Please input an integer');
+                        valid = false;
+                    }
+                    if(this.formData.appropriateNumber1 && this.formData.appropriateNumber1 < 0) {
+                        this.errors.appropriateNumber1 = this.$t('Please input an integer');
+                        valid = false;
+                    }
+                    if(this.formData.appropriateNumber2 && this.formData.appropriateNumber2 < 0) {
+                        this.errors.appropriateNumber2 = this.$t('Please input an integer');
+                        valid = false;
+                    }
+                    if(this.formData.appropriateNumber3 && this.formData.appropriateNumber3 < 0) {
+                        this.errors.appropriateNumber3 = this.$t('Please input an integer');
+                        valid = false;
+                    }
+                    if(this.formData.appropriateNumber4 && this.formData.appropriateNumber4 < 0) {
+                        this.errors.appropriateNumber4 = this.$t('Please input an integer');
+                        valid = false;
+                    }
+                    if(this.formData.appropriateNumber5 && this.formData.appropriateNumber5 < 0) {
+                        this.errors.appropriateNumber5 = this.$t('Please input an integer');
+                        valid = false;
+                    }
+                    if(!this.formData.businessTypeId) {
+                        this.errors.businessTypeId = this.$t('Please input office kind');
+                        valid = false;
+                    }
                 }
                 return valid;
             }
