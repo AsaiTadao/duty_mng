@@ -248,10 +248,10 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.password = this.$t('Please enter 50 characters or less');
                     valid = false;
                 }
-                if (!this.formData.workingHours) {
-                    this.errors.workingHours = this.$t('Please select working hour');
-                    valid = false;
-                }
+                // if (!this.formData.workingHours) {
+                //     this.errors.workingHours = this.$t('Please select working hour');
+                //     valid = false;
+                // }
                 return valid;
             },
             setOffices() {
