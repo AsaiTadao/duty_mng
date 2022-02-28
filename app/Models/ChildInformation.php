@@ -18,7 +18,8 @@ class ChildInformation extends Model
         'certificate_expiration_date',
         'tax_exempt_household',
         'remarks',
-        'child_id'
+        'child_id',
+        'no'
     ];
 
     public function child()

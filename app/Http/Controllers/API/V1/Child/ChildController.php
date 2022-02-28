@@ -68,7 +68,7 @@ class ChildController extends BaseController
         $data = $request->validated();
         if (!empty($data['password'])) {
             $data['password'] = Hash::make($data['password']);
-        } else if (isset($data['password'])) {
+        } else if ($data['password'] === null) {
             unset($data['password']);
         }
         $existing = Child::where(['email' => $data['email']])->first();

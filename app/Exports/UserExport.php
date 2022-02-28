@@ -43,7 +43,7 @@ class UserExport implements WithEvents
                     $sheet->setCellValue("D" . $row, $user['enrolled'] ? '在籍中': '退職');
                     $sheet->setCellValue("E" . $row, !empty($user['office']) ? $user['office']['name'] : '');
                     $sheet->setCellValue("F" . $row, !empty($user['region']) ? $user['region']['name'] : '');
-                    $sheet->setCellValue("G" . $row, !empty($user['working_hours'] ? $user['working_hours'] . '時間' : '未定'));
+                    $sheet->setCellValue("G" . $row, !empty($user['working_hours']) ? $user['working_hours'] . '時間' : '未定');
                     $sheet->setCellValue("H" . $row, $user['email']);
                     $sheet->setCellValue("I" . $row, $this->getAuthLabel($user['role_id']));
                     $sheet->setCellValue("J" . $row, $this->getOptionLabel(CodeGroups::OVERTIME_PAY,  $user['setting']['overtime_pay']));
