@@ -24,10 +24,13 @@
                                     <i class="fas fa-calendar-alt fa-2x"></i>
                                     </button>
                                 </div>
-                                <div class="d-flex align-items-center px-3">
+                                <div class="d-flex align-items-center px-3 is-invalid">
                                     <div for="weatherStauts" class="form-label mr-2">天気</div>
-                                    <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" v-model="formData.weather" @change="dataChanged = true;"/>
+                                    <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" :class="{'is-invalid' : errors.weather}" v-model="formData.weather" @change="dataChanged = true; errors.weather = null;"/>
                                 </div>
+                                <span v-if="errors.weather" class="error invalid-feedback">
+                                    {{errors.weather}}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -170,10 +173,15 @@ export default {
         },
         validate() {
             let valid = true;
+            if(!this.formData.weather) {
+                this.errors.weather = this.$t('Please input weather');
+                valid = false;
+            }
             return valid;
         },
         initFormError() {
             this.errors = {
+                weather: null
             }
         },
         getContact(date) {
