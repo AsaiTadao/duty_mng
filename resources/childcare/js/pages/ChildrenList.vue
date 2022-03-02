@@ -67,7 +67,18 @@
                                         <td v-else></td>
                                         <td>{{getAge(child.birthday)}}</td>
                                         <td>{{child.classId}}</td>
-                                        <td>{{ child.planRegistered ? '登録有' : '未登録' }}</td>
+                                        <td v-if="child.planRegistered">
+                                            <router-link
+                                                :to="{name: 'childcare-plan', params: {childId: child.id}}">
+                                                編集
+                                            </router-link>
+                                        </td>
+                                        <td v-else>
+                                            <router-link
+                                                :to="{name: 'childcare-plan', params: {childId: child.id}}">
+                                                未登録
+                                            </router-link>
+                                        </td>
                                         <td>
                                             <router-link
                                                 :to="{name: 'children-detail', params: {id: child.id} }"
