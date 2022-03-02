@@ -7,6 +7,7 @@ use App\Http\Requests\Child\ChildPlanDayQuery;
 use App\Http\Requests\Child\ChildPlanDayRequest;
 use App\Http\Requests\Child\ChildPlanRequest;
 use App\Http\Resources\ChildcarePlanDayResource;
+use App\Jobs\PlanDayCreateJob;
 use App\Models\Child;
 use App\Models\ChildcarePlan;
 use App\Models\ChildcarePlanDay;
@@ -47,6 +48,8 @@ class ChildPlanController extends BaseController
             $child->plan_registered = true;
             $child->save();
         }
+        PlanDayCreateJob::dispatch($child->id, $user->id);
+
         return $this->sendResponse($childPlans);
     }
     public function retrieveDailyPlan(Child $child, ChildPlanDayQuery $request, PlanService $planService)

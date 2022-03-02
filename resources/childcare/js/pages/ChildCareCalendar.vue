@@ -163,7 +163,7 @@ export default {
     },
     beforeRouteLeave (to, from, next) {
         if (this.editing) {
-            if (confirm(this.$t('Changes are not saved. Are you really quit?'))) {
+            if (confirm('変更内容が登録されていません。内容を破棄して年月を変更してよろしいですか？')) {
                 next();
             } else {
                 return;

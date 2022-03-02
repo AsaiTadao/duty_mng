@@ -73,4 +73,9 @@ class Child extends Authenticatable
         if (!$this->child_info) return '';
         return $this->child_info->company_name ? $this->child_info->company_name : '';
     }
+
+    public function dailyPlans()
+    {
+        return $this->hasMany(ChildcarePlanDay::class);
+    }
 }

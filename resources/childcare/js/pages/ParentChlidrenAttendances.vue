@@ -40,9 +40,9 @@
                                                     {{ item.day }}
                                                 </td>
                                                 <td class="children-present-fix-60">
-                                                    <div v-if="getDayOfWeek(item.day) === 6" class="blue">{{currentDate.format('ddd')}}</div>
-                                                    <div v-else-if="getDayOfWeek(item.day) === 0" class="red">{{currentDate.format('ddd')}}</div>
-                                                    <div v-else>{{currentDate.format('ddd')}}</div>
+                                                    <div v-if="getDayOfWeek(item.day) === 6" class="blue">{{getDayOfWeekLabel(item.day)}}</div>
+                                                    <div v-else-if="getDayOfWeek(item.day) === 0" class="red">{{getDayOfWeekLabel(item.day)}}</div>
+                                                    <div v-else>{{getDayOfWeekLabel(item.day)}}</div>
                                                 </td>
                                                 <td>{{ formatTime(item.commutingTime) }}</td>
                                                 <td>{{ formatTime(item.leaveTime) }}</td>
@@ -159,6 +159,11 @@ export default {
             const newDate = moment(this.currentDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
             newDate.set('date', day);
             return newDate.day();
+        },
+        getDayOfWeekLabel(day){
+            const newDate = moment(this.currentDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+            newDate.set('date', day);
+            return newDate.format('ddd');
         },
         formatTime(time) {
             return time ? moment(time).format('HH:mm') : '';
