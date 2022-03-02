@@ -58,7 +58,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <select class="form-control" v-model="formData.gender" :class="{'is-invalid' : errors.gender}">
+                                            <select class="form-control" v-model="formData.gender" :class="{'is-invalid' : errors.gender}" @change="errors.gender = null;">
                                                 <option value="1">男</option>
                                                 <option value="2">女</option>
                                             </select>
@@ -67,29 +67,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="2016" max="2100" v-model="formData.birthYear" :class="{'is-invalid' : errors.birthYear}" @keyup="errors.birthYear = null">
-                                                    <span v-if="errors.birthYear" class="error invalid-feedback">
-                                                        {{ errors.birthYear }}
-                                                    </span>
-                                                </div>
-                                                <span class="p-1">年</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="1" max="12" v-model="formData.birthMonth" :class="{'is-invalid' : errors.birthMonth}" @keyup="errors.birthMonth = null">
-                                                    <span v-if="errors.birthMonth" class="error invalid-feedback">
-                                                        {{ errors.birthMonth }}
-                                                    </span>
-                                                </div>
-                                                <span class="p-1">月</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="1" max="31" v-model="formData.birthDay" :class="{'is-invalid' : errors.birthDay}" @keyup="errors.birthDay = null">
-                                                    <span v-if="errors.birthDay" class="error invalid-feedback">
-                                                        {{ errors.birthDay }}
-                                                    </span>
-                                                </div>
-                                                <span class="p-1">日</span>
-                                            </div>
+                                            <year-month-day-select-box v-model="formData.birthday" :error="errors.birthday" @input="errors.birthday = null"></year-month-day-select-box>
                                         </td>
                                         <td>
                                             {{ age }}
@@ -125,54 +103,10 @@
                                 <tbody class="text-center">
                                     <tr>
                                         <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="2016" max="2100" v-model="formData.admissionDateYear" :class="{'is-invalid' : errors.admissionDateYear}" @keyup="errors.admissionDateYear = null">
-                                                    <span v-if="errors.admissionDateYear" class="error invalid-feedback">
-                                                        {{ errors.admissionDateYear }}
-                                                    </span>
-                                                </div>
-                                                <span class="p-1">年</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="1" max="12" v-model="formData.admissionDateMonth" :class="{'is-invalid' : errors.admissionDateMonth}" @keyup="errors.admissionDateMonth = null">
-                                                    <span v-if="errors.admissionDateMonth" class="error invalid-feedback">
-                                                        {{ errors.admissionDateMonth }}
-                                                    </span>
-                                                </div>
-                                                <span class="p-1">月</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="1" max="31" v-model="formData.admissionDateDay" :class="{'is-invalid' : errors.admissionDateDay}" @keyup="errors.admissionDateDay = null">
-                                                    <span v-if="errors.admissionDateDay" class="error invalid-feedback">
-                                                        {{ errors.admissionDateDay }}
-                                                    </span>
-                                                </div>
-                                                <span class="p-1">日</span>
-                                            </div>
+                                            <year-month-day-select-box v-model="formData.admissionDate" :error="errors.admissionDate" @input="errors.admissionDate = null"></year-month-day-select-box>
                                         </td>
                                         <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="2016" max="2100" v-model="formData.exitDateYear" :class="{'is-invalid' : errors.exitDateYear}" @keyup="errors.exitDateYear = null">
-                                                    <span v-if="errors.exitDateYear" class="error invalid-feedback">
-                                                        {{ errors.exitDateYear }}
-                                                    </span>
-                                                </div>
-                                                <span class="p-1">年</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="1" max="12" v-model="formData.exitDateMonth" :class="{'is-invalid' : errors.exitDateMonth}" @keyup="errors.exitDateMonth = null">
-                                                    <span v-if="errors.exitDateMonth" class="error invalid-feedback">
-                                                        {{ errors.exitDateMonth }}
-                                                    </span>
-                                                </div>
-                                                <span class="p-1">月</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="1" max="31" v-model="formData.exitDateDay" :class="{'is-invalid' : errors.exitDateDay}" @keyup="errors.exitDateDay = null">
-                                                    <span v-if="errors.exitDateDay" class="error invalid-feedback">
-                                                        {{ errors.exitDateDay }}
-                                                    </span>
-                                                </div>
-                                                <span class="p-1">日</span>
-                                            </div>
+                                            <year-month-day-select-box v-model="formData.exitDate" :error="errors.exitDate" @input="errors.exitDate = null"></year-month-day-select-box>
                                         </td>
                                         <td>
                                             <input class="form-control" v-model="formData.email" :class="{'is-invalid' : errors.email}" @keyup="errors.email = null"/>
@@ -270,29 +204,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <div class="d-flex justify-content-center">
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="2016" max="2100" v-model="formData.certificateExpirationDateYear" :class="{'is-invalid' : errors.certificateExpirationDateYear}" @keyup="errors.certificateExpirationDateYear = null">
-                                                    <span v-if="errors.certificateExpirationDateYear" class="error invalid-feedback">
-                                                        {{ errors.certificateExpirationDateYear }}
-                                                    </span>
-                                                </div>
-                                                <span class="p-1">年</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="1" max="12" v-model="formData.certificateExpirationDateMonth" :class="{'is-invalid' : errors.certificateExpirationDateMonth}" @keyup="errors.certificateExpirationDateMonth = null">
-                                                    <span v-if="errors.certificateExpirationDateMonth" class="error invalid-feedback">
-                                                        {{ errors.certificateExpirationDateMonth }}
-                                                    </span>
-                                                </div>
-                                                <span class="p-1">月</span>
-                                                <div>
-                                                    <input type="number" class="form-control p-1" min="1" max="31" v-model="formData.certificateExpirationDateDay" :class="{'is-invalid' : errors.certificateExpirationDateDay}" @keyup="errors.certificateExpirationDateDay = null">
-                                                    <span v-if="errors.certificateExpirationDateDay" class="error invalid-feedback">
-                                                        {{ errors.certificateExpirationDateDay }}
-                                                    </span>
-                                                </div>
-                                                <span class="p-1">日</span>
-                                            </div>
+                                            <year-month-day-select-box v-model="formData.certificateExpirationDate" :error="errors.certificateExpirationDate" @input="errors.certificateExpirationDate = null"></year-month-day-select-box>
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center justify-content-center is-invalid">
@@ -342,8 +254,11 @@ import api, { apiErrorHandler } from '../global/api';
 import actionLoading from '../mixin/actionLoading';
 import { mapState } from 'vuex';
 import { showSuccess } from '../../../js/helpers/error';
+import YearMonthDaySelectBox from '../components/YearMonthDaySelectBox.vue';
+import { validateYYMMDD } from '../helpers/datetime';
 
 export default {
+  components: { YearMonthDaySelectBox },
     mixins: [actionLoading],
     data() {
         return {
@@ -351,25 +266,17 @@ export default {
                 childNumber: '',
                 childName: '',
                 gender: null,
-                birthYear: null,
-                birthMonth: null,
-                birthDay: null,
+                birthday: null,
                 classId: null,
-                admissionDateYear: null,
-                admissionDateMonth: null,
-                admissionDateDay: null,
-                exitDateYear: null,
-                exitDateMonth: null,
-                exitDateDay: null,
+                admissionDate: null,
+                exitDate: null,
                 email: null,
                 password: null,
                 type: null,
                 companyName: '',
                 freeOfCharge: null,
                 certificateOfPayment: null,
-                certificateExpirationDateYear: null,
-                certificateExpirationDateMonth: null,
-                certificateExpirationDateDay: null,
+                certificateExpirationDate: null,
                 taxExemptHousehold: null,
                 remarks: null
             },
@@ -377,25 +284,17 @@ export default {
                 childNumber: '',
                 childName: '',
                 gender: null,
-                birthYear: null,
-                birthMonth: null,
-                birthDay: null,
+                birthday: null,
                 classId: null,
-                admissionDateYear: null,
-                admissionDateMonth: null,
-                admissionDateDay: null,
-                exitDateYear: null,
-                exitDateMonth: null,
-                exitDateDay: null,
+                admissionDate: null,
+                exitDate: null,
                 email: null,
                 password: null,
                 type: null,
                 companyName: '',
                 freeOfCharge: null,
                 certificateOfPayment: null,
-                certificateExpirationDateYear: null,
-                certificateExpirationDateMonth: null,
-                certificateExpirationDateDay: null,
+                certificateExpirationDate: null,
                 taxExemptHousehold: null,
                 remarks: null
             },
@@ -443,17 +342,17 @@ export default {
                 'number': this.formData.childNumber,
                 'name': this.formData.childName,
                 'gender': this.formData.gender,
-                'birthday': moment(this.formData.birthYear + '-' + this.formData.birthMonth + '-' + this.formData.birthDay).format("YYYY-MM-DD"),
+                'birthday': moment(this.formData.birthday).format("YYYY-MM-DD"),
                 'class_id': this.formData.classId,
-                'admission_date': moment(this.formData.admissionDateYear + '-' + this.formData.admissionDateMonth + '-' + this.formData.admissionDateDay).format("YYYY-MM-DD"),
-                'exit_date': moment(this.formData.exitDateYear + '-' + this.formData.exitDateMonth + '-' + this.formData.exitDateDay).format("YYYY-MM-DD"),
+                'admission_date': moment(this.formData.admissionDate).format("YYYY-MM-DD"),
+                'exit_date': moment(this.formData.exitDate).format("YYYY-MM-DD"),
                 'email': this.formData.email,
                 'password': this.formData.password,
                 'type': this.formData.type,
                 'company_name': this.formData.companyName,
                 'free_of_charge': this.formData.freeOfCharge,
                 'certificate_of_payment': this.formData.certificateOfPayment,
-                'certificate_expiration_date': moment(this.formData.certificateExpirationDateYear + '-' + this.formData.certificateExpirationDateMonth + '-' + this.formData.certificateExpirationDateDay).format("YYYY-MM-DD"),
+                'certificate_expiration_date': moment(this.formData.certificateExpirationDate).format("YYYY-MM-DD"),
                 'tax_exempt_household': this.formData.taxExemptHousehold,
                 'remarks': this.formData.remarks,
             };
@@ -482,20 +381,14 @@ export default {
             this.formData.childName = this.childInfor.name;
             this.formData.gender = this.childInfor.gender;
             if(this.childInfor.birthday){
-                this.formData.birthYear = this.childInfor.birthday.split('-')[0];
-                this.formData.birthMonth = this.childInfor.birthday.split('-')[1];
-                this.formData.birthDay = this.childInfor.birthday.split('-')[2];
+                this.formData.birthday = this.childInfor.birthday;
             }
             this.formData.classId = this.childInfor.classId;
             if(this.childInfor.admissionDate) {
-                this.formData.admissionDateYear = this.childInfor.admissionDate.split('-')[0];
-                this.formData.admissionDateMonth = this.childInfor.admissionDate.split('-')[1];
-                this.formData.admissionDateDay = this.childInfor.admissionDate.split('-')[2];
+                this.formData.admissionDate = this.childInfor.admissionDate;
             }
             if(this.childInfor.exitDate) {
-                this.formData.exitDateYear = this.childInfor.exitDate.split('-')[0];
-                this.formData.exitDateMonth = this.childInfor.exitDate.split('-')[1];
-                this.formData.exitDateDay = this.childInfor.exitDate.split('-')[2];
+                this.formData.exitDate = this.childInfor.exitDate;
             }
             this.formData.email = this.childInfor.email;
             // this.formData.password = this.chi
@@ -504,9 +397,7 @@ export default {
             this.formData.freeOfCharge = this.childInfor.freeOfCharge;
             this.formData.certificateOfPayment = this.childInfor.certificateOfPayment;
             if(this.childInfor.certificateExpirationDate) {
-                this.formData.certificateExpirationDateYear = this.childInfor.certificateExpirationDate.split('-')[0];
-                this.formData.certificateExpirationDateMonth = this.childInfor.certificateExpirationDate.split('-')[1];
-                this.formData.certificateExpirationDateDay = this.childInfor.certificateExpirationDate.split('-')[2];
+                this.formData.certificateExpirationDate = this.childInfor.certificateExpirationDate;
             }
             this.formData.taxExemptHousehold = this.childInfor.taxExemptHousehold;
             this.formData.remarks = this.childInfor.remarks;
@@ -514,59 +405,75 @@ export default {
         validate() {
             let valid = true;
             if (!this.formData.childNumber) {
-                    this.errors.childNumber = this.$t('Please input number');                                 // need trans
-                    valid = false;
+                this.errors.childNumber = this.$t('Please input half-width alphanumerical');                                 // need trans
+                valid = false;
+            }
+            if (this.formData.childNumber && this.formData.childNumber.length > 10) {
+                this.errors.childNumber = this.$t('Please enter 10 characters or less');
+                valid = false;
             }
             if (!this.formData.childName) {
                 this.errors.childName = this.$t('Please input name');                                 // need trans
+                valid = false;
+            }
+            if (this.formData.childName && this.formData.childName.length > 10) {
+                this.errors.childName = this.$t('Please enter 10 characters or less');
                 valid = false;
             }
             if (!this.formData.gender) {
                 this.errors.gender = this.$t('Please input gender');                              //need trans
                 valid = false;
             }
-            if (!this.formData.birthYear) {
-                this.errors.birthYear = this.$t('Please input number');                              //need trans
+
+            if (!this.formData.birthday) {
+                this.errors.birthday = this.$t('Please input birthday');                              //need trans
                 valid = false;
             }
-            if (!this.formData.birthMonth) {
-                this.errors.birthMonth = this.$t('Please input number');                              //need trans
+
+            if (this.formData.birthday && !validateYYMMDD(this.formData.birthday)) {
+                this.errors.birthday = this.$t('Please input birthday');                              //need trans
                 valid = false;
             }
-            if (!this.formData.birthDay) {
-                this.errors.birthDay = this.$t('Please input number');                              //need trans
+
+            if (!this.formData.admissionDate) {
+                this.errors.admissionDate = this.$t('Please input admissionDate');                              //need trans
                 valid = false;
             }
+
+            if (this.formData.admissionDate && !validateYYMMDD(this.formData.admissionDate)) {
+                this.errors.admissionDate = this.$t('Please input admissionDate');                              //need trans
+                valid = false;
+            }
+
+            if (!this.formData.exitDate) {
+                this.errors.exitDate = this.$t('Please input exitDate');                              //need trans
+                valid = false;
+            }
+
+            if (this.formData.exitDate && !validateYYMMDD(this.formData.exitDate)) {
+                this.errors.exitDate = this.$t('Please input exitDate');                              //need trans
+                valid = false;
+            }
+
             // if (!this.formData.classId) {
             //     this.errors.classId = this.$t('Please input number');
             //     valid = false;
             // }
-            if (!this.formData.admissionDateYear) {
-                this.errors.admissionDateYear = this.$t('Please input number');
+
+            if (!this.formData.certificateExpirationDate) {
+                this.errors.certificateExpirationDate = this.$t('Please input certificateExpirationDate');
                 valid = false;
             }
-            if (!this.formData.admissionDateMonth) {
-                this.errors.admissionDateMonth = this.$t('Please input number');
-                valid = false;
-            }
-            if (!this.formData.admissionDateDay) {
-                this.errors.admissionDateDay = this.$t('Please input number');
-                valid = false;
-            }
-            if (!this.formData.exitDateYear) {
-                this.errors.exitDateYear = this.$t('Please input number');
-                valid = false;
-            }
-            if (!this.formData.exitDateMonth) {
-                this.errors.exitDateMonth = this.$t('Please input number');
-                valid = false;
-            }
-            if (!this.formData.exitDateDay) {
-                this.errors.exitDateDay = this.$t('Please input number');
+            if (this.formData.certificateExpirationDate && !validateYYMMDD(this.formData.certificateExpirationDate)) {
+                this.errors.certificateExpirationDate = this.$t('Please input certificateExpirationDate');                              //need trans
                 valid = false;
             }
             if (!this.formData.email) {
                 this.errors.email = this.$t('Please input email');
+                valid = false;
+            }
+            if (this.formData.email && this.formData.email.length > 20) {
+                this.errors.email = this.$t('Please enter 20 characters or less');
                 valid = false;
             }
             if (!this.childId && !this.formData.password) {
@@ -581,28 +488,20 @@ export default {
                 this.errors.companyName = this.$t('Please input name');
                 valid = false;
             }
+            if (this.formData.companyName && this.formData.companyName.length > 20) {
+                this.errors.companyName = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
             if (this.formData.freeOfCharge === null || this.formData.freeOfCharge === undefined) {
-                this.errors.freeOfCharge = this.$t('Please input name');
+                this.errors.freeOfCharge = this.$t('Please select freeOfCharge');
                 valid = false;
             }
             if (this.formData.certificateOfPayment === null || this.formData.certificateOfPayment === undefined) {
-                this.errors.certificateOfPayment = this.$t('Please input name');
-                valid = false;
-            }
-            if (!this.formData.certificateExpirationDateYear) {
-                this.errors.certificateExpirationDateYear = this.$t('Please input number');
-                valid = false;
-            }
-            if (!this.formData.certificateExpirationDateMonth) {
-                this.errors.certificateExpirationDateMonth = this.$t('Please input number');
-                valid = false;
-            }
-            if (!this.formData.certificateExpirationDateDay) {
-                this.errors.certificateExpirationDateDay = this.$t('Please input number');
+                this.errors.certificateOfPayment = this.$t('Please select certificateOfPayment');
                 valid = false;
             }
             if (this.formData.taxExemptHousehold === null || this.formData.taxExemptHousehold === undefined) {
-                this.errors.taxExemptHousehold = this.$t('Please input number');
+                this.errors.taxExemptHousehold = this.$t('Please select taxExemptHousehold');
                 valid = false;
             }
             return valid;

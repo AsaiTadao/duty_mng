@@ -61,7 +61,7 @@
                                             女
                                         </td>
                                         <td>
-                                            {{childInfor.birthday}}
+                                            {{getDateFormat(childInfor.birthday)}}
                                         </td>
                                         <td>
                                             {{getAge(childInfor.birthday)}}
