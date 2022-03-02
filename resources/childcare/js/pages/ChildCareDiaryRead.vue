@@ -16,7 +16,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div>{{ date.format('YYYY年 MM月 DD日（ddd）') }}</div>
-                                    <div>天気：<input type="text" class="input-fit" v-model="weather" :class="{}"/></div>
+                                    <div>天気：<input type="text" class="input-fit" v-model="weather" readonly/></div>
                                 </div>
                                 <div class="col-md-4">
                                     <table class="table table-bordered table-diary">
