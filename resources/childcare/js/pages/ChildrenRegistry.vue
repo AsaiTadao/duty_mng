@@ -181,7 +181,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <input class="form-control" type="password" v-model="formData.password" :class="{'is-invalid' : errors.password}" @keyup="errors.password = null"/>
+                                            <input class="form-control" type="password" v-model="formData.password" :class="{'is-invalid' : errors.password}" placeholder="****" @keyup="errors.password = null"/>
                                             <span v-if="errors.password" class="error invalid-feedback">
                                                 {{ errors.password }}
                                             </span>
