@@ -66,7 +66,7 @@
                                         <td v-else-if="child.gender == 2">女</td>
                                         <td v-else></td>
                                         <td>{{getAge(child.birthday)}}</td>
-                                        <td>{{child.classId}}</td>
+                                        <td>{{getChildClass(child.classId)}}</td>
                                         <td v-if="child.planRegistered">
                                             <router-link
                                                 :to="{name: 'childcare-plan', params: {childId: child.id}}">
@@ -115,6 +115,12 @@ export default {
             searchFilter: '',
         }
     },
+    computed: {
+        ...mapState({
+            childrenClasses: state => state.constants.childrenClasses,
+            childTypes: state => state.constants.childTypes
+        }),
+    },
     methods: {
         getChildrenList() {
             if (this.actionLoading) return;
@@ -144,7 +150,20 @@ export default {
             const y = Math.floor(ageInMonth / 12);
             const m = ageInMonth % 12;
             return (y ? y + '歳' : '') + (m ? m + 'ヶ月' : '');
-        }
+        },
+        getChildClass(classId) {
+            if(classId != null) {
+                const result = this.childrenClasses.find(element => {
+                return element.id == classId;
+                });
+                if(result)
+                    return result.name;
+                else
+                    return null;
+            } else {
+                return null;
+            }
+        },
     },
     mounted() {
         this.getChildrenList();
