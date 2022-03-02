@@ -16,7 +16,11 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div>{{ date.format('YYYY年 MM月 DD日（ddd）') }}</div>
-                                    <div>天気：<input type="text" class="input-fit" v-model="weather" :class="{}"/></div>
+                                    <div>天気：<input type="text" class="input-fit" v-model="weather" :class="{'is-invalid': errors.weather}" @change="errors.weather = null;"/>
+                                        <span v-if="errors.weather" class="error invalid-feedback">
+                                            {{ errors.weather }}
+                                        </span>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <table class="table table-bordered table-diary">
@@ -233,6 +237,9 @@ export default {
                 all: '',
                 attend: '',
                 absent: ''
+            },
+            errors: {
+                weather: null,
             }
         }
     },
@@ -257,6 +264,8 @@ export default {
     },
     methods: {
         onSubmit() {
+            if (this.actionLoading) return;
+            if(!this.validate()) return;
             this.setActionLoading();
             api.post('child-diary', null, {
                 date: this.date.format('YYYY-MM-DD'),
@@ -277,6 +286,18 @@ export default {
             })
             .catch(apiErrorHandler)
             .finally(this.unsetActionLoading)
+        },
+        validate() {
+            let valid = true;
+            if(!this.weather) {
+                this.errors.weather = this.$t('Please input weather');
+                valid = false;
+            }
+            if(this.weather && this.weather.length > 10) {
+                this.errors.weather = this.$t('Please enter 10 characters or less');
+                valid = false;
+            }
+            return valid;
         },
         fetchData() {
             this.setActionLoading();
