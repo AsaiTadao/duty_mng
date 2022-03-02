@@ -464,11 +464,13 @@ export default {
             } else {
                 request = api.post('register', null, requestData);
             }
-            request.then(() => {
+            request.then(response => {
                 this.unsetActionLoading();
                 showSuccess(this.$t('Successfully saved'));
                 // this.getChildInfor();
-                this.$router.push({name: 'children-detail', params: {id: this.childId}});
+                let childId;
+                childId = response.id;
+                this.$router.push({name: 'children-detail', params: {id: childId}});
             })
             .catch(e => {
                 apiErrorHandler(e);
