@@ -69,21 +69,21 @@
                                         <td>
                                             <div class="d-flex justify-content-center">
                                                 <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" v-model="formData.birthYear" :class="{'is-invalid' : errors.birthYear}" @keyup="errors.birthYear = null">
+                                                    <input type="number" class="form-control p-1" min="2016" max="2100" v-model="formData.birthYear" :class="{'is-invalid' : errors.birthYear}" @keyup="errors.birthYear = null">
                                                     <span v-if="errors.birthYear" class="error invalid-feedback">
                                                         {{ errors.birthYear }}
                                                     </span>
                                                 </div>
                                                 <span class="p-1">年</span>
                                                 <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" v-model="formData.birthMonth" :class="{'is-invalid' : errors.birthMonth}" @keyup="errors.birthMonth = null">
+                                                    <input type="number" class="form-control p-1" min="1" max="12" v-model="formData.birthMonth" :class="{'is-invalid' : errors.birthMonth}" @keyup="errors.birthMonth = null">
                                                     <span v-if="errors.birthMonth" class="error invalid-feedback">
                                                         {{ errors.birthMonth }}
                                                     </span>
                                                 </div>
                                                 <span class="p-1">月</span>
                                                 <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" v-model="formData.birthDay" :class="{'is-invalid' : errors.birthDay}" @keyup="errors.birthDay = null">
+                                                    <input type="number" class="form-control p-1" min="1" max="31" v-model="formData.birthDay" :class="{'is-invalid' : errors.birthDay}" @keyup="errors.birthDay = null">
                                                     <span v-if="errors.birthDay" class="error invalid-feedback">
                                                         {{ errors.birthDay }}
                                                     </span>
@@ -127,21 +127,21 @@
                                         <td>
                                             <div class="d-flex justify-content-center">
                                                 <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" v-model="formData.admissionDateYear" :class="{'is-invalid' : errors.admissionDateYear}" @keyup="errors.admissionDateYear = null">
+                                                    <input type="number" class="form-control p-1" min="2016" max="2100" v-model="formData.admissionDateYear" :class="{'is-invalid' : errors.admissionDateYear}" @keyup="errors.admissionDateYear = null">
                                                     <span v-if="errors.admissionDateYear" class="error invalid-feedback">
                                                         {{ errors.admissionDateYear }}
                                                     </span>
                                                 </div>
                                                 <span class="p-1">年</span>
                                                 <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" v-model="formData.admissionDateMonth" :class="{'is-invalid' : errors.admissionDateMonth}" @keyup="errors.admissionDateMonth = null">
+                                                    <input type="number" class="form-control p-1" min="1" max="12" v-model="formData.admissionDateMonth" :class="{'is-invalid' : errors.admissionDateMonth}" @keyup="errors.admissionDateMonth = null">
                                                     <span v-if="errors.admissionDateMonth" class="error invalid-feedback">
                                                         {{ errors.admissionDateMonth }}
                                                     </span>
                                                 </div>
                                                 <span class="p-1">月</span>
                                                 <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" v-model="formData.admissionDateDay" :class="{'is-invalid' : errors.admissionDateDay}" @keyup="errors.admissionDateDay = null">
+                                                    <input type="number" class="form-control p-1" min="1" max="31" v-model="formData.admissionDateDay" :class="{'is-invalid' : errors.admissionDateDay}" @keyup="errors.admissionDateDay = null">
                                                     <span v-if="errors.admissionDateDay" class="error invalid-feedback">
                                                         {{ errors.admissionDateDay }}
                                                     </span>
@@ -152,21 +152,21 @@
                                         <td>
                                             <div class="d-flex justify-content-center">
                                                 <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" v-model="formData.exitDateYear" :class="{'is-invalid' : errors.exitDateYear}" @keyup="errors.exitDateYear = null">
+                                                    <input type="number" class="form-control p-1" min="2016" max="2100" v-model="formData.exitDateYear" :class="{'is-invalid' : errors.exitDateYear}" @keyup="errors.exitDateYear = null">
                                                     <span v-if="errors.exitDateYear" class="error invalid-feedback">
                                                         {{ errors.exitDateYear }}
                                                     </span>
                                                 </div>
                                                 <span class="p-1">年</span>
                                                 <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" v-model="formData.exitDateMonth" :class="{'is-invalid' : errors.exitDateMonth}" @keyup="errors.exitDateMonth = null">
+                                                    <input type="number" class="form-control p-1" min="1" max="12" v-model="formData.exitDateMonth" :class="{'is-invalid' : errors.exitDateMonth}" @keyup="errors.exitDateMonth = null">
                                                     <span v-if="errors.exitDateMonth" class="error invalid-feedback">
                                                         {{ errors.exitDateMonth }}
                                                     </span>
                                                 </div>
                                                 <span class="p-1">月</span>
                                                 <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" v-model="formData.exitDateDay" :class="{'is-invalid' : errors.exitDateDay}" @keyup="errors.exitDateDay = null">
+                                                    <input type="number" class="form-control p-1" min="1" max="31" v-model="formData.exitDateDay" :class="{'is-invalid' : errors.exitDateDay}" @keyup="errors.exitDateDay = null">
                                                     <span v-if="errors.exitDateDay" class="error invalid-feedback">
                                                         {{ errors.exitDateDay }}
                                                     </span>
@@ -272,21 +272,21 @@
                                         <td>
                                             <div class="d-flex justify-content-center">
                                                 <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" v-model="formData.certificateExpirationDateYear" :class="{'is-invalid' : errors.certificateExpirationDateYear}" @keyup="errors.certificateExpirationDateYear = null">
+                                                    <input type="number" class="form-control p-1" min="2016" max="2100" v-model="formData.certificateExpirationDateYear" :class="{'is-invalid' : errors.certificateExpirationDateYear}" @keyup="errors.certificateExpirationDateYear = null">
                                                     <span v-if="errors.certificateExpirationDateYear" class="error invalid-feedback">
                                                         {{ errors.certificateExpirationDateYear }}
                                                     </span>
                                                 </div>
                                                 <span class="p-1">年</span>
                                                 <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="60" v-model="formData.certificateExpirationDateMonth" :class="{'is-invalid' : errors.certificateExpirationDateMonth}" @keyup="errors.certificateExpirationDateMonth = null">
+                                                    <input type="number" class="form-control p-1" min="1" max="12" v-model="formData.certificateExpirationDateMonth" :class="{'is-invalid' : errors.certificateExpirationDateMonth}" @keyup="errors.certificateExpirationDateMonth = null">
                                                     <span v-if="errors.certificateExpirationDateMonth" class="error invalid-feedback">
                                                         {{ errors.certificateExpirationDateMonth }}
                                                     </span>
                                                 </div>
                                                 <span class="p-1">月</span>
                                                 <div>
-                                                    <input type="number" class="form-control p-1" min="0" max="24" v-model="formData.certificateExpirationDateDay" :class="{'is-invalid' : errors.certificateExpirationDateDay}" @keyup="errors.certificateExpirationDateDay = null">
+                                                    <input type="number" class="form-control p-1" min="1" max="31" v-model="formData.certificateExpirationDateDay" :class="{'is-invalid' : errors.certificateExpirationDateDay}" @keyup="errors.certificateExpirationDateDay = null">
                                                     <span v-if="errors.certificateExpirationDateDay" class="error invalid-feedback">
                                                         {{ errors.certificateExpirationDateDay }}
                                                     </span>

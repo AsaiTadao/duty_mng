@@ -202,7 +202,7 @@
                                         <td v-if="this.childInfor.taxExemptHousehold">
                                             〇
                                         </td>
-                                        <td v-else></td>
+                                        <td v-else>X</td>
                                     </tr>
                                 </tbody>
                             </table>
