@@ -15,6 +15,7 @@ class ChildResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'        =>  $this->id,
             'number'    =>  $this->number,
             'name'      =>  $this->name,
             'gender'    =>  $this->gender,
