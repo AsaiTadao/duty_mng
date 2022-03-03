@@ -24,6 +24,14 @@
                 </div>
             </div>
             <div class="form-group row">
+                <div class="col-md-3">
+                    氏名
+                </div>
+                <div class="col-md-5">
+                    {{ editData.name }}
+                </div>
+            </div>
+            <div class="form-group row">
                 <div class="col-md-3">登園時間</div>
                 <div class="col-md-3">
                     <div class="d-flex is-invalid">
