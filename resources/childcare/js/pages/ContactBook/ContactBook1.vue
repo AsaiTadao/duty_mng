@@ -38,11 +38,17 @@
                             <div class="form-group row">
                                 <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                     <label for="parentname" style="min-width: 100px; margin-bottom:0px;">記入者 保護者様名：</label>
-                                    <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" @change="dataChanged = true;"/>
+                                    <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" :class="{'is-invalid': errors.guardian}" @change="dataChanged = true; errors.guardian = null;"/>
+                                    <span v-if="errors.guardian" class="error invalid-feedback">
+                                        {{errors.guardian}}
+                                    </span>
                                 </div>
                                 <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                     <label for="mindername" style="min-width: 80px; margin-bottom:0px;">保育士名：</label>
-                                    <input type="text" class="form-control" id="mindername" style="width: calc(90% - 80px);" v-model="formData.nurseName" @change="dataChanged = true;"/>
+                                    <input type="text" class="form-control" id="mindername" style="width: calc(90% - 80px);" v-model="formData.nurseName" :class="{'is-invalid': errors.nurseName}" @change="dataChanged = true; errors.nurseName = null;"/>
+                                    <span v-if="errors.nurseName" class="error invalid-feedback">
+                                        {{errors.nurseName}}
+                                    </span>
                                 </div>
                             </div>
                             <div class="row" style="padding-left:15px; padding-right:15px;">
@@ -53,7 +59,7 @@
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                       <hour-minute-input v-model="formData.pickUpTime" @change="dataChanged = true;"/>
+                                       <hour-minute-input v-model="formData.pickUpTime" @input="dataChanged = true; errors.pickUpTime = null;" :error="errors.pickUpTime"/>
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
@@ -63,7 +69,10 @@
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
                                     <div class="light-pink d-flex justify-content-center fixed-height-40" style="padding-top:1px; padding-bottom:1px;">
-                                        <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.pickUpPerson" @change="dataChanged = true;"/>
+                                        <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.pickUpPerson" :class="{'is-invalid': errors.pickUpPerson}" @change="dataChanged = true;errors.pickUpPerson = null;"/>
+                                        <span v-if="errors.pickUpPerson" class="error invalid-feedback">
+                                            {{errors.pickUpPerson}}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +99,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formatStatus(formData.mealAmount1Home)}}
+                                                        {{formatMealStatus(formData.mealAmount1Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pl-0">
@@ -105,7 +114,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                    {{formatStatus(formData.mealAmount2Home)}}
+                                                        {{formatMealStatus(formData.mealAmount2Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pl-0">
@@ -120,7 +129,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formatStatus(formData.mealAmount3Home)}}
+                                                        {{formatMealStatus(formData.mealAmount3Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pl-0">
@@ -149,7 +158,7 @@
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formatStatus(formData.mood1Home)}}
+                                                        {{formatMoodStatus(formData.mood1Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
@@ -159,7 +168,7 @@
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formatStatus(formData.mood2Home)}}
+                                                        {{formatMoodStatus(formData.mood2Home)}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -183,7 +192,7 @@
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formatStatus(formData.defecation1Home)}}
+                                                        {{formatDefecationStatus(formData.defecation1Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
@@ -198,7 +207,7 @@
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formatStatus(formData.defecation2Home)}}
+                                                        {{formatDefecationStatus(formData.defecation2Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
@@ -246,7 +255,7 @@
                                             <div class="row">
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                    {{formatStatus(formData.bathingHome)}}
+                                                    {{formatBathStatus(formData.bathingHome)}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -257,7 +266,7 @@
                                         <div class="col-md-1 col-2 pr-0">
                                             <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
                                                 <label>
-                                                    気温
+                                                    検温
                                                 </label>
                                             </div>
                                         </div>
@@ -325,7 +334,7 @@
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.mealTime1School" :error="errors.mealTime1School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.mealTime1School" :error="errors.mealTime1School" @input="dataChanged = true;errors.mealTime1School = null;"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -333,11 +342,11 @@
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
                                                             <input class="mr-0 align-self-center" type="radio" name="radio1" :value="1" v-model="formData.mealAmount1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <label class="form-check-label mr-2">完食</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio1" :value="2" v-model="formData.mealAmount1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <label class="form-check-label mr-2">残食</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio1" :value="3" v-model="formData.mealAmount1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">多い</label>
+                                                            <label class="form-check-label mr-2">おかわり</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -351,7 +360,7 @@
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.mealTime2School" :error="errors.mealTime2School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.mealTime2School" :error="errors.mealTime2School" @input="dataChanged = true;errors.mealTime2School = null;"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -359,11 +368,11 @@
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
                                                             <input class="mr-0 align-self-center" type="radio" name="radio2" :value="1" v-model="formData.mealAmount2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <label class="form-check-label mr-2">完食</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio2" :value="2" v-model="formData.mealAmount2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <label class="form-check-label mr-2">残食</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio2" :value="3" v-model="formData.mealAmount2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">多い</label>
+                                                            <label class="form-check-label mr-2">おかわり</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -377,7 +386,7 @@
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-bottom: 1px; padding-top: 1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.mealTime3School" :error="errors.mealTime3School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.mealTime3School" :error="errors.mealTime3School" @input="dataChanged = true;errors.mealTime3School = null;"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -385,11 +394,11 @@
                                                     <div class="light-brown text-center white-l-border-2">
                                                         <div class="d-flex justify-content-center py-2">
                                                             <input class="mr-0 align-self-center" type="radio" name="radio3" :value="1" v-model="formData.mealAmount3School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">普通</label>
+                                                            <label class="form-check-label mr-2">完食</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio3" :value="2" v-model="formData.mealAmount3School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <label class="form-check-label mr-2">残食</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio3" :value="3" v-model="formData.mealAmount3School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">多い</label>
+                                                            <label class="form-check-label mr-2">おかわり</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -473,16 +482,19 @@
                                                             <input class="mr-0 align-self-center" type="radio" name="radio6" :value="1" v-model="formData.defecation1School" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio6" :value="2" v-model="formData.defecation1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <label class="form-check-label mr-2">軟い</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio6" :value="3" v-model="formData.defecation1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">多い</label>
+                                                            <label class="form-check-label mr-2">固い</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount1School" @change="dataChanged = true;">
+                                                        <div class="text-center justify-content-center px-2">
+                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount1School" :class="{'is-invalid' : errors.defecationCount1School}" @change="dataChanged = true; errors.defecationCount1School = null;">
+                                                            <span v-if="errors.defecationCount1School" class="error invalid-feedback">
+                                                                {{errors.defecationCount1School}}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -497,16 +509,19 @@
                                                             <input class="mr-0 align-self-center" type="radio" name="radio7" :value="1" v-model="formData.defecation2School" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio7" :value="2" v-model="formData.defecation2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">少ない</label>
+                                                            <label class="form-check-label mr-2">軟い</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio7" :value="3" v-model="formData.defecation2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">多い</label>
+                                                            <label class="form-check-label mr-2">固い</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount2School" @change="dataChanged = true;">
+                                                        <div class="text-center justify-content-center px-2">
+                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount2School" :class="{'is-invalid' : errors.defecationCount2School}" @change="dataChanged = true; errors.defecationCount2School = null;">
+                                                            <span v-if="errors.defecationCount2School" class="error invalid-feedback">
+                                                                {{errors.defecationCount2School}}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -527,18 +542,18 @@
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.sleepStart1School" :error="errors.sleepStart1School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.sleepStart1School" :error="errors.sleepStart1School" @input="dataChanged = true; errors.sleepStart1School = null;"/>
                                                             ~
-                                                            <hour-minute-input v-model="formData.sleepEnd1School" :error="errors.sleepEnd1School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.sleepEnd1School" :error="errors.sleepEnd1School" @input="dataChanged = true; errors.sleepEnd1School = null;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.sleepStart2School" :error="errors.sleepStart2School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.sleepStart2School" :error="errors.sleepStart2School" @input="dataChanged = true; errors.sleepStart2School = null;"/>
                                                             ~
-                                                            <hour-minute-input v-model="formData.sleepEnd2School" :error="errors.sleepEnd2School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.sleepEnd2School" :error="errors.sleepEnd2School" @input="dataChanged = true; errors.sleepEnd2School = null;"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -560,9 +575,9 @@
                                                     <div class="light-brown text-center white-l-border-2 py-2">
                                                         <div class="form-check text-center">
                                                             <input class="form-check-input" type="radio" name="radio8" :value="1" v-model="formData.bathingSchool" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-5">普通</label>
+                                                            <label class="form-check-label mr-5">有り</label>
                                                             <input class="form-check-input" type="radio" name="radio8" :value="2" v-model="formData.bathingSchool" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-5">少ない</label>
+                                                            <label class="form-check-label mr-5">無し</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -574,7 +589,7 @@
                                         <div class="col-md-1 col-2 pr-0">
                                             <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center">
                                                 <label>
-                                                    気温
+                                                    検温
                                                 </label>
                                             </div>
                                         </div>
@@ -583,46 +598,55 @@
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.temperatureTime1School" :error="errors.temperatureTime1School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.temperatureTime1School" :error="errors.temperatureTime1School" @input="dataChanged = true;errors.temperatureTime1School = null;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.temperatureTime2School" :error="errors.temperatureTime2School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.temperatureTime2School" :error="errors.temperatureTime2School" @input="dataChanged = true;errors.temperatureTime2School = null;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.temperatureTime3School" :error="errors.temperatureTime3School" @change="dataChanged = true;"/>
+                                                            <hour-minute-input v-model="formData.temperatureTime3School" :error="errors.temperatureTime3School" @input="dataChanged = true;errors.temperatureTime3School = null;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.temperature1School" @change="dataChanged = true;">
+                                                        <div class="text-center justify-content-center">
+                                                            <input type="number" class="form-control" min="0" max="60" :class="{'is-invalid' : errors.temperature1School}" v-model="formData.temperature1School" @change="dataChanged = true; errors.temperature1School = null;">
+                                                            <span v-if="errors.temperature1School" class="error invalid-feedback">
+                                                                {{errors.temperature1School}}
+                                                            </span>
                                                         </div>
-                                                        <label class="align-self-center mb-0">℃</label>
+                                                        <label class="align-self-center mb-0 is-invalid">℃</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
-                                                    <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.temperature2School" @change="dataChanged = true;">
+                                                    <div class="d-flex justify-content-center light-brown text-center white-l-border-2 is-invalid" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center justify-content-center">
+                                                            <input type="number" class="form-control" min="0" max="60" :class="{'is-invalid' : errors.temperature2School}" v-model="formData.temperature2School" @change="dataChanged = true; errors.temperature2School = null;">
+                                                            <span v-if="errors.temperature2School" class="error invalid-feedback">
+                                                                {{errors.temperature2School}}
+                                                            </span>
                                                         </div>
-                                                        <label class="align-self-center mb-0">℃</label>
+                                                        <label class="align-self-center mb-0 is-invalid">℃</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
-                                                    <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.temperature3School" @change="dataChanged = true;">
+                                                    <div class="d-flex justify-content-center light-brown text-center white-l-border-2 is-invalid" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center justify-content-center">
+                                                            <input type="number" class="form-control" min="0" max="60" :class="{'is-invalid' : errors.temperature3School}" v-model="formData.temperature3School" @change="dataChanged = true; errors.temperature3School = null;">
+                                                            <span v-if="errors.temperature3School" class="error invalid-feedback">
+                                                                {{errors.temperature3School}}
+                                                            </span>
                                                         </div>
-                                                        <label class="align-self-center mb-0">℃</label>
+                                                        <label class="align-self-center mb-0 is-invalid">℃</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -798,6 +822,34 @@ export default {
         },
         validate() {
             let valid = true;
+            if(!this.formData.guardian) {
+                this.errors.guardian = this.$t('Please input name');
+                valid = false;
+            }
+            if(this.formData.guardian && this.formData.guardian.length > 20) {
+                this.errors.guardian = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
+            if(!this.formData.nurseName) {
+                this.errors.nurseName = this.$t('Please input name');
+                valid = false;
+            }
+            if(this.formData.nurseName && this.formData.nurseName.length > 20) {
+                this.errors.nurseName = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
+            if(!this.formData.pickUpPerson) {
+                this.errors.pickUpPerson = this.$t('Please input name');
+                valid = false;
+            }
+            if(this.formData.pickUpPerson && this.formData.pickUpPerson.length > 20) {
+                this.errors.pickUpPerson = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
+            if(this.formData.pickUpTime && !validateHhMm(this.formData.pickUpTime)) {
+                this.errors.pickUpTime = this.$t('Invalid time format');
+                valid = false;
+            }
             if(this.formData.mealTime1School && !validateHhMm(this.formData.mealTime1School)) {
                 this.errors.mealTime1School = this.$t('Invalid time format');
                 valid = false;
@@ -812,6 +864,14 @@ export default {
             }
             if(this.formData.sleepStart1School && !validateHhMm(this.formData.sleepStart1School)) {
                 this.errors.sleepStart1School = this.$t('Invalid time format');
+                valid = false;
+            }
+            if(this.formData.sleepStart1School && this.formData.sleepEnd1School && this.formData.sleepStart1School > this.formData.sleepEnd1School) {
+                this.errors.sleepStart1School = this.$t('start time must be earlier than end time');
+                valid = false;
+            }
+            if(this.formData.sleepStart2School && this.formData.sleepEnd2School && this.formData.sleepStart2School > this.formData.sleepEnd2School) {
+                this.errors.sleepStart2School = this.$t('start time must be earlier than end time');
                 valid = false;
             }
             if(this.formData.sleepEnd1School && !validateHhMm(this.formData.sleepEnd1School)) {
@@ -842,10 +902,34 @@ export default {
                 this.errors.weather = this.$t('Please input weather');
                 valid = false;
             }
+            if(this.formData.defecationCount1School && this.formData.defecationCount1School < 0) {
+                this.errors.defecationCount1School =this.$t('Please input positive number');
+                valid = false;
+            }
+            if(this.formData.defecationCount2School && this.formData.defecationCount2School < 0) {
+                this.errors.defecationCount2School =this.$t('Please input positive number');
+                valid = false;
+            }
+            if(this.formData.temperature1School && this.formData.temperature1School < 0) {
+                this.errors.temperature1School = this.$t('Please input positive number');
+                valid = false;
+            }
+            if(this.formData.temperature2School && this.formData.temperature2School < 0) {
+                this.errors.temperature2School = this.$t('Please input positive number');
+                valid = false;
+            }
+            if(this.formData.temperature3School && this.formData.temperature3School < 0) {
+                this.errors.temperature3School = this.$t('Please input positive number');
+                valid = false;
+            }
             return valid;
         },
         initFormError() {
             this.errors = {
+                pickUpTime: null,
+                pickUpPerson: null,
+                guardian: null,
+                nurseName: null,
                 mealTime1School: null,
                 mealTime2School: null,
                 mealTime3School: null,
@@ -853,10 +937,15 @@ export default {
                 sleepEnd1School: null,
                 sleepStart2School: null,
                 sleepEnd2School: null,
+                temperature1School: null,
+                temperature2School: null,
+                temperature3School: null,
                 temperatureTime1School: null,
                 temperatureTime2School: null,
                 temperatureTime3School: null,
                 weather: null,
+                defecationCount1School: null,
+                defecationCount2School: null
             }
         },
         getContact(date) {
@@ -948,13 +1037,55 @@ export default {
                 return '';
             }
         },
-        formatStatus(status){
+        formatBathStatus(status) {
+            if(status == 1) {
+                return '有り';
+            } else if(status == 2) {
+                return '無し';
+            } else {
+                return '';
+            }
+        },
+        formatStatus(status) {
             if(status == 1) {
                 return '普通';
             } else if(status == 2) {
                 return '少ない';
             } else if(status == 3) {
                 return '多い';
+            } else {
+                return '';
+            }
+        },
+        formatDefecationStatus(status) {
+            if(status == 1) {
+                return '普通';
+            } else if(status == 2) {
+                return '軟い';
+            } else if(status == 3) {
+                return '固い';
+            } else {
+                return '';
+            }
+        },
+        formatMoodStatus(status) {
+            if(status == 1) {
+                return '普通';
+            } else if(status == 2) {
+                return '良い';
+            } else if(status == 3) {
+                return '悪い';
+            } else {
+                return '';
+            }
+        },
+        formatMealStatus(status) {
+            if(status == 1) {
+                return '完食';
+            } else if(status == 2) {
+                return '残食';
+            } else if(status == 3) {
+                return 'おかわり';
             } else {
                 return '';
             }
