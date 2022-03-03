@@ -24,21 +24,31 @@
                                         <i class="fas fa-calendar-alt fa-2x"></i>
                                         </button>
                                     </div>
-                                    <div class="d-flex align-items-center px-3">
-                                        <div for="weatherStauts" class="form-label mr-2">天気:</div>
-                                            {{formData.weather}}
+                                    <div class="d-flex align-items-center px-3 is-invalid">
+                                        <div for="weatherStauts" class="form-label mr-2">天気</div>
+                                        <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" :class="{'is-invalid' : errors.weather}" v-model="formData.weather" @change="dataChanged = true; errors.weather = null;"/>
                                     </div>
+                                    <span v-if="errors.weather" class="error invalid-feedback">
+                                        {{errors.weather}}
+                                    </span>
                                 </div>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="form-group row">
-                                <div class="col-md-4 col-sm-12 align-self-center">
-                                    記入者 保護者様名：{{formData.guardian}}
+                                <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
+                                    <label for="parentname" style="min-width: 100px; margin-bottom:0px;">記入者 保護者様名：</label>
+                                    <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" :class="{'is-invalid': errors.guardian}" @change="dataChanged = true; errors.guardian = null;"/>
+                                    <span v-if="errors.guardian" class="error invalid-feedback">
+                                        {{errors.guardian}}
+                                    </span>
                                 </div>
-                                <div class="col-md-3 col-sm-10 align-items-center" style="display:flex;">
+                                <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                     <label for="mindername" style="min-width: 80px; margin-bottom:0px;">保育士名：</label>
-                                    <div>{{formData.nurseName}}</div>
+                                    <input type="text" class="form-control" id="mindername" style="width: calc(90% - 80px);" v-model="formData.nurseName" :class="{'is-invalid': errors.nurseName}" @change="dataChanged = true; errors.nurseName = null;"/>
+                                    <span v-if="errors.nurseName" class="error invalid-feedback">
+                                        {{errors.nurseName}}
+                                    </span>
                                 </div>
                             </div>
                             <div class="row" style="padding-left:15px; padding-right:15px;">
@@ -63,15 +73,16 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
-                                    <div class="light-pink text-center justify-content-center fixed-height-40 py-2" style="padding-top:1px; padding-bottom:1px;">
-                                        <!-- <hour-minute-input v-model="formData.temperatureTimeStd" @change="dataChanged = true;"/> -->
-                                        {{formatTemperatureTime(formData.temperatureTimeStd)}}
+                                    <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
+                                        <hour-minute-input v-model="formData.temperatureTimeStd" :error="errors.temperatureTimeStd" @input="dataChanged = true; errors.temperatureTimeStd = null;"/>
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
-                                    <div class="light-pink text-center justify-content-center fixed-height-40 py-2" style="padding-top:1px; padding-bottom:1px;">
-                                        <!-- <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.temperatureStd" @change="dataChanged = true;"/>℃　 -->
-                                        {{formatTemperature(formData.temperatureStd)}}
+                                    <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
+                                        <input type="number" min="0" max="60" class="form-control" style="max-width: 55%;"  :class="{'is-invalid': errors.temperatureStd}" v-model="formData.temperatureStd" @change="dataChanged = true; errors.temperatureStd = null;"/>℃　
+                                        <span v-if="errors.temperatureStd"  class="error invalid-feedback">
+                                            {{errors.temperatureStd}}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -92,8 +103,11 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
-                                    <div class="light-pink text-center py-2 fixed-height-40">
-                                        {{formData.pickUpPerson}}
+                                    <div class="light-pink d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
+                                        <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.pickUpPerson" :class="{'is-invalid': errors.pickUpPerson}" @change="dataChanged = true;errors.pickUpPerson = null;"/>
+                                        <span v-if="errors.pickUpPerson" class="error invalid-feedback">
+                                            {{errors.pickUpPerson}}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -118,14 +132,17 @@
                                                         <div v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`]" style="background-color: #8BB3FC; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
                                                     </td>
                                                     <td rowspan="2" style="width: 120px;">
-                                                        <div class="d-flex justify-content-center" style="width: fit-content; margin: auto;">
-                                                            <input type="text" class="form-control" v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`] == 1" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" disabled @change="dataChanged = true;"/>
-                                                            <input type="text" class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`] == 1" v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" @change="dataChanged = true;"/>
-                                                            <input type="text" class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}School`] == 1" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" disabled @change="dataChanged = true;"/>
-                                                            <input type="text" class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}Home`] == 1" v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" @change="dataChanged = true;"/>
-                                                            <input type="text" class="form-control" v-else v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" @change="dataChanged = true;"/>
+                                                        <div class="d-flex justify-content-center is-invalid" style="width: fit-content; margin: auto;">
+                                                            <input type="number" min="0" max="60" class="form-control" v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`] == 1" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}Home`]}" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" disabled @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}Home`] = null;"/>
+                                                            <input type="number" min="0" max="60" class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`] == 1" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}Home`]}" v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}Home`] = null;"/>
+                                                            <input type="number" min="0" max="60" class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}School`] == 1" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}Home`]}" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" disabled @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}Home`] = null;"/>
+                                                            <input type="number" min="0" max="60" class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}Home`] == 1" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}Home`]}" v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}Home`] = null;"/>
+                                                            <input type="number" min="0" max="60" class="form-control" v-else v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}Home`]}" @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}Home`] = null;"/>
                                                             <label class="align-self-center m-0 ml-1">℃</label>
                                                         </div>
+                                                        <span v-if="errors[`temperature${('0' + hour.time).slice(-2)}Home`]" class="error invalid-feedback">
+                                                            {{errors[`temperature${('0' + hour.time).slice(-2)}Home`]}}
+                                                        </span>
                                                     </td>
                                                     <td rowspan="2" class="contact-book-mood">
                                                         <select class="form-control" v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`] == 1" v-model="formData[`defecation${hour.time}School`]" disabled @change="dataChanged = true;">
@@ -160,11 +177,14 @@
                                                         </select>
                                                     </td>
                                                     <td rowspan="2">
-                                                        <input type="text" class="form-control px-2" v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`] == 1" v-model="formData[`meal${hour.time}School`]" disabled @change="dataChanged = true;"/>
-                                                        <input type="text" class="form-control px-2" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`] == 1" v-model="formData[`meal${hour.time}Home`]" @change="dataChanged = true;"/>
-                                                        <input type="text" class="form-control px-2" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}School`] == 1" v-model="formData[`meal${hour.time}School`]" disabled @change="dataChanged = true;"/>
-                                                        <input type="text" class="form-control px-2" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}Home`] == 1" v-model="formData[`meal${hour.time}Home`]" @change="dataChanged = true;"/>
-                                                        <input type="text" class="form-control px-2" v-else v-model="formData[`meal${hour.time}Home`]" @change="dataChanged = true;"/>
+                                                        <input type="text" class="form-control px-2" v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`] == 1" :class="{'is-invalid': errors[`meal${hour.time}Home`]}" v-model="formData[`meal${hour.time}School`]" disabled @change="dataChanged = true; errors[`meal${hour.time}Home`] = null;"/>
+                                                        <input type="text" class="form-control px-2" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`] == 1" :class="{'is-invalid': errors[`meal${hour.time}Home`]}" v-model="formData[`meal${hour.time}Home`]" @change="dataChanged = true; errors[`meal${hour.time}Home`] = null;"/>
+                                                        <input type="text" class="form-control px-2" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}School`] == 1" :class="{'is-invalid': errors[`meal${hour.time}Home`]}" v-model="formData[`meal${hour.time}School`]" disabled @change="dataChanged = true; errors[`meal${hour.time}Home`] = null;"/>
+                                                        <input type="text" class="form-control px-2" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}Home`] == 1" :class="{'is-invalid': errors[`meal${hour.time}Home`]}" v-model="formData[`meal${hour.time}Home`]" @change="dataChanged = true; errors[`meal${hour.time}Home`] = null;"/>
+                                                        <input type="text" class="form-control px-2" v-else v-model="formData[`meal${hour.time}Home`]" :class="{'is-invalid': errors[`meal${hour.time}Home`]}" @change="dataChanged = true; errors[`meal${hour.time}Home`] = null;"/>
+                                                        <span v-if="errors[`meal${hour.time}Home`]" class="error invalid-feedback">
+                                                            {{errors[`meal${hour.time}Home`]}}
+                                                        </span>
                                                     </td>
                                                 </tr>
                                                 <tr :key="hour.time+'30mins'">
@@ -515,6 +535,9 @@ export default {
                     enabled1: true,
                     enabled2: true,
                 }],
+            errors: {
+                weather: null,
+            },
             selectedDate: new Date(),
             ja: ja,
         }
@@ -533,7 +556,13 @@ export default {
         },
         initFormError() {
             this.errors = {
-
+                weather: null,
+                guardian: null,
+                nurseName: null,
+                temperatureTimeStd: null,
+                temperatureStd: null,
+                pickUpTime: null,
+                pickUpPerson: null
             }
         },
         setHour(hourIndex, number) {
@@ -575,6 +604,46 @@ export default {
         },
         validate() {
             let valid = true;
+            if(!this.formData.weather) {
+                this.errors.weather = this.$t('Please input weather');
+                valid = false;
+            }
+            if(!this.formData.guardian) {
+                this.errors.guardian = this.$t('Please input name');
+                valid = false;
+            }
+            if(this.formData.guardian && this.formData.guardian.length > 20) {
+                this.errors.guardian = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
+            if(!this.formData.nurseName) {
+                this.errors.nurseName = this.$t('Please input name');
+                valid = false;
+            }
+            if(this.formData.nurseName && this.formData.nurseName.length > 20) {
+                this.errors.nurseName = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
+            if(!this.formData.pickUpPerson) {
+                this.errors.pickUpPerson = this.$t('Please input name');
+                valid = false;
+            }
+            if(this.formData.pickUpPerson && this.formData.pickUpPerson.length > 20) {
+                this.errors.pickUpPerson = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
+            this.hours.forEach(element => {
+                if(this.formData[`temperature${('0' + element.time).slice(-2)}Home`] && this.formData[`temperature${('0' + element.time).slice(-2)}Home`] < 0) {
+                    this.errors[`temperature${('0' + element.time).slice(-2)}Home`] = this.$t('Please input positive number');
+                    valid = false;
+                }
+            });
+            this.hours.forEach(element => {
+                if(this.formData[`meal${element.time}Home`] && this.formData[`meal${element.time}Home`].length > 50) {
+                    this.errors[`meal${element.time}Home`] = this.$t('Please enter 50 characters or less');
+                    valid = false;
+                }
+            });
             return valid;
         },
         getContact(date) {
