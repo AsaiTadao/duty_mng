@@ -279,9 +279,9 @@ class CreateContactBooksTable extends Migration
             $table->tinyInteger('meal_amount_1_school')->nullable();
             $table->tinyInteger('meal_amount_2_school')->nullable();
             $table->tinyInteger('meal_amount_3_school')->nullable();
-            $table->time('meal_memo_1_home')->nullable();
-            $table->time('meal_memo_2_home')->nullable();
-            $table->time('meal_memo_3_home')->nullable();
+            $table->string('meal_memo_1_home')->nullable();
+            $table->string('meal_memo_2_home')->nullable();
+            $table->string('meal_memo_3_home')->nullable();
             $table->text('meal_memo_1_school')->nullable();
             $table->text('meal_memo_2_school')->nullable();
             $table->text('meal_memo_3_school')->nullable();
