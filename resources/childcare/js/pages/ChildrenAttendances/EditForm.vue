@@ -180,7 +180,7 @@ import { showSuccess } from '../../helpers/error';
                 if(!this.validate()) return;
 
                 let requestData = {
-                    'date': this.date,
+                    'date': moment(this.date).format('YYYY-MM-DD'),
                     // 'commuting_time': ("0" + this.formData.commutingTimeHour).slice(-2) + ":" + ("0" + this.formData.commutingTimeMin).slice(-2),
                     // 'leave_time': ("0" + this.formData.leaveTimeHour).slice(-2) + ":" + ("0" + this.formData.leaveTimeMin).slice(-2),
                     'reason_for_absence_id': this.formData.reasonForAbsenceId,
