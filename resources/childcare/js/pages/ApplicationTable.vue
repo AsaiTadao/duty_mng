@@ -48,10 +48,10 @@
                                     <table class="table table-bordered table-diary text-center h-100">
                                         <tbody>
                                             <tr>
-                                                <td class="dark-blue align-middle">
+                                                <td class="dark-blue align-middle" style="width:70px!important;">
                                                     0歳児
                                                 </td>
-                                                <td class="align-middle">
+                                                <td class="align-middle" style="width:70px!important;">
                                                     {{total.childrenStat[1]}}名
                                                 </td>
                                             </tr>
@@ -138,22 +138,22 @@
                                 </div>
                                 <div class="col-md-7">
                                     <div class="w-100 overflow-scroll-x">
-                                        <table class="table table-bordered table-diary text-center w-2500-px">
+                                        <table class="table table-bordered table-diary text-center w-2200-px">
                                             <thead>
-                                                <tr class="text-center">
+                                                <tr class="text-center" style="font-size:12px;">
                                                     <th class="dark-blue header-fix-sub" style="width:10%; left: 0; z-index: 12 !important;outline: 1px;" colspan="3">
                                                         日付
                                                     </th>
-                                                    <th v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex" class="align-middle light-blue" style="left: 77px;z-index: 13 !important;outline: 1px;">
+                                                    <th v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex" class="align-middle light-blue p-1" style="left: 77px;z-index: 13 !important;outline: 1px; width:55px;">
                                                         {{dayIndex}}
                                                     </th>
                                                     <th rowspan="2" class="align-middle">
                                                         合計
                                                     </th>
                                                 </tr>
-                                                <tr>
+                                                <tr style="font-size:12px;">
                                                     <th class="align-middle dark-blue header-fix-sub" colspan="3">曜日</th>
-                                                    <th v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex" class="align-middle light-blue">
+                                                    <th v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex" class="align-middle light-blue p-1" style="font-size:11px;">
                                                         <div v-if="getWeekEnd(dayIndex) === 1" class="blue">{{getDay(dayIndex)|formatWeek}}</div>
                                                         <div v-else-if="getWeekEnd(dayIndex) === 2" class="red">{{getDay(dayIndex)|formatWeek}}</div>
                                                         <div v-else>{{getDay(dayIndex)|formatWeek}}</div>
@@ -161,14 +161,14 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="text-center">
-                                                <tr>
+                                                <tr style="font-size:12px;">
                                                     <td class="dark-blue align-middle header-fix-sub" rowspan="5">
                                                         延長時間
                                                     </td>
-                                                    <td class="light-blue header-fix-sub-89">
+                                                    <td class="light-blue header-fix-sub-77">
                                                         通常開所時間
                                                     </td>
-                                                    <td class="light-blue header-fix-sub-210">
+                                                    <td class="light-blue header-fix-sub-183">
                                                         A
                                                     </td>
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'A'" class="align-middle">
@@ -176,11 +176,11 @@
                                                     </td>
                                                     <td>{{total.childrenStat.extensionStatSum.a}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="light-blue header-fix-sub-89">
+                                                <tr style="font-size:12px;">
+                                                    <td class="light-blue header-fix-sub-77">
                                                         18:31～19:00
                                                     </td>
-                                                    <td class="light-blue header-fix-sub-210">
+                                                    <td class="light-blue header-fix-sub-183">
                                                         B
                                                     </td>
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'B'" class="align-middle">
@@ -188,11 +188,11 @@
                                                     </td>
                                                     <td>{{total.childrenStat.extensionStatSum.b}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="light-blue header-fix-sub-89">
+                                                <tr style="font-size:12px;">
+                                                    <td class="light-blue header-fix-sub-77">
                                                         19:01～19:30
                                                     </td>
-                                                    <td class="light-blue header-fix-sub-210">
+                                                    <td class="light-blue header-fix-sub-183">
                                                         C
                                                     </td>
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'C'" class="align-middle">
@@ -200,11 +200,11 @@
                                                     </td>
                                                     <td>{{total.childrenStat.extensionStatSum.c}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="light-blue header-fix-sub-89">
+                                                <tr style="font-size:12px;">
+                                                    <td class="light-blue header-fix-sub-77">
                                                         19:31～20:00
                                                     </td>
-                                                    <td class="light-blue header-fix-sub-210">
+                                                    <td class="light-blue header-fix-sub-183">
                                                         D
                                                     </td>
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'D'" class="align-middle">
@@ -212,11 +212,11 @@
                                                     </td>
                                                     <td>{{total.childrenStat.extensionStatSum.d}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td class="light-blue header-fix-sub-89">
+                                                <tr style="font-size:12px;">
+                                                    <td class="light-blue header-fix-sub-77">
                                                         それ以外
                                                     </td>
-                                                    <td class="light-blue header-fix-sub-210">
+                                                    <td class="light-blue header-fix-sub-183">
                                                         E
                                                     </td>
                                                     <td v-for="(extension, dayIndex) in total.childrenStat.extensionStat" :key="dayIndex+'E'" class="align-middle">
@@ -236,96 +236,96 @@
 
                                     </thead>
                                     <tbody>
-                                        <tr class="dark-yellow">
-                                            <td rowspan="7" class="light-green header-fix-sub align-middle" style="width: 40px;">
+                                        <tr class="dark-yellow" style="font-size: 12px;">
+                                            <td rowspan="7" class="light-green header-fix-sub align-middle p-1" style="width: 25px;">
                                             {{index - 1}}歳児
                                             </td>
-                                            <td rowspan="2" class="header-fix-sub-40 dark-yellow align-middle" style="width:55px;">
+                                            <td rowspan="2" class="header-fix-sub-25 dark-yellow align-middle p-1" style="width:35px;">
                                                 No.
                                             </td>
-                                            <td rowspan="2" class="header-fix-sub-95 dark-yellow align-middle" style="width:140px;">
+                                            <td rowspan="2" class="header-fix-sub-60 dark-yellow align-middle p-1" style="width:110px;">
                                                 入園日
                                             </td>
-                                            <td rowspan="2" class="header-fix-sub-235 dark-yellow align-middle" style="width:120px;">
+                                            <td rowspan="2" class="header-fix-sub-170 dark-yellow align-middle p-1" style="width:80px;">
                                                 氏名
                                             </td>
-                                            <td rowspan="2" class="align-middle" style="width:150px;">
+                                            <td rowspan="2" class="align-middle p-1" style="width:110px;">
                                                 生年月日
                                             </td>
-                                            <td rowspan="2" class="align-middle" style="width:100px;">
+                                            <td rowspan="2" class="align-middle p-1" style="width:80px;">
                                                 年齢
                                             </td>
-                                            <td rowspan="2" class="align-middle" style="width:200px;">
+                                            <td rowspan="2" class="align-middle p-1" style="width:120px;">
                                                 区分
                                             </td>
-                                            <td rowspan="2" class="align-middle" style="width:150px;">
+                                            <td rowspan="2" class="align-middle p-1" style="width:110px;">
                                                 従業員枠企業名
                                             </td>
-                                            <td rowspan="2" class="align-middle" style="width:80px;">
+                                            <td rowspan="2" class="align-middle p-1" style="width:60px;">
                                                 無償化
                                             </td>
-                                            <td rowspan="2" class="align-middle" style="width:100px;">支給認定証</td>
-                                            <td rowspan="2" class="align-middle" style="width:150px;">認定証有効期限</td>
-                                            <td rowspan="2" class="align-middle">非課税世帯</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:75px;">支給認定証</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:100px;">認定証有効期限</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:75px;">非課税世帯</td>
                                             <td v-for="day in days" :key="day+'0child'" class="align-middle">
                                                 {{day.getDate()}}
                                             </td>
-                                            <td rowspan="2" class="align-middle">
+                                            <td rowspan="2" class="align-middle p-1">
                                                 登園日数
                                             </td>
-                                            <td rowspan="2" class="align-middle">
+                                            <td rowspan="2" class="align-middle p-1">
                                                 欠席日数
                                             </td>
-                                            <td rowspan="2" class="align-middle">コロナ</td>
-                                            <td rowspan="2" class="align-middle">都合</td>
-                                            <td rowspan="2" class="align-middle">忌引</td>
-                                            <td rowspan="2" class="align-middle">病欠</td>
-                                            <td rowspan="2" class="align-middle">停止</td>
-                                            <td rowspan="2" class="align-middle">休園</td>
-                                            <td rowspan="2" class="align-middle">退園日</td>
-                                            <td rowspan="2" class="align-middle">規定日数</td>
-                                            <td rowspan="2" class="align-middle">備考</td>
+                                            <td rowspan="2" class="align-middle p-1">コロナ</td>
+                                            <td rowspan="2" class="align-middle p-1">都合</td>
+                                            <td rowspan="2" class="align-middle p-1">忌引</td>
+                                            <td rowspan="2" class="align-middle p-1">病欠</td>
+                                            <td rowspan="2" class="align-middle p-1">停止</td>
+                                            <td rowspan="2" class="align-middle p-1">休園</td>
+                                            <td rowspan="2" class="align-middle p-1">退園日</td>
+                                            <td rowspan="2" class="align-middle p-1">規定日数</td>
+                                            <td rowspan="2" class="align-middle p-1">備考</td>
                                         </tr>
                                         <tr class="light-yellow">
-                                            <td v-for="day in days" :key="day + '-childtable'" class="align-middle">
+                                            <td v-for="day in days" :key="day + '-childtable'" class="align-middle p-1">
                                                 <div v-if="getWeekEnd(day) === 1" class="blue">{{day|formatWeek}}</div>
                                                 <div v-else-if="getWeekEnd(day) === 2" class="red">{{day|formatWeek}}</div>
                                                 <div v-else>{{day|formatWeek}}</div>
                                             </td>
                                         </tr>
-                                        <tr v-for="(child, index) in childrenClass" :key="index">
-                                            <td class="header-fix-sub-40 bg-white">
+                                        <tr v-for="(child, index) in childrenClass" :key="index" style="font-size: 11px;">
+                                            <td class="header-fix-sub-40 bg-white p-1">
                                                 {{index + 1}}
                                             </td>
-                                            <td class="header-fix-sub-95 bg-white">
+                                            <td class="header-fix-sub-95 bg-white p-1">
                                                 {{changeBirthFormat(child.birthday)}}
                                             </td>
-                                            <td class="header-fix-sub-235 bg-white">
+                                            <td class="header-fix-sub-235 bg-white p-1">
                                                 {{child.name}}
                                             </td>
-                                            <td>
+                                            <td class="p-1">
                                                 {{changeBirthFormat(child.birthday)}}
                                             </td>
-                                            <td>{{getAge(child.birthday)}}</td>
-                                            <td>{{child.type}}</td>
-                                            <td>{{child.type}}</td>
-                                            <td>{{child.freeOfCharge}}</td>
-                                            <td>{{child.certificateOfPayment}}</td>
-                                            <td>{{child.certificateExpirationDate}}</td>
-                                            <td>{{child.taxExemptHousehold}}</td>
-                                            <td v-for="(stat,dayIndex) in child.extensionState" :key="dayIndex+'AB'" class="align-middle">
+                                            <td class="p-1">{{getAge(child.birthday)}}</td>
+                                            <td class="p-1">{{child.type}}</td>
+                                            <td class="p-1">{{child.type}}</td>
+                                            <td class="p-1">{{child.freeOfCharge}}</td>
+                                            <td class="p-1">{{child.certificateOfPayment}}</td>
+                                            <td class="p-1">{{child.certificateExpirationDate}}</td>
+                                            <td class="p-1">{{child.taxExemptHousehold}}</td>
+                                            <td v-for="(stat,dayIndex) in child.extensionState" :key="dayIndex+'AB'" class="align-middle p-1">
                                                 {{stat}}
                                             </td>
-                                            <td>{{child.attendCount}}</td>
-                                            <td>{{child.absentCount}}</td>
-                                            <td>{{child.absentState[1]}}</td>
-                                            <td>{{child.absentState[2]}}</td>
-                                            <td>{{child.absentState[3]}}</td>
-                                            <td>{{child.absentState[4]}}</td>
-                                            <td>{{child.absentState[5]}}</td>
-                                            <td>{{child.absentState[6]}}</td>
-                                            <td>{{child.exitDate}}</td>
-                                            <td>〇</td>
+                                            <td class="p-1">{{child.attendCount}}</td>
+                                            <td class="p-1">{{child.absentCount}}</td>
+                                            <td class="p-1">{{child.absentState[1]}}</td>
+                                            <td class="p-1">{{child.absentState[2]}}</td>
+                                            <td class="p-1">{{child.absentState[3]}}</td>
+                                            <td class="p-1">{{child.absentState[4]}}</td>
+                                            <td class="p-1">{{child.absentState[5]}}</td>
+                                            <td class="p-1">{{child.absentState[6]}}</td>
+                                            <td class="p-1">{{child.exitDate}}</td>
+                                            <td class="p-1">〇</td>
                                             <td></td>
                                         </tr>
                                     </tbody>
