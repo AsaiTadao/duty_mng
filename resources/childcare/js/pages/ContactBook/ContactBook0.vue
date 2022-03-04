@@ -144,36 +144,36 @@
                                                             {{errors[`temperature${('0' + hour.time).slice(-2)}School`]}}
                                                         </span>
                                                     </td>
-                                                    <td rowspan="2" class="contact-book-mood">
+                                                    <td rowspan="2" style="width: 100px;">
                                                         <select class="form-control" v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`] == 1" v-model="formData[`defecation${hour.time}School`]" @change="dataChanged = true;">
                                                             <option :value="0">-</option>
-                                                            <option :value="1">普通</option>
-                                                            <option :value="2">軟い</option>
-                                                            <option :value="3">固い</option>
+                                                            <option :value="1">普</option>
+                                                            <option :value="2">軟</option>
+                                                            <option :value="3">固</option>
                                                         </select>
                                                         <select class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`] == 1" v-model="formData[`defecation${hour.time}Home`]" @change="dataChanged = true;">
                                                             <option :value="0">-</option>
-                                                            <option :value="1">普通</option>
-                                                            <option :value="2">軟い</option>
-                                                            <option :value="3">固い</option>
+                                                            <option :value="1">普</option>
+                                                            <option :value="2">軟</option>
+                                                            <option :value="3">固</option>
                                                         </select>
                                                         <select class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}School`] == 1" v-model="formData[`defecation${hour.time}School`]" @change="dataChanged = true;">
                                                             <option :value="0">-</option>
-                                                            <option :value="1">普通</option>
-                                                            <option :value="2">軟い</option>
-                                                            <option :value="3">固い</option>
+                                                            <option :value="1">普</option>
+                                                            <option :value="2">軟</option>
+                                                            <option :value="3">固</option>
                                                         </select>
                                                         <select class="form-control" v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}Home`] == 1" v-model="formData[`defecation${hour.time}Home`]" @change="dataChanged = true;">
                                                             <option :value="0">-</option>
-                                                            <option :value="1">普通</option>
-                                                            <option :value="2">軟い</option>
-                                                            <option :value="3">固い</option>
+                                                            <option :value="1">普</option>
+                                                            <option :value="2">軟</option>
+                                                            <option :value="3">固</option>
                                                         </select>
                                                         <select class="form-control" v-else v-model="formData[`defecation${hour.time}School`]" @change="dataChanged = true;">
                                                             <option :value="0">-</option>
-                                                            <option :value="1">普通</option>
-                                                            <option :value="2">軟い</option>
-                                                            <option :value="3">固い</option>
+                                                            <option :value="1">普</option>
+                                                            <option :value="2">軟</option>
+                                                            <option :value="3">固</option>
                                                         </select>
                                                     </td>
                                                     <td rowspan="2">
