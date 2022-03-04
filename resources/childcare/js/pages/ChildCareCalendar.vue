@@ -34,7 +34,7 @@
                             >
                                 <tbody class="text-center" v-for="(week, weekIndex) in planIndices" :key="weekIndex">
                                     <tr class="dark-yellow">
-                                        <td width="5%">
+                                        <td width="8%">
                                             日付
                                         </td>
                                         <td width="13%" v-for="(item, dayIndex) in week" :key="dayIndex" :class="{'red': dayIndex === 6 || (item && item.holiday)}">
