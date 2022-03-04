@@ -11,7 +11,7 @@
                     <div class="col-md-2">
                     </div>
                     <div class="col-md-2">
-                        <router-link :to="{name: 'mail-list'}">
+                        <router-link :to="{name: 'send-mail', query: {childrenClassId: 0, type: 0}}">
                             <div type="button" class="btn btn-block btn-all-email">
                                 <div class="text-white text-center mb-0 mt-2">
                                     メール送信

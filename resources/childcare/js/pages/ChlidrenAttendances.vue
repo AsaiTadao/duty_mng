@@ -43,7 +43,11 @@
                                                         <td v-if="index2 == 0" :rowspan="attendance.length" class="dark-brown align-middle">
                                                             {{index1}}歳児
                                                         </td>
-                                                        <td class="align-middle">{{indiAttendance.name}}</td>
+                                                        <td class="align-middle">
+                                                            <router-link :to="{name: 'children-detail', params: {id: indiAttendance.id}}">
+                                                                {{indiAttendance.name}}
+                                                            </router-link>
+                                                        </td>
                                                         <td class="align-middle">{{changeTimeFormat(indiAttendance.commutingTime)}}</td>
                                                         <td class="align-middle">{{changeTimeFormat(indiAttendance.leaveTime)}}</td>
                                                         <td class="align-middle">{{getAbsenceName(indiAttendance.reasonForAbsenceId)}}</td>

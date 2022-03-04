@@ -8,7 +8,8 @@
                             <div class="col-md-3">
                                 <h3 class="card-title mb-0">保育システム</h3>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-5"></div>
+                            <div class="col-md-4">
                                 <router-link type="button" class="btn btn-sm btn-primary float-right" :to="{ name: 'childcare-plan', params: {childId: this.childId}}">
                                     託児計画作成
                                 </router-link>
@@ -125,7 +126,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="table-responsive p-0" v-if="plans.length > 0">
+                        <div class="table-responsive p-0 overflow-hidden" v-if="plans.length > 0">
                             <table class="table table-bordered table-hover">
                                 <tbody>
                                     <tr>

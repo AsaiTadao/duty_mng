@@ -124,6 +124,24 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="p-0 mb-3">
+                            <table
+                                class="table table-bordered table-hover mb-0"
+                            >
+                                <tbody class="text-center">
+                                    <tr>
+                                        <td class="light-blue align-middle">
+                                            備考欄
+                                        </td>
+                                        <td class="p-0 bg-white" style="outline: 1px solid #e7effe;">
+                                            <textarea class="textarea-fit" v-model="formData.remarks">
+
+                                            </textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="table-responsive p-0">
                             <table
                                 class="table table-bordered table-registry table-hover mb-0"
@@ -221,24 +239,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="p-0">
-                            <table
-                                class="table table-bordered table-hover mb-0"
-                            >
-                                <tbody class="text-center">
-                                    <tr>
-                                        <td class="light-blue align-middle">
-                                            備考欄
-                                        </td>
-                                        <td class="p-0 bg-white" style="outline: 1px solid #e7effe;">
-                                            <textarea class="textarea-fit" v-model="formData.remarks">
 
-                                            </textarea>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                         <div class="float-right d-flex align-items-center mt-2">
                             <button class="btn btn-primary float-right" @click="saveChild">登録</button>
                         </div>
