@@ -24,6 +24,14 @@
                 </div>
             </div>
             <div class="form-group row">
+                <div class="col-md-3">
+                    氏名
+                </div>
+                <div class="col-md-5">
+                    {{ editData.name }}
+                </div>
+            </div>
+            <div class="form-group row">
                 <div class="col-md-3">登園時間</div>
                 <div class="col-md-3">
                     <div class="d-flex is-invalid">
@@ -37,7 +45,7 @@
                 <div class="form-control-label">時</div>
                 <div class="col-md-3">
                     <div class="d-flex is-invalid">
-                        <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.commutingTimeMin}" v-model="formData.commutingTimeMin" @change="() => {errors.commutingTimeMin=null}">
+                        <input type="number" min="0" max="59" class="form-control mr-2" :class="{'is-invalid' : errors.commutingTimeMin}" v-model="formData.commutingTimeMin" @change="() => {errors.commutingTimeMin=null}">
                     </div>
                     <span v-if="errors.commutingTimeMin" class="error invalid-feedback">
                         {{ errors.commutingTimeMin }}
@@ -58,7 +66,7 @@
                     <div class="form-control-label">時</div>
                     <div class="col-md-3">
                         <div class="d-flex is-invalid">
-                            <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.leaveTimeMin}" v-model="formData.leaveTimeMin" @change="() => {errors.leaveTimeMin=null}">
+                            <input type="number" min="0" max="59" class="form-control mr-2" :class="{'is-invalid' : errors.leaveTimeMin}" v-model="formData.leaveTimeMin" @change="() => {errors.leaveTimeMin=null}">
                         </div>
                         <span v-if="errors.leaveTimeMin" class="error invalid-feedback">
                             {{ errors.leaveTimeMin }}
@@ -172,7 +180,7 @@ import { showSuccess } from '../../helpers/error';
                 if(!this.validate()) return;
 
                 let requestData = {
-                    'date': this.date,
+                    'date': moment(this.date).format('YYYY-MM-DD'),
                     // 'commuting_time': ("0" + this.formData.commutingTimeHour).slice(-2) + ":" + ("0" + this.formData.commutingTimeMin).slice(-2),
                     // 'leave_time': ("0" + this.formData.leaveTimeHour).slice(-2) + ":" + ("0" + this.formData.leaveTimeMin).slice(-2),
                     'reason_for_absence_id': this.formData.reasonForAbsenceId,
