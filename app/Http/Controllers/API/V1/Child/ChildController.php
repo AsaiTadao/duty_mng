@@ -139,6 +139,12 @@ class ChildController extends BaseController
                     ->orWhere('email', 'like', '%' . $search . '%');
             });
         }
+        if (empty($data['including_exited'])) {
+            $qb->where(function ($query) {
+                $query->whereNull('exit_date')
+                    ->orWhere('exit_date', '>', Carbon::now());
+            });
+        }
         // TODO search plan_registered
         if (isset($data['plan_registered']))
         {
