@@ -27,8 +27,8 @@
                                         <tr class="dark-brown">
                                             <th class="children-present-fix" style="left: 0px; z-index: 12 !important; outline: white solid 1px;">日付</th>
                                             <th class="children-present-fix-60" style="z-index: 12 !important; outline: white solid 1px;">曜日</th>
-                                            <th>登園時間</th>
-                                            <th>降園時間</th>
+                                            <th class="attend-time">登園時間</th>
+                                            <th class="attend-time">降園時間</th>
                                             <th>欠席</th>
                                             <th>延長</th>
                                             <th>連絡帳</th>
