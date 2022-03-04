@@ -123,11 +123,11 @@ class ContactBookExport implements WithEvents
                     $sheet->setCellValue('f40', $this->timeLabel($this->contactBook->temperature_time_2_home));
                     $sheet->setCellValue('j40', $this->timeLabel($this->contactBook->temperature_time_3_home));
 
-                    $sheet->setCellValue('c42', $this->timeLabel($this->contactBook->temperature_1_home));
-                    $sheet->setCellValue('f42', $this->timeLabel($this->contactBook->temperature_2_home));
-                    $sheet->setCellValue('j42', $this->timeLabel($this->contactBook->temperature_3_home));
+                    $sheet->setCellValue('c42', $this->contactBook->temperature_1_home);
+                    $sheet->setCellValue('f42', $this->contactBook->temperature_2_home);
+                    $sheet->setCellValue('j42', $this->contactBook->temperature_3_home);
 
-                    $sheet->setCellValue('b47', $this->timeLabel($this->contactBook->state_0_home));
+                    $sheet->setCellValue('b47', $this->contactBook->state_0_home);
 
 
                     //========school=========
@@ -161,9 +161,9 @@ class ContactBookExport implements WithEvents
                     $sheet->setCellValue('r40', $this->timeLabel($this->contactBook->temperature_time_2_school));
                     $sheet->setCellValue('v40', $this->timeLabel($this->contactBook->temperature_time_3_school));
 
-                    $sheet->setCellValue('o42', $this->timeLabel($this->contactBook->temperature_1_school));
-                    $sheet->setCellValue('r42', $this->timeLabel($this->contactBook->temperature_2_school));
-                    $sheet->setCellValue('v42', $this->timeLabel($this->contactBook->temperature_3_school));
+                    $sheet->setCellValue('o42', $this->contactBook->temperature_1_school);
+                    $sheet->setCellValue('r42', $this->contactBook->temperature_2_school);
+                    $sheet->setCellValue('v42', $this->contactBook->temperature_3_school);
 
                     $sheet->setCellValue('n47', $this->contactBook->state_0_school);
                 } else {
