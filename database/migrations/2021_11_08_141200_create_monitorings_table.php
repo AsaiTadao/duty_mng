@@ -16,6 +16,8 @@ class CreateMonitoringsTable extends Migration
         Schema::create('monitorings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('device_id');
+            $table->double('latitude',8,6)->nullable();
+            $table->double('longitude',9,6)->nullable();
             $table->timestamps();
         });
     }

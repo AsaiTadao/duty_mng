@@ -28,7 +28,8 @@ class ChildSeeder extends Seeder
                     'number'=>  $name,
                     'password'  =>  Hash::make($name),
                     'office_id' =>  $i + 1,
-                    'class_id'  =>  ($j % 6) + 1
+                    'class_id'  =>  ($j % 6) + 1,
+                    'qr' => 'LK_CHILDREN_' . Hash::make($i),
 
                 ]);
                 $child->id = $count;
