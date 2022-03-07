@@ -179,7 +179,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-blue text-center text-white white-lb-border-2 py-2">
-                                                        午前
+                                                        前夜
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
@@ -196,7 +196,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-blue text-center text-white white-l-border-2 py-2">
-                                                        午後
+                                                        今朝
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
@@ -227,18 +227,18 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-blue text-center text-white white-lb-border-2 py-2">
-                                                        午前
+                                                        前夜
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
                                                             <input class="mr-0 align-self-center" type="radio" name="radio6" :value="1" v-model="formData.defecation1Home" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">普</label>
+                                                            <label class="form-check-label mr-2">普い</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio6" :value="2" v-model="formData.defecation1Home" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">軟</label>
+                                                            <label class="form-check-label mr-2">軟い</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio6" :value="3" v-model="formData.defecation1Home" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">固</label>
+                                                            <label class="form-check-label mr-2">固い</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -254,18 +254,18 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-blue text-center text-white white-l-border-2 py-2">
-                                                        午後
+                                                        今朝
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2">
                                                         <div class="d-flex justify-content-center py-2">
                                                             <input class="mr-0 align-self-center" type="radio" name="radio7" :value="1" v-model="formData.defecation2Home" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">普</label>
+                                                            <label class="form-check-label mr-2">普い</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio7" :value="2" v-model="formData.defecation2Home" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">軟</label>
+                                                            <label class="form-check-label mr-2">軟い</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio7" :value="3" v-model="formData.defecation2Home" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">固</label>
+                                                            <label class="form-check-label mr-2">固い</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -495,7 +495,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-yellow text-center text-white white-lb-border-2 py-2">
-                                                        午前
+                                                        前夜
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
@@ -505,7 +505,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-yellow text-center text-white white-l-border-2 py-2">
-                                                        午後
+                                                        今朝
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
@@ -529,7 +529,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-yellow text-center text-white white-lb-border-2 py-2 fixed-height-40">
-                                                        午前
+                                                        前夜
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
@@ -544,7 +544,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-yellow text-center text-white white-l-border-2 py-2 fixed-height-40">
-                                                        午後
+                                                        今朝
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
@@ -1042,11 +1042,11 @@ export default {
         },
         formatDefecationStatus(status) {
             if(status == 1) {
-                return '普';
+                return '普い';
             } else if(status == 2) {
-                return '軟';
+                return '軟い';
             } else if(status == 3) {
-                return '固';
+                return '固い';
             } else {
                 return '';
             }
