@@ -5,12 +5,18 @@
                 <div class="card">
                     <div class="card-header calendar-title">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="input-group input-group-sm">
                                     <input type="text" class="form-control" placeholder="園児ID, 園児氏名, メールアドレス" v-model="searchInput">
                                     <span class="input-group-append">
                                         <button type="button" class="btn btn-info btn-flat" @click="getChildrenList">検索</button>
                                     </span>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="d-flex align-items-center">
+                                    <input type="checkbox" class="align-middle" :value="1" v-model="retiredDisplay" @click="changeRetiredDisplay">
+                                    <div class="ml-1">退園児を含む</div>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -128,9 +134,9 @@ export default {
             this.setActionLoading();
             let query;
             if(this.planRegistered != -1)
-                query = {query: this.searchFilter, plan_registered: this.planRegistered};
+                query = {query: this.searchFilter, plan_registered: this.planRegistered, including_exited: this.retiredDisplay};
             else
-                query = {query: this.searchFilter};
+                query = {query: this.searchFilter, including_exited: this.retiredDisplay};
             api.get('child', null, query)
                 .then(response => {
                     this.unsetActionLoading();
@@ -164,6 +170,10 @@ export default {
                 return null;
             }
         },
+        changeRetiredDisplay() {
+            this.retiredDisplay = !this.retiredDisplay;
+            this.getChildrenList();
+        }
     },
     mounted() {
         this.getChildrenList();
