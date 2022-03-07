@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Monitoring extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'mac_address',
+        'device_id',
+        'latitude',
+        'longitude'
+    ];
 }

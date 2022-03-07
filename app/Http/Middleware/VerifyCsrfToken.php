@@ -14,17 +14,20 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        'android/device',
+        'android/device/live',
+        'android/stamp',
+        'android/stamp/retry',
     ];
 
     public function handle($request, Closure $next)
     {
         if(!Auth::check() && $request->route()->named('logout')) {
-        
+
             $this->except[] = route('logout');
-            
+
         }
-        
+
         return parent::handle($request, $next);
     }
 }

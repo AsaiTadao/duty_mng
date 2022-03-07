@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class QrTransaction extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'device_id',
+        'office_id',
+        'qr',
+        'ymd',
+        'counter',
+    ];
 }
