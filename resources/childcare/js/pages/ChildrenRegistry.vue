@@ -115,7 +115,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <input class="form-control" type="password" v-model="formData.password" :class="{'is-invalid' : errors.password}" placeholder="****" @keyup="errors.password = null"/>
+                                            <input class="form-control" type="password" v-model="formData.password" :class="{'is-invalid' : errors.password}" :placeholder="childId ? '******':''" @keyup="errors.password = null"/>
                                             <span v-if="errors.password" class="error invalid-feedback">
                                                 {{ errors.password }}
                                             </span>
@@ -309,8 +309,8 @@ export default {
             childTypes: state => state.constants.childTypes
         }),
         age() {
-            if (!this.formData.birthYear || !this.formData.birthMonth || !this.formData.birthDay) return null;
-            const birthday = moment(this.formData.birthYear + '-' + this.formData.birthMonth + '-' + this.formData.birthDay).format("YYYY-MM-DD");
+            if (!this.formData.birthday) return null;
+            const birthday = moment(this.formData.birthday).format("YYYY-MM-DD");
             if (birthday === 'Invalid date') return null;
             const ageInMonth = moment().diff(birthday, 'months');
             const y = Math.floor(ageInMonth / 12);
