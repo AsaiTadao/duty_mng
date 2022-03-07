@@ -10,7 +10,7 @@
                             </div>
                             <div class="col-md-5"></div>
                             <div class="col-md-4">
-                                <router-link type="button" class="btn btn-sm btn-primary float-right" :to="{ name: 'childcare-plan', params: {childId: this.childId}}">
+                                <router-link type="button" class="btn btn-sm btn-primary float-right" :to="{ name: 'childcare-plan', params: {childId}}">
                                     託児計画作成
                                 </router-link>
                                 <button type="button" class="btn btn-sm btn-primary float-right mr-2">
@@ -231,7 +231,7 @@ export default {
     data() {
         return {
             retiredDisplay: false,
-            childId: null,
+            childId: 0,
             childInfor: {
                 number: '',
                 name: '',
@@ -256,9 +256,6 @@ export default {
         }),
     },
     methods: {
-        presentManagement() {
-            this.$router.push('present-management');
-        },
         getChildInfor() {
             if(this.actionLoading) return;
             this.setActionLoading();
