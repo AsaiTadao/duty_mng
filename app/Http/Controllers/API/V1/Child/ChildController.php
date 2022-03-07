@@ -57,6 +57,11 @@ class ChildController extends BaseController
         }
         $child->save();
 
+        $qr = bcrypt($child->office_id . '_' . $child->id . '_' . $child->number);
+
+        $child->qr = $qr;
+        $child->save();
+
         $childInfo = new ChildInformation($data);
         $child->child_info()->save($childInfo);
         return $this->sendResponse(new ChildResource($child));
@@ -100,7 +105,10 @@ class ChildController extends BaseController
             }
             $child->class_id = $classId;
         }
-
+        if (!$child->qr)
+        {
+            $child->qr = bcrypt($child->office_id . '_' . $child->id . '_' . $child->number);
+        }
         $child->save();
 
         $childInfo = $child->child_info;
@@ -110,6 +118,7 @@ class ChildController extends BaseController
         }
         $childInfo->fill($data);
         $childInfo->save();
+
         $child->refresh();
 
         return $this->sendResponse(new ChildResource($child));
