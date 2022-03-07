@@ -369,7 +369,7 @@ export default {
             selectedMonth: '',
             month: new Date('YYYY-MM'),
             officeName: '',
-            officeId: 1,
+            officeId: 0,
             offices: [],
         }
     },
@@ -447,21 +447,23 @@ export default {
         },
         selectOffice() {
             const office = this.offices.find(office => office.id === this.officeId);
+            if (!office) return;
             this.officeName = office ? office.name : '';
             this.getTotalData();
         },
         getTotalData() {
-                if(this.actionLoading) return;
-                this.setActionLoading();
-                api.get(process.env.MIX_API_BASE_URL + '/childcare-application-table/' + this.officeId, null, {month: this.month})
-                    .then(response => {
-                        this.unsetActionLoading();
-                        this.total = response;
-                    })
-                    .catch(e => {
-                        this.unsetActionLoading();
-                        apiErrorHandler(e);
-                    });
+            if (!this.officeId) return;
+            if(this.actionLoading) return;
+            this.setActionLoading();
+            api.get(process.env.MIX_API_BASE_URL + '/childcare-application-table/' + this.officeId, null, {month: this.month})
+                .then(response => {
+                    this.unsetActionLoading();
+                    this.total = response;
+                })
+                .catch(e => {
+                    this.unsetActionLoading();
+                    apiErrorHandler(e);
+                });
         },
         getDay(dayIndex) {
             return moment(this.month + '-' + ('0' + dayIndex).slice(-2)).format('YYYY-MM-DD');
@@ -489,7 +491,6 @@ export default {
         this.displayDate = moment(this.displayDate).format('YYYY年 M月');
         this.getResults(this.getThisMonthDate());
         this.getNurseryOffices();
-        // this.getTotalData();
     }
 }
 </script>

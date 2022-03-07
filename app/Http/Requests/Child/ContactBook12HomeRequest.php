@@ -35,7 +35,7 @@ class ContactBook12HomeRequest extends FormRequest {
             'bathing_home'          =>  ['nullable', 'in:1,2'],
             'temperature_time_1_home' =>  ['nullable', 'date_format:H:i'],
             'temperature_1_home'    =>  ['nullable', 'numeric'],
-            'temperature_time_1_home' =>  ['nullable', 'date_format:H:i'],
+            'temperature_time_2_home' =>  ['nullable', 'date_format:H:i'],
             'temperature_2_home'    =>  ['nullable', 'numeric'],
             'temperature_time_3_home' =>  ['nullable', 'date_format:H:i'],
             'temperature_3_home'    =>  ['nullable', 'numeric'],
