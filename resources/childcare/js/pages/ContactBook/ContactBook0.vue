@@ -170,7 +170,7 @@
                                                         </span>
                                                     </td>
                                                 </tr>
-                                                <tr :key="hour.time+'30mins'">
+                                                <tr :key="hour.time+'30mins'" style="background-color: #dcd5bc;">
                                                     <td class="text-center" style="position:relative;" @click="setHour(hour.time, 2)">
                                                         <div v-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}School`]" style="background-color: #EBCB42; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
                                                         <div v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}Home`]" style="background-color: #8BB3FC; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
