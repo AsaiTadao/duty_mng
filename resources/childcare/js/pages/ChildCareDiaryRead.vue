@@ -63,17 +63,17 @@
                                         <tbody class="text-center">
                                             <tr>
                                                 <td class="p-0 align-middle">
-                                                    <div style="height: 60px;display:flex;align-items:center;justify-content:center;">
+                                                    <div style="height: 100px;display:flex;align-items:center;justify-content:center;">
                                                         {{ stat.all }}
                                                     </div>
                                                 </td>
                                                 <td class="p-0 align-middle">
-                                                    <div style="height: 60px;display:flex;align-items:center;justify-content:center;">
+                                                    <div style="height: 100px;display:flex;align-items:center;justify-content:center;">
                                                         {{ stat.attend }}
                                                     </div>
                                                 </td>
                                                 <td class="p-0 align-middle">
-                                                    <div style="height: 60px;display:flex;align-items:center;justify-content:center;">
+                                                    <div style="height: 100px;display:flex;align-items:center;justify-content:center;">
                                                         {{ stat.absent }}
                                                     </div>
                                                 </td>
@@ -113,10 +113,10 @@
                                                 <td rowspan="2" class="align-middle dark-blue p-1">
                                                    日案
                                                 </td>
-                                                <td class="dark-yellow">
+                                                <td class="dark-yellow align-middle">
                                                     ねらい
                                                 </td>
-                                                <td class="dark-yellow">
+                                                <td class="dark-yellow align-middle">
                                                     活動内容
                                                 </td>
                                             </tr>
@@ -133,7 +133,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="dark-blue p-1">
+                                                <td class="dark-blue p-1 align-middle">
                                                     援助<br>配慮事項
                                                 </td>
                                                 <td colspan="2" class="p-0">
@@ -142,7 +142,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="dark-blue p-1">
+                                                <td class="dark-blue p-1 align-middle">
                                                     保育の実際<br>評価・反省
                                                 </td>
                                                 <td colspan="2" class="p-0">
@@ -166,7 +166,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit" style="height: 100px;" v-model="healthStatus" readonly>
+                                                    <textarea class="textarea-fit" style="height: 150px;" v-model="healthStatus" readonly>
 
                                                     </textarea>
                                                 </td>
@@ -187,7 +187,7 @@
                                             </tr>
                                             <tr>
                                                 <td class="p-0">
-                                                    <textarea class="textarea-fit" style="height: 100px;" v-model="remarks" readonly>
+                                                    <textarea class="textarea-fit" style="height: 150px;" v-model="remarks" readonly>
 
                                                     </textarea>
                                                 </td>
