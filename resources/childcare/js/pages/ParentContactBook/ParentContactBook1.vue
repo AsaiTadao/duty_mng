@@ -7,8 +7,6 @@
                             <div class="row">
                                 <div class="col-md-6 col-12 d-flex align-items-center">
                                     <h5 class="card-title mb-0 pr-5">{{ currentOfficeName }}</h5>
-                                    <div class="mb-0 px-3">ー連絡帳ー</div>
-                                    <div class="mb-0 pl-4">{{child.name}}</div>
                                 </div>
                                 <div class="col-md-6 col-12 d-flex align-items-center">
                                     <div class="d-flex align-items-center p-0">
@@ -347,7 +345,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-md-11 col-10">
+                                        <div v-if="!isMobile()" class="col-md-11 col-10">
                                             <div class="row">
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
@@ -393,6 +391,64 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
+                                                    <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center justify-content-center">
+                                                            <input type="number" class="form-control" min="0" max="60" v-model="formData.temperature3Home" :class="{'is-invalid': errors.temperature3Home}" @change="dataChanged = true; errors.temperature3Home = null;">
+                                                            <span v-if="errors.temperature3Home" class="error invalid-feedback">
+                                                                {{errors.temperature3Home}}
+                                                            </span>
+                                                        </div>
+                                                        <label class="align-self-center mb-0">℃</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="col-md-11 col-10">
+                                            <div class="row">
+                                                <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
+                                                    <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center d-flex justify-content-center">
+                                                            <hour-minute-input v-model="formData.temperatureTime1Home" :error="errors.temperatureTime1Home" @input="dataChanged = true; errors.temperatureTime1Home = null;"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 px-md-0 pl-0">
+                                                    <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center justify-content-center">
+                                                            <input type="number" class="form-control" min="0" max="60" v-model="formData.temperature1Home" :class="{'is-invalid': errors.temperature1Home}" @change="dataChanged = true; errors.temperature1Home = null;">
+                                                            <span v-if="errors.temperature1Home" class="error invalid-feedback">
+                                                                {{errors.temperature1Home}}
+                                                            </span>
+                                                        </div>
+                                                        <label class="align-self-center mb-0">℃</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
+                                                    <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center d-flex justify-content-center">
+                                                            <hour-minute-input v-model="formData.temperatureTime2Home" :error="errors.temperatureTime2Home" @input="dataChanged = true; errors.temperatureTime2Home = null;"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 px-md-0 pl-0">
+                                                    <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center justify-content-center">
+                                                            <input type="number" class="form-control" min="0" max="60" v-model="formData.temperature2Home" :class="{'is-invalid': errors.temperature2Home}" @change="dataChanged = true; errors.temperature2Home = null;">
+                                                            <span v-if="errors.temperature2Home" class="error invalid-feedback">
+                                                                {{errors.temperature2Home}}
+                                                            </span>
+                                                        </div>
+                                                        <label class="align-self-center mb-0">℃</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 pl-0 pr-1">
+                                                    <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center d-flex justify-content-center">
+                                                            <hour-minute-input v-model="formData.temperatureTime3Home" :error="errors.temperatureTime3Home" @input="dataChanged = true; errors.temperatureTime3Home = null;"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
                                                             <input type="number" class="form-control" min="0" max="60" v-model="formData.temperature3Home" :class="{'is-invalid': errors.temperature3Home}" @change="dataChanged = true; errors.temperature3Home = null;">
@@ -612,7 +668,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-md-11 col-10">
+                                        <div v-if="!isMobile()" class="col-md-11 col-10">
                                             <div class="row">
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
@@ -640,6 +696,40 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formatTemperature(formData.temperature3School)}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="col-md-11 col-10">
+                                            <div class="row">
+                                                <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperatureTime1School}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formatTemperature(formData.temperature1School)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperatureTime2School}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formatTemperature(formData.temperature2School)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 pl-0 pr-1">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperatureTime3School}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
                                                         {{formatTemperature(formData.temperature3School)}}
                                                     </div>
@@ -1050,7 +1140,14 @@ export default {
             } else {
                 return '';
             }
-        }
+        },
+        isMobile() {
+            if(window.innerWidth < 768) {
+                return true;
+            } else {
+                return false;
+            }
+        },
     },
     created() {
 

@@ -7,7 +7,6 @@
                         <div class="row">
                             <div class="col-md-6 col-12 d-flex align-items-center">
                                 <h5 class="card-title mb-0 pr-5">{{ currentOfficeName }}</h5>
-                                <div class="mb-0 px-3">ー連絡帳ー</div>
                                 <div class="mb-0 pl-4">{{child.name}}</div>
                             </div>
                             <div class="col-md-6 col-12 d-flex align-items-center">
