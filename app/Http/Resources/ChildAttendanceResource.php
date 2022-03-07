@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\ChildcarePlanDay;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ChildAttendanceResource extends JsonResource
@@ -14,6 +15,15 @@ class ChildAttendanceResource extends JsonResource
      */
     public function toArray($request)
     {
+        $date = request()->get('date');
+        $noSchedule = false;
+        if ($date) {
+            $planDay = ChildcarePlanDay::where(['child_id' => $this->id, 'date' => $date])->first();
+            if (!$planDay || $planDay->absent || !$planDay->start_time || !$planDay->end_time)
+            {
+                $noSchedule = true;
+            }
+        }
         return [
             'id'            =>  $this->id,
             'class_id'      =>  $this->class_id,
@@ -23,7 +33,8 @@ class ChildAttendanceResource extends JsonResource
             'behind_time'   =>  $this->behind_time,
             'leave_early'   =>  $this->leave_early,
             'extension'     =>  $this->extension,
-            'reason_for_absence_id'=>   $this->reason_for_absence_id
+            'reason_for_absence_id'=>   $this->reason_for_absence_id,
+            'no_schedule'   =>  $noSchedule,
         ];
     }
 }

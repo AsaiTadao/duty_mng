@@ -31,7 +31,7 @@ export default {
     },
     data() {
         return {
-            allowed: true,
+            allowed: false,
         }
     },
     mounted() {
@@ -39,9 +39,7 @@ export default {
     },
     methods: {
         checkRoute(value) {
-            if (!value) return;
-            if (!value.meta.guards) return;
-            if (!value.meta.guards.includes(this.roleId)) {
+            if (!value || !value.meta.guards.includes(this.roleId)) {
                 showError(this.$t("You are not allowed"))
                 this.allowed = false;
                 // setTimeout(() => {

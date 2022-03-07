@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\ChildrenClass;
+use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeWriting;
 use Maatwebsite\Excel\Excel;
@@ -36,6 +37,12 @@ class ChildDiaryExport implements WithEvents
 
                 $sheet->setCellValue('c3', $this->office->name);
                 $sheet->setCellValue('c7', $this->getClassLabel($this->childrenClassId));
+
+                $date = Carbon::parse($this->diary->date);
+                $date->settings(['formatFunction' => 'translatedFormat']);
+                $sheet->setCellValue('j3', $date->format('Y年 F jS（l）'));
+                $sheet->setCellValue('k4', $this->diary->weather);
+
                 $sheet->setCellValue('b11', $this->stat['all']);
                 $sheet->setCellValue('c11', $this->stat['attend']);
                 $sheet->setCellValue('d11', $this->stat['absent']);

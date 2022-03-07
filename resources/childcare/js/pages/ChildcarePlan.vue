@@ -23,17 +23,17 @@
                                         </td>
                                         <td class="light-pink text-center" style="width:80%; height:50px;">
                                             <div class="d-flex align-items-center justify-content-center">
-                                                    <input type="checkbox" class="align-middle" :value="1" v-model="plans[index].dayOfWeeks" />
+                                                    <input type="checkbox" class="align-middle" :value="1" v-model="plans[index].dayOfWeeks" :disabled="!isWeekDayEnabled(1, index)"  @change="calculateWeekFilled"/>
                                                     <div class="ml-1 mr-4">月曜</div>
-                                                    <input type="checkbox" class="align-middle" :value="2" v-model="plans[index].dayOfWeeks" />
+                                                    <input type="checkbox" class="align-middle" :value="2" v-model="plans[index].dayOfWeeks" :disabled="!isWeekDayEnabled(2, index)" @change="calculateWeekFilled"/>
                                                     <div class="ml-1 mr-4">火曜</div>
-                                                    <input type="checkbox" class="align-middle" :value="3" v-model="plans[index].dayOfWeeks" />
+                                                    <input type="checkbox" class="align-middle" :value="3" v-model="plans[index].dayOfWeeks" :disabled="!isWeekDayEnabled(3, index)" @change="calculateWeekFilled"/>
                                                     <div class="ml-1 mr-4">水曜</div>
-                                                    <input type="checkbox" class="align-middle" :value="4" v-model="plans[index].dayOfWeeks" />
+                                                    <input type="checkbox" class="align-middle" :value="4" v-model="plans[index].dayOfWeeks" :disabled="!isWeekDayEnabled(4, index)" @change="calculateWeekFilled"/>
                                                     <div class="ml-1 mr-4">木曜</div>
-                                                    <input type="checkbox" class="align-middle" :value="5" v-model="plans[index].dayOfWeeks" />
+                                                    <input type="checkbox" class="align-middle" :value="5" v-model="plans[index].dayOfWeeks" :disabled="!isWeekDayEnabled(5, index)" @change="calculateWeekFilled"/>
                                                     <div class="ml-1 mr-4">金曜</div>
-                                                    <input type="checkbox" class="align-middle" :value="6" v-model="plans[index].dayOfWeeks" />
+                                                    <input type="checkbox" class="align-middle" :value="6" v-model="plans[index].dayOfWeeks" :disabled="!isWeekDayEnabled(6, index)" @change="calculateWeekFilled"/>
                                                     <div class="ml-1 mr-4">土曜</div>
                                                     <input type="checkbox" class="align-middle" v-model="plans[index].excludingHolidays" />
                                                     <div class="ml-1">祝・祭日を除く</div>
@@ -51,6 +51,9 @@
                                                 <hour-minute-input v-model="plans[index].startTime" :error="planErrors[index].startTime"/>
                                                 ~
                                                 <hour-minute-input v-model="plans[index].endTime"  :error="planErrors[index].endTime"/>
+                                            </div>
+                                            <div v-if="planErrors[index].time" class="error-msg">
+                                                {{ planErrors[index].time }}
                                             </div>
                                         </td>
                                     </tr>
@@ -77,7 +80,6 @@ import api, { apiErrorHandler } from '../global/api';
 import actionLoading from '../mixin/actionLoading';
 import { validateHhMm } from '../helpers/datetime';
 import { showSuccess } from '../helpers/error';
-import { mapState } from 'vuex';
 
 const defaultPlan = {
     dayOfWeeks: [],
@@ -108,6 +110,9 @@ export default {
                     excludingHolidays: 0
                 },
             ],
+            weekFilled: [
+                1, 2, 3, 4, 5, 6
+            ],
             planErrors: [{...defaultPlanError}]
         }
     },
@@ -130,6 +135,7 @@ export default {
                         return {...item, startTime, endTime, dayOfWeeks: item.dayOfWeeks || []};
                     });
                     this.planErrors = this.plans.map(plan => ({...defaultPlanError}));
+                    this.calculateWeekFilled();
                 }
             })
             .catch(e => apiErrorHandler(e))
@@ -182,14 +188,25 @@ export default {
                     this.planErrors[index].endTime = this.$t('Please input end time');
                 }
                 if (!validateHhMm(plan.startTime)) {
+                    valid = false;
                     this.planErrors[index].startTime = this.$t('Invalid time format');
                 }
                 if (!validateHhMm(plan.endTime)) {
+                    valid = false;
                     this.planErrors[index].endTime = this.$t('Invalid time format');
+                }
+                if (plan.endTime < plan.startTime) {
+                    valid = false;
+                    this.planErrors[index].time = this.$t('Invalid time period');
                 }
             });
             return valid
-
+        },
+        calculateWeekFilled() {
+            this.weekFilled =  this.plans.reduce((prev, current) => [...current.dayOfWeeks, ...prev], []);
+        },
+        isWeekDayEnabled(dayOfWeek, index) {
+            return this.plans[index].dayOfWeeks.indexOf(dayOfWeek) !== -1 || this.weekFilled.indexOf(dayOfWeek) === -1;
         }
     }
 };
