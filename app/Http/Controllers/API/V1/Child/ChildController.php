@@ -57,7 +57,7 @@ class ChildController extends BaseController
         }
         $child->save();
 
-        $qr = bcrypt($child->office_id . '_' . $child->id . '_' . $child->number);
+        $qr = bcrypt($child->id);
 
         $child->qr = $qr;
         $child->save();
@@ -107,7 +107,7 @@ class ChildController extends BaseController
         }
         if (!$child->qr)
         {
-            $child->qr = bcrypt($child->office_id . '_' . $child->id . '_' . $child->number);
+            $child->qr = bcrypt($child->id);
         }
         $child->save();
 
