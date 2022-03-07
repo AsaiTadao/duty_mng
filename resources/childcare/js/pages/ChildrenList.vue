@@ -134,9 +134,9 @@ export default {
             this.setActionLoading();
             let query;
             if(this.planRegistered != -1)
-                query = {query: this.searchFilter, plan_registered: this.planRegistered, including_exited: this.retiredDisplay};
+                query = {query: this.searchFilter, plan_registered: this.planRegistered, including_exited: this.retiredDisplay ? 1 : 0};
             else
-                query = {query: this.searchFilter, including_exited: this.retiredDisplay};
+                query = {query: this.searchFilter, including_exited: this.retiredDisplay ? 1 : 0};
             api.get('child', null, query)
                 .then(response => {
                     this.unsetActionLoading();
