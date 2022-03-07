@@ -249,7 +249,8 @@ export default {
             office: state => state.session.info.office
         }),
         classLabel() {
-            const claz = this.childrenClasses.find(item => item.id === this.childrenClassId)
+            console.log(this.childrenClasses, this.childrenClassId)
+            const claz = this.childrenClasses.find(item => item.id == this.childrenClassId)
             if (claz) return claz.name;
             return '';
         }

@@ -244,7 +244,7 @@ export default {
             childrenClasses: state => state.constants.childrenClasses,
         }),
         classLabel() {
-            const claz = this.childrenClasses.find(item => item.id === this.childrenClassId)
+            const claz = this.childrenClasses.find(item => item.id == this.childrenClassId)
             if (claz) return claz.name;
             return '';
         }
