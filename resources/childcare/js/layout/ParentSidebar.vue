@@ -22,6 +22,7 @@
                         <router-link
                             :to="'/parent/' + route.path"
                             class="nav-link"
+                            data-widget="pushmenu"
                         >
                             <i :class="'nav-icon ' + route.meta.icon"></i>
                             <p>

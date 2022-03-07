@@ -529,7 +529,6 @@ export default {
             //this.initializeFormData();
             if (this.contact) {
                 this.formData = {...this.contact};
-                console.log(this.formData);
             }
         },
         initializeFormData() {
