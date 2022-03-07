@@ -49,7 +49,6 @@ export default {
         currentRoute() {
             const route = this.$route.path.substring(1);
             const rt = routes[0].children.find(item => item.path === route);
-            console.log({currentRoute: rt, route, routes: routes[0], result: rt.meta.menuKey ? rt.meta.menuKey : rt.path});
             return rt;
         },
         ...mapState({

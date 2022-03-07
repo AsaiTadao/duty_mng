@@ -480,7 +480,6 @@ export default {
             return null;
         },
         exportExcel() {
-            console.log(this.officeId);
             location.href = process.env.MIX_APP_BASE_URL + 'childcare-application-table/excel/' + this.officeId + '?month=' + this.month + '&token=' + LocalStorage.getToken();
         }
     },

@@ -313,7 +313,6 @@ export default {
             return (y ? y + '歳' : '') + (m ? m + 'ヶ月' : '');
         },
         getPlan() {
-            console.log("here");
             api.get(`plan/${this.childId}`)
             .then(response => {
                 this.plans = response

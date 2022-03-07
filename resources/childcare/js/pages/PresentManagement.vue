@@ -123,7 +123,6 @@ export default {
     methods: {
         onCsv() {
             const url = process.env.MIX_APP_BASE_URL + 'child-monthly-attendance/csv/' + this.childId + '?token=' + LocalStorage.getToken() + '&month=' + this.currentDate.format('YYYY-MM');
-            // console.log({url});
             location.href=url;
         },
         onNext() {

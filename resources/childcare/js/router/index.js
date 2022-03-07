@@ -16,22 +16,4 @@ const router = new VueRouter({
     },
 });
 
-// router.beforeEach((to, from, next) => {
-//     console.log("xxx");
-//     if (to.meta.guards) {
-//         console.log("yyy");
-//         if (!store.state.session || !store.state.session.info) {
-//             return next();
-//         }
-//         const roleId = store.state.session.info.roleId;
-//         console.log({roleId}, to.meta.guards)
-//         if (to.meta.guards.includes(roleId))
-//             return next();
-//         showError("You are not allowed");
-//         router.push({name: 'stamp'});
-//         return;
-//     }
-
-//     return next();
-// });
 export default router;

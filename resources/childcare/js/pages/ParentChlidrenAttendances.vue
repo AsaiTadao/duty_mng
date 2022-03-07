@@ -133,7 +133,6 @@ export default {
         openContactBook(day) {
             this.selectedDate = moment(this.currentDate.format('YYYY-MM-') + String(day).padStart(2, '0')).toDate();
             const queryDate = moment(this.selectedDate).format('YYYY-MM-DD');
-            console.log(queryDate);
             this.$router.push({name: 'parent-contact-book', params: {date: queryDate}});
         },
         fetchData() {

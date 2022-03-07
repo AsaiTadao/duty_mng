@@ -567,9 +567,7 @@ export default {
         },
         setHour(hourIndex, number) {
             this.dataChanged = true;
-            console.log(this.formData);
             if(number == 1) {
-                console.log(this.formData[`sleep${('0' + hourIndex).slice(-2) + '00'}School`]);
                 if(this.formData[`sleep${('0' + hourIndex).slice(-2) + '00'}School`] != 1) {
                     this.formData[`sleep${('0' + hourIndex).slice(-2) + '00'}Home`] = 1 - this.formData[`sleep${('0' + hourIndex).slice(-2) + '00'}Home`];
                 }

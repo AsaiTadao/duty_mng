@@ -126,7 +126,6 @@ export default {
                 .then(response => {
                     this.unsetActionLoading();
                     this.contactBook = response.contactBook;
-                    console.log(response);
                     const child = response.child;
                     this.child = child ? child : null;
                     const childAge = this.getAge(child.classId);
@@ -222,7 +221,6 @@ export default {
             this.currentDate = paramDate;
         else
             this.currentDate = new Date();
-        console.log(this.currentDate);
         this.getContactBook(this.currentDate);
     }
 }
