@@ -4,9 +4,9 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header calendar-title">
+                        <div class="card-header calendar-title parent-attendance">
                             <h3 class="card-title mb-0">{{ officeName }}</h3>
-                            <div class="card-title mb-0 ml-3">{{ childName }}</div>
+                            <div class="card-title mb-0 ml-3 child-name">{{ childName }}</div>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <button type="button" class="btn btn-sm btn-outline" @click="onPrev">
                                     <i class="fas fa-caret-left fa-2x"></i>

@@ -612,6 +612,9 @@ nav.main-header {
     }
 }
 @media (max-width: 768px) {
+    .parent-attendance div.child-name {
+        display: none;
+    }
     #contactbook {
         overflow-x: scroll;
     }
