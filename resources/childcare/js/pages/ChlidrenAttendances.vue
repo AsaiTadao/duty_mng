@@ -21,7 +21,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive p-0" style="height: 500px;">
+                            <div class="table-responsive p-0" style="height: 500px;" id="children_attendance_table">
                                 <table class="table table-bordered table-striped table-children table-head-fixed table-hover">
                                     <thead class="text-center text-white">
                                         <tr class="dark-brown">

@@ -8,32 +8,32 @@
         </div>
         <div class="modal-body">
             <div class="form-group row">
-                <div class="col-md-3">
+                <div class="col-md-3 col-3">
                     日付
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 col-5">
                     {{dateFormat(date)}}
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-md-3">
+                <div class="col-md-3 col-3">
                     事業所
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 col-5">
                     {{ currentOfficeName }}
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-md-3">
+                <div class="col-md-3 col-3">
                     氏名
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 col-5">
                     {{ editData.name }}
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-md-3">登園時間</div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-3">登園時間</div>
+                <div class="col-md-3 col-3">
                     <div class="d-flex is-invalid">
                         <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.commutingTimeHour}" v-model="formData.commutingTimeHour" @change="() => {errors.commutingTimeHour=null}">
 
@@ -43,7 +43,7 @@
                     </span>
                 </div>
                 <div class="form-control-label">時</div>
-                <div class="col-md-3">
+                <div class="col-md-3 col-3">
                     <div class="d-flex is-invalid">
                         <input type="number" min="0" max="59" class="form-control mr-2" :class="{'is-invalid' : errors.commutingTimeMin}" v-model="formData.commutingTimeMin" @change="() => {errors.commutingTimeMin=null}">
                     </div>
@@ -54,29 +54,29 @@
                 <div class="form-control-label">分</div>
             </div>
             <div class="form-group row">
-                <div class="col-md-3">降園時間</div>
-                    <div class="col-md-3">
-                        <div class="d-flex is-invalid">
-                            <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.leaveTimeHour}" v-model="formData.leaveTimeHour" @change="() => {errors.leaveTimeHour=null}">
-                        </div>
-                        <span v-if="errors.leaveTimeHour" class="error invalid-feedback">
-                            {{ errors.leaveTimeHour }}
-                        </span>
+                <div class="col-md-3 col-3">降園時間</div>
+                <div class="col-md-3 col-3">
+                    <div class="d-flex is-invalid">
+                        <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.leaveTimeHour}" v-model="formData.leaveTimeHour" @change="() => {errors.leaveTimeHour=null}">
                     </div>
-                    <div class="form-control-label">時</div>
-                    <div class="col-md-3">
-                        <div class="d-flex is-invalid">
-                            <input type="number" min="0" max="59" class="form-control mr-2" :class="{'is-invalid' : errors.leaveTimeMin}" v-model="formData.leaveTimeMin" @change="() => {errors.leaveTimeMin=null}">
-                        </div>
-                        <span v-if="errors.leaveTimeMin" class="error invalid-feedback">
-                            {{ errors.leaveTimeMin }}
-                        </span>
+                    <span v-if="errors.leaveTimeHour" class="error invalid-feedback">
+                        {{ errors.leaveTimeHour }}
+                    </span>
+                </div>
+                <div class="form-control-label">時</div>
+                <div class="col-md-3 col-3">
+                    <div class="d-flex is-invalid">
+                        <input type="number" min="0" max="59" class="form-control mr-2" :class="{'is-invalid' : errors.leaveTimeMin}" v-model="formData.leaveTimeMin" @change="() => {errors.leaveTimeMin=null}">
                     </div>
-                    <div class="form-control-label">分</div>
+                    <span v-if="errors.leaveTimeMin" class="error invalid-feedback">
+                        {{ errors.leaveTimeMin }}
+                    </span>
+                </div>
+                <div class="form-control-label">分</div>
             </div>
             <div class="form-group row">
-                <div class="col-md-3">欠席</div>
-                <div class="col-md-6">
+                <div class="col-md-3 col-3">欠席</div>
+                <div class="col-md-6 col-6">
                     <select class="form-control" v-model="formData.reasonForAbsenceId" :class="{'is-invalid' : errors.reasonForAbsenceId}" @change="errors.reasonForAbsenceId = null;">
                         <option></option>
                         <option v-for="reason in reasonForAbsences" :key="reason.id" :value="reason.id">{{reason.name}}</option>
@@ -96,16 +96,16 @@
                     <div class="form-control-label">分</div>
             </div> -->
             <div class="form-group row">
-                <div class="col-md-3">延長</div>
-                    <div class="col-md-4">
-                        <div class="d-flex">
-                            <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.extension}" v-model="formData.extension" @change="() => {errors.extension=null}">
-                            <span v-if="errors.extension" class="error invalid-feedback">
-                                {{ errors.extension }}
-                            </span>
-                        </div>
+                <div class="col-md-3 col-3">延長</div>
+                <div class="col-md-4 col-4">
+                    <div class="d-flex">
+                        <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.extension}" v-model="formData.extension" @change="() => {errors.extension=null}">
+                        <span v-if="errors.extension" class="error invalid-feedback">
+                            {{ errors.extension }}
+                        </span>
                     </div>
-                    <div class="form-control-label">時間</div>
+                </div>
+                <div class="form-control-label">時間</div>
             </div>
         </div>
         <div class="modal-footer">
