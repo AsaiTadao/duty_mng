@@ -29,12 +29,12 @@ class ChildTypesSeeder extends Seeder
         Code::create([
             'group' =>  CodeGroups::CHILD_TYPE,
             'key'   =>  3,
-            'value' =>  '他域枠（通常）',
+            'value' =>  '地域枠（通常）',
         ]);
         Code::create([
             'group' =>  CodeGroups::CHILD_TYPE,
             'key'   =>  4,
-            'value' =>  '他域枠（弾力）',
+            'value' =>  '地域枠（弾力）',
         ]);
     }
 }
