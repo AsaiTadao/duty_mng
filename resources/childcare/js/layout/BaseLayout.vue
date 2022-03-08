@@ -1,18 +1,10 @@
 <template>
     <div class="wrapper">
-        <template v-if="session">
-            <topbar />
-            <sidebar />
-            <div class="content-wrapper">
-                <route-consumer></route-consumer>
-            </div>
-        </template>
+        <route-consumer  v-if="session"></route-consumer>
         <loading :active="!session || actionLoading" color="#007BFF"></loading>
     </div>
 </template>
 <script>
-import Topbar from "./Topbar.vue";
-import Sidebar from "./Sidebar.vue";
 import { mapState } from 'vuex';
 import LocalStorage from '../helpers/localStorage';
 import Loading from 'vue-loading-overlay';
@@ -23,8 +15,6 @@ import RouteConsumer from './RouteConsumer.vue';
 export default {
     mixins: [actionLoading],
     components: {
-        Topbar,
-        Sidebar,
         Loading,
         RouteConsumer,
     },

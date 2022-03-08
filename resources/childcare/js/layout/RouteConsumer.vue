@@ -1,18 +1,41 @@
 <template>
-    <section class="content">
-        <template v-if="allowed">
-            <router-view />
-        </template>
-    </section>
+    <div v-if="allowed">
+        <parent-topbar v-if="isParent"/>
+        <topbar v-else />
+        <parent-sidebar v-if="isParent"/>
+        <sidebar v-else/>
+        <div class="content-wrapper">
+            <section class="content">
+                <template v-if="allowed">
+                    <router-view />
+                </template>
+            </section>
+        </div>
+    </div>
 </template>
 <script>
+import ParentTopbar from "./ParentTopbar.vue";
+import ParentSidebar from "./ParentSidebar.vue";
+import Topbar from "./Topbar.vue";
+import Sidebar from "./Sidebar.vue";
 import { mapState } from 'vuex';
 import { Guards } from '../global/consts';
 import { handleSignOut, showError } from '../helpers/error';
 import routes from "../router/routes";
 
 export default {
-    components: {},
+    components: {
+        Topbar,
+        Sidebar,
+        ParentTopbar,
+        ParentSidebar
+    },
+    props: {
+        isParent: {
+            type: Boolean,
+            default: false
+        }
+    },
     computed: {
         ...mapState({
             roleId: state =>  state.session.info.roleId || Guards.PARENT
@@ -34,14 +57,15 @@ export default {
             allowed: false,
         }
     },
-    mounted() {
+    created() {
         this.checkRoute(this.matchedRoute)
     },
     methods: {
         checkRoute(value) {
             if (!value || !value.meta.guards.includes(this.roleId)) {
-                showError(this.$t("You are not allowed"))
+                // showError(this.$t("You are not allowed"))
                 this.allowed = false;
+                handleSignOut();
                 // setTimeout(() => {
                 //     handleSignOut();
                 // }, 5000);

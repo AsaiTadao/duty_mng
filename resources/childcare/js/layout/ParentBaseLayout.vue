@@ -1,12 +1,6 @@
 <template>
     <div class="wrapper">
-        <template v-if="session">
-            <parent-topbar />
-            <parent-sidebar />
-            <div class="content-wrapper">
-                <route-consumer></route-consumer>
-            </div>
-        </template>
+        <route-consumer v-if="session" :isParent="true"></route-consumer>
         <loading :active="!session || actionLoading" color="#007BFF"></loading>
     </div>
 </template>
