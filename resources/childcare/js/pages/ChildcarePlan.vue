@@ -110,9 +110,7 @@ export default {
                     excludingHolidays: 0
                 },
             ],
-            weekFilled: [
-                1, 2, 3, 4, 5, 6
-            ],
+            weekFilled: [],
             planErrors: [{...defaultPlanError}]
         }
     },
@@ -187,6 +185,8 @@ export default {
                     valid = false;
                     this.planErrors[index].endTime = this.$t('Please input end time');
                 }
+                plan.startTime = this.fomatTime(plan.startTime);
+                plan.endTime = this.fomatTime(plan.endTime);
                 if (!validateHhMm(plan.startTime)) {
                     valid = false;
                     this.planErrors[index].startTime = this.$t('Invalid time format');
@@ -207,6 +207,18 @@ export default {
         },
         isWeekDayEnabled(dayOfWeek, index) {
             return this.plans[index].dayOfWeeks.indexOf(dayOfWeek) !== -1 || this.weekFilled.indexOf(dayOfWeek) === -1;
+        },
+        fomatTime(time) {
+            const segs = time.split(':');
+            let h = segs[0];
+            let m = segs[1];
+            if (h.length < 2) {
+                h = h.padStart(2, '0');
+            }
+            if (m.length < 2) {
+                m = m.padStart(2, '0');
+            }
+            return h + ':' + m;
         }
     }
 };
