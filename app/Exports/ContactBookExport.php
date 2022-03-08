@@ -175,19 +175,25 @@ class ContactBookExport implements WithEvents
     }
     public function moodLabel($mood)
     {
-        switch ($mood)
+        if ($mood == 1)
         {
-            case 1: return '普通';
-            case 2: return '良い';
-            case 3: return '悪い';
+            return '普通';
+        }
+        if ($mood == 2)
+        {
+            return '良い';
+        }
+        if ($mood == 3)
+        {
+            return '悪い';
         }
         return '';
     }
     public function bathLabel($bath)
     {
         if (!$bath) return null;
-        if ($bath === 1) return '普通';
-        return '少ない';
+        if ($bath == 1) return '有り';
+        return '無し';
     }
     public function timePeriodLabel($start, $end)
     {
@@ -224,22 +230,31 @@ class ContactBookExport implements WithEvents
     }
     public function mealLabel($meal)
     {
-        switch ($meal)
-        {
-            case 1: return '普通';
-            case 2: return '少ない';
-            case 3: return '多い';
+        if ($meal == 1) {
+            return '完食';
+        }
+        if ($meal == 2) {
+            return '残食';
+        }
+        if ($meal == 3) {
+            return 'おかわり';
         }
         return null;
     }
 
     public function defecationLabel($defecation)
     {
-        switch ($defecation)
+        if ($defecation == 1)
         {
-            case 1: return '普通';
-            case 2: return '軟い';
-            case 3: return '固い';
+            return '普通';
+        }
+        if ($defecation == 2)
+        {
+            return '軟い';
+        }
+        if ($defecation == 3)
+        {
+            return '固い';
         }
         return null;
     }
