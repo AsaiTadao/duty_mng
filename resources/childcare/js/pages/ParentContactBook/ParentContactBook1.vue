@@ -946,14 +946,14 @@ export default {
                 this.errors.sleepEnd2Home = this.$t('Invalid time format');
                 valid = false;
             }
-            if(this.formData.sleepStart1Home && this.formData.sleepEnd1Home && this.formData.sleepStart1Home > this.formData.sleepEnd1Home) {
-                this.errors.sleepStart1Home = this.$t('start time must be earlier than end time');
-                valid = false;
-            }
-            if(this.formData.sleepStart2Home && this.formData.sleepEnd2Home && this.formData.sleepStart2Home > this.formData.sleepEnd2Home) {
-                this.errors.sleepStart2Home = this.$t('start time must be earlier than end time');
-                valid = false;
-            }
+            // if(this.formData.sleepStart1Home && this.formData.sleepEnd1Home && this.formData.sleepStart1Home > this.formData.sleepEnd1Home) {
+            //     this.errors.sleepStart1Home = this.$t('start time must be earlier than end time');
+            //     valid = false;
+            // }
+            // if(this.formData.sleepStart2Home && this.formData.sleepEnd2Home && this.formData.sleepStart2Home > this.formData.sleepEnd2Home) {
+            //     this.errors.sleepStart2Home = this.$t('start time must be earlier than end time');
+            //     valid = false;
+            // }
             if(this.formData.temperatureTime1Home && !validateHhMm(this.formData.temperatureTime1Home)) {
                 this.errors.temperatureTime1Home = this.$t('Invalid time format');
                 valid = false;
