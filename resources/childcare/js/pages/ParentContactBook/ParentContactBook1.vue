@@ -551,7 +551,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-yellow text-center text-white white-lb-border-2 py-2">
-                                                        前夜
+                                                        午前
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
@@ -561,7 +561,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-yellow text-center text-white white-l-border-2 py-2">
-                                                        今朝
+                                                        午後
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
@@ -585,7 +585,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-yellow text-center text-white white-lb-border-2 py-2 fixed-height-40">
-                                                        前夜
+                                                        午前
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
@@ -600,7 +600,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-yellow text-center text-white white-l-border-2 py-2 fixed-height-40">
-                                                        今朝
+                                                        午後
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
@@ -1103,9 +1103,9 @@ export default {
             if(status == 1) {
                 return '普通';
             } else if(status == 2) {
-                return '少ない';
+                return '良い';
             } else if(status == 3) {
-                return '多い';
+                return '悪い';
             } else {
                 return '';
             }
