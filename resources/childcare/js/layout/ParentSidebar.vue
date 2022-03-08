@@ -19,10 +19,19 @@
                             'menu-open': '/parent/' + route.path === currentRoute
                         }"
                     >
-                        <router-link
+                        <router-link v-if="isMobile()"
                             :to="'/parent/' + route.path"
                             class="nav-link"
                             data-widget="pushmenu"
+                        >
+                            <i :class="'nav-icon ' + route.meta.icon"></i>
+                            <p>
+                                {{ route.meta.anchor }}
+                            </p>
+                        </router-link>
+                        <router-link v-else
+                            :to="'/parent/' + route.path"
+                            class="nav-link"
                         >
                             <i :class="'nav-icon ' + route.meta.icon"></i>
                             <p>
@@ -56,6 +65,12 @@ export default {
         })
     },
     methods: {
+        isMobile() {
+            if (window.innerWidth < 768) {
+                return true;
+            }
+            return false;
+        }
     },
     mounted() {
         const userRoutes = routes[1];
