@@ -134,9 +134,12 @@
                                             備考欄
                                         </td>
                                         <td class="p-0 bg-white" style="outline: 1px solid #e7effe;">
-                                            <textarea class="textarea-fit" v-model="formData.remarks">
+                                            <textarea class="textarea-fit" v-model="formData.remarks" :class="{'is-invalid': errors.remarks}" @change="errors.remarks = null;">
 
                                             </textarea>
+                                            <span v-if="errors.remarks" class="error invalid-feedback">
+                                                {{errors.remarks}}
+                                            </span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -405,8 +408,13 @@ export default {
         },
         validate() {
             let valid = true;
+            var alphanum_regex = /^[a-z0-9]+$/i;
             if (!this.formData.childNumber) {
                 this.errors.childNumber = this.$t('Please input half-width alphanumerical');                                 // need trans
+                valid = false;
+            }
+            if (this.formData.childNumber && !alphanum_regex.test(this.formData.childNumber)) {
+                this.errors.childNumber = this.$t('Please input half-width alphanumerical');
                 valid = false;
             }
             if (this.formData.childNumber && this.formData.childNumber.length > 10) {
@@ -481,6 +489,10 @@ export default {
                 this.errors.password = this.$t('Please input password');
                 valid = false;
             }
+            if (this.formData.password && this.formData.password.length > 20) {
+                this.errors.password = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
             if (!this.formData.type) {
                 this.errors.type = this.$t('Please input type');
                 valid = false;
@@ -503,6 +515,10 @@ export default {
             }
             if (this.formData.taxExemptHousehold === null || this.formData.taxExemptHousehold === undefined) {
                 this.errors.taxExemptHousehold = this.$t('Please select taxExemptHousehold');
+                valid = false;
+            }
+            if (this.formData.remarks && this.formData.remarks.length > 50) {
+                this.errors.remarks = this.$t('Please enter 50 characters or less');
                 valid = false;
             }
             return valid;
