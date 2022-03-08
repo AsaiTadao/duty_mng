@@ -50,7 +50,7 @@
                                                         </td>
                                                         <td class="align-middle">{{changeTimeFormat(indiAttendance.commutingTime)}}</td>
                                                         <td class="align-middle">{{changeTimeFormat(indiAttendance.leaveTime)}}</td>
-                                                        <td class="align-middle">{{getAbsenceName(indiAttendance.reasonForAbsenceId)}}</td>
+                                                        <td class="align-middle">{{getAbsenceName(indiAttendance.reasonForAbsenceId, indiAttendance.noSchedule)}}</td>
                                                         <td class="align-middle">{{indiAttendance.extension}}</td>
                                                         <td class="align-middle">
                                                             <router-link :to="{name: 'contact-book', params: {id: indiAttendance.id, date: selectedDate}}">
@@ -206,13 +206,14 @@ export default {
                     apiErrorHandler(e);
                 });
         },
-        getAbsenceName(reasonForAbsenceId) {
+        getAbsenceName(reasonForAbsenceId, noSchedule) {
             if(reasonForAbsenceId){
                 if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId))
                     return this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
                 else
                     return null;
             } else {
+                if(noSchedule) return '託児計画なし';
                 return null;
             }
         },
