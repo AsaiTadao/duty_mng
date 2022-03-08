@@ -46,7 +46,7 @@
                                                 </td>
                                                 <td>{{ formatTime(item.commutingTime) }}</td>
                                                 <td>{{ formatTime(item.leaveTime) }}</td>
-                                                <td>{{ formatTime(item.reasonForAbsenceId) }}</td>
+                                                <td>{{ getAbsenceName(item.reasonForAbsenceId, item.noSchedule) }}</td>
                                                 <td>{{ item.extension ? item.extension : '' }}</td>
                                                 <td>
                                                     <a href="javascript:void(0)" class="mx-2" @click="openContactBook(item.day)">
@@ -114,7 +114,8 @@ export default {
             sessionChildId: state => {
                 if (state.session.info.id) return state.session.info.id;
                 return '';
-            }
+            },
+            reasonForAbsences: state => state.constants.reasonForAbsences,
         }),
     },
     methods: {
@@ -166,7 +167,18 @@ export default {
         },
         formatTime(time) {
             return time ? moment(time).format('HH:mm') : '';
-        }
+        },
+        getAbsenceName(reasonForAbsenceId, noSchedule) {
+            if(reasonForAbsenceId){
+                if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId))
+                    return this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
+                else
+                    return null;
+            } else {
+                if(noSchedule) return '託児計画なし';
+                return null;
+            }
+        },
     },
     mounted() {
         this.childId = this.sessionChildId;
