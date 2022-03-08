@@ -26,9 +26,9 @@
                                     <table class="table table-bordered table-diary">
                                         <thead class="text-center">
                                             <tr class="light-green">
-                                                <th>園長</th>
-                                                <th>主任・副主任・保育リーダー</th>
-                                                <th>担任</th>
+                                                <th class="align-middle">園長</th>
+                                                <th class="align-middle">主任・副主任<br>保育リーダー</th>
+                                                <th class="align-middle">担任</th>
                                             </tr>
                                         </thead>
                                         <tbody class="text-center">
@@ -67,17 +67,17 @@
                                         <tbody class="text-center">
                                             <tr>
                                                 <td class="p-0 align-middle">
-                                                    <div style="height: 60px;display:flex;align-items:center;justify-content:center;">
+                                                    <div style="height: 100px;display:flex;align-items:center;justify-content:center;">
                                                         {{ stat.all }}
                                                     </div>
                                                 </td>
                                                 <td class="p-0 align-middle">
-                                                    <div style="height: 60px;display:flex;align-items:center;justify-content:center;">
+                                                    <div style="height: 100px;display:flex;align-items:center;justify-content:center;">
                                                         {{ stat.attend }}
                                                     </div>
                                                 </td>
                                                 <td class="p-0 align-middle">
-                                                    <div style="height: 60px;display:flex;align-items:center;justify-content:center;">
+                                                    <div style="height: 100px;display:flex;align-items:center;justify-content:center;">
                                                         {{ stat.absent }}
                                                     </div>
                                                 </td>
@@ -137,7 +137,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="dark-blue p-1">
+                                                <td class="dark-blue p-1 align-middle">
                                                     援助<br>配慮事項
                                                 </td>
                                                 <td colspan="2" class="p-0">
@@ -146,7 +146,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="dark-blue p-1">
+                                                <td class="dark-blue p-1 align-middle">
                                                     保育の実際<br>評価・反省
                                                 </td>
                                                 <td colspan="2" class="p-0">

@@ -7,8 +7,6 @@
                             <div class="row">
                                 <div class="col-md-6 col-12 d-flex align-items-center">
                                     <h5 class="card-title mb-0 pr-5">{{ currentOfficeName }}</h5>
-                                    <div class="mb-0 px-3">ー連絡帳ー</div>
-                                    <div class="mb-0 pl-4">{{child.name}}</div>
                                 </div>
                                 <div class="col-md-6 col-12 d-flex align-items-center">
                                     <div class="d-flex align-items-center p-0">
@@ -171,7 +169,7 @@
                                                         </span>
                                                     </td>
                                                 </tr>
-                                                <tr :key="hour.time+'30mins'">
+                                                <tr :key="hour.time+'30mins'" style="background-color: #dcd5bc;">
                                                     <td class="text-center" style="position:relative;" @click="setHour(hour.time, 2)">
                                                         <div v-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}School`]" style="background-color: #EBCB42; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
                                                         <div v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}Home`]" style="background-color: #8BB3FC; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
@@ -531,7 +529,6 @@ export default {
             //this.initializeFormData();
             if (this.contact) {
                 this.formData = {...this.contact};
-                console.log(this.formData);
             }
         },
         initializeFormData() {

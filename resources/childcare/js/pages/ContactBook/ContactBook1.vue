@@ -7,7 +7,6 @@
                             <div class="row">
                                 <div class="col-md-6 col-12 d-flex align-items-center">
                                     <h5 class="card-title mb-0 pr-5">{{ currentOfficeName }}</h5>
-                                    <div class="mb-0 px-3">ー連絡帳ー</div>
                                     <div class="mb-0 pl-4">{{child.name}}</div>
                                 </div>
                                 <div class="col-md-6 col-12 d-flex align-items-center">
@@ -270,7 +269,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-md-11 col-10">
+                                        <div v-if="!isMobile()" class="col-md-11 col-10">
                                             <div class="row">
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
@@ -298,6 +297,40 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formatTemperature(formData.temperature3Home)}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else class="col-md-11 col-10">
+                                            <div class="row">
+                                                <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperatureTime1Home}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formatTemperature(formData.temperature1Home)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperatureTime2Home}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 px-md-0 pl-0">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                        {{formatTemperature(formData.temperature2Home)}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 pl-0 pr-1">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                        {{formData.temperatureTime3Home}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
                                                         {{formatTemperature(formData.temperature3Home)}}
                                                     </div>
@@ -593,7 +626,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="col-md-11 col-10">
+                                        <div v-if="!isMobile()" class="col-md-11 col-10">
                                             <div class="row">
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
@@ -651,8 +684,65 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div v-else class="col-md-11 col-10">
+                                            <div class="row">
+                                                <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
+                                                    <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center d-flex justify-content-center">
+                                                            <hour-minute-input v-model="formData.temperatureTime1School" :error="errors.temperatureTime1School" @input="dataChanged = true;errors.temperatureTime1School = null;"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 px-md-0 pl-0">
+                                                    <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center justify-content-center">
+                                                            <input type="number" class="form-control" min="0" max="60" :class="{'is-invalid' : errors.temperature1School}" v-model="formData.temperature1School" @change="dataChanged = true; errors.temperature1School = null;">
+                                                            <span v-if="errors.temperature1School" class="error invalid-feedback">
+                                                                {{errors.temperature1School}}
+                                                            </span>
+                                                        </div>
+                                                        <label class="align-self-center mb-0 is-invalid">℃</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
+                                                    <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center d-flex justify-content-center">
+                                                            <hour-minute-input v-model="formData.temperatureTime2School" :error="errors.temperatureTime2School" @input="dataChanged = true;errors.temperatureTime2School = null;"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 px-md-0 pl-0">
+                                                    <div class="d-flex justify-content-center light-brown text-center white-l-border-2 is-invalid" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center justify-content-center">
+                                                            <input type="number" class="form-control" min="0" max="60" :class="{'is-invalid' : errors.temperature2School}" v-model="formData.temperature2School" @change="dataChanged = true; errors.temperature2School = null;">
+                                                            <span v-if="errors.temperature2School" class="error invalid-feedback">
+                                                                {{errors.temperature2School}}
+                                                            </span>
+                                                        </div>
+                                                        <label class="align-self-center mb-0 is-invalid">℃</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 pl-0 pr-1">
+                                                    <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center d-flex justify-content-center">
+                                                            <hour-minute-input v-model="formData.temperatureTime3School" :error="errors.temperatureTime3School" @input="dataChanged = true;errors.temperatureTime3School = null;"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-6 pl-0">
+                                                    <div class="d-flex justify-content-center light-brown text-center white-l-border-2 is-invalid" style="padding-top:1px; padding-bottom:1px;">
+                                                        <div class="text-center justify-content-center">
+                                                            <input type="number" class="form-control" min="0" max="60" :class="{'is-invalid' : errors.temperature3School}" v-model="formData.temperature3School" @change="dataChanged = true; errors.temperature3School = null;">
+                                                            <span v-if="errors.temperature3School" class="error invalid-feedback">
+                                                                {{errors.temperature3School}}
+                                                            </span>
+                                                        </div>
+                                                        <label class="align-self-center mb-0 is-invalid">℃</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-
                                     <div class="row">
                                         <div class="col-md-12 col-12">
                                             <div class="dark-yellow text-center py-2 text-white">
@@ -866,14 +956,14 @@ export default {
                 this.errors.sleepStart1School = this.$t('Invalid time format');
                 valid = false;
             }
-            if(this.formData.sleepStart1School && this.formData.sleepEnd1School && this.formData.sleepStart1School > this.formData.sleepEnd1School) {
-                this.errors.sleepStart1School = this.$t('start time must be earlier than end time');
-                valid = false;
-            }
-            if(this.formData.sleepStart2School && this.formData.sleepEnd2School && this.formData.sleepStart2School > this.formData.sleepEnd2School) {
-                this.errors.sleepStart2School = this.$t('start time must be earlier than end time');
-                valid = false;
-            }
+            // if(this.formData.sleepStart1School && this.formData.sleepEnd1School && this.formData.sleepStart1School > this.formData.sleepEnd1School) {
+            //     this.errors.sleepStart1School = this.$t('start time must be earlier than end time');
+            //     valid = false;
+            // }
+            // if(this.formData.sleepStart2School && this.formData.sleepEnd2School && this.formData.sleepStart2School > this.formData.sleepEnd2School) {
+            //     this.errors.sleepStart2School = this.$t('start time must be earlier than end time');
+            //     valid = false;
+            // }
             if(this.formData.sleepEnd1School && !validateHhMm(this.formData.sleepEnd1School)) {
                 this.errors.sleepEnd1School = this.$t('Invalid time format');
                 valid = false;
@@ -1088,6 +1178,13 @@ export default {
                 return 'おかわり';
             } else {
                 return '';
+            }
+        },
+        isMobile() {
+            if(window.innerWidth < 768) {
+                return true;
+            } else {
+                return false;
             }
         },
         exportExcel() {

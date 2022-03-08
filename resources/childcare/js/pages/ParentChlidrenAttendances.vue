@@ -4,9 +4,9 @@
             <div class="row justify-content-center">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header calendar-title">
+                        <div class="card-header calendar-title parent-attendance">
                             <h3 class="card-title mb-0">{{ officeName }}</h3>
-                            <div class="card-title mb-0 ml-3">{{ childName }}</div>
+                            <div class="card-title mb-0 ml-3 child-name">{{ childName }}</div>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <button type="button" class="btn btn-sm btn-outline" @click="onPrev">
                                     <i class="fas fa-caret-left fa-2x"></i>
@@ -46,7 +46,7 @@
                                                 </td>
                                                 <td>{{ formatTime(item.commutingTime) }}</td>
                                                 <td>{{ formatTime(item.leaveTime) }}</td>
-                                                <td>{{ formatTime(item.reasonForAbsenceId) }}</td>
+                                                <td>{{ getAbsenceName(item.reasonForAbsenceId, item.noSchedule) }}</td>
                                                 <td>{{ item.extension ? item.extension : '' }}</td>
                                                 <td>
                                                     <a href="javascript:void(0)" class="mx-2" @click="openContactBook(item.day)">
@@ -114,7 +114,8 @@ export default {
             sessionChildId: state => {
                 if (state.session.info.id) return state.session.info.id;
                 return '';
-            }
+            },
+            reasonForAbsences: state => state.constants.reasonForAbsences,
         }),
     },
     methods: {
@@ -166,7 +167,18 @@ export default {
         },
         formatTime(time) {
             return time ? moment(time).format('HH:mm') : '';
-        }
+        },
+        getAbsenceName(reasonForAbsenceId, noSchedule) {
+            if(reasonForAbsenceId){
+                if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId))
+                    return this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
+                else
+                    return null;
+            } else {
+                if(noSchedule) return '託児計画なし';
+                return null;
+            }
+        },
     },
     mounted() {
         this.childId = this.sessionChildId;
