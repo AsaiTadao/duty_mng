@@ -10,11 +10,11 @@
                 <div class="">
                     <table class="table table-bordered table-striped table-children table-head-fixed table-hover">
                         <thead>
-                            <tr>
-                                <th>送信日時</th>
-                                <th>送信先</th>
-                                <th>送信数</th>
-                                <th>件名</th>
+                            <tr class="text-center">
+                                <th style="width:150px;">送信日時</th>
+                                <th style="width:200px;">送信先</th>
+                                <th style="width:70px;">送信数</th>
+                                <th style="width:120px;">件名</th>
                                 <th>本文</th>
                             </tr>
                         </thead>
@@ -24,7 +24,8 @@
                                 <td>{{mail.officeName}}{{getChildClassName(mail.childrenClassId)}}</td>
                                 <td>{{mail.cnt}}</td>
                                 <td>{{mail.subject}}</td>
-                                <td><a href="javascript:void(0)" @click="viewMailContent(mail.content)">確認</a></td>
+                                <td>{{mail.content}}</td>
+                                <!-- <td><a href="javascript:void(0)" @click="viewMailContent(mail.content)">確認</a></td> -->
                             </tr>
                         </tbody>
                     </table>
