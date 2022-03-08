@@ -524,7 +524,7 @@
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center px-2">
-                                                            <input class="form-control" v-model="formData.defecationCount1School" :class="{'is-invalid' : errors.defecationCount1School}" @change="dataChanged = true; errors.defecationCount1School = null;">
+                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount1School" :class="{'is-invalid' : errors.defecationCount1School}" @change="dataChanged = true; errors.defecationCount1School = null;">
                                                             <span v-if="errors.defecationCount1School" class="error invalid-feedback">
                                                                 {{errors.defecationCount1School}}
                                                             </span>
@@ -551,7 +551,7 @@
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center px-2">
-                                                            <input class="form-control" v-model="formData.defecationCount2School" :class="{'is-invalid' : errors.defecationCount2School}" @change="dataChanged = true; errors.defecationCount2School = null;">
+                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount2School" :class="{'is-invalid' : errors.defecationCount2School}" @change="dataChanged = true; errors.defecationCount2School = null;">
                                                             <span v-if="errors.defecationCount2School" class="error invalid-feedback">
                                                                 {{errors.defecationCount2School}}
                                                             </span>
