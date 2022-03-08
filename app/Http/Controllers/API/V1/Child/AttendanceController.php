@@ -10,6 +10,7 @@ use App\Http\Requests\Child\AttendanceQuery;
 use App\Http\Requests\Child\AttendanceRequest;
 use App\Http\Resources\ChildAttendanceResource;
 use App\Models\Child;
+use App\Models\ChildcarePlanDay;
 use App\Models\ChildrenAttendence;
 use App\Models\Year;
 use Illuminate\Http\Request;
@@ -102,9 +103,42 @@ class AttendanceController extends BaseController
         }
         $data = $request->validated();
         [$year, $month] = explode('-', $data['month']);
-        return $this->sendResponse(ChildrenAttendence::where(['child_id' => $child->id, 'month' => $month])
+        $attendances = ChildrenAttendence::where(['child_id' => $child->id, 'month' => $month])
+        ->whereYear('date', $year)
+        ->get();
+        $planDays = ChildcarePlanDay::where(['child_id' => $child->id])
             ->whereYear('date', $year)
-            ->get());
+            ->whereMonth('date', $month)
+            ->get();
+        $baseDate = Carbon::parse($data['month'] . '-01');
+        $daysInMonth = $baseDate->daysInMonth;
+        $result = [];
+        for ($i = 0; $i < $daysInMonth; $i++)
+        {
+            $baseDate->day($i + 1);
+            $item = [
+                'id'=> null,
+                'commuting_time_hour'=> '',
+                'commuting_tim_min'=> '',
+                'leave_time_hour'=> '',
+                'leave_time_min'=> '',
+                'reason_for_absence_id'=> null,
+                'extension'=> '',
+                'no_schedule'   =>  false,
+                'day'   =>  $i + 1,
+            ];
+
+            $attendance = $attendances->firstWhere('date', $baseDate->format('Y-m-d'));
+            $plan = $planDays->firstWhere('date', $baseDate->format('Y-m-d'));
+            if ($attendance) {
+                $item = $attendance->toArray();
+            }
+            if (!$plan || $plan->absent || !$plan->start_time || !$plan->end_time) {
+                $item['no_schedule'] = true;
+            }
+            $result[] = $item;
+        }
+        return $this->sendResponse($result);
     }
     public function monthlyListCsv(Child $child, AttendanceMonthlyQuery $request)
     {
