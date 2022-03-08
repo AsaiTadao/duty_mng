@@ -16,7 +16,7 @@ class stampChildrenCommand extends Command
      *          exec: php artisan command:stampChildren
      * @var string
      */
-    protected $signature = 'command:stampChildren {device_id} {office_id} {data} {datetime}';
+    protected $signature = 'command:stampChildren {device_id} {data} {datetime}';
 
     /**
      * The console command description.
@@ -43,7 +43,7 @@ class stampChildrenCommand extends Command
     public function handle()
     {
         $deviceId = $this->argument("device_id");
-        $officeId = $this->argument("office_id");
+        //$officeId = $this->argument("office_id");
         $data = $this->argument("data");
         $datetime = $this->argument("datetime");
 
@@ -76,24 +76,29 @@ class stampChildrenCommand extends Command
                     'date' => $date,
                     'commuting_time' => $datetime
                 ]);
+                $status = 'commuting';
+
                 break;
             case 1:
                 ChildrenAttendence::where('child_id', $child->id)->where('year_id', $year->id)
                     ->where('month', $m)->where('day', $d)
                     ->update(['leave_time' => $datetime]);
+                $status = 'leave';
+
                 break;
             default:
                 Log::info('ChildrenAttendence is stamped ['.($count + 1).'] times today.');
+                $status = 'invalid';
         }
 
         QrTransaction::create([
             'device_id' => $deviceId,
-            'office_id' => $officeId,
+            //'office_id' => $officeId,
             'qr' => $data,
             'ymd' => $ymd,
             'counter' => $count + 1,
         ]);
 
-        return true;
+        return $status;
     }
 }

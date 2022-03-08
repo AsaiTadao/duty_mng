@@ -11,7 +11,7 @@ class QrTransaction extends Model
 
     protected $fillable = [
         'device_id',
-        'office_id',
+        //'office_id',
         'qr',
         'ymd',
         'counter',

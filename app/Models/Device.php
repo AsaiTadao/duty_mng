@@ -10,7 +10,7 @@ class Device extends Model
     use HasFactory;
 
     protected $fillable = [
-        'mac_address',
+        'uuid',
         'office_id'
     ];
 }

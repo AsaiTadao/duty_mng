@@ -15,7 +15,7 @@ class CreateDevicesTable extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->string('mac_address', 17)->unique();
+            $table->string('uuid', 36)->unique();
             $table->foreignId('office_id')->nullable();
             $table->foreignId('create_user_id')->nullable();
             $table->foreignId('update_user_id')->nullable();
