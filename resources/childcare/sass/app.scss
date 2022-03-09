@@ -180,7 +180,7 @@ section.content {
             max-width: 40px;
         }
         & .top-profile-name {
-            margin-left: 10px;
+            margin-left: 5px;
         }
     }
 }
@@ -642,6 +642,9 @@ nav.main-header {
     tbody.contactbook-tr tr:nth-of-type(even) > td {
         background-color: #dcd5bc;
         border: 1px solid white;
+    }
+    .top-profile-name {
+        font-size: 12px;
     }
 }
 .content-wrapper {
