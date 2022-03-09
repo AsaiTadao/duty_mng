@@ -78,7 +78,10 @@ class ChildApplicationTableController extends BaseController
         ];
         [$year, $month] = explode('-', $date);
 
-        $children = Child::with('child_info')
+        $children = Child::with('child_info')->where(function($query) {
+                $query->whereNull('exit_date')
+                    ->orWhere('exit_date', '>', Carbon::now());
+            })
             ->where(['office_id' => $office->id])
             ->get();
         $data['children_stat'] = [
