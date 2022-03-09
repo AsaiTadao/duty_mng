@@ -98,7 +98,7 @@
             <div class="form-group row">
                 <div class="col-md-3 col-3">延長</div>
                 <div class="col-md-4 col-4">
-                    <div class="d-flex">
+                    <div>
                         <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.extension}" v-model="formData.extension" @change="() => {errors.extension=null}">
                         <span v-if="errors.extension" class="error invalid-feedback">
                             {{ errors.extension }}
@@ -234,6 +234,10 @@ import { showSuccess } from '../../helpers/error';
                 }
                 if (this.formData.commutingTimeHour && this.formData.reasonForAbsenceId || this.formData.commutingTimeMin && this.formData.reasonForAbsenceId) {
                     this.errors.reasonForAbsenceId = this.$t('Please do not select absenceId');
+                    valid = false;
+                }
+                if (this.formData.extension && this.formData.extension < 0) {
+                    this.errors.extension = this.$t('Please input positive number');
                     valid = false;
                 }
                 return valid;
