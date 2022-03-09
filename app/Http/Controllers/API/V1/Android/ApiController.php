@@ -24,9 +24,9 @@ class ApiController extends Controller
         }
         $data = $request->all();
 
-        $device = Device::where('mac_address', $data['mac_address'])->first();
+        $device = Device::where('uuid', $data['uuid'])->first();
         if (empty($device)) {
-            $id = Device::create(['mac_address' => $data['mac_address']]);
+            $id = Device::create(['uuid' => $data['uuid']]);
         } else {
             $id = $device->id;
         }
@@ -53,17 +53,19 @@ class ApiController extends Controller
 
     public function stamp(ApiStampRequest $request)
     {
+        $status = '';
+
         if (!self::validateHttpHeader($request)) {
             return response()->json(['result' => false, 'error' => ['code'=>'403','message'=>'You are not allowed']]);
         }
         $data = $request->all();
 
-        if(strpos($data['data'], "LK_USER_" ) === 0){
+        if(strpos($data['data'], "LK-USER-" ) === 0){
             // ToDo: 勤怠サブシステム打刻
-        } elseif(strpos($data['data'], "LK_CHILDREN_" ) === 0) {
-            Artisan::call('command:stampChildren', [
+        } elseif(strpos($data['data'], "LK-CHILDREN-" ) === 0) {
+            $status = Artisan::call('command:stampChildren', [
                 'device_id' => $data['device_id'],
-                'office_id' => $data['office_id'],
+                //'office_id' => $data['office_id'],
                 'data' => $data['data'],
                 'datetime' => date('YmdHis')
             ]);
@@ -71,7 +73,7 @@ class ApiController extends Controller
             return response()->json(['result' => false]);
         }
 
-        return response()->json(['result' => true]);
+        return response()->json(['result' => true, 'status' => $status]);
     }
 
     public function retry(ApiRetryRequest $request)
@@ -83,13 +85,13 @@ class ApiController extends Controller
 
         $results = [];
         foreach ($data['retry_items'] as $item) {
-            if(strpos($item['data'], "LK_USER_" ) === 0){
+            if(strpos($item['data'], "LK-USER-" ) === 0){
                 // ToDo: 勤怠サブシステム打刻
                 $results[] = false;
-            } elseif(strpos($item['data'], "LK_CHILDREN_" ) === 0) {
+            } elseif(strpos($item['data'], "LK-CHILDREN-" ) === 0) {
                 Artisan::call('command:stampChildren', [
                     'device_id' => $data['device_id'],
-                    'office_id' => $item['office_id'],
+                    //'office_id' => $item['office_id'],
                     'data' => $item['data'],
                     'datetime' => $item['datetime']
                 ]);

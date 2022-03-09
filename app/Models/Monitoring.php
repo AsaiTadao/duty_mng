@@ -10,7 +10,7 @@ class Monitoring extends Model
     use HasFactory;
 
     protected $fillable = [
-        'mac_address',
+        'uuid',
         'device_id',
         'latitude',
         'longitude'

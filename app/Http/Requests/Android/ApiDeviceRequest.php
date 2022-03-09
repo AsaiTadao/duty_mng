@@ -8,7 +8,7 @@ class ApiDeviceRequest extends FormRequest {
 
     public function rules() {
         return [
-            'mac_address' => ['required', 'mac_address'],
+            'uuid' => ['required', 'uuid'],
             'ver' => ['required', 'numeric'],
             'datetime' => ['required', 'date_format:Y-m-d H:i:s'],
         ];

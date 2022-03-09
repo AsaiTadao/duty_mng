@@ -8,7 +8,7 @@ class ApiLiveRequest extends FormRequest {
 
     public function rules() {
         return [
-            'mac_address' => ['required', 'mac_address'],
+            'uuid' => ['required', 'uuid'],
             'device_id' => ['required', 'numeric', 'exists:devices,id'],
             'latitude' => ['nullable','numeric','regex:/^[-]?((([0-8]?[0-9])(\.[0-9]{6}))|90(\.0{6})?)$/'],
             'longitude' => ['nullable','numeric','regex:/^[-]?(((([1][0-7][0-9])|([0-9]?[0-9]))(\.[0-9]{6}))|180(\.0{6})?)$/'],
