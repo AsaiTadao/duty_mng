@@ -120,7 +120,7 @@
                 requests : [],
                 offices: [],
                 officeName: '',
-                officeId: 1,
+                officeId: null,
                 selectedDate: new Date(),
                 ja: ja,
                 selectedApp: {},
@@ -134,6 +134,10 @@
                         this.offices = response;
                         const office = this.offices.find(office => office.id === this.officeId);
                         this.officeName = office ? office.name : '';
+                        if(this.offices && this.offices.length > 0) {
+                            this.officeId = this.offices[0].id;
+                            this.getAttendanceData(this.currentDate);
+                        }
                     })
                     .catch(e => apiErrorHandler(e))
             },
@@ -288,7 +292,6 @@
             this.getResults(this.currentDate);
             this.todayDate = this.getCurrentDate().toString();
             this.getOffices();
-            this.getAttendanceData(this.currentDate);
         }
     }
 </script>
