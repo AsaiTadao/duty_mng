@@ -170,10 +170,18 @@ export default {
         },
         getAbsenceName(reasonForAbsenceId, noSchedule) {
             if(reasonForAbsenceId){
-                if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId))
-                    return this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
-                else
-                    return null;
+                if(noSchedule) {
+                    if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId))
+                        return '（予）' + this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
+                    else
+                        return null;
+                } else {
+                    if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId))
+                        return this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
+                    else
+                        return null;
+                }
+
             } else {
                 if(noSchedule) return '託児計画なし';
                 return null;
