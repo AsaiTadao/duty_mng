@@ -110,16 +110,28 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="p-0 mb-1">
+                        <div class="p-0">
+                            <table class="table table-bordered mb-2" style="outline: 1px solid #FAEAF5;">
+                                <tbody class="text-center">
+                                    <tr>
+                                        <td class="light-pink align-middle" style="width:200px;">
+                                            認定区分
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="p-0 mb-2">
                             <table
-                                class="table table-bordered table-hover mb-0"
+                                class="table table-bordered table-hover mb-0" style="outline: 1px solid #e7effe;"
                             >
                                 <tbody class="text-center">
                                     <tr>
                                         <td class="light-blue align-middle" style="width: 200px">
                                             備考欄
                                         </td>
-                                        <td class="p-0 bg-white align-middle" style="outline: 1px solid #e7effe;">
+                                        <td class="p-0 bg-white align-middle">
                                             {{childInfor.remarks}}
                                         </td>
                                     </tr>
