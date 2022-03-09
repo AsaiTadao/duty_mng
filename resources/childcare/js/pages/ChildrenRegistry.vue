@@ -124,16 +124,35 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="p-0">
+                            <table class="table table-bordered mb-2" style="outline: 1px solid #FAEAF5;">
+                                <tbody class="text-center">
+                                    <tr>
+                                        <td class="light-pink align-middle" style="width:200px;">
+                                            認定区分
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center justify-content-center is-invalid">
+                                                <input type="radio" class="align-middle" name="prediction" :value="1">
+                                                <div class="ml-1 mr-5">短時間</div>
+                                                <input type="radio" class="align-middle ml-5" name="prediction" :value="0">
+                                                <div class="ml-1 mr-4">標準時間</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="p-0 mb-3">
                             <table
-                                class="table table-bordered table-hover mb-0"
+                                class="table table-bordered table-hover mb-0" style="outline: 1px solid #e7effe;"
                             >
                                 <tbody class="text-center">
                                     <tr>
-                                        <td class="light-blue align-middle">
+                                        <td class="light-blue align-middle" style="width:200px;">
                                             備考欄
                                         </td>
-                                        <td class="p-0 bg-white" style="outline: 1px solid #e7effe;">
+                                        <td class="p-0 bg-white">
                                             <textarea class="textarea-fit" v-model="formData.remarks" :class="{'is-invalid': errors.remarks}" @change="errors.remarks = null;">
 
                                             </textarea>
