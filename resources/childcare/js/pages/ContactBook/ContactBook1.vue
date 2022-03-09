@@ -465,7 +465,7 @@
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
                                                             <input class="mr-0 align-self-center" type="radio" name="radio4" :value="1" v-model="formData.mood1School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">普い</label>
+                                                            <label class="form-check-label mr-2">普通</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio4" :value="2" v-model="formData.mood1School" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">良い</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio4" :value="3" v-model="formData.mood1School" @change="dataChanged = true;">
@@ -482,7 +482,7 @@
                                                     <div class="light-brown text-center white-l-border-2">
                                                         <div class="d-flex justify-content-center py-2">
                                                             <input class="mr-0 align-self-center" type="radio" name="radio5" :value="1" v-model="formData.mood2School" @change="dataChanged = true;">
-                                                            <label class="form-check-label mr-2">普い</label>
+                                                            <label class="form-check-label mr-2">普通</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio5" :value="2" v-model="formData.mood2School" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">良い</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio5" :value="3" v-model="formData.mood2School" @change="dataChanged = true;">
@@ -776,7 +776,7 @@ import actionLoading from '../../mixin/actionLoading';
 import api, { apiErrorHandler } from '../../global/api';
 import HourMinuteInput from '../../components/HourMinuteInput.vue';
 import { showSuccess } from '../../helpers/error';
-import { validateHhMm } from '../../helpers/datetime';
+import { changeToHhMm, validateHhMm } from '../../helpers/datetime';
 import LocalStorage from '../../helpers/localStorage';
 
 const initialFormData = {
@@ -864,8 +864,6 @@ export default {
             requestData['date'] = moment(this.selectedDate).format('YYYY-MM-DD');
             if(this.formData.pickUpTime)
                 requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
-            else
-                requestData['pick_up_time'] = moment().format('HH:mm');
 
             if(this.formData.mealTime1School)
                 requestData['meal_time_1_school'] = moment(this.formData.mealTime1School, 'h:mm:ss').format('HH:mm');
@@ -936,22 +934,29 @@ export default {
                 this.errors.pickUpPerson = this.$t('Please enter 20 characters or less');
                 valid = false;
             }
+
+            this.formData.pickUpTime = changeToHhMm(this.formData.pickUpTime);
             if(this.formData.pickUpTime && !validateHhMm(this.formData.pickUpTime)) {
                 this.errors.pickUpTime = this.$t('Invalid time format');
                 valid = false;
             }
+            this.formData.mealTime1School = changeToHhMm(this.formData.mealTime1School);
             if(this.formData.mealTime1School && !validateHhMm(this.formData.mealTime1School)) {
                 this.errors.mealTime1School = this.$t('Invalid time format');
                 valid = false;
             }
+            this.formData.mealTime2School = changeToHhMm(this.formData.mealTime2School);
             if(this.formData.mealTime2School && !validateHhMm(this.formData.mealTime2School)) {
                 this.errors.mealTime2School = this.$t('Invalid time format');
                 valid = false;
             }
+            this.formData.mealTime3School = changeToHhMm(this.formData.mealTime3School);
             if(this.formData.mealTime3School && !validateHhMm(this.formData.mealTime3School)) {
                 this.errors.mealTime3School = this.$t('Invalid time format');
                 valid = false;
             }
+            console.log(this.formData.sleepStart1School);
+            this.formData.sleepStart1School = changeToHhMm(this.formData.sleepStart1School);
             if(this.formData.sleepStart1School && !validateHhMm(this.formData.sleepStart1School)) {
                 this.errors.sleepStart1School = this.$t('Invalid time format');
                 valid = false;
@@ -964,26 +969,32 @@ export default {
             //     this.errors.sleepStart2School = this.$t('start time must be earlier than end time');
             //     valid = false;
             // }
+            this.formData.sleepEnd1School = changeToHhMm(this.formData.sleepEnd1School);
             if(this.formData.sleepEnd1School && !validateHhMm(this.formData.sleepEnd1School)) {
                 this.errors.sleepEnd1School = this.$t('Invalid time format');
                 valid = false;
             }
+            this.formData.sleepStart2School = changeToHhMm(this.formData.sleepStart2School);
             if(this.formData.sleepStart2School && !validateHhMm(this.formData.sleepStart2School)) {
                 this.errors.sleepStart2School = this.$t('Invalid time format');
                 valid = false;
             }
+            this.formData.sleepEnd2School = changeToHhMm(this.formData.sleepEnd2School);
             if(this.formData.sleepEnd2School && !validateHhMm(this.formData.sleepEnd2School)) {
                 this.errors.sleepEnd2School = this.$t('Invalid time format');
                 valid = false;
             }
+            this.formData.temperatureTime1School = changeToHhMm(this.formData.temperatureTime1School);
             if(this.formData.temperatureTime1School && !validateHhMm(this.formData.temperatureTime1School)) {
                 this.errors.temperatureTime1School = this.$t('Invalid time format');
                 valid = false;
             }
+            this.formData.temperatureTime2School = changeToHhMm(this.formData.temperatureTime2School);
             if(this.formData.temperatureTime2School && !validateHhMm(this.formData.temperatureTime2School)) {
                 this.errors.temperatureTime2School = this.$t('Invalid time format');
                 valid = false;
             }
+            this.formData.temperatureTime3School = changeToHhMm(this.formData.temperatureTime3School);
             if(this.formData.temperatureTime3School && !validateHhMm(this.formData.temperatureTime3School)) {
                 this.errors.temperatureTime3School = this.$t('Invalid time format');
                 valid = false;
