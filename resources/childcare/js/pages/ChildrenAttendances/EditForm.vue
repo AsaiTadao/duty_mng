@@ -35,7 +35,7 @@
                 <div class="col-md-3 col-3">登園時間</div>
                 <div class="col-md-3 col-3">
                     <div class="d-flex is-invalid">
-                        <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.commutingTimeHour}" v-model="formData.commutingTimeHour" @change="() => {errors.commutingTimeHour=null}">
+                        <input type="number" min="0" max="23" class="form-control mr-2" :class="{'is-invalid' : errors.commutingTimeHour}" v-model="formData.commutingTimeHour" @change="() => {errors.commutingTimeHour=null}">
 
                     </div>
                     <span v-if="errors.commutingTimeHour" class="error invalid-feedback">
@@ -57,7 +57,7 @@
                 <div class="col-md-3 col-3">降園時間</div>
                 <div class="col-md-3 col-3">
                     <div class="d-flex is-invalid">
-                        <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.leaveTimeHour}" v-model="formData.leaveTimeHour" @change="() => {errors.leaveTimeHour=null}">
+                        <input type="number" min="0" max="23" class="form-control mr-2" :class="{'is-invalid' : errors.leaveTimeHour}" v-model="formData.leaveTimeHour" @change="() => {errors.leaveTimeHour=null}">
                     </div>
                     <span v-if="errors.leaveTimeHour" class="error invalid-feedback">
                         {{ errors.leaveTimeHour }}
