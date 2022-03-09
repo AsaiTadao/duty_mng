@@ -152,7 +152,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-blue text-center text-white white-lb-border-2 py-2">
-                                                        午前
+                                                        前夜
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
@@ -162,7 +162,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-blue text-center text-white white-l-border-2 py-2">
-                                                        午後
+                                                        今朝
                                                     </div>
                                                 </div>
                                                 <div class="col-md-9 col-12 pl-0">
@@ -186,7 +186,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-blue text-center text-white white-lb-border-2 py-2 fixed-height-40">
-                                                        午前
+                                                        前夜
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
@@ -201,7 +201,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="dark-blue text-center text-white white-l-border-2 py-2 fixed-height-40">
-                                                        午後
+                                                        今朝
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
@@ -246,7 +246,7 @@
                                         <div class="col-md-1 col-2 pr-0">
                                             <div class="dark-brown h-100 text-center d-flex justify-content-center align-items-center fixed-height-40">
                                                 <label class="mb-0">
-                                                    沐浴
+                                                    入浴
                                                 </label>
                                             </div>
                                         </div>
