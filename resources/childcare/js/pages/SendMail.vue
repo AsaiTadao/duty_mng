@@ -17,9 +17,15 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2">
-                                    <select class="form-control" v-model="childrenClassId">
+                                    <select class="form-control" v-model="childrenClassId" @change="getParents()">
                                         <option :value="0">全保護者</option>
                                         <option v-for="claz in childrenClasses" :key="claz.id" :value="claz.id">{{ claz.name }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <select class="form-control" v-model="childId">
+                                        <option :value="0">全保護者</option>
+                                        <option v-for="parent in parents" :key="parent.id" :value="parent.id">{{ parent.name }}</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
@@ -27,6 +33,22 @@
                                         <option :value="0">通常メール</option>
                                         <option :value="1">緊急メール</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-4">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="exampleInputFile" multiple @change="onFileChange">
+                                        <label class="custom-file-label" for="exampleInputFile">添付</label>
+                                    </div>
+                                    <div class="mt-1">
+                                        <div v-for="(file, index) in files" :key="index">
+                                            <label style="width:80%" class="text-cut">{{file.name}}</label>
+                                            <button class="btn btn-primary float-right" @click="removeFile(index)">X</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -88,7 +110,11 @@ export default {
                 subject: null,
                 type: null,
                 content: null,
-            }
+                files: null,
+            },
+            files: [],
+            parents: [],
+            childId: 0,
         }
     },
     computed: {
@@ -101,6 +127,7 @@ export default {
         this.childrenClassId = this.$route.query.childrenClassId;
         this.type = this.$route.query.type;
         this.fetchData();
+        this.getParents();
     },
     methods: {
         templateChanged(e) {
@@ -111,12 +138,23 @@ export default {
             if (!this.validate()) return;
             if (!confirm(this.$t("Are you sure you want to send mail?"))) return;
             this.setActionLoading();
-            api.post('mail', null, {
-                subject: this.subject,
-                content: this.content,
-                childrenClassId: !this.childrenClassId || this.childrenClassId === '0' ? null :  this.childrenClassId,
-                type: this.type
-            })
+            let data = new FormData();
+            data.append('subject', this.subject);
+            data.append('content', this.content);
+            data.append('children_class_id', !this.childrenClassId || this.childrenClassId === '0' ? null :  this.childrenClassId);
+            data.append('type', this.type);
+            data.append('child_id', this.childId);
+            if(this.files && this.files.length > 0) {
+                for (var i = 0; i < this.files.length; i++) {
+                    let file = this.files[i];
+                    data.append('file_' + (i+1), file);
+                }
+            }
+
+            let header = {
+                'Content-Type' : 'multipart/form-data'
+            }
+            api.post('mail', header, data)
             .then(() => {
                 showSuccess(this.$t('Successfully saved'));
                 this.$router.push('/mail-table')
@@ -152,6 +190,29 @@ export default {
                 this.unsetActionLoading();
             })
         },
+        getParents() {
+            api.get('child', null, {class_id: this.childrenClassId})
+            .then((response) => {
+                this.parents = response;
+            })
+            .catch(apiErrorHandler)
+        },
+        onFileChange(e) {
+            var fileData = e.target.files;
+            if (!fileData || fileData.length < 1) return;
+            // if (fileData.length > 10)
+            //     this.errors.files = this.$t('Please attach 10 files or less');
+            if (this.files && this.files.length > 0) {
+                this.files.push(...fileData);
+            } else {
+                this.files = [...fileData];
+            }
+            if (this.files.length > 10)
+                this.files.splice(0,  this.files.length - 10);
+        },
+        removeFile(index) {
+            this.files.splice(index, 1);
+        }
     }
 };
 </script>
