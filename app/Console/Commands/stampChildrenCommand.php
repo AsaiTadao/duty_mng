@@ -76,19 +76,16 @@ class stampChildrenCommand extends Command
                     'date' => $date,
                     'commuting_time' => $datetime
                 ]);
-                $status = 'commuting';
 
                 break;
             case 1:
                 ChildrenAttendence::where('child_id', $child->id)->where('year_id', $year->id)
                     ->where('month', $m)->where('day', $d)
                     ->update(['leave_time' => $datetime]);
-                $status = 'leave';
 
                 break;
             default:
                 Log::info('ChildrenAttendence is stamped ['.($count + 1).'] times today.');
-                $status = 'invalid';
         }
 
         QrTransaction::create([
@@ -99,6 +96,6 @@ class stampChildrenCommand extends Command
             'counter' => $count + 1,
         ]);
 
-        return $status;
+        return true;
     }
 }
