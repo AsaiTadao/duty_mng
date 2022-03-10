@@ -141,9 +141,13 @@ export default {
             let data = new FormData();
             data.append('subject', this.subject);
             data.append('content', this.content);
-            data.append('children_class_id', !this.childrenClassId || this.childrenClassId === '0' ? null :  this.childrenClassId);
+            if(this.childrenClassId && this.childrenClassId !== '0') {
+                data.append('children_class_id', this.childrenClassId);
+            }
             data.append('type', this.type);
-            data.append('child_id', this.childId);
+            if(this.childId && this.childId !== '0') {
+                data.append('child_id', this.childId);
+            }
             if(this.files && this.files.length > 0) {
                 for (var i = 0; i < this.files.length; i++) {
                     let file = this.files[i];
@@ -191,7 +195,11 @@ export default {
             })
         },
         getParents() {
-            api.get('child', null, {class_id: this.childrenClassId})
+            let query = {};
+            if(this.childrenClassId && this.childrenClassId !== '0') {
+                query = {class_id: this.childrenClassId};
+            }
+            api.get('child', null, query)
             .then((response) => {
                 this.parents = response;
             })
