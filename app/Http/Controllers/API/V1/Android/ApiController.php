@@ -10,6 +10,7 @@ use App\Http\Requests\Android\ApiRetryRequest;
 use App\Models\Device;
 use App\Models\Monitoring;
 use App\Models\Office;
+use App\Models\QrTransaction;
 use \Illuminate\Support\Facades\Artisan;
 
 class ApiController extends Controller
@@ -53,7 +54,9 @@ class ApiController extends Controller
 
     public function stamp(ApiStampRequest $request)
     {
-        $status = '';
+        $type = '';
+        $error = '';
+
 
         if (!self::validateHttpHeader($request)) {
             return response()->json(['result' => false, 'error' => ['code'=>'403','message'=>'You are not allowed']]);
@@ -63,17 +66,30 @@ class ApiController extends Controller
         if(strpos($data['data'], "LK-USER-" ) === 0){
             // ToDo: 勤怠サブシステム打刻
         } elseif(strpos($data['data'], "LK-CHILDREN-" ) === 0) {
-            $status = Artisan::call('command:stampChildren', [
+            Artisan::call('command:stampChildren', [
                 'device_id' => $data['device_id'],
                 //'office_id' => $data['office_id'],
                 'data' => $data['data'],
                 'datetime' => date('YmdHis')
             ]);
+
+            $qr= QrTransaction::where('qr', $data['data'])->where('data', $data['data'])->orderby('created_at')->first();
+            switch ($qr->counter) {
+                case 1:
+                    $type = 'commute';
+                    break;
+                case 2:
+                    $type = 'leave';
+                    break;
+                default:
+                    $error = 'invalid stamp';
+            }
+
         } else {
             return response()->json(['result' => false]);
         }
 
-        return response()->json(['result' => true, 'status' => $status]);
+        return response()->json(['result' => true, 'type' => $type, 'error' => $error]);
     }
 
     public function retry(ApiRetryRequest $request)
