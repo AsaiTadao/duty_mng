@@ -21,15 +21,16 @@ class MailController extends BaseController
         $mailJobHistory = new MailJobHistory($data);
         $mailJobHistory->user_id = $user->id;
         $mailJobHistory->office_id = $user->office_id;
-        $mailJobHistory->save();
 
         for ($i = 1; $i <= 10; $i++)
         {
             if (!$request->has('file_' . $i)) continue;
             $file = $attachmentService->createAttachmentFile($request->file('file_' . $i), $user);
-            $key = 'file' . $i;
-            $mailJobHistory->$key()->save($file);
+            $file->save();
+            $file_id = 'file_id_' . $i;
+            $mailJobHistory->$file_id = $file->id;
         }
+        $mailJobHistory->save();
 
         MailNotifJob::dispatch($mailJobHistory);
         return $this->sendResponse();

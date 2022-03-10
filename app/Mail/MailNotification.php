@@ -9,6 +9,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class MailNotification extends Mailable
@@ -49,6 +50,15 @@ class MailNotification extends Mailable
             $imgStr = "<br /><img src='{$qrUrl}' /><br />";
             $content = Str::replace('{{ children.qr }}', $imgStr, $content);
         }
-        return $res->view('mail.mail_notification', ['content' => $content]);
+        $res->view('mail.mail_notification', ['content' => $content]);
+        for ($i = 1; $i <= 10; $i++)
+        {
+            $file = 'file' . $i;
+            if ($this->mail->$file)
+            {
+                $res->attachFromStorage($this->mail->$file->path);
+            }
+        }
+        return $res;
     }
 }

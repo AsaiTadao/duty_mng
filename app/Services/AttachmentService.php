@@ -18,12 +18,18 @@ class AttachmentService {
         {
             $fileName = self::randomFileName($file);
         }
-        $path = $file->storeAs('attachments', $fileName, 'public');
+        $path = Storage::put('public/attachments', $file);
+        if (!$path)
+        {
+            abort(404, 'File upload failed');
+        }
+        //  $file->storeAs('attachments', $fileName, 'public');
         $url = Storage::url($path);
+
         $attachment = new Attachment();
         $attachment->path = $path;
         $attachment->url = $url;
-        $attachment->user_id = $user->id;
+        $attachment->upload_user_id = $user->id;
         return $attachment;
     }
     public static function randomFileName($file)
