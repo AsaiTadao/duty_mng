@@ -42,6 +42,7 @@
     "Please enter 10 characters or less": "10文字以下を入力してください",
     "Please enter 20 characters or less": "20文字以下を入力してください",
     "Please enter 50 characters or less": "50文字以下を入力してください",
+    "Please enter 250 characters or less": "250文字以下を入力してください",
     "start time must be earlier than end time": "開始時刻は終了時刻よりも早くする必要があります",
     "rest time must be in range of schedule": "休憩時間はスケジュールの範囲内でなければなりません",
     "Please select other time in order to avoid time overlap": "時間の重複を避けるために他の時間を選択してください",
