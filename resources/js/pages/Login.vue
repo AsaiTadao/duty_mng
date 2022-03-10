@@ -3,9 +3,9 @@
         <div class="login-box">
             <!-- /.login-logo -->
             <div class="card">
-                <div class="card-header text-center p-0">
+                <div class="card-header text-center p-2">
                     <a href="#" class="h1"
-                        ><img src="/images/logo.png" class="w-100"
+                        ><img src="/images/logo1.png" style="width:90%; height:90%"
                     /></a>
                 </div>
                 <div class="card-body">
@@ -15,7 +15,7 @@
                                 type="text"
                                 class="form-control"
                                 :class="{'is-invalid' : form.errors().has('number')}"
-                                placeholder="社員No"
+                                placeholder="ＩＤまたはメールアドレス"
                                 v-model="form.number"
                                 autocomplete="off"
                                 name="test"
@@ -57,9 +57,9 @@
                             <!-- /.col -->
                         </div>
                     </form>
-                    <p class="mb-1">
+                    <!-- <p class="mb-1">
                         <a href="#" data-toggle="tooltip" data-placement="top" title="電話番号は＊＊＊＊＊です。">ログイン情報をお忘れですか？</a>
-                    </p>
+                    </p> -->
 
                 </div>
                 <!-- /.card-body -->

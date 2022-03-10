@@ -385,8 +385,11 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo1School" @change="dataChanged = true;"/>
+                                                        <div class="text-center justify-content-center px-2">
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo1School" :class="{'is-invalid' : errors.mealMemo1School}" @change="dataChanged = true; errors.mealMemo1School = null;"/>
+                                                            <span v-if="errors.mealMemo1School" class="error invalid-feedback">
+                                                                {{errors.mealMemo1School}}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -411,8 +414,11 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo2School" @change="dataChanged = true;"/>
+                                                        <div class="text-center justify-content-center px-2">
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo2School" :class="{'is-invalid' : errors.mealMemo2School}" @change="dataChanged = true; errors.mealMemo2School = null;"/>
+                                                            <span v-if="errors.mealMemo2School" class="error invalid-feedback">
+                                                                {{errors.mealMemo2School}}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -437,8 +443,11 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
-                                                        <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo3School" @change="dataChanged = true;"/>
+                                                        <div class="text-center justify-content-center px-2">
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo3School" :class="{'is-invalid' : errors.mealMemo3School}" @change="dataChanged = true; errors.mealMemo3School = null;"/>
+                                                            <span v-if="errors.mealMemo3School" class="error invalid-feedback">
+                                                                {{errors.mealMemo3School}}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -955,7 +964,18 @@ export default {
                 this.errors.mealTime3School = this.$t('Invalid time format');
                 valid = false;
             }
-            console.log(this.formData.sleepStart1School);
+            if(this.formData.mealMemo1School && this.formData.mealMemo1School.length > 20) {
+                this.errors.mealMemo1School = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
+            if(this.formData.mealMemo2School && this.formData.mealMemo2School.length > 20) {
+                this.errors.mealMemo2School = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
+            if(this.formData.mealMemo3School && this.formData.mealMemo3School.length > 20) {
+                this.errors.mealMemo3School = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
             this.formData.sleepStart1School = changeToHhMm(this.formData.sleepStart1School);
             if(this.formData.sleepStart1School && !validateHhMm(this.formData.sleepStart1School)) {
                 this.errors.sleepStart1School = this.$t('Invalid time format');
@@ -1034,6 +1054,9 @@ export default {
                 mealTime1School: null,
                 mealTime2School: null,
                 mealTime3School: null,
+                mealMemo1School: null,
+                mealMemo2School: null,
+                mealMemo3School: null,
                 sleepStart1School: null,
                 sleepEnd1School: null,
                 sleepStart2School: null,

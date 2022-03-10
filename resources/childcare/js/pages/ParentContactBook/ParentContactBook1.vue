@@ -105,7 +105,10 @@
                                                 <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo1Home" @change="dataChanged = true;"/>
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo1Home" :class="{'is-invalid' : errors.mealMemo1Home}" @change="dataChanged = true; errors.mealMemo1Home = null;"/>
+                                                            <span v-if="errors.mealMemo1Home" class="error invalid-feedback">
+                                                                {{errors.mealMemo1Home}}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -131,7 +134,10 @@
                                                 <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo2Home" @change="dataChanged = true;"/>
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo2Home" :class="{'is-invalid' : errors.mealMemo2Home}" @change="dataChanged = true; errors.mealMemo2Home = null;"/>
+                                                            <span v-if="errors.mealMemo2Home" class="error invalid-feedback">
+                                                                {{errors.mealMemo2Home}}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -157,7 +163,10 @@
                                                 <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo3Home" @change="dataChanged = true;"/>
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo3Home" :class="{'is-invalid' : errors.mealMemo3Home}" @change="dataChanged = true; errors.mealMemo3Home = null;"/>
+                                                            <span v-if="errors.mealMemo3Home" class="error invalid-feedback">
+                                                                {{errors.mealMemo3Home}}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -928,9 +937,20 @@ export default {
                 valid = false;
             }
             this.formData.mealTime3Home = changeToHhMm(this.formData.mealTime3Home);
-            this.formData.mealTime3Home = changeToHhMm(this.formData.mealTime3Home);
             if(this.formData.mealTime3Home && !validateHhMm(this.formData.mealTime3Home)) {
                 this.errors.mealTime3Home = this.$t('Invalid time format');
+                valid = false;
+            }
+            if(this.formData.mealMemo1Home && this.formData.mealMemo1Home.length > 20) {
+                this.errors.mealMemo1Home = this.$t("Please enter 20 characters or less");
+                valid = false;
+            }
+            if(this.formData.mealMemo2Home && this.formData.mealMemo2Home.length > 20) {
+                this.errors.mealMemo2Home = this.$t("Please enter 20 characters or less");
+                valid = false;
+            }
+            if(this.formData.mealMemo3Home && this.formData.mealMemo3Home.length > 20) {
+                this.errors.mealMemo3Home = this.$t("Please enter 20 characters or less");
                 valid = false;
             }
             this.formData.sleepStart1Home = changeToHhMm(this.formData.sleepStart1Home);
@@ -1006,6 +1026,9 @@ export default {
                 mealTime1Home: null,
                 mealTime2Home: null,
                 mealTime3Home: null,
+                mealMemo1Home: null,
+                mealMemo2Home: null,
+                mealMemo3Home: null,
                 sleepStart1Home: null,
                 sleepEnd1Home: null,
                 sleepStart2Home: null,

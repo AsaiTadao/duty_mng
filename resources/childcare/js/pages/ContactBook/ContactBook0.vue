@@ -88,7 +88,7 @@
                             <div class="row" style="padding-left:15px; padding-right:15px;">
                                 <div class="col-md-2 col-4" style="padding:1px;">
                                     <div class="dark-pink text-center text-white py-2">
-                                        お迎え時間
+                                        お迎え予定
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
@@ -125,7 +125,7 @@
                                         <tbody class="text-center contactbook-tr">
                                             <template v-for="hour in hours">
                                                 <tr :key="hour.time+'hours'">
-                                                    <td rowspan="2" class="align-middle contactbook-fix">{{hour.time}}時</td>
+                                                    <td rowspan="2" class="align-middle contactbook-fix">{{hour.time == 24 ? '0' : hour.time}}時</td>
                                                     <td class="text-center contact-book-click" style="position:relative;" @click="setHour(hour.time, 1)">
                                                         <div v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`]" style="background-color: #EBCB42; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
                                                         <div v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`]" style="background-color: #8BB3FC; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
