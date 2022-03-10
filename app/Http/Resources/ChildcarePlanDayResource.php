@@ -19,7 +19,7 @@ class ChildcarePlanDayResource extends JsonResource
             'date'  =>  $this->date->format('Y-m-d'),
             'start_time'    =>  $this->start_time,
             'end_time'      =>  $this->end_time,
-            'absent'        =>  $this->absent,
+            'absent_id'     =>  $this->absent_id,
             'day'           =>  $this->date->day
         ];
     }

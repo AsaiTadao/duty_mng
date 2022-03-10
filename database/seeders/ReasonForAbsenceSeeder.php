@@ -45,5 +45,10 @@ class ReasonForAbsenceSeeder extends Seeder
             'name'  =>  '休園',
             'ruby'  =>  '休'
         ]);
+        ReasonForAbsence::create([
+            'id'    =>  ReasonForAbsence::REASON_HOLIDAY,
+            'name'  =>  '祝日',
+            'ruby'  =>  '祝'
+        ]);
     }
 }

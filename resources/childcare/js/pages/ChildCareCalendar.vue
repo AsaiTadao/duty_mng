@@ -53,7 +53,7 @@
                                         <td width="13%" v-for="(item, dayIndex) in week" :key="dayIndex">
                                             <template v-if="item">
                                                 <hour-minute-input v-model="planDays[item.index].startTime" type="text"
-                                                    :disabled="planDays[item.index].absent > 0"
+                                                    :disabled="planDays[item.index].absentId > 0"
                                                     :error="planDayErrors[item.index].startTime"
                                                     @input="() => {planDayErrors[item.index].startTime = null;  editing = true;}"
                                                     :light="true"
@@ -71,7 +71,7 @@
                                         <td width="13%" v-for="(item, dayIndex) in week" :key="dayIndex">
                                             <template v-if="item">
                                                 <hour-minute-input v-model="planDays[item.index].endTime"
-                                                    type="text" :disabled="planDays[item.index].absent > 0"
+                                                    type="text" :disabled="planDays[item.index].absentId > 0"
                                                     :error="planDayErrors[item.index].endTime"
                                                     @input="() => {planDayErrors[item.index].endTime = null; editing = true;}"
                                                     :light="true"
@@ -88,9 +88,13 @@
                                         </td>
                                         <td width="13%" v-for="(item, dayIndex) in week" :key="dayIndex">
                                             <template v-if="item">
-                                                <input type="checkbox" v-model="planDays[item.index].absent"
+                                                <select class="form-control" v-model="planDays[item.index].absentId">
+                                                    <option></option>
+                                                    <option v-for="item in reasonForAbsences" :key="item.id" :value="item.id">{{ item.name }}</option>
+                                                </select>
+                                                <!-- <input type="checkbox" v-model="planDays[item.index].absent"
                                                     @change="() => {planDayErrors[item.index].endTime = null; planDayErrors[item.index].startTime = null; editing = true;}"
-                                                />
+                                                /> -->
                                             </template>
                                         </td>
                                     </tr>
@@ -113,9 +117,10 @@ import actionLoading from '../mixin/actionLoading';
 import HourMinuteInput from '../components/HourMinuteInput.vue';
 import { validateHhMm } from '../helpers/datetime';
 import { showSuccess } from '../helpers/error';
+import { mapState } from 'vuex';
 
 const defaultPlanItem = {
-    absent: 0,
+    absentId: null,
     startTime: '',
     endTime: '',
 }
@@ -145,7 +150,10 @@ export default {
     computed: {
         displayDate() {
             return this.currentDate.format('YYYY年 MM月');
-        }
+        },
+        ...mapState({
+            reasonForAbsences: state => state.constants.reasonForAbsences
+        })
     },
     mounted() {
         this.childId = this.$route.params.childId;
@@ -193,7 +201,7 @@ export default {
             this.setActionLoading();
             api.post(`plan-days/${this.childId}`, null, {
                 month: this.currentDate.format('YYYY-MM'),
-                data: this.planDays.filter(item => item && (item.startTime || item.absent))
+                data: this.planDays.filter(item => item && (item.startTime || item.absentId))
             })
             .then(() =>{
                 showSuccess(this.$t('Successfully saved'));
@@ -240,7 +248,7 @@ export default {
         validate() {
             let valid = true;
             this.planDays.forEach((plan, index) => {
-                if (plan.absent) return;
+                if (plan.absentId) return;
                 // if (!plan.startTime) {
                 //     valid = false;
                 //     this.planDayErrors[index].startTime = this.$t('Please input start time');
@@ -282,7 +290,6 @@ export default {
                 }
                 this.planDayErrors.push({...defaultPlanDayError});
             }
-
             this.planIndices = [];
             let weeks = Math.floor((daysInMonth + (firstDay - 1)) / 7);
             if ((daysInMonth + (firstDay - 1)) % 7 > 0) {

@@ -66,7 +66,7 @@ class PlanDayCreateJob implements ShouldQueue
                 $dPlans = $planService->createPlanDaysFromWeeklyPlan($child, $month, $this->userId);
                 foreach ($dPlans as $dPlan)
                 {
-                    if (!$dPlan->start_time && !$dPlan->end_time && $dPlan->absent === null)
+                    if (!$dPlan->start_time && !$dPlan->end_time && $dPlan->absent_id === null)
                     {
                         continue;
                     }

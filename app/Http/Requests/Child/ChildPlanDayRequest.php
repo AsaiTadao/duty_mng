@@ -13,7 +13,7 @@ class ChildPlanDayRequest extends FormRequest {
             'data.*.date'          =>  ['required', 'date_format:Y-m-d'],
             'data.*.start_time'    =>  ['nullable', 'date_format:H:i'],
             'data.*.end_time'      =>  ['nullable', 'date_format:H:i'],
-            'data.*.absent'        =>  ['nullable', 'boolean'],
+            'data.*.absent_id'        =>  ['nullable', 'exists:reason_for_absences,id'],
         ];
     }
 }

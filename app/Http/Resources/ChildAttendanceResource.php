@@ -17,11 +17,16 @@ class ChildAttendanceResource extends JsonResource
     {
         $date = request()->get('date');
         $noSchedule = false;
+        $reason_for_absence_id = $this->reason_for_absence_id;
         if ($date) {
             $planDay = ChildcarePlanDay::where(['child_id' => $this->id, 'date' => $date])->first();
-            if (!$planDay || $planDay->absent || !$planDay->start_time || !$planDay->end_time)
+            if (!$this->reason_for_absence_id && (!$planDay || $planDay->absent_id || !$planDay->start_time || !$planDay->end_time))
             {
                 $noSchedule = true;
+            }
+            if (!$this->reason_for_absence_id && !$this->commuting_time && $planDay && $planDay->absent_id)
+            {
+                $reason_for_absence_id = $planDay->absent_id;
             }
         }
         return [
@@ -33,7 +38,7 @@ class ChildAttendanceResource extends JsonResource
             'behind_time'   =>  $this->behind_time,
             'leave_early'   =>  $this->leave_early,
             'extension'     =>  $this->extension,
-            'reason_for_absence_id'=>   $this->reason_for_absence_id,
+            'reason_for_absence_id'=>   $reason_for_absence_id,
             'no_schedule'   =>  $noSchedule,
         ];
     }

@@ -19,7 +19,7 @@ class ChildcarePlanDay extends Model
     ];
 
     protected $fillable = [
-        'date', 'child_id', 'start_time', 'end_time', 'absent'
+        'date', 'child_id', 'start_time', 'end_time', 'absent_id'
     ];
 
     public function child()

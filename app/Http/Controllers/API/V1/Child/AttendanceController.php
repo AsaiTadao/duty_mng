@@ -118,10 +118,8 @@ class AttendanceController extends BaseController
             $baseDate->day($i + 1);
             $item = [
                 'id'=> null,
-                'commuting_time_hour'=> '',
-                'commuting_tim_min'=> '',
-                'leave_time_hour'=> '',
-                'leave_time_min'=> '',
+                'commuting_time'=> null,
+                'leave_time'=> null,
                 'reason_for_absence_id'=> null,
                 'extension'=> '',
                 'no_schedule'   =>  false,
@@ -129,12 +127,18 @@ class AttendanceController extends BaseController
             ];
 
             $attendance = $attendances->firstWhere('date', $baseDate->format('Y-m-d'));
-            $plan = $planDays->firstWhere('date', $baseDate->format('Y-m-d'));
+            $plan = $planDays->first(function($value) use ($baseDate) {
+                return $value->date->timestamp == $baseDate->timestamp;
+            });
             if ($attendance) {
                 $item = $attendance->toArray();
             }
-            if (!$plan || $plan->absent || !$plan->start_time || !$plan->end_time) {
+            if ((!$plan || $plan->absent_id || !$plan->start_time || !$plan->end_time) && !$item['reason_for_absence_id']) {
                 $item['no_schedule'] = true;
+            }
+            if (!$item['commuting_time'] && !$item['reason_for_absence_id'] && $plan && $plan->absent_id)
+            {
+                $item['reason_for_absence_id'] = $plan->absent_id;
             }
             $result[] = $item;
         }
