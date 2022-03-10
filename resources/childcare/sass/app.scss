@@ -515,6 +515,12 @@ nav.main-header {
 .white-l-border-2 {
     border-left: 2px solid white;
 }
+.text-cut {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 @media (min-width: 768px) {
     body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav):not(.sidebar-collapse)
         .content-wrapper,
