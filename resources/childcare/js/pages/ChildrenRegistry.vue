@@ -516,13 +516,15 @@ export default {
                 this.errors.type = this.$t('Please input type');
                 valid = false;
             }
-            if (!this.formData.companyName) {
-                this.errors.companyName = this.$t('Please input name');
-                valid = false;
-            }
-            if (this.formData.companyName && this.formData.companyName.length > 20) {
-                this.errors.companyName = this.$t('Please enter 20 characters or less');
-                valid = false;
+            if (this.formData.type == 1 || this.formData.type == 2) {
+                if (!this.formData.companyName) {
+                    this.errors.companyName = this.$t('Please input name');
+                    valid = false;
+                }
+                if (this.formData.companyName && this.formData.companyName.length > 20) {
+                    this.errors.companyName = this.$t('Please enter 20 characters or less');
+                    valid = false;
+                }
             }
             if (this.formData.freeOfCharge === null || this.formData.freeOfCharge === undefined) {
                 this.errors.freeOfCharge = this.$t('Please select freeOfCharge');
