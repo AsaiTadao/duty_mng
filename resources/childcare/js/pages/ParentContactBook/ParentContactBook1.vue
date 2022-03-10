@@ -45,7 +45,7 @@
                             <div class="row" style="padding-left:15px; padding-right:15px;">
                                 <div class="col-md-2 col-4" style="padding:1px;">
                                     <div class="dark-pink text-center text-white py-2 fixed-height-40">
-                                        お迎え予定
+                                        お迎え時間
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
