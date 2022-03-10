@@ -2,28 +2,34 @@
 
 namespace App\Mail;
 
+use App\Services\QrService;
+use App\Models\Child;
+use App\Models\MailJobHistory;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
 
 class MailNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $content;
-    public $subject;
+    public $mail;
+    public $child;
+    public $qrService;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($subject, $content)
+    public function __construct(MailJobHistory $mail, Child $child, QrService $qrService)
     {
         //
-        $this->subject = $subject;
-        $this->content = $content;
+        $this->mail = $mail;
+        $this->child = $child;
+        $this->qrService = $qrService;
     }
 
     /**
@@ -33,7 +39,16 @@ class MailNotification extends Mailable
      */
     public function build()
     {
-        return $this->subject($this->subject)
-            ->text('mail.mail_notification', ['content' => $this->content]);
+        $res = $this->subject($this->mail->subject);
+
+        $content = $this->mail->content;
+        if (Str::contains($content, '{{ children.qr }}'))
+        {
+            $qrUrl = $this->qrService->getChildQrImageUri($this->child);
+
+            $imgStr = "<br /><img src='{$qrUrl}' /><br />";
+            $content = Str::replace('{{ children.qr }}', $imgStr, $content);
+        }
+        return $res->view('mail.mail_notification', ['content' => $content]);
     }
 }

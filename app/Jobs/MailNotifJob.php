@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Services\QrService;
 use App\Mail\MailNotification;
 use App\Models\Child;
 use App\Models\MailHistory;
@@ -13,6 +14,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
@@ -37,18 +39,27 @@ class MailNotifJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(QrService $qrService)
     {
         $children_class_id = $this->mailJobHistory->children_class_id;
         $office_id = $this->mailJobHistory->office_id;
         $subject = $this->mailJobHistory->subject;
         $content = $this->mailJobHistory->content;
         //
-        $qb = Child::where(['office_id' => $office_id]);
+        $qb = Child::where(['office_id' => $office_id])
+            ->where(function ($query) {
+                $query->whereNull('exit_date')
+                    ->orWhere('exit_date', '>', Carbon::now());
+            });;
         if ($children_class_id)
         {
             $qb->where(['class_id' => $children_class_id]);
         }
+        if ($this->mailJobHistory->child_id)
+        {
+            $qb->where(['child_id' => $this->mailJobHistory->child_id]);
+        }
+
         $children = $qb->get();
         foreach ($children as $child)
         {
@@ -61,11 +72,12 @@ class MailNotifJob implements ShouldQueue
                 'status'        =>  MailHistory::STATUS_PENDING,
                 'subject'       =>  $subject,
                 'content'       =>  $content,
-                'children_class_id'=> $children_class_id
+                'children_class_id'=> $children_class_id,
+                'child_id'      =>  $child->id
             ]);
             $this->mailJobHistory->mails()->save($mailHistory);
             try {
-                Mail::to($child->email)->send(new MailNotification($subject, $content));
+                Mail::to($child->email)->send(new MailNotification($this->mailJobHistory, $child, $qrService));
                 $mailHistory->status = MailHistory::STATUS_SUCCESS;
                 $this->mailJobHistory->cnt++;
                 $this->mailJobHistory->save();

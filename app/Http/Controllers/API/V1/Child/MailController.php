@@ -6,6 +6,7 @@ use App\Http\Controllers\API\V1\BaseController;
 use App\Http\Requests\Child\MailJobQuery;
 use App\Http\Requests\Child\MailRequest;
 use App\Http\Requests\Child\MailTemplateQuery;
+use App\Services\AttachmentService;
 use App\Jobs\MailNotifJob;
 use App\Models\MailHistory;
 use App\Models\MailJobHistory;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Storage;
 
 class MailController extends BaseController
 {
-    public function dispatchMail(MailRequest $request)
+    public function dispatchMail(MailRequest $request, AttachmentService $attachmentService)
     {
         $user = auth()->user();
         $data = $request->validated();
@@ -21,6 +22,15 @@ class MailController extends BaseController
         $mailJobHistory->user_id = $user->id;
         $mailJobHistory->office_id = $user->office_id;
         $mailJobHistory->save();
+
+        for ($i = 1; $i <= 10; $i++)
+        {
+            if (!$request->has('file_' . $i)) continue;
+            $file = $attachmentService->createAttachmentFile($request->file('file_' . $i), $user);
+            $key = 'file' . $i;
+            $mailJobHistory->$key()->save($file);
+        }
+
         MailNotifJob::dispatch($mailJobHistory);
         return $this->sendResponse();
     }

@@ -37,4 +37,44 @@ class MailJobHistory extends Model
         if ($this->office) return $this->office->name;
         return '';
     }
+    public function file1()
+    {
+        return $this->belongsTo(Attachment::class, 'file_id_1');
+    }
+    public function file2()
+    {
+        return $this->belongsTo(Attachment::class, 'file_id_2');
+    }
+    public function file3()
+    {
+        return $this->belongsTo(Attachment::class, 'file_id_3');
+    }
+    public function file4()
+    {
+        return $this->belongsTo(Attachment::class, 'file_id_4');
+    }
+    public function file5()
+    {
+        return $this->belongsTo(Attachment::class, 'file_id_5');
+    }
+    public function file6()
+    {
+        return $this->belongsTo(Attachment::class, 'file_id_6');
+    }
+    public function file7()
+    {
+        return $this->belongsTo(Attachment::class, 'file_id_7');
+    }
+    public function file8()
+    {
+        return $this->belongsTo(Attachment::class, 'file_id_8');
+    }
+    public function file9()
+    {
+        return $this->belongsTo(Attachment::class, 'file_id_9');
+    }
+    public function file10()
+    {
+        return $this->belongsTo(Attachment::class, 'file_id_10');
+    }
 }

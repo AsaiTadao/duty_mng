@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2bf2233081abfef2388a4ed5d5454834",
+    "content-hash": "ae6ae3dddd2e228187169642bf069db9",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -603,21 +603,21 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "4.3.0",
+            "version": "4.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "98f6d4024289ad3a8d7f3e63cab947ef6929dcdb"
+                "reference": "d9f12af739c11c70fa1e8132dba8f849395e939b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/98f6d4024289ad3a8d7f3e63cab947ef6929dcdb",
-                "reference": "98f6d4024289ad3a8d7f3e63cab947ef6929dcdb",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/d9f12af739c11c70fa1e8132dba8f849395e939b",
+                "reference": "d9f12af739c11c70fa1e8132dba8f849395e939b",
                 "shasum": ""
             },
             "require": {
                 "bacon/bacon-qr-code": "^2.0",
-                "php": "^7.3||^8.0"
+                "php": "^7.4||^8.0"
             },
             "require-dev": {
                 "endroid/quality": "dev-master",
@@ -663,7 +663,7 @@
             ],
             "support": {
                 "issues": "https://github.com/endroid/qr-code/issues",
-                "source": "https://github.com/endroid/qr-code/tree/4.3.0"
+                "source": "https://github.com/endroid/qr-code/tree/4.4.7"
             },
             "funding": [
                 {
@@ -671,7 +671,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-28T12:29:40+00:00"
+            "time": "2022-01-05T21:27:44+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",

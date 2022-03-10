@@ -17,6 +17,6 @@ class MailHistory extends Model
     const TYPE_URGENT = 1;
 
     protected $fillable = [
-        'subject', 'content', 'mail_address', 'status', 'children_class_id'
+        'subject', 'content', 'mail_address', 'status', 'children_class_id', 'child_id'
     ];
 }

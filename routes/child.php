@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\V1\Child\AttachmentController;
 use App\Http\Controllers\API\V1\Child\AttendanceController;
 use App\Http\Controllers\API\V1\Child\AuthController;
 use App\Http\Controllers\API\V1\Child\ChildcareDiaryController;

@@ -154,6 +154,10 @@ class ChildController extends BaseController
                     ->orWhere('exit_date', '>', Carbon::now());
             });
         }
+        if (!empty($data['class_id']))
+        {
+            $qb->where(['class_id' => $data['class_id']]);
+        }
         // TODO search plan_registered
         if (isset($data['plan_registered']))
         {
