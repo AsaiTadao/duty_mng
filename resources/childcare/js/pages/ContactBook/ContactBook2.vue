@@ -37,11 +37,17 @@
                         <div class="form-group row">
                             <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                 <label for="parentname" style="min-width: 100px; margin-bottom:0px;">記入者 保護者様名：</label>
-                                <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" @change="dataChanged = true;"/>
+                                <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" :class="{'is-invalid' : errors.guardian}" v-model="formData.guardian" @change="dataChanged = true; errors.guardian = null;"/>
+                                <span v-if="errors.guardian" class="error invalid-feedback">
+                                    {{errors.guardian}}
+                                </span>
                             </div>
                             <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                 <label for="mindername" style="min-width: 80px; margin-bottom:0px;">保育士名：</label>
-                                <input type="text" class="form-control" id="mindername" style="width: calc(90% - 80px);" v-model="formData.nurseName" @change="dataChanged = true;"/>
+                                <input type="text" class="form-control" id="mindername" style="width: calc(90% - 80px);" :class="{'is-invalid' : errors.nurseName}" v-model="formData.nurseName" @change="dataChanged = true; errors.nurseName = null;"/>
+                                <span v-if="errors.nurseName" class="error invalid-feedback">
+                                    {{errors.nurseName}}
+                                </span>
                             </div>
                         </div>
                         <br>
@@ -176,11 +182,30 @@ export default {
                 this.errors.weather = this.$t('Please input weather');
                 valid = false;
             }
+            if(!this.formData.guardian) {
+                this.errors.guardian = this.$t('Please input name');
+                valid = false;
+            }
+            if(this.formData.guardian && this.formData.guardian.length > 20) {
+                this.errors.guardian = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
+            if(!this.formData.nurseName) {
+                this.errors.nurseName = this.$t('Please input name');
+                valid = false;
+            }
+            if(this.formData.nurseName && this.formData.nurseName.length > 20) {
+                this.errors.nurseName = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
+
             return valid;
         },
         initFormError() {
             this.errors = {
-                weather: null
+                weather: null,
+                guardian: null,
+                nurseName: null
             }
         },
         getContact(date) {
