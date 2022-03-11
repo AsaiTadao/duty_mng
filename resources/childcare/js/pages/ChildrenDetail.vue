@@ -13,7 +13,7 @@
                                 <router-link type="button" class="btn btn-sm btn-primary float-right" :to="{ name: 'childcare-plan', params: {childId}}">
                                     託児計画作成
                                 </router-link>
-                                <button type="button" class="btn btn-sm btn-primary float-right mr-2">
+                                <button type="button" class="btn btn-sm btn-primary float-right mr-2" @click="onQrSend">
                                     <i class="fas fa-qrcode fa-lg"></i>
                                     QRコード発行
                                 </button>
@@ -237,6 +237,7 @@ import moment from 'moment';
 import { mapState } from 'vuex';
 import api, { apiErrorHandler } from '../global/api';
 import actionLoading from '../mixin/actionLoading';
+import { showSuccess } from '../helpers/error';
 
 export default {
     mixins: [actionLoading],
@@ -268,6 +269,18 @@ export default {
         }),
     },
     methods: {
+        onQrSend() {
+            if (!this.childId) return;
+            this.setActionLoading();
+            api.put(`/child/${this.childId}}/qr-mail`)
+            .then(() => {
+                showSuccess(this.$t('Successfully sent'));
+            })
+            .catch(apiErrorHandler)
+            .finally(() => {
+                this.unsetActionLoading();
+            })
+        },
         getChildInfor() {
             if(this.actionLoading) return;
             this.setActionLoading();

@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Services\QrService;
+use App\Services\UtilService;
 use App\Mail\MailNotification;
 use App\Models\Child;
 use App\Models\MailHistory;
@@ -39,12 +40,11 @@ class MailNotifJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle(QrService $qrService)
+    public function handle(QrService $qrService, UtilService $utilService)
     {
         $children_class_id = $this->mailJobHistory->children_class_id;
         $office_id = $this->mailJobHistory->office_id;
         $subject = $this->mailJobHistory->subject;
-        $content = $this->mailJobHistory->content;
         //
         $qb = Child::where(['office_id' => $office_id])
             ->where(function ($query) {
@@ -57,7 +57,7 @@ class MailNotifJob implements ShouldQueue
         }
         if ($this->mailJobHistory->child_id)
         {
-            $qb->where(['child_id' => $this->mailJobHistory->child_id]);
+            $qb->where(['id' => $this->mailJobHistory->child_id]);
         }
 
         $children = $qb->get();
@@ -67,6 +67,9 @@ class MailNotifJob implements ShouldQueue
             {
                 continue;
             }
+
+            $content = nl2br($utilService->bladeCompile($this->mailJobHistory->content, ['children_qr' => $qrService->getChildQrImageTag($child)]));
+
             $mailHistory = MailHistory::create([
                 'mail_address'  =>  $child->email,
                 'status'        =>  MailHistory::STATUS_PENDING,
@@ -77,7 +80,7 @@ class MailNotifJob implements ShouldQueue
             ]);
             $this->mailJobHistory->mails()->save($mailHistory);
             try {
-                Mail::to($child->email)->send(new MailNotification($this->mailJobHistory, $child, $qrService));
+                Mail::to($child->email)->send(new MailNotification($this->mailJobHistory, $child, $content));
                 $mailHistory->status = MailHistory::STATUS_SUCCESS;
                 $this->mailJobHistory->cnt++;
                 $this->mailJobHistory->save();
@@ -89,4 +92,5 @@ class MailNotifJob implements ShouldQueue
             $mailHistory->save();
         }
     }
+
 }

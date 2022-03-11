@@ -13,6 +13,7 @@ class MailJobHistory extends Model
         'subject',
         'content',
         'children_class_id',
+        'child_id',
         'type',
         'cnt'
     ];

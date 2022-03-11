@@ -18,19 +18,19 @@ class MailNotification extends Mailable
 
     public $mail;
     public $child;
-    public $qrService;
+    public $content;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(MailJobHistory $mail, Child $child, QrService $qrService)
+    public function __construct(MailJobHistory $mail,  Child $child, $content)
     {
         //
         $this->mail = $mail;
         $this->child = $child;
-        $this->qrService = $qrService;
+        $this->content = $content;
     }
 
     /**
@@ -41,16 +41,7 @@ class MailNotification extends Mailable
     public function build()
     {
         $res = $this->subject($this->mail->subject);
-
-        $content = $this->mail->content;
-        if (Str::contains($content, '{{ children.qr }}'))
-        {
-            $qrUrl = $this->qrService->getChildQrImageUri($this->child);
-
-            $imgStr = "<br /><img src='{$qrUrl}' /><br />";
-            $content = Str::replace('{{ children.qr }}', $imgStr, $content);
-        }
-        $res->view('mail.mail_notification', ['content' => $content]);
+        $res->view('mail.mail_notification', ['content' => $this->content]);
         for ($i = 1; $i <= 10; $i++)
         {
             $file = 'file' . $i;

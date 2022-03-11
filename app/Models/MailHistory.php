@@ -15,6 +15,7 @@ class MailHistory extends Model
 
     const TYPE_NORMAL = 0;
     const TYPE_URGENT = 1;
+    const TYPE_QR = 2;
 
     protected $fillable = [
         'subject', 'content', 'mail_address', 'status', 'children_class_id', 'child_id'

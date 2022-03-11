@@ -9,6 +9,7 @@ use App\Http\Requests\Child\MailTemplateQuery;
 use App\Services\AttachmentService;
 use App\Jobs\MailNotifJob;
 use App\Models\MailHistory;
+use App\Models\Child;
 use App\Models\MailJobHistory;
 use Illuminate\Support\Facades\Storage;
 
@@ -62,5 +63,22 @@ class MailController extends BaseController
             'per_page'  =>  $mails->perPage(),
             'current_page'  =>  $mails->currentPage()
         ]);
+    }
+    public function sendQr(Child $child)
+    {
+        $user = auth()->user();
+        $content = Storage::get('mail_template/qr.txt');
+        $mailJobHistory = new MailJobHistory([
+            'subject'   =>  'QRコード発行',
+            'content'   =>  $content,
+            'children_class_id' =>  $child->class_id,
+            'child_id'  =>  $child->id,
+            'type'      =>  MailHistory::TYPE_QR,
+        ]);
+        $mailJobHistory->user_id = $user->id;
+        $mailJobHistory->office_id = $user->office_id;
+        $mailJobHistory->save();
+        MailNotifJob::dispatch($mailJobHistory);
+        return $this->sendResponse();
     }
 }

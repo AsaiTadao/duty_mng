@@ -46,4 +46,9 @@ class QrService {
         $result->saveToFile(Storage::path("public/qrs/{$child->id}.png"));
         return config('app.url') . Storage::url("public/qrs/{$child->id}.png");
     }
+    public function getChildQrImageTag(Child $child)
+    {
+        $qrUrl = $this->getChildQrImageUri($child);
+        return "<img src='{$qrUrl}' />";
+    }
 }
