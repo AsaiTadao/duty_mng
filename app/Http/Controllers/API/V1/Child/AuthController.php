@@ -13,30 +13,31 @@ class AuthController extends BaseController
     public function login(LoginRequest $request)
     {
         $data = $request->validated();
-        $child = Child::where([
-            'email' =>  $data['email']
-        ])->first();
 
-        if (!$child) {
+        $childs = Child::where([
+            'email' =>  $data['email']
+        ])->get();
+
+        foreach ($childs as $child)
+        {
+            if (!Hash::check($data['password'], $child->password)) {
+                continue;
+            }
             return response()->json([
-                'success'   =>  false,
-                'message'   =>  trans('auth.user_not_found')
+                'success'   =>  true,
+                'data'      =>  [
+                    'token' =>  $child->createToken('access_token')->plainTextToken,
+                    'user'  =>  $child
+                ]
             ]);
         }
-
         if (!Hash::check($data['password'], $child->password)) {
             return response()->json([
                 'success'   =>  false,
                 'message'   =>  trans('auth.failed')
             ]);
         }
-        return response()->json([
-            'success'   =>  true,
-            'data'      =>  [
-                'token' =>  $child->createToken('access_token')->plainTextToken,
-                'user'  =>  $child
-            ]
-        ]);
+        
     }
     public function me(Request $request)
     {

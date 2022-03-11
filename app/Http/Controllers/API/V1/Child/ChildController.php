@@ -23,9 +23,13 @@ class ChildController extends BaseController
         if (empty($data['password'])) {
             return response()->json(['message' => 'Password is required'], 422);
         }
-        $child = Child::where(['email' => $data['email']])->first();
-        if ($child) {
-            return response()->json(['message' => trans('This email is already registered')]);
+        // $child = Child::where(['email' => $data['email']])->first();
+        // if ($child) {
+        //     return response()->json(['message' => trans('This email is already registered')]);
+        // }
+        if ($data['type'] === 1 || $data['type'] === 2)
+        {
+            return response()->json(['message' => 'Please input company name'], 422);
         }
 
         $data['password'] = Hash::make($data['password']);
@@ -76,10 +80,10 @@ class ChildController extends BaseController
         } else if ($data['password'] === null) {
             unset($data['password']);
         }
-        $existing = Child::where(['email' => $data['email']])->first();
-        if ($existing && $existing->id !== $child->id) {
-            return response()->json(['message' => trans('This email is already registered')]);
-        }
+        // $existing = Child::where(['email' => $data['email']])->first();
+        // if ($existing && $existing->id !== $child->id) {
+        //     return response()->json(['message' => trans('This email is already registered')]);
+        // }
         $child->fill($data);
 
         if (empty($data['class_id']))
