@@ -436,16 +436,16 @@ export default {
                 this.errors.childNumber = this.$t('Please input half-width alphanumerical');
                 valid = false;
             }
-            if (this.formData.childNumber && this.formData.childNumber.length > 10) {
-                this.errors.childNumber = this.$t('Please enter 10 characters or less');
+            if (this.formData.childNumber && this.formData.childNumber.length > 20) {
+                this.errors.childNumber = this.$t('Please enter 20 characters or less');
                 valid = false;
             }
             if (!this.formData.childName) {
                 this.errors.childName = this.$t('Please input name');                                 // need trans
                 valid = false;
             }
-            if (this.formData.childName && this.formData.childName.length > 10) {
-                this.errors.childName = this.$t('Please enter 10 characters or less');
+            if (this.formData.childName && this.formData.childName.length > 50) {
+                this.errors.childName = this.$t('Please enter 50 characters or less');
                 valid = false;
             }
             if (!this.formData.gender) {
@@ -500,8 +500,8 @@ export default {
                 this.errors.email = this.$t('Please input email');
                 valid = false;
             }
-            if (this.formData.email && this.formData.email.length > 20) {
-                this.errors.email = this.$t('Please enter 20 characters or less');
+            if (this.formData.email && this.formData.email.length > 50) {
+                this.errors.email = this.$t('Please enter 50 characters or less');
                 valid = false;
             }
             if (!this.childId && !this.formData.password) {
