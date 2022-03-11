@@ -296,6 +296,16 @@ export default {
                 return "-";
             }
         },
+        changeExtensionFormat(totalMinutes) {
+            if(totalMinutes > 0) {
+                var minutes = totalMinutes % 60;
+                var hours = (totalMinutes-minutes)/60;
+                var output = hours + ':' + minutes;
+                return output;
+            } else {
+                return null;
+            }
+        },
         openDatePicker(){
             this.$refs.programaticOpen.showCalendar();
         },
