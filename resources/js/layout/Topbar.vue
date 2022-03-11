@@ -15,7 +15,7 @@
         <ul class="navbar-nav ml-3" v-if="showChangeBtn()">
             <li class="nav-item kintai-system system-selected">
                 <a
-                    class="nav-link px-4"
+                    class="nav-link px-md-3 px-sm-1"
                     href="#"
                     role="button"
                 >
@@ -24,7 +24,7 @@
             </li>
             <li class="nav-item childcare-system system-unselected">
                 <a
-                    class="nav-link px-4"
+                    class="nav-link px-md-3 px-sm-1"
                     :href="isAdmin ? '/child/application-table' : '/child/'"
                     role="button"
                 >
