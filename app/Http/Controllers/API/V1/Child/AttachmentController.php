@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\V1\Child;
 
 use App\Http\Controllers\API\V1\BaseController;
-use App\Http\Services\AttachmentService;
+use App\Services\AttachmentService;
 use App\Models\Attachment;
 use Illuminate\Http\Request;
 

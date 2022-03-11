@@ -5,6 +5,7 @@ namespace App\Services\Child;
 use App\Models\Child;
 use App\Models\ChildcarePlan;
 use App\Models\ChildcarePlanDay;
+use App\Models\ReasonForAbsence;
 use Illuminate\Support\Carbon;
 
 class PlanService
@@ -57,9 +58,9 @@ class PlanService
             {
                 $dPlan->start_time = $wPlan->start_time;
                 $dPlan->end_time = $wPlan->end_time;
-                $dPlan->absent = 0;
+                $dPlan->absent_id = null;
             } else if ($isHoliday || $dayOfWeek === 0) {
-                $dPlan->absent = 1;
+                $dPlan->absent_id = ReasonForAbsence::REASON_HOLIDAY;
             }
             $dPlans[] = $dPlan;
         }
