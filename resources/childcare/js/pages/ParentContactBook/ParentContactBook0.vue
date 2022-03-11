@@ -125,7 +125,7 @@
                                             <template v-for="hour in hours">
                                                 <tr :key="hour.time+'hours'">
                                                     <td rowspan="2" class="align-middle contactbook-fix">{{hour.time == 24 ? '0' : hour.time}}時</td>
-                                                    <td class="text-center contact-book-click" style="position:relative;" @click="setHour(hour.time, 1)">
+                                                    <td class="text-center contact-book-click" style="position:relative; height:25px;" @click="setHour(hour.time, 1)">
                                                         <div v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`]" style="background-color: #EBCB42; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
                                                         <div v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}Home`]" style="background-color: #8BB3FC; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
                                                     </td>
@@ -169,7 +169,7 @@
                                                         </span>
                                                     </td>
                                                 </tr>
-                                                <tr :key="hour.time+'30mins'" style="background-color: #dcd5bc;">
+                                                <tr :key="hour.time+'30mins'" style="background-color: #dcd5bc; height:25px;">
                                                     <td class="text-center" style="position:relative;" @click="setHour(hour.time, 2)">
                                                         <div v-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}School`]" style="background-color: #EBCB42; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
                                                         <div v-else-if="formData[`sleep${('0' + hour.time).slice(-2) + '30'}Home`]" style="background-color: #8BB3FC; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
