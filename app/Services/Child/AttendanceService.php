@@ -18,7 +18,7 @@ class AttendanceService
         [$year, $month] = explode('-', $month);
         $plans = ChildcarePlanDay::where(['child_id' => $child->id])
                 ->whereMonth('date', $month)
-                ->whereYear('date', $year)->where(['absent' => 0])
+                ->whereYear('date', $year)->whereNull('absent_id')
                 ->get();
         $attends = ChildrenAttendence::where(['child_id' => $child->id])
                 ->where(['month' => $month])
