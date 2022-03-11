@@ -487,14 +487,15 @@ export default {
             //     this.errors.classId = this.$t('Please input number');
             //     valid = false;
             // }
-
-            if (!this.formData.certificateExpirationDate) {
-                this.errors.certificateExpirationDate = this.$t('Please input certificateExpirationDate');
-                valid = false;
-            }
-            if (this.formData.certificateExpirationDate && !validateYYMMDD(this.formData.certificateExpirationDate)) {
-                this.errors.certificateExpirationDate = this.$t('Please input certificateExpirationDate');                              //need trans
-                valid = false;
+            if (this.formData.certificateOfPayment == 1) {
+                if (!this.formData.certificateExpirationDate) {
+                    this.errors.certificateExpirationDate = this.$t('Please input certificateExpirationDate');
+                    valid = false;
+                }
+                if (this.formData.certificateExpirationDate && !validateYYMMDD(this.formData.certificateExpirationDate)) {
+                    this.errors.certificateExpirationDate = this.$t('Please input certificateExpirationDate');                              //need trans
+                    valid = false;
+                }
             }
             if (!this.formData.email) {
                 this.errors.email = this.$t('Please input email');
