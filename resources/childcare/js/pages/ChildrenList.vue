@@ -7,7 +7,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" class="form-control" placeholder="園児ID, 園児氏名, メールアドレス" v-model="searchInput">
+                                    <input type="text" class="form-control" placeholder="園児ID, 園児氏名, メールアドレス" v-model="searchInput" v-on:keyup.enter = "getChildrenList">
                                     <span class="input-group-append">
                                         <button type="button" class="btn btn-info btn-flat" @click="getChildrenList">検索</button>
                                     </span>

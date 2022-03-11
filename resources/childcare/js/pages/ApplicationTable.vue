@@ -294,13 +294,13 @@
                                             </td>
                                         </tr>
                                         <tr v-for="(child, index) in childrenClass" :key="index" style="font-size: 11px;">
-                                            <td class="header-fix-sub-40 bg-white p-1">
+                                            <td class="header-fix-sub-25 bg-white p-1">
                                                 {{index + 1}}
                                             </td>
-                                            <td class="header-fix-sub-95 bg-white p-1">
+                                            <td class="header-fix-sub-60 bg-white p-1">
                                                 {{changeBirthFormat(child.birthday)}}
                                             </td>
-                                            <td class="header-fix-sub-235 bg-white p-1">
+                                            <td class="header-fix-sub-170 bg-white p-1">
                                                 {{child.name}}
                                             </td>
                                             <td class="p-1">

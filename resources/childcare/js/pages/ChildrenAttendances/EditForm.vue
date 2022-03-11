@@ -11,7 +11,7 @@
                 <div class="col-md-3 col-3">
                     日付
                 </div>
-                <div class="col-md-5 col-5">
+                <div class="col-md-6 col-6">
                     {{dateFormat(date)}}
                 </div>
             </div>
@@ -97,15 +97,24 @@
             </div> -->
             <div class="form-group row">
                 <div class="col-md-3 col-3">延長</div>
-                <div class="col-md-4 col-4">
-                    <div>
-                        <input type="number" min="0" max="24" class="form-control mr-2" :class="{'is-invalid' : errors.extension}" v-model="formData.extension" @change="() => {errors.extension=null}">
-                        <span v-if="errors.extension" class="error invalid-feedback">
-                            {{ errors.extension }}
-                        </span>
+                <div class="col-md-3 col-3">
+                    <div class="d-flex is-invalid">
+                        <input type="number" min="0" max="23" class="form-control mr-2" :class="{'is-invalid' : errors.extensionTimeHour}" v-model="formData.extensionTimeHour" @change="() => {errors.extensionTimeHour=null}">
                     </div>
+                    <span v-if="errors.extensionTimeHour" class="error invalid-feedback">
+                        {{ errors.extensionTimeHour }}
+                    </span>
                 </div>
-                <div class="form-control-label">時間</div>
+                <div class="form-control-label">時</div>
+                <div class="col-md-3 col-3">
+                    <div class="d-flex is-invalid">
+                        <input type="number" min="0" max="59" class="form-control mr-2" :class="{'is-invalid' : errors.extensionTimeMin}" v-model="formData.extensionTimeMin" @change="() => {errors.extensionTimeMin=null}">
+                    </div>
+                    <span v-if="errors.extensionTimeMin" class="error invalid-feedback">
+                        {{ errors.extensionTimeMin }}
+                    </span>
+                </div>
+                <div class="form-control-label">分</div>
             </div>
         </div>
         <div class="modal-footer">
@@ -145,7 +154,8 @@ import { showSuccess } from '../../helpers/error';
                     commutingTimeMin: '',
                     leaveTimeHour: '',
                     leaveTimeMin: '',
-                    extension: '',
+                    extensionTimeHour: '',
+                    extensionTimeMin: '',
                     reasonForAbsenceId: null
                 }
                 this.convertToFormData();
@@ -160,8 +170,9 @@ import { showSuccess } from '../../helpers/error';
                     commutingTimMin: null,
                     leaveTimeHour: null,
                     leaveTimeMin: null,
-                    reasonForAbsenceId: null,
-                    extension: '',
+                    extensionTimeHour: null,
+                    extensionTimeMin: null,
+                    reasonForAbsenceId: null
                 },
                 errors: {
                     id: null,
@@ -169,7 +180,8 @@ import { showSuccess } from '../../helpers/error';
                     commutingTimeMin: '',
                     leaveTimeHour: '',
                     leaveTimeMin: '',
-                    extension: '',
+                    extensionTimeHour: '',
+                    extensionTimeMin: '',
                     reasonForAbsenceId: null
                 },
             }
@@ -185,7 +197,6 @@ import { showSuccess } from '../../helpers/error';
                     // 'leave_time': ("0" + this.formData.leaveTimeHour).slice(-2) + ":" + ("0" + this.formData.leaveTimeMin).slice(-2),
                     'reason_for_absence_id': this.formData.reasonForAbsenceId,
                     'behind_time': this.formData.behindTime,
-                    'extension': this.formData.extension,
                 }
                 if(this.formData.commutingTimeHour && this.formData.commutingTimeMin) {
                     requestData['commuting_time'] = ("0" + this.formData.commutingTimeHour).slice(-2) + ":" + ("0" + this.formData.commutingTimeMin).slice(-2);
@@ -197,7 +208,11 @@ import { showSuccess } from '../../helpers/error';
                 } else {
                     requestData['leave_time'] = null;
                 }
-
+                if(this.formData.extensionTimeHour && this.formData.extensionTimeMin) {
+                    requestData['extension_time'] = ("0" + this.formData.extensionTimeHour).slice(-2) + ":" + ("0" + this.formData.extensionTimeMin).slice(-2);
+                } else {
+                    requestData['extension_time'] = null;
+                }
                 this.setActionLoading();
                 api.post('attendance/' + this.formData.id, null, requestData)
                 .then(() => {
@@ -236,8 +251,12 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.reasonForAbsenceId = this.$t('Please do not select absenceId');
                     valid = false;
                 }
-                if (this.formData.extension && this.formData.extension < 0) {
-                    this.errors.extension = this.$t('Please input positive number');
+                if (this.formData.extensionTimeHour && this.formData.extensionTimeHour <= 0) {
+                    this.errors.extensionTimeHour = this.$t('Please input positive number');
+                    valid = false;
+                }
+                if (this.formData.extensionTimeMin && this.formData.extensionTimeMin <= 0) {
+                    this.errors.extensionTimeMin = this.$t('Please input positive number');
                     valid = false;
                 }
                 return valid;
