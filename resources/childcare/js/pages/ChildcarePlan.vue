@@ -14,8 +14,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive p-0" v-for="(plan, index) in plans" :key="index">
-                            <table class="table table-bordered table-hover">
+                        <div class="table-responsive p-0 mb-2" v-for="(plan, index) in plans" :key="index">
+                            <table class="table table-bordered table-hover mb-0">
                                 <tbody>
                                     <tr>
                                         <td class="text-center text-white dark-pink">
@@ -59,11 +59,12 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <button v-if="plans.length > 1" class="btn btn-primary float-right" @click="onDel(index)">削除</button>
                         </div>
-                        <div class="float-left mt-2">
+                        <div class="float-left mt-4">
                             <button class="btn btn-primary float-left" @click="calendarRegister"><i class="fa fa-calendar fa-lg"></i> カレンダから登録</button>
                         </div>
-                        <div class="float-right d-flex align-items-center mt-2">
+                        <div class="float-right d-flex align-items-center mt-4">
                             <button class="btn btn-primary float-right" @click="onAdd">+追加</button>
                             <button class="btn btn-primary float-right ml-2" @click="onSubmit">登録</button>
                         </div>
@@ -150,6 +151,9 @@ export default {
         onAdd() {
             this.plans = [...this.plans, {...defaultPlan}];
             this.planErrors.push({...defaultPlanError});
+        },
+        onDel(index){
+            this.plans.splice(index, 1);
         },
         onSubmit() {
             if (!this.validate()) return;
