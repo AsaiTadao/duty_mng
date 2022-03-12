@@ -21,7 +21,7 @@ class CreateChildrenAttendencesTable extends Migration
             $table->foreignId('reason_for_absence_id')->nullable()->constrained('reason_for_absences')->nullOnDelete();
             $table->smallInteger('behind_time')->nullable();
             $table->smallInteger('leave_early')->nullable();
-            $table->float('extension', 4, 2)->nullable();
+            $table->time('extension')->nullable();
             $table->date('date')->nullable();
             $table->unsignedTinyInteger('month')->nullable();
             $table->unsignedTinyInteger('day')->nullable();

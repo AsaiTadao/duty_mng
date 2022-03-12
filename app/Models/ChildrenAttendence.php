@@ -31,4 +31,12 @@ class ChildrenAttendence extends Model
     {
         return $this->belongsTo(ReasonForAbsence::class);
     }
+    public function getExtensionAttribute()
+    {
+        if ($this->attributes['extension']) {
+            $segs = explode(':', $this->attributes['extension']);
+            return $segs[0] . ':' . $segs[1];
+        }
+        return '';
+    }
 }

@@ -13,7 +13,7 @@ class AttendanceRequest extends FormRequest {
             'leave_time'    => ['nullable', 'date_format:H:i'],
             'reason_for_absence_id' => ['nullable', 'exists:reason_for_absences,id'],
             'behind_time'   => ['nullable', 'numeric'],
-            'extension'     => ['nullable', 'numeric'],
+            'extension'     => ['nullable', 'date_format:H:i'],
         ];
     }
 }
