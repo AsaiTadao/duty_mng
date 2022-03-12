@@ -110,14 +110,15 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="p-0">
+                        <div class="p-0" v-if="isCertifCategory()">
                             <table class="table table-bordered mb-2" style="outline: 1px solid #FAEAF5;">
                                 <tbody class="text-center">
                                     <tr>
                                         <td class="light-pink align-middle" style="width:200px;">
                                             認定区分
                                         </td>
-                                        <td></td>
+                                        <td class="align-middle" v-if="childInfor.certificationType">短期間</td>
+                                        <td class="align-middle" v-else>標準時間</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -257,6 +258,7 @@ export default {
                 certificateOfPayment: null,
                 certificateExpirationDate: null,
                 taxExemptHousehold: null,
+                certificationType: null,
                 remarks: null,
             },
             plans: []
@@ -265,7 +267,8 @@ export default {
     computed: {
         ...mapState({
             childrenClasses: state => state.constants.childrenClasses,
-            childTypes: state => state.constants.childTypes
+            childTypes: state => state.constants.childTypes,
+            session: state =>  state.session.info,
         }),
     },
     methods: {
@@ -347,6 +350,9 @@ export default {
         },
         getPeriodOfPlan(plan) {
             return moment(plan.startTime, 'HH:mm:ss').format('HH:mm') + '～' + moment(plan.endTime, 'HH:mm:ss').format('HH:mm')
+        },
+        isCertifCategory(){
+            return (this.session) ? this.session.certifTypeEnabled : false;
         }
     },
     mounted() {
