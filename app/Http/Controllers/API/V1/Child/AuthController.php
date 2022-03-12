@@ -37,13 +37,15 @@ class AuthController extends BaseController
                 'message'   =>  trans('auth.failed')
             ]);
         }
-        
+
     }
     public function me(Request $request)
     {
         $user = $request->user;
         $user->office;
-        return $this->sendResponse($request->user);
+        $result = $user->toArray();
+        $result['office']['certif_type_enabled'] = $user->office->certif_type_enabled;
+        return $this->sendResponse($result);
     }
     public function currentOffice(Request $request)
     {
