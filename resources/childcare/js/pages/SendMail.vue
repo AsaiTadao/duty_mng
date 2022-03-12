@@ -173,8 +173,8 @@ export default {
                 this.error.subject = this.$t('Please input subject');
                 valid = false;
             }
-            if (this.subject && this.subject.length > 250) {
-                this.error.subject = this.$t('Please enter 250 characters or less');
+            if (this.subject && this.subject.length > 190) {
+                this.error.subject = this.$t('Please enter 190 characters or less');
                 valid = false;
             }
             if (!this.content) {
