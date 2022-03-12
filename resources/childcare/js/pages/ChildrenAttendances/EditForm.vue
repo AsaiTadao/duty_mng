@@ -209,9 +209,9 @@ import { showSuccess } from '../../helpers/error';
                     requestData['leave_time'] = null;
                 }
                 if(this.formData.extensionTimeHour && this.formData.extensionTimeMin) {
-                    requestData['extension_time'] = ("0" + this.formData.extensionTimeHour).slice(-2) + ":" + ("0" + this.formData.extensionTimeMin).slice(-2);
+                    requestData['extension'] = ("0" + this.formData.extensionTimeHour).slice(-2) + ":" + ("0" + this.formData.extensionTimeMin).slice(-2);
                 } else {
-                    requestData['extension_time'] = null;
+                    requestData['extension'] = null;
                 }
                 this.setActionLoading();
                 api.post('attendance/' + this.formData.id, null, requestData)
@@ -270,7 +270,8 @@ import { showSuccess } from '../../helpers/error';
                     this.formData.leaveTimeHour = this.editData.leaveTime ? moment(this.editData.leaveTime).format('HH') : '';
                     this.formData.leaveTimeMin = this.editData.leaveTime ? moment(this.editData.leaveTime).format('mm') : '';
                     this.formData.reasonForAbsenceId = this.editData.reasonForAbsenceId ? this.editData.reasonForAbsenceId : '';
-                    this.formData.extension = this.editData.extension ? this.editData.extension : null;
+                    this.formData.extensionTimeHour = this.editData.extension ? moment(this.editData.extension, 'hh:mm:ss').format('HH') : '';
+                    this.formData.extensionTimeMin = this.editData.extension ? moment(this.editData.extension, 'hh:mm:ss').format('mm') : '';
                 }
             },
             initializeFormData() {
@@ -281,7 +282,8 @@ import { showSuccess } from '../../helpers/error';
                     leaveTimeHour: '',
                     leaveTimeMin: '',
                     reasonForAbsenceId: null,
-                    extension: '',
+                    extensionTimeHour: null,
+                    extensionTimeMin: null,
                 };
             },
             initFormError() {
@@ -291,7 +293,8 @@ import { showSuccess } from '../../helpers/error';
                     commutingTimeMin: '',
                     leaveTimeHour: '',
                     leaveTimeMin: '',
-                    extension: '',
+                    extensionTimeHour: '',
+                    extensionTimeMin: '',
                     reasonForAbsenceId: ''
                 }
             },
