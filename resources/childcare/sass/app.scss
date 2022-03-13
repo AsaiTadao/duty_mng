@@ -521,6 +521,11 @@ nav.main-header {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.contact-book-sleep-date {
+    text-align: left;
+    font-weight: bold;
+    padding-left: 50px !important;
+}
 @media (min-width: 768px) {
     body:not(.sidebar-mini-md):not(.sidebar-mini-xs):not(.layout-top-nav):not(.sidebar-collapse)
         .content-wrapper,
