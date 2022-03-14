@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Child;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\ContactBook;
 
 class ContactBook0SchoolRequest extends FormRequest {
 
@@ -17,6 +18,7 @@ class ContactBook0SchoolRequest extends FormRequest {
             'temperature_time_std'  =>  ['nullable', 'date_format:H:i'],
             'temperature_std'   =>  ['nullable', 'numeric'],
             'guardian'          =>  ['nullable', 'string'],
+            'status'            =>  ['nullable', 'in:' . ContactBook::STATUS_TEMPORARY . ',' . ContactBook::STATUS_COMPLETED],
             'sleep_0100_school' =>  ['nullable', 'boolean'],
             'sleep_0130_school' =>  ['nullable', 'boolean'],
             'sleep_0200_school' =>  ['nullable', 'boolean'],

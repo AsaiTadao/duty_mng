@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\ChildcarePlanDay;
+use App\Models\ContactBook;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ChildAttendanceResource extends JsonResource
@@ -18,6 +19,7 @@ class ChildAttendanceResource extends JsonResource
         $date = request()->get('date');
         $noSchedule = false;
         $reason_for_absence_id = $this->reason_for_absence_id;
+        $contact_status = ContactBook::STATUS_INCOMPLETE;
         if ($date) {
             $planDay = ChildcarePlanDay::where(['child_id' => $this->id, 'date' => $date])->first();
             if (!$this->reason_for_absence_id && (!$planDay || $planDay->absent_id || !$planDay->start_time || !$planDay->end_time))
@@ -27,6 +29,11 @@ class ChildAttendanceResource extends JsonResource
             if (!$this->reason_for_absence_id && !$this->commuting_time && $planDay && $planDay->absent_id)
             {
                 $reason_for_absence_id = $planDay->absent_id;
+            }
+            $contactBook = ContactBook::whereDate('date', $date)->where(['child_id' => $this->child_id])->first();
+            if ($contactBook)
+            {
+                $contact_status = $contactBook->status;
             }
         }
         return [
@@ -40,6 +47,7 @@ class ChildAttendanceResource extends JsonResource
             'extension'     =>  $this->extension,
             'reason_for_absence_id'=>   $reason_for_absence_id,
             'no_schedule'   =>  $noSchedule,
+            'contact_status'=> $contact_status
         ];
     }
 }

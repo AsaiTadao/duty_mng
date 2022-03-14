@@ -12,6 +12,7 @@ use App\Http\Resources\ChildAttendanceResource;
 use App\Models\Child;
 use App\Models\ChildcarePlanDay;
 use App\Models\ChildrenAttendence;
+use App\Models\ContactBook;
 use App\Models\Year;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -140,6 +141,14 @@ class AttendanceController extends BaseController
             {
                 $item['reason_for_absence_id'] = $plan->absent_id;
             }
+
+            $contact_status = ContactBook::STATUS_INCOMPLETE;
+            $contactBook = ContactBook::whereDate('date', $baseDate->format('Y-m-d'))->where(['child_id' => $child->id])->first();
+            if ($contactBook)
+            {
+                $contact_status = $contactBook->status;
+            }
+
             $result[] = $item;
         }
         return $this->sendResponse($result);

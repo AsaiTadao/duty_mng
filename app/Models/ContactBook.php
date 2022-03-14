@@ -10,7 +10,8 @@ class ContactBook extends Model
     use HasFactory;
 
     const STATUS_INCOMPLETE = 0;
-    const STATUS_COMPLETED = 1;
+    const STATUS_TEMPORARY = 1;
+    const STATUS_COMPLETED = 2;
 
     protected $fillable = [
         'child_id',

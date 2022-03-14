@@ -40,7 +40,6 @@ class ContactBook12HomeRequest extends FormRequest {
             'temperature_time_3_home' =>  ['nullable', 'date_format:H:i'],
             'temperature_3_home'    =>  ['nullable', 'numeric'],
             'state_0_home'          =>  ['nullable', 'string'],
-            'status'    =>  ['nullable', 'in:' . ContactBook::STATUS_INCOMPLETE . ',' . ContactBook::STATUS_COMPLETED],
         ];
     }
 }

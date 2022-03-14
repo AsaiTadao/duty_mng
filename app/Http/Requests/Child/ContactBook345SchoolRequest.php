@@ -13,7 +13,8 @@ class ContactBook345SchoolRequest extends FormRequest {
             'weather'           =>  ['required', 'string'],
             'nurse_name'        =>  ['nullable', 'string'],
             'guardian'          =>  ['nullable', 'string'],
-            'contact_0_school'  =>  ['nullable', 'string']
+            'contact_0_school'  =>  ['nullable', 'string'],
+            'status'            =>  ['nullable', 'in:' . ContactBook::STATUS_TEMPORARY . ',' . ContactBook::STATUS_COMPLETED],
         ];
     }
 }

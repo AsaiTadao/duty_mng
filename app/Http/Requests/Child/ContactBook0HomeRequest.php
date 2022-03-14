@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Child;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\ContactBook;
 
 class ContactBook0HomeRequest extends FormRequest {
 
@@ -12,7 +11,6 @@ class ContactBook0HomeRequest extends FormRequest {
             'date'      =>  ['required', 'date_format:Y-m-d'],
             'weather'   => ['nullable', 'string'],
             'mood'      => ['nullable', 'in:1,2,3'],
-            'status'    =>  ['nullable', 'in:' . ContactBook::STATUS_INCOMPLETE . ',' . ContactBook::STATUS_COMPLETED],
             'pick_up_person'  =>  ['nullable'],
             'pick_up_time'    =>  ['nullable', 'date_format:H:i'],
             'sleep_0100_home' =>  ['nullable', 'boolean'],
