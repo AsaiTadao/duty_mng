@@ -765,7 +765,8 @@
                                         </div>
                                     </div>
                                     <div class="float-right d-flex align-items-center mt-2">
-                                        <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
+                                        <button class="btn btn-primary float-right mr-2" @click="saveContact(1)">一時保存</button>
+                                        <button class="btn btn-primary float-right mr-2" @click="saveContact(2)">完了</button>
                                         <button class="btn btn-primary float-right" @click="exportExcel">Excel出力</button>
                                     </div>
                                 </div>
@@ -866,11 +867,12 @@ export default {
 
             };
         },
-        saveContact() {
+        saveContact(status) {
             if(this.actionLoading) return;
             if (!this.validate()) return;
             const requestData = this.formData;
             requestData['date'] = moment(this.selectedDate).format('YYYY-MM-DD');
+            requestData['status'] = status;
             if(this.formData.pickUpTime)
                 requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
 
