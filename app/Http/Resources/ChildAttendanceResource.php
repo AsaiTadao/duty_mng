@@ -30,7 +30,7 @@ class ChildAttendanceResource extends JsonResource
             {
                 $reason_for_absence_id = $planDay->absent_id;
             }
-            $contactBook = ContactBook::whereDate('date', $date)->where(['child_id' => $this->child_id])->first();
+            $contactBook = ContactBook::whereDate('date', $date)->where(['child_id' => $this->id])->first();
             if ($contactBook)
             {
                 $contact_status = $contactBook->status;
