@@ -148,6 +148,7 @@ class AttendanceController extends BaseController
             {
                 $contact_status = $contactBook->status;
             }
+            $item['contact_status'] = $contact_status;
 
             $result[] = $item;
         }
