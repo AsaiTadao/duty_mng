@@ -16,6 +16,9 @@
                                         {{ office.name }}
                                     </div>
                                 </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-2"></div>
                                 <div class="col-md-2">
                                     <select class="form-control" v-model="childrenClassId" @change="getParents()">
                                         <option :value="0">全保護者</option>
@@ -36,9 +39,8 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="col-md-2"></div>
-                                <div class="col-md-2"></div>
-                                <div class="col-md-4">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-2">
                                     <div class="custom-file">
                                         <input type="file" class="custom-file-input" id="exampleInputFile" multiple @change="onFileChange">
                                         <label class="custom-file-label" for="exampleInputFile">添付</label>

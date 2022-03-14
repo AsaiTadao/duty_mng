@@ -51,7 +51,7 @@
                                                         <td class="align-middle">{{changeTimeFormat(indiAttendance.commutingTime)}}</td>
                                                         <td class="align-middle">{{changeTimeFormat(indiAttendance.leaveTime)}}</td>
                                                         <td class="align-middle">{{getAbsenceName(indiAttendance.reasonForAbsenceId, indiAttendance.noSchedule)}}</td>
-                                                        <td class="align-middle">{{indiAttendance.extension}}</td>
+                                                        <td class="align-middle">{{changeExtensionFormat(indiAttendance.extension)}}</td>
                                                         <td class="align-middle">
                                                             <router-link :to="{name: 'contact-book', params: {id: indiAttendance.id, date: selectedDate}}">
                                                                 確認
@@ -296,15 +296,11 @@ export default {
                 return "-";
             }
         },
-        changeExtensionFormat(totalMinutes) {
-            if(totalMinutes > 0) {
-                var minutes = totalMinutes % 60;
-                var hours = (totalMinutes-minutes)/60;
-                var output = hours + ':' + minutes;
-                return output;
-            } else {
-                return null;
+        changeExtensionFormat(extension) {
+            if(extension) {
+                return moment(extension, 'hh:mm:ss').format('HH:mm');
             }
+            return null;
         },
         openDatePicker(){
             this.$refs.programaticOpen.showCalendar();

@@ -124,7 +124,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="p-0">
+                        <div class="p-0" v-if="isCertifCategory()">
                             <table class="table table-bordered mb-2" style="outline: 1px solid #FAEAF5;">
                                 <tbody class="text-center">
                                     <tr>
@@ -133,9 +133,9 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center justify-content-center is-invalid">
-                                                <input type="radio" class="align-middle" name="prediction" :value="1">
+                                                <input type="radio" class="align-middle" name="prediction" :value="1" v-model="formData.certificationType">
                                                 <div class="ml-1 mr-5">短時間</div>
-                                                <input type="radio" class="align-middle ml-5" name="prediction" :value="0">
+                                                <input type="radio" class="align-middle ml-5" name="prediction" :value="0" v-model="formData.certificationType">
                                                 <div class="ml-1 mr-4">標準時間</div>
                                             </div>
                                         </td>
@@ -300,6 +300,7 @@ export default {
                 freeOfCharge: null,
                 certificateOfPayment: null,
                 certificateExpirationDate: null,
+                certificationType: 0,
                 taxExemptHousehold: null,
                 remarks: null
             },
@@ -328,7 +329,8 @@ export default {
     computed: {
         ...mapState({
             childrenClasses: state => state.constants.childrenClasses,
-            childTypes: state => state.constants.childTypes
+            childTypes: state => state.constants.childTypes,
+            session: state => state.session.info,
         }),
         age() {
             if (!this.formData.birthday) return null;
@@ -378,6 +380,7 @@ export default {
                 'certificate_expiration_date': moment(this.formData.certificateExpirationDate).format("YYYY-MM-DD"),
                 'tax_exempt_household': this.formData.taxExemptHousehold,
                 'remarks': this.formData.remarks,
+                'certification_type': this.formData.certificationType
             };
             this.setActionLoading();
             let request;
@@ -544,6 +547,9 @@ export default {
                 valid = false;
             }
             return valid;
+        },
+        isCertifCategory(){
+            return (this.session) ? this.session.certifTypeEnabled : false;
         }
     },
     mounted() {

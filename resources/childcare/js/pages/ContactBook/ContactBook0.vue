@@ -124,7 +124,17 @@
                                     </thead>
                                         <tbody class="text-center contactbook-tr">
                                             <template v-for="hour in hours">
-                                                <tr :key="hour.time+'hours'">
+                                                <tr v-if="hour.time == 18" :key="hour.time + 'previous_day'" style="background-color:#D9E1F2">
+                                                    <td colspan="5" class="contact-book-sleep-date" style="background-color:#D9E1F2">
+                                                        {{previousDay()}}
+                                                    </td>
+                                                </tr>
+                                                <tr v-if="hour.time == 24" :key="hour.time + 'current_day'" style="background-color:#D9E1F2">
+                                                    <td colspan="5" class="contact-book-sleep-date" style="background-color:#D9E1F2">
+                                                        {{currentDay()}}
+                                                    </td>
+                                                </tr>
+                                                <tr :key="hour.time+'hours'" style="background-color: #dcd5bc;">
                                                     <td rowspan="2" class="align-middle contactbook-fix">{{hour.time == 24 ? '0' : hour.time}}時</td>
                                                     <td class="text-center contact-book-click" style="position:relative; height:25px;" @click="setHour(hour.time, 1)">
                                                         <div v-if="formData[`sleep${('0' + hour.time).slice(-2) + '00'}School`]" style="background-color: #EBCB42; width:50%; height: 100%; position:absolute;left: 25%;top:0;"></div>
@@ -698,6 +708,12 @@ export default {
         exportExcel() {
             const date = moment(this.selectedDate).format('YYYY-MM-DD');
             location.href = process.env.MIX_APP_BASE_URL + 'childcare-contact-book/excel/' + this.child.id + '/?date=' + date + '&token=' + LocalStorage.getToken();
+        },
+        previousDay() {
+            return moment(this.selectedDate).subtract(1, 'days').format('M月 D日 (ddd)');
+        },
+        currentDay() {
+            return moment(this.selectedDate).format('M月 D日 (ddd)');
         }
     },
     created() {
