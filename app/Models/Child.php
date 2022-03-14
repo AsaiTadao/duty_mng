@@ -30,7 +30,6 @@ class Child extends Authenticatable
         'class_id',
         'admission_date',
         'exit_date',
-        'certification_type'
     ];
 
     protected $hidden = [

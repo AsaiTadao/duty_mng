@@ -19,7 +19,8 @@ class ChildInformation extends Model
         'tax_exempt_household',
         'remarks',
         'child_id',
-        'no'
+        'no',
+        'certification_type'
     ];
 
     public function child()
