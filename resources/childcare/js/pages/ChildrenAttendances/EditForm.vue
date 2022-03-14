@@ -251,12 +251,16 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.reasonForAbsenceId = this.$t('Please do not select absenceId');
                     valid = false;
                 }
-                if (this.formData.extensionTimeHour && this.formData.extensionTimeHour <= 0) {
+                if (this.formData.extensionTimeHour && this.formData.extensionTimeHour < 0) {
                     this.errors.extensionTimeHour = this.$t('Please input positive number');
                     valid = false;
                 }
-                if (this.formData.extensionTimeMin && this.formData.extensionTimeMin <= 0) {
+                if (this.formData.extensionTimeMin && this.formData.extensionTimeMin < 0) {
                     this.errors.extensionTimeMin = this.$t('Please input positive number');
+                    valid = false;
+                }
+                if (this.formData.extensionTimeHour == 0 && this.formData.extensionTimeMin == 0) {
+                    this.errors.extensionTimeMin = this.$t('Please input valid number');
                     valid = false;
                 }
                 return valid;
