@@ -25,6 +25,7 @@ class ChildResource extends JsonResource
             'email'     =>  $this->email,
             'class_id'  =>  $this->class_id,
             'type'      =>  $this->child_info->type??null,
+            'certification_type'    =>  $this->child_info->certification_type??null,
             'company_name'  =>  $this->child_info->company_name??null,
             'free_of_charge'=>  $this->child_info->free_of_charge??null,
             'certificate_of_payment'    =>  $this->child_info->certificate_of_payment??null,
