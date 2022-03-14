@@ -54,7 +54,9 @@
                                                         <td class="align-middle">{{changeExtensionFormat(indiAttendance.extension)}}</td>
                                                         <td class="align-middle">
                                                             <router-link :to="{name: 'contact-book', params: {id: indiAttendance.id, date: selectedDate}}">
-                                                                確認
+                                                                <template v-if="indiAttendance.contactStatus == 0">未入力</template>
+                                                                <template v-else-if="indiAttendance.contactStatus == 1">一時保存</template>
+                                                                <template v-else-if="indiAttendance.contactStatus == 2">完了</template>
                                                             </router-link>
                                                         </td>
                                                         <td class="align-middle">
