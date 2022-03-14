@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Child;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\ContactBook;
 
 class ContactBook12SchoolRequest extends FormRequest {
 
