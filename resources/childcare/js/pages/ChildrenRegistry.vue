@@ -183,7 +183,7 @@
                                         <td>
                                             <div class="d-flex align-middle is-invalid">
                                                 <div v-for="childType in childTypes" :key = "childType.key" class="d-flex align-items-center mr-3">
-                                                    <input type="radio" class="align-middle" :value="childType.key" v-model="formData.type" @change="errors.type = null">
+                                                    <input type="radio" class="align-middle" :value="childType.key" v-model="formData.type" @change="errors.type = null; errors.companyName = null">
                                                     <label class="ml-1 mr-4 mb-0">{{childType.value}}</label>
                                                 </div>
                                             </div>
@@ -236,7 +236,7 @@
                                             <div class="d-flex align-items-center justify-content-center is-invalid">
                                                 <input type="radio" class="align-middle" :value="1" v-model="formData.certificateOfPayment" :class="{'is-invalid' : errors.certificateOfPayment}" @change="errors.certificateOfPayment = null">
                                                 <div class="ml-1 mr-4">有り</div>
-                                                <input type="radio" class="align-middle" :value="0" v-model="formData.certificateOfPayment" @change="errors.certificateOfPayment = null">
+                                                <input type="radio" class="align-middle" :value="0" v-model="formData.certificateOfPayment" @change="errors.certificateOfPayment = null; errors.certificateExpirationDate = null;">
                                                 <div class="ml-1 mr-4">無し</div>
                                             </div>
                                             <span v-if="errors.certificateOfPayment" class="error invalid-feedback">
@@ -377,7 +377,7 @@ export default {
                 'company_name': this.formData.companyName,
                 'free_of_charge': this.formData.freeOfCharge,
                 'certificate_of_payment': this.formData.certificateOfPayment,
-                'certificate_expiration_date': moment(this.formData.certificateExpirationDate).format("YYYY-MM-DD"),
+                'certificate_expiration_date': this.formData.certificateExpirationDate ? moment(this.formData.certificateExpirationDate).format("YYYY-MM-DD") : null,
                 'tax_exempt_household': this.formData.taxExemptHousehold,
                 'remarks': this.formData.remarks,
                 'certification_type': this.formData.certificationType
