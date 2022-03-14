@@ -257,16 +257,23 @@ export default {
                 //     valid = false;
                 //     this.planDayErrors[index].endTime = this.$t('Please input end time');
                 // }
+                plan.startTime = this.fomatTime(plan.startTime);
+                plan.endTime = this.fomatTime(plan.endTime);
+
                 if (plan.startTime && !validateHhMm(plan.startTime)) {
+                    valid = false;
                     this.planDayErrors[index].startTime = this.$t('Invalid time format');
                 }
                 if (plan.endTime && !validateHhMm(plan.endTime)) {
+                    valid = false;
                     this.planDayErrors[index].endTime = this.$t('Invalid time format');
                 }
+
                 if (plan.startTime && (plan.startTime === plan.endTime || plan.startTime > plan.endTime)) {
                     valid = false;
                     this.planDayErrors[index].endTime = this.$t('Invalid time period');
                 }
+
                 plan.date = this.currentDate.format('YYYY-MM') + '-' + String(index + 1).padStart(2, '0');
                 return valid;
             })
@@ -312,6 +319,19 @@ export default {
                 }
             }
         },
+        fomatTime(time) {
+            if (!time) return '';
+            const segs = time.split(':');
+            let h = segs[0];
+            let m = segs[1];
+            if (h.length < 2) {
+                h = h.padStart(2, '0');
+            }
+            if (m.length < 2) {
+                m = m.padStart(2, '0');
+            }
+            return h + ':' + m;
+        }
     }
 };
 </script>
