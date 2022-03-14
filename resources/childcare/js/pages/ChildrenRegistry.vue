@@ -549,7 +549,7 @@ export default {
             return valid;
         },
         isCertifCategory(){
-            return (this.session) ? this.session.certifTypeEnabled : false;
+            return (this.session) ? this.session.office.certifTypeEnabled : false;
         }
     },
     mounted() {

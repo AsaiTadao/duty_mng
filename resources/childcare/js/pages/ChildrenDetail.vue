@@ -352,7 +352,7 @@ export default {
             return moment(plan.startTime, 'HH:mm:ss').format('HH:mm') + '～' + moment(plan.endTime, 'HH:mm:ss').format('HH:mm')
         },
         isCertifCategory(){
-            return (this.session) ? this.session.certifTypeEnabled : false;
+            return (this.session) ? this.session.office.certifTypeEnabled : false;
         }
     },
     mounted() {
