@@ -427,6 +427,7 @@ export default {
             }
             this.formData.taxExemptHousehold = this.childInfor.taxExemptHousehold;
             this.formData.remarks = this.childInfor.remarks;
+            this.formData.certificationType = this.childInfor.certificationType;
         },
         validate() {
             let valid = true;
