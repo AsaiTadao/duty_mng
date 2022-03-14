@@ -27,28 +27,24 @@ class ChildPlanController extends BaseController
     {
         $user = auth()->user();
         $data = $request->validated();
+        ChildcarePlan::where(['child_id' => $child->id])->delete();
         $childPlans = [];
         foreach ($data['data'] as $plan)
         {
-            if (!empty($plan['id']))
-            {
-                $childPlan = ChildcarePlan::where(['id' => $plan['id'], 'child_id' => $child->id])->first();
-                $childPlan->fill($plan);
-                $childPlan->update_user_id = $user->id;
-            } else {
-                $childPlan = new ChildcarePlan($plan);
-                $childPlan->child_id = $child->id;
-                $childPlan->create_user_id = $user->id;
-                $childPlan->update_user_id = $user->id;
-            }
+            $childPlan = new ChildcarePlan($plan);
+            $childPlan->child_id = $child->id;
+            $childPlan->create_user_id = $user->id;
+            $childPlan->update_user_id = $user->id;
             $childPlan->save();
             $childPlans[] = $childPlan;
         }
+        $initial = false;
         if (!$child->plan_registered) {
+            $initial = true;
             $child->plan_registered = true;
             $child->save();
         }
-        PlanDayCreateJob::dispatch($child->id, $user->id);
+        PlanDayCreateJob::dispatch($child->id, $user->id, $initial);
 
         return $this->sendResponse($childPlans);
     }

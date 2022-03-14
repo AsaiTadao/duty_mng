@@ -22,16 +22,19 @@ class PlanDayCreateJob implements ShouldQueue
 
     protected $childId;
     protected $userId;
+    protected $initial;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($childId, $userId)
+    public function __construct($childId, $userId, $initial)
     {
         //
         $this->childId = $childId;
         $this->userId = $userId;
+        $this->initial = $initial;
     }
 
     /**
@@ -48,30 +51,31 @@ class PlanDayCreateJob implements ShouldQueue
         if ($plans->count() === 0) return;
 
         $planService->setWeeklyPlan($plans);
-        $childPlanDays = $child->dailyPlans;
-        $startDate = $child->admission_date;
-        if (!$startDate) {
-            $startDate = Carbon::now()->format('Y-m-d');
+        if ($this->initial)
+        {
+            if (!$child->admission_date || Carbon::now()->greaterThan(Carbon::parse($child->admission_date))) {
+                $date = Carbon::now();
+            } else {
+                $date = Carbon::parse($child->admission_date);
+            }
+        } else {
+            $date = Carbon::now();
+            $date->addMonth(1);
         }
-        $date = Carbon::parse($startDate) ;
+
         $availablePlans = [];
         for ($i = 0; $i < 72; $i++)
         {
             $month = $date->format('Y-m');
-            $exisingMonthPlans = $childPlanDays->filter(function($value, $key) use ($month) {
-                return Str::startsWith($value->date, $month);
-            })->count();
-            if (!$exisingMonthPlans)
+            $child->dailyPlans()->whereMonth('date', $date->month)->whereYear('date', $date->year)->delete();
+            $dPlans = $planService->createPlanDaysFromWeeklyPlan($child, $month, $this->userId);
+            foreach ($dPlans as $dPlan)
             {
-                $dPlans = $planService->createPlanDaysFromWeeklyPlan($child, $month, $this->userId);
-                foreach ($dPlans as $dPlan)
+                if (!$dPlan->start_time && !$dPlan->end_time && $dPlan->absent_id === null)
                 {
-                    if (!$dPlan->start_time && !$dPlan->end_time && $dPlan->absent_id === null)
-                    {
-                        continue;
-                    }
-                    $availablePlans[] = $dPlan;
+                    continue;
                 }
+                $availablePlans[] = $dPlan;
             }
             $date->addMonth(1);
         }
