@@ -39,4 +39,13 @@ class ChildrenAttendence extends Model
         }
         return '';
     }
+    public function getExtensionInMinuteAttribute()
+    {
+        if ($this->attributes['extension']) {
+            $segs = explode(':', $this->attributes['extension']);
+            return $segs[0] * 60 + $segs[1];
+        } else {
+            return 0;
+        }
+    }
 }

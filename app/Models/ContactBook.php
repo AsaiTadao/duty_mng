@@ -9,6 +9,9 @@ class ContactBook extends Model
 {
     use HasFactory;
 
+    const STATUS_INCOMPLETE = 0;
+    const STATUS_COMPLETED = 1;
+
     protected $fillable = [
         'child_id',
         'weather',
@@ -19,6 +22,7 @@ class ContactBook extends Model
         'nurse_name',
         'temperature_time_std',
         'temperature_std',
+        'status',
         'sleep_0100_home',
         'sleep_0130_home',
         'sleep_0200_home',

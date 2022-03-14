@@ -136,19 +136,19 @@ class ChildApplicationTableController extends BaseController
         {
             $targetDate = $baseDay->day($i)->format('Y-m-d');
             $a = $attendances->filter(function ($value, $key) use ($targetDate) {
-                return $value->date === $targetDate && !$value->extension;
+                return $value->date === $targetDate && !$value->extension_in_minute;
             })->count();
             $b = $attendances->filter(function ($value, $key) use ($targetDate) {
-                return $value->date === $targetDate && $value->extension && $value->extension * 60 <= 30;
+                return $value->date === $targetDate && $value->extension_in_minute && $value->extension_in_minute <= 30;
             })->count();
             $c = $attendances->filter(function ($value, $key) use ($targetDate) {
-                return $value->date === $targetDate && $value->extension && $value->extension * 60 > 30 && $value->extension * 60 <= 60;
+                return $value->date === $targetDate && $value->extension_in_minute && $value->extension_in_minute > 30 && $value->extension_in_minute <= 60;
             })->count();
             $d = $attendances->filter(function ($value, $key) use ($targetDate) {
-                return $value->date === $targetDate && $value->extension && $value->extension * 60 > 60 && $value->extension * 60 <= 90;
+                return $value->date === $targetDate && $value->extension_in_minute && $value->extension_in_minute > 60 && $value->extension_in_minute <= 90;
             })->count();
             $e = $attendances->filter(function ($value, $key) use ($targetDate) {
-                return $value->date === $targetDate && $value->extension && $value->extension * 60 > 90;
+                return $value->date === $targetDate && $value->extension_in_minute && $value->extension_in_minute > 90;
             })->count();
             $data['children_stat']['extension_stat'][$i] = compact('a', 'b', 'c', 'd', 'e');
 
@@ -255,6 +255,7 @@ class ChildApplicationTableController extends BaseController
                     ReasonForAbsence::REASON_SICK   =>  0,
                     ReasonForAbsence::REASON_SUSPENSION =>  0,
                     ReasonForAbsence::REASON_VACATION   =>  0,
+                    ReasonForAbsence::REASON_HOLIDAY   =>  0,
                 ];
 
                 for ($i = 1; $i <= $daysInMonth; $i++)
@@ -262,10 +263,10 @@ class ChildApplicationTableController extends BaseController
                     $attendance = $childAttendances->firstWhere('day', $i);
                     if ($attendance)
                     {
-                        if ($attendance->extension * 60 > 90) $extensionState[$i] = 'E';
-                        else if ($attendance->extension * 60 > 60) $extensionState[$i] = 'D';
-                        else if ($attendance->extension * 60 > 30) $extensionState[$i] = 'C';
-                        else if ($attendance->extension * 60 > 0) $extensionState[$i] = 'B';
+                        if ($attendance->extension_in_minute > 90) $extensionState[$i] = 'E';
+                        else if ($attendance->extension_in_minute > 60) $extensionState[$i] = 'D';
+                        else if ($attendance->extension_in_minute > 30) $extensionState[$i] = 'C';
+                        else if ($attendance->extension_in_minute > 0) $extensionState[$i] = 'B';
                         else $extensionState[$i] = 'A';
                         if ($attendance->reason_for_absence_id)
                         {

@@ -32,7 +32,7 @@ class MonthlyAttendanceExport implements FromArray, WithHeadings
             {
                 $item[] = $this->getTimeLabel($attendance->commuting_time);
                 $item[] = $this->getTimeLabel($attendance->leave_time);
-                $item[] = $this->zeroToString($attendance->extension);
+                $item[] = $attendance->extension;
             } else {
                 $item[] = '';$item[] = '';$item[] = '';
             }
