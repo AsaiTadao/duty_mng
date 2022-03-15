@@ -7,6 +7,7 @@ use App\Http\Requests\Child\LoginRequest;
 use App\Models\Child;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class AuthController extends BaseController
 {
@@ -20,7 +21,8 @@ class AuthController extends BaseController
 
         foreach ($childs as $child)
         {
-            if (!Hash::check($data['password'], $child->password)) {
+
+            if ($data['password'] != Crypt::decryptString($child->password)) {
                 continue;
             }
             return response()->json([
@@ -31,12 +33,10 @@ class AuthController extends BaseController
                 ]
             ]);
         }
-        if (!Hash::check($data['password'], $child->password)) {
-            return response()->json([
-                'success'   =>  false,
-                'message'   =>  trans('auth.failed')
-            ]);
-        }
+        return response()->json([
+            'success'   =>  false,
+            'message'   =>  trans('auth.failed')
+        ]);
 
     }
     public function me(Request $request)

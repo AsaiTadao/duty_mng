@@ -12,6 +12,7 @@ use App\Models\ChildrenClass;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Crypt;
 
 class ChildController extends BaseController
 {
@@ -32,7 +33,7 @@ class ChildController extends BaseController
             return response()->json(['message' => 'Please input company name'], 422);
         }
 
-        $data['password'] = Hash::make($data['password']);
+        $data['password'] = Crypt::encryptString($data['password']);
         $child = new Child($data);
         $child->office_id = $user->office_id;
 
@@ -76,7 +77,7 @@ class ChildController extends BaseController
         $user = auth()->user();
         $data = $request->validated();
         if (!empty($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
+            $data['password'] = Crypt::encryptString($data['password']);
         } else if ($data['password'] === null) {
             unset($data['password']);
         }

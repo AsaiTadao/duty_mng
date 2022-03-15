@@ -17,7 +17,7 @@ class CreateChildrenTable extends Migration
             $table->id();
             $table->string('name', 50);
             $table->string('number', 20);
-            $table->string('password', 100);
+            $table->string('password', 255);
             $table->string('email', 50)->nullable();
             $table->foreignId('office_id')->nullable();
             $table->tinyInteger('enrollment_class', false, true)->nullable();
