@@ -68,6 +68,6 @@
     "Please input certificateExpirationDate": "支給認定証有効期限を選択してください",
     "Please input positive number": "整数を入力してください",
     "Please input subject": "メール件名を入力してください",
-    "Successfully sent": "成功に送信されました",
+    "Successfully sent": "送信に成功しました",
     "Please input valid number": "有効的数を入力してください"
 }
