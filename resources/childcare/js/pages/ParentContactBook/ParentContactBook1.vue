@@ -478,7 +478,7 @@
                                     <div class="row">
                                         <div class="col-md-12 col-12">
                                             <div class="dark-blue text-center py-2 text-white">
-                                                家庭での様子
+                                                家庭での様子・連絡事項
                                             </div>
                                             <div class="light-blue p-4 mt-1" style="height: 300px;">
                                                 <textarea class="form-control" style="height: 95%;" v-model="formData.state0Home" @change="dataChanged = true;">
@@ -754,7 +754,7 @@
                                     <div class="row">
                                         <div class="col-md-12 col-12">
                                             <div class="dark-yellow text-center py-2 text-white">
-                                                保育園での様子
+                                                保育園での様子・連絡事項
                                             </div>
                                             <div class="light-yellow p-4 mt-1" style="height: 300px;">
                                                 {{formData.state0School}}
