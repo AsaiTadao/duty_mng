@@ -18,6 +18,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Crypt;
 
 class MailNotifJob implements ShouldQueue
 {
@@ -68,7 +69,11 @@ class MailNotifJob implements ShouldQueue
                 continue;
             }
 
-            $content = nl2br($utilService->bladeCompile($this->mailJobHistory->content, ['children_qr' => $qrService->getChildQrImageTag($child)]));
+            $content = nl2br($utilService->bladeCompile($this->mailJobHistory->content, [
+                'children_qr'   =>  $qrService->getChildQrImageTag($child),
+                'password'      =>  Crypt::decryptString($child->password),
+                'login_id'       =>  $child->email
+            ]));
 
             $mailHistory = MailHistory::create([
                 'mail_address'  =>  $child->email,
