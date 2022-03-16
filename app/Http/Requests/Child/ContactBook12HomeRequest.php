@@ -12,6 +12,7 @@ class ContactBook12HomeRequest extends FormRequest {
             'date'                  =>  ['required', 'date_format:Y-m-d'],
             'weather'               =>  ['nullable', 'string'],
             'pick_up_person'        =>  ['nullable', 'string'],
+            'guardian'          =>  ['nullable', 'string'],
             'pick_up_time'          =>  ['nullable', 'date_format:H:i'],
             'meal_time_1_home'      =>  ['nullable', 'date_format:H:i'],
             'meal_time_2_home'      =>  ['nullable', 'date_format:H:i'],
