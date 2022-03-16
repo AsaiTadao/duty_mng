@@ -89,7 +89,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
-                                                        <div class="text-center d-flex justify-content-center">
+                                                        <div class="text-center d-flex justify-content-center meal-time-input">
                                                             <hour-minute-input v-model="formData.mealTime1Home" :error="errors.mealTime1Home" @input="dataChanged = true; errors.mealTime1Home = null;"/>
                                                         </div>
                                                     </div>
@@ -118,7 +118,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
-                                                        <div class="text-center d-flex justify-content-center">
+                                                        <div class="text-center d-flex justify-content-center meal-time-input">
                                                             <hour-minute-input v-model="formData.mealTime2Home" :error="errors.mealTime2Home" @input="dataChanged = true; errors.mealTime2Home = null;"/>
                                                         </div>
                                                     </div>
@@ -147,7 +147,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-bottom: 1px; padding-top: 1px;">
-                                                        <div class="text-center d-flex justify-content-center">
+                                                        <div class="text-center d-flex justify-content-center meal-time-input">
                                                             <hour-minute-input v-model="formData.mealTime3Home" :error="errors.mealTime3Home" @input="dataChanged = true; errors.mealTime3Home = null;"/>
                                                         </div>
                                                     </div>
