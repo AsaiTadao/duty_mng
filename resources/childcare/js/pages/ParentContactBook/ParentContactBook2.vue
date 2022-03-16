@@ -31,10 +31,14 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group row">
-                            <div class="col-md-4 col-12 mb-1 align-self-center">
-                                記入者 保護者様名：{{formData.guardian}}
-                            </div>
-                            <div class="col-md-3 col-10 align-items-center" style="display:flex;">
+                            <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
+                                    <label for="parentname" style="min-width: 100px; margin-bottom:0px;">記入者 保護者様名：</label>
+                                    <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" :class="{'is-invalid': errors.guardian}" @change="dataChanged = true; errors.guardian = null;"/>
+                                    <span v-if="errors.guardian" class="error invalid-feedback">
+                                        {{errors.guardian}}
+                                    </span>
+                                </div>
+                            <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                 <label for="mindername" style="min-width: 80px; margin-bottom:0px;">保育士名：</label>
                                 <div>{{formData.nurseName}}</div>
                             </div>

@@ -341,7 +341,7 @@
                                     <div class="row">
                                         <div class="col-md-12 col-12">
                                             <div class="dark-blue text-center py-2 text-white">
-                                                家庭での様子
+                                                家庭での様子・連絡事項
                                             </div>
                                             <div class="light-blue p-4 mt-1" style="height: 300px;">
                                                 {{formData.state0Home}}
@@ -366,7 +366,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
-                                                        <div class="text-center d-flex justify-content-center">
+                                                        <div class="text-center d-flex justify-content-center meal-time-input">
                                                             <hour-minute-input v-model="formData.mealTime1School" :error="errors.mealTime1School" @input="dataChanged = true;errors.mealTime1School = null;"/>
                                                         </div>
                                                     </div>
@@ -395,7 +395,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
-                                                        <div class="text-center d-flex justify-content-center">
+                                                        <div class="text-center d-flex justify-content-center meal-time-input">
                                                             <hour-minute-input v-model="formData.mealTime2School" :error="errors.mealTime2School" @input="dataChanged = true;errors.mealTime2School = null;"/>
                                                         </div>
                                                     </div>
@@ -424,7 +424,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-bottom: 1px; padding-top: 1px;">
-                                                        <div class="text-center d-flex justify-content-center">
+                                                        <div class="text-center d-flex justify-content-center meal-time-input">
                                                             <hour-minute-input v-model="formData.mealTime3School" :error="errors.mealTime3School" @input="dataChanged = true;errors.mealTime3School = null;"/>
                                                         </div>
                                                     </div>
@@ -755,7 +755,7 @@
                                     <div class="row">
                                         <div class="col-md-12 col-12">
                                             <div class="dark-yellow text-center py-2 text-white">
-                                                保育園での様子
+                                                保育園での様子・連絡事項
                                             </div>
                                             <div class="light-yellow p-4 mt-1" style="height: 300px;">
                                                 <textarea class="form-control" style="height: 95%;" v-model="formData.state0School" @change="dataChanged = true;">
@@ -1250,6 +1250,9 @@ export default {
         align-items: center;
     }
     .hour-minute-input > input {
+        padding: 2px!important;
+    }
+    div.meal-time-input div.home-minute-input > input {
         padding: 2px!important;
     }
 @media (max-width: 500px) {

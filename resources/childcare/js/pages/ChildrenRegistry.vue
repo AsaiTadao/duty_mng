@@ -477,10 +477,10 @@ export default {
                 valid = false;
             }
 
-            if (!this.formData.exitDate) {
-                this.errors.exitDate = this.$t('Please input exitDate');                              //need trans
-                valid = false;
-            }
+            // if (!this.formData.exitDate) {
+            //     this.errors.exitDate = this.$t('Please input exitDate');                              //need trans
+            //     valid = false;
+            // }
 
             if (this.formData.exitDate && !validateYYMMDD(this.formData.exitDate)) {
                 this.errors.exitDate = this.$t('Please input exitDate');                              //need trans
