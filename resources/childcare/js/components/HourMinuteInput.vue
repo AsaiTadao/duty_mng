@@ -2,13 +2,13 @@
     <div class="home-minute-input-container">
         <div class="home-minute-input-wrapper">
             <div class="home-minute-input">
-                <input :type="type" class="form-control" min="0" max="24" :value="hour"
+                <input :type="type" class="form-control" min="0" max="23" :value="hour"
                     :class="{'is-invalid' : error && !light, 'is-invalid-light': error && light}"
                     @input="inputHour" :disabled="disabled" />
             </div>
             :
             <div class="home-minute-input">
-                <input :type="type" class="form-control" min="0" max="60" :value="minute"
+                <input :type="type" class="form-control" min="0" max="59" :value="minute"
                     :class="{'is-invalid' : error && !light, 'is-invalid-light': error && light}"
                     @input="inputMinute" :disabled="disabled" />
             </div>
