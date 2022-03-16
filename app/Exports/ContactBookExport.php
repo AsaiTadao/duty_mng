@@ -63,9 +63,12 @@ class ContactBookExport implements WithEvents
                     $times = [
                         '1800','1830','1900','1930','2000','2030','2100','2130','2200','2230','2300','2330','2400','2430','0100','0130','0200','0230','0300','0330','0400','0430','0500','0530','0600','0630','0700','0730','0800','0830','0900','0930','1000','1030','1100','1130','1200','1230','1300','1330','1400','1430','1500','1530','1600','1630','1700','1730'
                     ];
-                    $row1 = 12;
+                    $row1 = 14;
                     foreach ($times as $time)
                     {
+                        if ($time === '2400') {
+                            $row1 = 28;
+                        }
                         $color = $this->sleepColor($time);
                         if ($color)
                         {
@@ -76,18 +79,28 @@ class ContactBookExport implements WithEvents
                     $times = [
                         '18','19','20','21','22','23','24','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17'
                     ];
-                    $row = 12;
+                    $row = 14;
                     foreach ($times as $time)
                     {
+                        if ($time === '24')
+                        {
+                            $row = 28;
+                        }
                         $sheet->setCellValue("H$row", $this->temperatureTimedLabel($time));
                         $sheet->setCellValue("K$row", $this->defecationTimedLabel($time));
                         $sheet->setCellValue("O$row", $this->mealTimedLabel($time));
                         $row += 2;
                     }
-                    $sheet->setCellValue('b63', $this->contactBook->state_0_home);
-                    $sheet->setCellValue('n63', $this->contactBook->state_0_school);
-                    $sheet->setCellValue('b73', $this->contactBook->contact_0_home);
-                    $sheet->setCellValue('n73', $this->contactBook->contact_0_school);
+                    $date = Carbon::parse($this->date);
+                    $date->settings(['formatFunction' => 'translatedFormat']);
+                    $sheet->setCellValue('b26', $date->format('m月 d日 (l)'));
+                    $date->subDays(1);
+                    $sheet->setCellValue('b12', $date->format('m月 d日 (l)'));
+
+                    $sheet->setCellValue('b67', $this->contactBook->state_0_home);
+                    $sheet->setCellValue('n67', $this->contactBook->state_0_school);
+                    $sheet->setCellValue('b77', $this->contactBook->contact_0_home);
+                    $sheet->setCellValue('n77', $this->contactBook->contact_0_school);
                 } else if ($contactType === '1') {
                     $sheet->setCellValue('e9', $this->timeLabel($this->contactBook->pick_up_time));
                     $sheet->setCellValue('q9', $this->contactBook->pick_up_person);
