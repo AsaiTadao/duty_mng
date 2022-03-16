@@ -208,8 +208,14 @@ import { showSuccess } from '../../helpers/error';
                 } else {
                     requestData['leave_time'] = null;
                 }
-                if(this.formData.extensionTimeHour && this.formData.extensionTimeMin) {
-                    requestData['extension'] = ("0" + this.formData.extensionTimeHour).slice(-2) + ":" + ("0" + this.formData.extensionTimeMin).slice(-2);
+                if(this.formData.extensionTimeHour || this.formData.extensionTimeMin) {
+                    if(!this.formData.extensionTimeHour) {
+                        requestData['extension'] = "00" + ":" + ("0" + this.formData.extensionTimeMin).slice(-2);
+                    } else if(!this.formData.extensionTimeMin) {
+                        requestData['extension'] = ("0" + this.formData.extensionTimeHour).slice(-2) + ":" + "00";
+                    } else {
+                        requestData['extension'] = ("0" + this.formData.extensionTimeHour).slice(-2) + ":" + ("0" + this.formData.extensionTimeMin).slice(-2);
+                    }
                 } else {
                     requestData['extension'] = null;
                 }
@@ -259,10 +265,14 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.extensionTimeMin = this.$t('Please input positive number');
                     valid = false;
                 }
-                if (this.formData.extensionTimeHour == 0 && this.formData.extensionTimeMin == 0) {
-                    this.errors.extensionTimeMin = this.$t('Please input valid number');
-                    valid = false;
-                }
+                // if (!this.formData.extensionTimeHour && this.formData.extensionTimeMin) {
+                //     this.errors.extensionTimeHour = this.$t('Please input valid number');
+                //     valid = false;
+                // }
+                // if (this.formData.extensionTimeHour && !this.formData.extensionTimeMin) {
+                //     this.errors.extensionTimeMin = this.$t('Please input valid number');
+                //     valid = false;
+                // }
                 return valid;
             },
             convertToFormData() {
