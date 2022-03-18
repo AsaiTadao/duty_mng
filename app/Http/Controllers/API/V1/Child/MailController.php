@@ -12,6 +12,7 @@ use App\Models\MailHistory;
 use App\Models\Child;
 use App\Models\MailJobHistory;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\MailJobHistoryResource;
 
 class MailController extends BaseController
 {
@@ -69,7 +70,7 @@ class MailController extends BaseController
             ->with('file10')
             ->where(['office_id' => $user->office_id])->orderBy('id', 'desc')->paginate($size);
         return $this->sendResponse([
-            'data'  =>  $mails->items(),
+            'data'  =>  MailJobHistoryResource::collection($mails->items()),
             'total' =>  $mails->total(),
             'per_page'  =>  $mails->perPage(),
             'current_page'  =>  $mails->currentPage()
@@ -80,7 +81,7 @@ class MailController extends BaseController
         $user = auth()->user();
         $content = Storage::get('mail_template/qr.txt');
         $mailJobHistory = new MailJobHistory([
-            'subject'   =>  'QRコード発行',
+            'subject'   =>  '登降園打刻用QRコードのお知らせ',
             'content'   =>  $content,
             'children_class_id' =>  $child->class_id,
             'child_id'  =>  $child->id,
