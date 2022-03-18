@@ -595,10 +595,10 @@ export default {
         },
         validate() {
             let valid = true;
-            if(!this.formData.weather) {
-                this.errors.weather = this.$t('Please input weather');
-                valid = false;
-            }
+            // if(!this.formData.weather) {
+            //     this.errors.weather = this.$t('Please input weather');
+            //     valid = false;
+            // }
             if(!this.formData.guardian) {
                 this.errors.guardian = this.$t('Please input name');
                 valid = false;
@@ -607,14 +607,14 @@ export default {
                 this.errors.guardian = this.$t('Please enter 20 characters or less');
                 valid = false;
             }
-            if(!this.formData.nurseName) {
-                this.errors.nurseName = this.$t('Please input name');
-                valid = false;
-            }
-            if(this.formData.nurseName && this.formData.nurseName.length > 20) {
-                this.errors.nurseName = this.$t('Please enter 20 characters or less');
-                valid = false;
-            }
+            // if(!this.formData.nurseName) {
+            //     this.errors.nurseName = this.$t('Please input name');
+            //     valid = false;
+            // }
+            // if(this.formData.nurseName && this.formData.nurseName.length > 20) {
+            //     this.errors.nurseName = this.$t('Please enter 20 characters or less');
+            //     valid = false;
+            // }
             if(!this.formData.pickUpPerson) {
                 this.errors.pickUpPerson = this.$t('Please input name');
                 valid = false;
