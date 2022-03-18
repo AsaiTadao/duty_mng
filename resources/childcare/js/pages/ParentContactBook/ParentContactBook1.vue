@@ -455,7 +455,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 pl-0 pr-1">
-                                                    <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
+                                                    <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
                                                             <hour-minute-input v-model="formData.temperatureTime3Home" :error="errors.temperatureTime3Home" @input="dataChanged = true; errors.temperatureTime3Home = null;"/>
                                                         </div>
@@ -534,12 +534,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                         {{formData.mealTime3School}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                         {{formatMealStatus(formData.mealAmount3School)}}
                                                     </div>
                                                 </div>
@@ -723,7 +723,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                         {{formatTemperature(formData.temperature1School)}}
                                                     </div>
                                                 </div>
@@ -733,12 +733,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
+                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                         {{formatTemperature(formData.temperature2School)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 pl-0 pr-1">
-                                                    <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
+                                                    <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
                                                         {{formData.temperatureTime3School}}
                                                     </div>
                                                 </div>
