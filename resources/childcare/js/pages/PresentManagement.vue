@@ -28,6 +28,7 @@
                                             <th class="children-present-fix-140" style="z-index: 12 !important; outline: white solid 1px;">曜日</th>
                                             <th>登園時間</th>
                                             <th>降園時間</th>
+                                            <th>欠席</th>
                                             <th>延長</th>
                                             <th>編集</th>
                                         </tr>
@@ -44,7 +45,8 @@
                                                 </td>
                                                 <td>{{ formatTime(item.commutingTime) }}</td>
                                                 <td>{{ formatTime(item.leaveTime) }}</td>
-                                                <td>{{ item.extension ? item.extension : '' }}</td>
+                                                <td class="align-middle">{{getAbsenceName(item.reasonForAbsenceId, item.noSchedule)}}</td>
+                                                <td class="align-middle">{{changeExtensionFormat(item.extension)}}</td>
                                                 <td>
                                                     <a href="javascript:void(0)" class="mx-2" @click="openEditForm(item.day)">
                                                         <i class="far fa-edit fa-lg"></i>
@@ -107,6 +109,7 @@ export default {
     },
     computed: {
         ...mapState({
+                reasonForAbsences: state => state.constants.reasonForAbsences,
                 session: state => state.session.info
         }),
         displayDate() {
@@ -180,6 +183,31 @@ export default {
         },
         formatTime(time) {
             return time ? moment(time).format('HH:mm') : '';
+        },
+        changeExtensionFormat(extension) {
+            if(extension) {
+                return moment(extension, 'hh:mm:ss').format('HH:mm');
+            }
+            return null;
+        },
+        getAbsenceName(reasonForAbsenceId, noSchedule) {
+            if(reasonForAbsenceId){
+                if(noSchedule) {
+                    if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId))
+                        return '（予）' + this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
+                    else
+                        return null;
+                } else {
+                    if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId))
+                        return this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
+                    else
+                        return null;
+                }
+
+            } else {
+                if(noSchedule) return '託児計画なし';
+                return null;
+            }
         }
     },
     mounted() {

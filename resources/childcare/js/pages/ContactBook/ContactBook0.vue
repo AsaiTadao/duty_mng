@@ -37,10 +37,11 @@
                             <div class="form-group row">
                                 <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                     <label for="parentname" style="min-width: 100px; margin-bottom:0px;">記入者 保護者様名：</label>
-                                    <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" :class="{'is-invalid': errors.guardian}" @change="dataChanged = true; errors.guardian = null;"/>
+                                    <!-- <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" :class="{'is-invalid': errors.guardian}" @change="dataChanged = true; errors.guardian = null;"/>
                                     <span v-if="errors.guardian" class="error invalid-feedback">
                                         {{errors.guardian}}
-                                    </span>
+                                    </span> -->
+                                    {{formData.guardian}}
                                 </div>
                                 <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                     <label for="mindername" style="min-width: 80px; margin-bottom:0px;">保育士名：</label>
@@ -57,13 +58,14 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
-                                    <div class="light-pink form-check text-center py-2">
-                                        <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="1" @change="dataChanged = true;">
+                                    <div class="light-pink form-check text-center py-2" style="height:39px;">
+                                        <!-- <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="1" @change="dataChanged = true;">
                                         <label class="form-check-label mr-4">普通</label>
                                         <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="2" @change="dataChanged = true;">
                                         <label class="form-check-label mr-4">良い</label>
                                         <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="3" @change="dataChanged = true;">
-                                        <label class="form-check-label mr-4">悪い</label>
+                                        <label class="form-check-label mr-4">悪い</label> -->
+                                        {{formatMoodStatus(formData.mood)}}
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
@@ -72,16 +74,20 @@
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
-                                    <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <hour-minute-input v-model="formData.temperatureTimeStd" :error="errors.temperatureTimeStd" @input="dataChanged = true; errors.temperatureTimeStd = null;"/>
+                                    <div class="light-pink text-center d-flex justify-content-center py-2" style="height:39px;">
+                                        <!-- <hour-minute-input v-model="formData.temperatureTimeStd" :error="errors.temperatureTimeStd" @input="dataChanged = true; errors.temperatureTimeStd = null;"/> -->
+                                        {{formData.temperatureTimeStd}}
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
-                                    <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <input type="number" min="0" max="60" class="form-control" style="max-width: 55%;"  :class="{'is-invalid': errors.temperatureStd}" v-model="formData.temperatureStd" @change="dataChanged = true; errors.temperatureStd = null;"/>℃　
+                                    <div class="light-pink text-center d-flex justify-content-center py-2" style="height:39px;">
+                                        <!-- <input type="number" min="0" max="60" class="form-control" style="max-width: 55%;"  :class="{'is-invalid': errors.temperatureStd}" v-model="formData.temperatureStd" @change="dataChanged = true; errors.temperatureStd = null;"/>℃　
                                         <span v-if="errors.temperatureStd"  class="error invalid-feedback">
                                             {{errors.temperatureStd}}
-                                        </span>
+                                        </span> -->
+                                        <template v-if="formData.temperatureStd">
+                                            {{formData.temperatureStd}}℃　
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -92,8 +98,9 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
-                                    <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                       <hour-minute-input v-model="formData.pickUpTime" @input="dataChanged = true; errors.pickUpTime = null;" :error="errors.pickUpTime"/>
+                                    <div class="light-pink text-center d-flex justify-content-center py-2" style="height:39px;">
+                                       <!-- <hour-minute-input v-model="formData.pickUpTime" @input="dataChanged = true; errors.pickUpTime = null;" :error="errors.pickUpTime"/> -->
+                                        {{formData.pickUpTime}}
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
@@ -102,11 +109,12 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
-                                    <div class="light-pink d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.pickUpPerson" :class="{'is-invalid': errors.pickUpPerson}" @change="dataChanged = true;errors.pickUpPerson = null;"/>
+                                    <div class="light-pink d-flex justify-content-center py-2" style="height:39px;">
+                                        <!-- <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.pickUpPerson" :class="{'is-invalid': errors.pickUpPerson}" @change="dataChanged = true;errors.pickUpPerson = null;"/>
                                         <span v-if="errors.pickUpPerson" class="error invalid-feedback">
                                             {{errors.pickUpPerson}}
-                                        </span>
+                                        </span> -->
+                                        {{formData.pickUpPerson}}
                                     </div>
                                 </div>
                             </div>
@@ -584,10 +592,10 @@ export default {
             const requestData = this.formData;
             requestData['date'] = moment(this.selectedDate).format('YYYY-MM-DD');
             requestData['status'] = status;
-            if(this.formData.pickUpTime)
-                requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
-            if(this.formData.temperatureTimeStd)
-                requestData['temperature_time_std'] = moment(this.formData.temperatureTimeStd, 'h:mm:ss').format('HH:mm');
+            // if(this.formData.pickUpTime)
+            //     requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
+            // if(this.formData.temperatureTimeStd)
+            //     requestData['temperature_time_std'] = moment(this.formData.temperatureTimeStd, 'h:mm:ss').format('HH:mm');
             this.setActionLoading();
             api.post('contact-book/child/' + this.child.id + '/school/0', null, requestData)
             .then(() => {
@@ -603,22 +611,22 @@ export default {
         },
         validate() {
             let valid = true;
-            if(!this.formData.weather) {
-                this.errors.weather = this.$t('Please input weather');
-                valid = false;
-            }
+            // if(!this.formData.weather) {
+            //     this.errors.weather = this.$t('Please input weather');
+            //     valid = false;
+            // }
             if(this.formData.temperatureStd && this.formData.temperatureStd < 0) {
                 this.errors.temperatureStd = this.$t('Please input positive number');
                 valid = false;
             }
-            if(!this.formData.guardian) {
-                this.errors.guardian = this.$t('Please input name');
-                valid = false;
-            }
-            if(this.formData.guardian && this.formData.guardian.length > 20) {
-                this.errors.guardian = this.$t('Please enter 20 characters or less');
-                valid = false;
-            }
+            // if(!this.formData.guardian) {
+            //     this.errors.guardian = this.$t('Please input name');
+            //     valid = false;
+            // }
+            // if(this.formData.guardian && this.formData.guardian.length > 20) {
+            //     this.errors.guardian = this.$t('Please enter 20 characters or less');
+            //     valid = false;
+            // }
             if(!this.formData.nurseName) {
                 this.errors.nurseName = this.$t('Please input name');
                 valid = false;
@@ -627,22 +635,22 @@ export default {
                 this.errors.nurseName = this.$t('Please enter 20 characters or less');
                 valid = false;
             }
-            if(!this.formData.pickUpPerson) {
-                this.errors.pickUpPerson = this.$t('Please input name');
-                valid = false;
-            }
-            if(this.formData.pickUpPerson && this.formData.pickUpPerson.length > 20) {
-                this.errors.pickUpPerson = this.$t('Please enter 20 characters or less');
-                valid = false;
-            }
-            if(this.formData.temperatureTimeStd && !validateHhMm(this.formData.temperatureTimeStd)) {
-                this.errors.temperatureTimeStd = this.$t('Invalid time format');
-                valid = false;
-            }
-            if(this.formData.pickUpTime && !validateHhMm(this.formData.pickUpTime)) {
-                this.errors.pickUpTime = this.$t('Invalid time format');
-                valid = false;
-            }
+            // if(!this.formData.pickUpPerson) {
+            //     this.errors.pickUpPerson = this.$t('Please input name');
+            //     valid = false;
+            // }
+            // if(this.formData.pickUpPerson && this.formData.pickUpPerson.length > 20) {
+            //     this.errors.pickUpPerson = this.$t('Please enter 20 characters or less');
+            //     valid = false;
+            // }
+            // if(this.formData.temperatureTimeStd && !validateHhMm(this.formData.temperatureTimeStd)) {
+            //     this.errors.temperatureTimeStd = this.$t('Invalid time format');
+            //     valid = false;
+            // }
+            // if(this.formData.pickUpTime && !validateHhMm(this.formData.pickUpTime)) {
+            //     this.errors.pickUpTime = this.$t('Invalid time format');
+            //     valid = false;
+            // }
             this.hours.forEach(element => {
                 if(this.formData[`temperature${('0' + element.time).slice(-2)}School`] && this.formData[`temperature${('0' + element.time).slice(-2)}School`] < 0) {
                     this.errors[`temperature${('0' + element.time).slice(-2)}School`] = this.$t('Please input positive number');
@@ -712,6 +720,17 @@ export default {
         exportExcel() {
             const date = moment(this.selectedDate).format('YYYY-MM-DD');
             location.href = process.env.MIX_APP_BASE_URL + 'childcare-contact-book/excel/' + this.child.id + '/?date=' + date + '&token=' + LocalStorage.getToken();
+        },
+        formatMoodStatus(status) {
+            if(status == 1) {
+                return '普通';
+            } else if(status == 2) {
+                return '良い';
+            } else if(status == 3) {
+                return '悪い';
+            } else {
+                return '';
+            }
         },
         previousDay() {
             return moment(this.selectedDate).subtract(1, 'days').format('M月 D日 (ddd)');
