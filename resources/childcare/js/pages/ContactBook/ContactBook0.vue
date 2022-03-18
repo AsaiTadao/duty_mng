@@ -125,14 +125,16 @@
                                         <tbody class="text-center contactbook-tr">
                                             <template v-for="hour in hours">
                                                 <tr v-if="hour.time == 18" :key="hour.time + 'previous_day'" style="background-color:#D9E1F2">
-                                                    <td colspan="5" class="contact-book-sleep-date" style="background-color:#D9E1F2">
+                                                    <td colspan="4" class="contact-book-sleep-date contactbook-fix" style="background-color:#D9E1F2">
                                                         {{previousDay()}}
                                                     </td>
+                                                    <td style="background-color:#D9E1F2"></td>
                                                 </tr>
                                                 <tr v-if="hour.time == 24" :key="hour.time + 'current_day'" style="background-color:#D9E1F2">
-                                                    <td colspan="5" class="contact-book-sleep-date" style="background-color:#D9E1F2">
+                                                    <td colspan="4" class="contact-book-sleep-date contactbook-fix" style="background-color:#D9E1F2">
                                                         {{currentDay()}}
                                                     </td>
+                                                    <td style="background-color:#D9E1F2"></td>
                                                 </tr>
                                                 <tr :key="hour.time+'hours'" style="background-color: #dcd5bc;">
                                                     <td rowspan="2" class="align-middle contactbook-fix">{{hour.time == 24 ? '0' : hour.time}}時</td>
