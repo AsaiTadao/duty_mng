@@ -9,7 +9,17 @@
         <div class="modal-body">
             <div class="form-group row">
                 <div class="col-md-10 mail-content">
-                    {{mailContent}}
+                    {{mailContent.content}}
+                </div>
+            </div>
+            ---------------------------------
+            <div class="form-group row">
+                <div class="col-md-10 mail-content">
+                    <label v-for="file in mailContent.files" :key="file.id">
+                        <a :href="file.url">
+                            {{file.name}}
+                        </a>
+                    </label>
                 </div>
             </div>
         </div>

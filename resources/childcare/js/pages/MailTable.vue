@@ -25,7 +25,7 @@
                                 <td>{{mail.cnt}}</td>
                                 <td>{{mail.subject}}</td>
                                 <!-- <td>{{mail.content}}</td> -->
-                                <td><a href="javascript:void(0)" @click="viewMailContent(mail.content)">確認</a></td>
+                                <td><a href="javascript:void(0)" @click="viewMailContent(mail)">確認</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -76,7 +76,7 @@ export default {
             perPages: [
                 10, 20, 50, 100
             ],
-            mailContent: ''
+            mailContent: {}
         }
     },
     computed: {
@@ -115,7 +115,7 @@ export default {
             $("#mail-view-form").modal('show');
         },
         getCreatedAt(createdAt) {
-            return moment(createdAt).format("YYYY-MM-DD H:m");
+            return moment(createdAt).format("YYYY-MM-DD HH:mm");
         },
         getChildClassName(classId) {
             if(!classId) return null;
