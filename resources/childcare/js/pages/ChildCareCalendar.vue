@@ -249,7 +249,11 @@ export default {
         validate() {
             let valid = true;
             this.planDays.forEach((plan, index) => {
-                if (plan.absentId) return;
+                if (plan.absentId) {
+                    plan.startTime = null;
+                    plan.endTime = null;
+                    return;
+                }
                 // if (!plan.startTime) {
                 //     valid = false;
                 //     this.planDayErrors[index].startTime = this.$t('Please input start time');
