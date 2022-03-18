@@ -13,6 +13,7 @@ class ContactBook0HomeRequest extends FormRequest {
             'mood'      => ['nullable', 'in:1,2,3'],
             'pick_up_person'  =>  ['nullable'],
             'pick_up_time'    =>  ['nullable', 'date_format:H:i'],
+            'guardian'          =>  ['nullable', 'string'],
             'sleep_0100_home' =>  ['nullable', 'boolean'],
             'sleep_0130_home' =>  ['nullable', 'boolean'],
             'sleep_0200_home' =>  ['nullable', 'boolean'],
