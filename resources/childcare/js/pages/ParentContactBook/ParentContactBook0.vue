@@ -249,6 +249,7 @@ import actionLoading from '../../mixin/actionLoading';
 import api, { apiErrorHandler } from '../../global/api';
 import HourMinuteInput from '../../components/HourMinuteInput.vue';
 import { showSuccess } from '../../helpers/error';
+import { changeToHhMm, validateHhMm } from '../../helpers/datetime';
 
 const initialFormData = {
     date: new Date(),
@@ -621,6 +622,16 @@ export default {
             }
             if(this.formData.pickUpPerson && this.formData.pickUpPerson.length > 20) {
                 this.errors.pickUpPerson = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
+            this.formData.temperatureTimeStd = changeToHhMm(this.formData.temperatureTimeStd);
+            if(this.formData.temperatureTimeStd && !validateHhMm(this.formData.temperatureTimeStd)) {
+                this.errors.temperatureTimeStd = this.$t('Invalid time format');
+                valid = false;
+            }
+            this.formData.pickUpTime = changeToHhMm(this.formData.pickUpTime);
+            if(this.formData.pickUpTime && !validateHhMm(this.formData.pickUpTime)) {
+                this.errors.pickUpTime = this.$t('Invalid time format');
                 valid = false;
             }
             this.hours.forEach(element => {
