@@ -22,14 +22,19 @@ class ChildAttendanceResource extends JsonResource
         $contact_status = ContactBook::STATUS_INCOMPLETE;
         if ($date) {
             $planDay = ChildcarePlanDay::where(['child_id' => $this->id, 'date' => $date])->first();
-            if (!$this->reason_for_absence_id && (!$planDay || $planDay->absent_id || !$planDay->start_time || !$planDay->end_time))
-            {
+            // if (!$this->reason_for_absence_id && (!$planDay || $planDay->absent_id || !$planDay->start_time || !$planDay->end_time))
+            // {
+            //     $noSchedule = true;
+            // }
+            // if (!$this->reason_for_absence_id && !$this->commuting_time && $planDay && $planDay->absent_id)
+            // {
+            //     $reason_for_absence_id = $planDay->absent_id;
+            // }
+            if ($planDay && $planDay->absent_id) {
                 $noSchedule = true;
-            }
-            if (!$this->reason_for_absence_id && !$this->commuting_time && $planDay && $planDay->absent_id)
-            {
                 $reason_for_absence_id = $planDay->absent_id;
             }
+
             $contactBook = ContactBook::whereDate('date', $date)->where(['child_id' => $this->id])->first();
             if ($contactBook)
             {

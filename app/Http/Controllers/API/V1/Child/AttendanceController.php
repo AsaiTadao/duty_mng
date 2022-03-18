@@ -134,11 +134,15 @@ class AttendanceController extends BaseController
             if ($attendance) {
                 $item = $attendance->toArray();
             }
-            if ((!$plan || $plan->absent_id || !$plan->start_time || !$plan->end_time) && !$item['reason_for_absence_id']) {
+            // if ((!$plan || $plan->absent_id || !$plan->start_time || !$plan->end_time) && !$item['reason_for_absence_id']) {
+            //     $item['no_schedule'] = true;
+            // }
+            // if (!$item['commuting_time'] && !$item['reason_for_absence_id'] && $plan && $plan->absent_id)
+            // {
+            //     $item['reason_for_absence_id'] = $plan->absent_id;
+            // }
+            if ($plan && $plan->absent_id) {
                 $item['no_schedule'] = true;
-            }
-            if (!$item['commuting_time'] && !$item['reason_for_absence_id'] && $plan && $plan->absent_id)
-            {
                 $item['reason_for_absence_id'] = $plan->absent_id;
             }
 
