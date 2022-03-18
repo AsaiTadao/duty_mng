@@ -51,10 +51,18 @@ export default {
     methods: {
         inputHour(e) {
             let hour = e.target.value;
+            if (!hour && !this.minute) {
+                this.$emit('input', '');
+                return;
+            }
             this.$emit('input', hour + ':' + this.minute);
         },
         inputMinute(e) {
             let minute = e.target.value;
+            if (!minute && !this.hour) {
+                this.$emit('input', '');
+                return;
+            }
             this.$emit('input', this.hour + ':' + minute);
         }
     }

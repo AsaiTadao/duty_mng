@@ -123,6 +123,7 @@ const defaultPlanItem = {
     absentId: null,
     startTime: '',
     endTime: '',
+    time: '',
 }
 const defaultPlanDayError = {
     startTime: null,
@@ -257,6 +258,17 @@ export default {
                 //     valid = false;
                 //     this.planDayErrors[index].endTime = this.$t('Please input end time');
                 // }
+                if (!plan.startTime && !plan.endTime) return;
+                if ((plan.startTime && !plan.endTime) || (!plan.startTime && plan.endTime)) {
+                    valid = false;
+                    if (!plan.startTime)
+                        this.planDayErrors[index].startTime = this.$t('Invalid time period');
+                    else
+                        this.planDayErrors[index].endTime = this.$t('Invalid time period');
+                    return ;
+                }
+                if (index == 15)
+                    console.log(plan.startTime);
                 plan.startTime = this.fomatTime(plan.startTime);
                 plan.endTime = this.fomatTime(plan.endTime);
 
