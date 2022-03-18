@@ -12,6 +12,8 @@ class ContactBook345HomeRequest extends FormRequest {
             'date'              =>  ['required', 'date_format:Y-m-d'],
             'contact_0_home'    =>  ['nullable', 'string'],
             'guardian'          =>  ['nullable', 'string'],
+            'temperature_time_std'  =>  ['nullable', 'date_format:H:i'],
+            'temperature_std'   =>  ['nullable', 'numeric'],
         ];
     }
 }
