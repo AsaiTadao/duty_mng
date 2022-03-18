@@ -78,4 +78,15 @@ class MailJobHistory extends Model
     {
         return $this->belongsTo(Attachment::class, 'file_id_10');
     }
+
+    public function getFilesAttribute() {
+        $files = [];
+        for ($i = 1; $i < 10; $i++) {
+            $key = 'file' . $i;
+            if ($this->$key) {
+                $files[] = $this->$key;
+            }
+        }
+        return $files;
+    }
 }

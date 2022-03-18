@@ -18,6 +18,7 @@ class AttachmentService {
         {
             $fileName = self::randomFileName($file);
         }
+        $fileName = $file->getClientOriginalName();
         $path = Storage::put('public/attachments', $file);
         if (!$path)
         {
@@ -30,6 +31,7 @@ class AttachmentService {
         $attachment->path = $path;
         $attachment->url = $url;
         $attachment->upload_user_id = $user->id;
+        $attachment->name = $fileName;
         return $attachment;
     }
     public static function randomFileName($file)

@@ -56,7 +56,18 @@ class MailController extends BaseController
         } else {
             $size = $data['per_page'];
         }
-        $mails = MailJobHistory::with('office')->where(['office_id' => $user->office_id])->orderBy('id', 'desc')->paginate($size);
+        $mails = MailJobHistory::with('office')
+            ->with('file1')
+            ->with('file2')
+            ->with('file3')
+            ->with('file4')
+            ->with('file5')
+            ->with('file6')
+            ->with('file7')
+            ->with('file8')
+            ->with('file9')
+            ->with('file10')
+            ->where(['office_id' => $user->office_id])->orderBy('id', 'desc')->paginate($size);
         return $this->sendResponse([
             'data'  =>  $mails->items(),
             'total' =>  $mails->total(),
