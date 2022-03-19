@@ -17,7 +17,7 @@ class CreateMailJobHistoriesTable extends Migration
         Schema::create('mail_job_histories', function (Blueprint $table) {
             $table->id();
             $table->string('subject')->nullable();
-            $table->string('content')->nullable();
+            $table->text('content')->nullable();
             $table->foreignId('children_class_id')->nullable()->constrained('children_classes')->nullOnDelete();
             $table->tinyInteger('type')->default(MailHistory::TYPE_NORMAL);
             $table->integer('cnt')->default(0);

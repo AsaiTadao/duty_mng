@@ -72,7 +72,10 @@ class MailNotifJob implements ShouldQueue
             $content = nl2br($utilService->bladeCompile($this->mailJobHistory->content, [
                 'children_qr'   =>  $qrService->getChildQrImageTag($child),
                 'password'      =>  Crypt::decryptString($child->password),
-                'login_id'       =>  $child->email
+                'login_id'       =>  $child->email,
+                'office_name'   =>  $child->office->name,
+                'child_name'    =>  $child->name,
+                'office'        =>  $child->office
             ]));
 
             $mailHistory = MailHistory::create([
