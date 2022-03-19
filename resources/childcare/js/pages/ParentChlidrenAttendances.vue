@@ -50,8 +50,9 @@
                                                 <td>{{ item.extension ? item.extension : '' }}</td>
                                                 <td>
                                                     <a href="javascript:void(0)" class="mx-2" @click="openContactBook(item.day)">
-                                                        <template v-if="item.contactStatus == 0">未入力</template>
-                                                        <template v-else>確認</template>
+                                                        <!-- <template v-if="item.contactStatus == 0">未入力</template> -->
+                                                        <!-- <template v-else>確認</template> -->
+                                                        確認
                                                     </a>
                                                 </td>
                                             </tr>
