@@ -370,7 +370,7 @@ export default {
                 'birthday': moment(this.formData.birthday).format("YYYY-MM-DD"),
                 'class_id': this.formData.classId,
                 'admission_date': moment(this.formData.admissionDate).format("YYYY-MM-DD"),
-                'exit_date': moment(this.formData.exitDate).format("YYYY-MM-DD"),
+                'exit_date': this.formData.exitDate ? moment(this.formData.exitDate).format("YYYY-MM-DD") : null,
                 'email': this.formData.email,
                 'password': this.formData.password,
                 'type': this.formData.type,
