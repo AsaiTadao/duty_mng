@@ -913,10 +913,10 @@ export default {
         },
         validate() {
             let valid = true;
-            if(!this.formData.weather) {
-                this.errors.weather = this.$t('Please input weather');
-                valid = false;
-            }
+            // if(!this.formData.weather) {
+            //     this.errors.weather = this.$t('Please input weather');
+            //     valid = false;
+            // }
             if(!this.formData.pickUpPerson) {
                 this.errors.pickUpPerson = this.$t('Please input name');
                 valid = false;
@@ -926,6 +926,11 @@ export default {
                 valid = false;
             }
             this.formData.pickUpTime = changeToHhMm(this.formData.pickUpTime);
+
+            if(!this.formData.pickUpTime) {
+                this.errors.pickUpTime = this.$t('Please input time');
+                valid = false;
+            }
             if(this.formData.pickUpTime && !validateHhMm(this.formData.pickUpTime)) {
                 this.errors.pickUpTime = this.$t('Invalid time format');
                 valid = false;

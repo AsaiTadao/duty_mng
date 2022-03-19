@@ -37,10 +37,11 @@
                             <div class="form-group row">
                                 <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                     <label for="parentname" style="min-width: 100px; margin-bottom:0px;">記入者 保護者様名：</label>
-                                    <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" :class="{'is-invalid': errors.guardian}" @change="dataChanged = true; errors.guardian = null;"/>
+                                    <!-- <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" :class="{'is-invalid': errors.guardian}" @change="dataChanged = true; errors.guardian = null;"/>
                                     <span v-if="errors.guardian" class="error invalid-feedback">
                                         {{errors.guardian}}
-                                    </span>
+                                    </span> -->
+                                    {{formData.guardian}}
                                 </div>
                                 <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                     <label for="mindername" style="min-width: 80px; margin-bottom:0px;">保育士名：</label>
@@ -366,7 +367,7 @@
                                             <div class="row">
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
-                                                        <div class="text-center d-flex justify-content-center">
+                                                        <div class="text-center d-flex justify-content-center meal-time-input">
                                                             <hour-minute-input v-model="formData.mealTime1School" :error="errors.mealTime1School" @input="dataChanged = true;errors.mealTime1School = null;"/>
                                                         </div>
                                                     </div>
@@ -921,14 +922,14 @@ export default {
         },
         validate() {
             let valid = true;
-            if(!this.formData.guardian) {
-                this.errors.guardian = this.$t('Please input name');
-                valid = false;
-            }
-            if(this.formData.guardian && this.formData.guardian.length > 20) {
-                this.errors.guardian = this.$t('Please enter 20 characters or less');
-                valid = false;
-            }
+            // if(!this.formData.guardian) {
+            //     this.errors.guardian = this.$t('Please input name');
+            //     valid = false;
+            // }
+            // if(this.formData.guardian && this.formData.guardian.length > 20) {
+            //     this.errors.guardian = this.$t('Please enter 20 characters or less');
+            //     valid = false;
+            // }
             if(!this.formData.nurseName) {
                 this.errors.nurseName = this.$t('Please input name');
                 valid = false;
@@ -947,6 +948,11 @@ export default {
             }
 
             this.formData.pickUpTime = changeToHhMm(this.formData.pickUpTime);
+            if(!this.formData.pickUpTime) {
+                this.errors.pickUpTime = this.$t('Please input time');
+                valid = false;
+            }
+
             if(this.formData.pickUpTime && !validateHhMm(this.formData.pickUpTime)) {
                 this.errors.pickUpTime = this.$t('Invalid time format');
                 valid = false;
@@ -1021,10 +1027,10 @@ export default {
                 this.errors.temperatureTime3School = this.$t('Invalid time format');
                 valid = false;
             }
-            if(!this.formData.weather) {
-                this.errors.weather = this.$t('Please input weather');
-                valid = false;
-            }
+            // if(!this.formData.weather) {
+            //     this.errors.weather = this.$t('Please input weather');
+            //     valid = false;
+            // }
             if(this.formData.defecationCount1School && this.formData.defecationCount1School < 0) {
                 this.errors.defecationCount1School =this.$t('Please input positive number');
                 valid = false;
