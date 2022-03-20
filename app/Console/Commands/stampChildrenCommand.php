@@ -63,12 +63,22 @@ class stampChildrenCommand extends Command
             return false;
         }
 
-        $count = ChildrenAttendence::where('child_id', $child->id)->where('year_id', $year->id)
-            ->where('month', $m)->where('day', $d)->count();
+        $attendence = ChildrenAttendence::where('child_id', $child->id)->where('year_id', $year->id)
+            ->where('month', $m)->where('day', $d)->first();
 
-        switch ($count) {
-            case 0:
-                ChildrenAttendence::create([
+        if(!empty($attendence)){
+            if(!empty($attendence->leave_time)){
+                Log::info('ChildrenAttendence leave is stamped.');
+                $count = 3;
+            } else {
+                    ChildrenAttendence::where('child_id', $child->id)->where('year_id', $year->id)
+                    ->where('month', $m)->where('day', $d)
+                    ->update(['leave_time' => $datetime]);
+
+                $count = 2;
+            }
+        } else {
+                    ChildrenAttendence::create([
                     'child_id' => $child->id,
                     'year_id' => $year->id,
                     'month' => $m,
@@ -76,24 +86,14 @@ class stampChildrenCommand extends Command
                     'date' => $date,
                     'commuting_time' => $datetime
                 ]);
-
-                break;
-            case 1:
-                ChildrenAttendence::where('child_id', $child->id)->where('year_id', $year->id)
-                    ->where('month', $m)->where('day', $d)
-                    ->update(['leave_time' => $datetime]);
-
-                break;
-            default:
-                Log::info('ChildrenAttendence is stamped ['.($count + 1).'] times today.');
+            $count = 1;
         }
 
         QrTransaction::create([
             'device_id' => $deviceId,
-            //'office_id' => $officeId,
             'qr' => $data,
             'ymd' => $ymd,
-            'counter' => $count + 1,
+            'counter' => $count,
         ]);
 
         return true;

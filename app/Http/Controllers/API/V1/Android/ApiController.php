@@ -21,7 +21,7 @@ class ApiController extends Controller
     public function device(ApiDeviceRequest $request)
     {
         if (!self::validateHttpHeader($request)) {
-            return response()->json(['result' => false, 'error' => ['code'=>'403','message'=>'You are not allowed']]);
+            return response()->json(['result' => false, 'error' => 'You are not allowed']);
         }
         $data = $request->all();
 
@@ -39,7 +39,7 @@ class ApiController extends Controller
     public function live(ApiLiveRequest $request)
     {
         if (!self::validateHttpHeader($request)) {
-            return response()->json(['result' => false, 'error' => ['code'=>'403','message'=>'You are not allowed']]);
+            return response()->json(['result' => false, 'error' => 'You are not allowed']);
         }
         $data = $request->all();
 
@@ -59,7 +59,7 @@ class ApiController extends Controller
 
 
         if (!self::validateHttpHeader($request)) {
-            return response()->json(['result' => false, 'error' => ['code'=>'403','message'=>'You are not allowed']]);
+            return response()->json(['result' => false, 'error' => 'You are not allowed']);
         }
         $data = $request->all();
 
@@ -68,12 +68,11 @@ class ApiController extends Controller
         } elseif(strpos($data['data'], "LK-CHILDREN-" ) === 0) {
             Artisan::call('command:stampChildren', [
                 'device_id' => $data['device_id'],
-                //'office_id' => $data['office_id'],
                 'data' => $data['data'],
-                'datetime' => date('YmdHis')
+                'datetime' => date('YmdHis', strtotime($data['datetime']))
             ]);
 
-            $qr= QrTransaction::where('qr', $data['data'])->where('data', $data['data'])->orderby('created_at')->first();
+            $qr= QrTransaction::where('qr', $data['data'])->where('ymd', date('Ymd', strtotime($data['datetime'])))->orderby('created_at', 'desc')->first();
             switch ($qr->counter) {
                 case 1:
                     $type = 'commute';
@@ -82,7 +81,7 @@ class ApiController extends Controller
                     $type = 'leave';
                     break;
                 default:
-                    $error = 'invalid stamp';
+                    return response()->json(['result' => false, 'error' => '既に退園済です']);
             }
 
         } else {
@@ -95,7 +94,7 @@ class ApiController extends Controller
     public function retry(ApiRetryRequest $request)
     {
         if (!self::validateHttpHeader($request)) {
-            return response()->json(['result' => false, 'error' => ['code'=>'403','message'=>'You are not allowed']]);
+            return response()->json(['result' => false, 'error' => 'You are not allowed']);
         }
         $data = $request->all();
 
@@ -107,7 +106,6 @@ class ApiController extends Controller
             } elseif(strpos($item['data'], "LK-CHILDREN-" ) === 0) {
                 Artisan::call('command:stampChildren', [
                     'device_id' => $data['device_id'],
-                    //'office_id' => $item['office_id'],
                     'data' => $item['data'],
                     'datetime' => $item['datetime']
                 ]);
