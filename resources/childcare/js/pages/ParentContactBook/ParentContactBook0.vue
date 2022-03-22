@@ -43,9 +43,10 @@
                                 </div>
                                 <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                     <label for="mindername" style="min-width: 80px; margin-bottom:0px;">保育士名：</label>
-                                    <span v-if="errors.nurseName" class="error invalid-feedback">
+                                    {{formData.nurseName}}
+                                    <!-- <span v-if="errors.nurseName" class="error invalid-feedback">
                                         {{errors.nurseName}}
-                                    </span>
+                                    </span> -->
                                 </div>
                             </div>
                             <div class="row" style="padding-left:15px; padding-right:15px;">

@@ -23,9 +23,12 @@
                                     </button>
                                 </div>
                                 <div class="d-flex align-items-center px-3">
-                                    <div for="weatherStauts" class="form-label mr-2">天気:</div>
-                                        {{formData.weather}}
+                                    <div for="weatherStauts" class="form-label mr-2">天気</div>
+                                    <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" :class="{'is-invalid' : errors.weather}" v-model="formData.weather" @change="dataChanged = true; errors.weather = null;"/>
                                 </div>
+                                <span v-if="errors.weather" class="error invalid-feedback">
+                                    {{errors.weather}}
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -86,6 +89,7 @@ import { showSuccess } from '../../helpers/error';
 const initialFormData = {
     date: new Date(),
     weather: '',
+    guardian: '',
     mood: null,
     pickUpPerson: null,
     pickUpTime: null,
@@ -169,10 +173,19 @@ export default {
         },
         validate() {
             let valid = true;
+            if(!this.formData.guardian) {
+                this.errors.guardian = this.$t('Please input name');
+                valid = false;
+            }
+            if(this.formData.guardian && this.formData.guardian.length > 20) {
+                this.errors.guardian = this.$t('Please enter 20 characters or less');
+                valid = false;
+            }
             return valid;
         },
         initFormError() {
             this.errors = {
+                guardian: null,
             }
         },
         getContact(date) {
