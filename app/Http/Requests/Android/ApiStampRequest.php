@@ -9,7 +9,6 @@ class ApiStampRequest extends FormRequest {
     public function rules() {
         return [
             'device_id' => ['required', 'numeric', 'exists:devices,id'],
-            //'office_id' => ['required', 'numeric', 'exists:offices,id'],
             'datetime' => ['required', 'date_format:Y-m-d H:i:s'],
             'data' => ['required', 'string', 'min:60', 'max:100'],
         ];

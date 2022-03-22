@@ -12,9 +12,8 @@ class ApiRetryRequest extends FormRequest {
             'datetime' => ['required', 'date_format:Y-m-d H:i:s'],
             'retry_items' => ['required', 'array'],
             'retry_items.*' => ['required', 'array'],
-            'retry_items.*.office_id' => ['required', 'numeric', 'exists:offices,id'],
             'retry_items.*.datetime' => ['required', 'date_format:Y-m-d H:i:s'],
-            'retry_items.*.data' => ['required', 'string', 'min:60', 'max:100'],
+            'retry_items.*.data' => ['required'],
         ];
     }
 }
