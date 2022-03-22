@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                       <hour-minute-input v-model="formData.pickUpTime" @change="dataChanged = true;"/>
+                                       <hour-minute-input v-model="formData.pickUpTime" @input="dataChanged = true; errors.pickUpTime = null;" :error="errors.pickUpTime"/>
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
@@ -631,6 +631,12 @@ export default {
                 valid = false;
             }
             this.formData.pickUpTime = changeToHhMm(this.formData.pickUpTime);
+
+            if(!this.formData.pickUpTime) {
+                this.errors.pickUpTime = this.$t('Please input time');
+                valid = false;
+            }
+
             if(this.formData.pickUpTime && !validateHhMm(this.formData.pickUpTime)) {
                 this.errors.pickUpTime = this.$t('Invalid time format');
                 valid = false;
