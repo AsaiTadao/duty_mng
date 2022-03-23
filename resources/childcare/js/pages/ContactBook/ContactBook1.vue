@@ -58,8 +58,9 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
-                                    <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                       <hour-minute-input v-model="formData.pickUpTime" @input="dataChanged = true; errors.pickUpTime = null;" :error="errors.pickUpTime"/>
+                                    <div class="light-pink text-center d-flex justify-content-center fixed-height-40 py-2" style="height: 39px;">
+                                       <!-- <hour-minute-input v-model="formData.pickUpTime" @input="dataChanged = true; errors.pickUpTime = null;" :error="errors.pickUpTime"/> -->
+                                       {{formData.pickUpTime}}
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
@@ -68,11 +69,12 @@
                                     </div>
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
-                                    <div class="light-pink d-flex justify-content-center fixed-height-40" style="padding-top:1px; padding-bottom:1px;">
-                                        <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.pickUpPerson" :class="{'is-invalid': errors.pickUpPerson}" @change="dataChanged = true;errors.pickUpPerson = null;"/>
-                                        <span v-if="errors.pickUpPerson" class="error invalid-feedback">
+                                    <div class="light-pink d-flex justify-content-center fixed-height-40 py-2" style="height: 39px;">
+                                        <!-- <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.pickUpPerson" :class="{'is-invalid': errors.pickUpPerson}" @change="dataChanged = true;errors.pickUpPerson = null;"/> -->
+                                        <!-- <span v-if="errors.pickUpPerson" class="error invalid-feedback">
                                             {{errors.pickUpPerson}}
-                                        </span>
+                                        </span> -->
+                                        {{formData.pickUpPerson}}
                                     </div>
                                 </div>
                             </div>
@@ -874,8 +876,8 @@ export default {
             const requestData = this.formData;
             requestData['date'] = moment(this.selectedDate).format('YYYY-MM-DD');
             requestData['status'] = status;
-            if(this.formData.pickUpTime)
-                requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
+            // if(this.formData.pickUpTime)
+            //     requestData['pick_up_time'] = moment(this.formData.pickUpTime, 'h:mm:ss').format('HH:mm');
 
             if(this.formData.mealTime1School)
                 requestData['meal_time_1_school'] = moment(this.formData.mealTime1School, 'h:mm:ss').format('HH:mm');
@@ -938,25 +940,25 @@ export default {
                 this.errors.nurseName = this.$t('Please enter 20 characters or less');
                 valid = false;
             }
-            if(!this.formData.pickUpPerson) {
-                this.errors.pickUpPerson = this.$t('Please input name');
-                valid = false;
-            }
-            if(this.formData.pickUpPerson && this.formData.pickUpPerson.length > 20) {
-                this.errors.pickUpPerson = this.$t('Please enter 20 characters or less');
-                valid = false;
-            }
+            // if(!this.formData.pickUpPerson) {
+            //     this.errors.pickUpPerson = this.$t('Please input name');
+            //     valid = false;
+            // }
+            // if(this.formData.pickUpPerson && this.formData.pickUpPerson.length > 20) {
+            //     this.errors.pickUpPerson = this.$t('Please enter 20 characters or less');
+            //     valid = false;
+            // }
 
-            this.formData.pickUpTime = changeToHhMm(this.formData.pickUpTime);
-            if(!this.formData.pickUpTime) {
-                this.errors.pickUpTime = this.$t('Please input time');
-                valid = false;
-            }
+            // this.formData.pickUpTime = changeToHhMm(this.formData.pickUpTime);
+            // if(!this.formData.pickUpTime) {
+            //     this.errors.pickUpTime = this.$t('Please input time');
+            //     valid = false;
+            // }
 
-            if(this.formData.pickUpTime && !validateHhMm(this.formData.pickUpTime)) {
-                this.errors.pickUpTime = this.$t('Invalid time format');
-                valid = false;
-            }
+            // if(this.formData.pickUpTime && !validateHhMm(this.formData.pickUpTime)) {
+            //     this.errors.pickUpTime = this.$t('Invalid time format');
+            //     valid = false;
+            // }
             this.formData.mealTime1School = changeToHhMm(this.formData.mealTime1School);
             if(this.formData.mealTime1School && !validateHhMm(this.formData.mealTime1School)) {
                 this.errors.mealTime1School = this.$t('Invalid time format');
