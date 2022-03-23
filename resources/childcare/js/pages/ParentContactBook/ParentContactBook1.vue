@@ -787,6 +787,7 @@ const initialFormData = {
     date: new Date(),
     weather: '',
     mood: null,
+    guardian: '',
     pickUpPerson: null,
     pickUpTime: null,
     mealTime1Home: null,
@@ -917,6 +918,10 @@ export default {
             //     this.errors.weather = this.$t('Please input weather');
             //     valid = false;
             // }
+            if(!this.formData.guardian) {
+                this.errors.guardian = this.$t('Please input name');
+                valid = false;
+            }
             if(!this.formData.pickUpPerson) {
                 this.errors.pickUpPerson = this.$t('Please input name');
                 valid = false;
