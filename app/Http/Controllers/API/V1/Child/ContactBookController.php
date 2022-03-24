@@ -118,9 +118,26 @@ class ContactBookController extends BaseController
         $data = $request->validated();
         $date = $data['date'];
         $contactBook = ContactBook::where(['child_id' => $child->id, 'date' => $date])->first();
+
+        if (!$contactBook)
+        {
+            $result = [];
+        } else {
+            $result = $contactBook->toArray();
+        }
+
+        for ($i = 1; $i <= 24; $i++)
+        {
+            $keyHome = 'defecation_' . $i . '_home';
+            $keySchool = 'defecation_' . $i . '_school';
+
+            $result[$keyHome] = empty($result[$keyHome]) ? 0 : $result[$keyHome];
+            $result[$keySchool] = empty($result[$keySchool]) ? 0 : $result[$keySchool];
+        }
+
         return $this->sendResponse([
             'child'      => $child,
-            'contact_book' => $contactBook
+            'contact_book' => $result
         ]);
     }
 
