@@ -2,4 +2,3 @@
 !public/
 !.gitignore
 !excel/*.xlsx
-!mail_template/*.txt
