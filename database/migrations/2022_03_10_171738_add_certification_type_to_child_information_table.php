@@ -15,7 +15,7 @@ class AddCertificationTypeToChildInformationTable extends Migration
     {
         Schema::table('child_information', function (Blueprint $table) {
             //
-            $table->unsignedTinyInteger('certification_type')->default(0);
+            $table->unsignedTinyInteger('certification_type')->nullable();;
         });
     }
 

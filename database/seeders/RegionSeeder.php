@@ -16,10 +16,13 @@ class RegionSeeder extends Seeder
     {
         //
         $regions =  [
-            '仙台エリア',
+            '北海道エリア',
+            '宮城エリア',
+            '福島エリア',
+            '東京エリア',
             '大阪エリア',
-            '九州エリア',
-            '沖縄エリア',
+            '福岡エリア',
+            '沖縄エリア'
         ];
         $i = 1;
         foreach($regions as $regionItem)

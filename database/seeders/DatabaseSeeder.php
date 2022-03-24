@@ -39,7 +39,8 @@ class DatabaseSeeder extends Seeder
             ChildMoodTypeSeeder::class,
             ReasonForAbsenceSeeder::class,
             ChildSeeder::class,
-            BusinessTypeSeeder::class
+            BusinessTypeSeeder::class,
+            OfficeInformationSeeder::class
         ]);
     }
 }
