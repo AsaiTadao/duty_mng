@@ -279,6 +279,7 @@ import { mapState } from 'vuex';
 import { showSuccess } from '../../../js/helpers/error';
 import YearMonthDaySelectBox from '../components/YearMonthDaySelectBox.vue';
 import { validateYYMMDD } from '../helpers/datetime';
+import { validatePassword } from '../helpers/password';
 
 export default {
   components: { YearMonthDaySelectBox },
@@ -513,8 +514,14 @@ export default {
                 this.errors.password = this.$t('Please input password');
                 valid = false;
             }
-            if (this.formData.password && this.formData.password.length > 20) {
-                this.errors.password = this.$t('Please enter 20 characters or less');
+
+            if (this.formData.password && this.formData.password != "******" && !validatePassword(this.formData.password)) {
+                this.errors.password = this.$t('Please input only English and number');
+                valid = false;
+            }
+
+            if (this.formData.password && this.formData.password.length > 4) {
+                this.errors.password = this.$t('Please enter 4 characters or less');
                 valid = false;
             }
             if (!this.formData.type) {
