@@ -17,82 +17,82 @@ class OfficeSeeder extends Seeder
     {
         //
         $data = [
-            [
-                'name'  =>  '沖縄本部',
-                'region_id'=>   4,
-                'industry_group_id' =>  1,
-                'office_group_id'   =>  3,
-                'rest_deduction_id' =>  RestDeduction::TYPE_2,
-                'type'          =>  Office::TYPE_OTHERS
-            ],
-            [
-                'name'  =>  '天王寺ひよこ園',
-                'region_id'=>   2,
-                'industry_group_id' =>  2,
-                'office_group_id'   =>  2,
-                'rest_deduction_id' =>  RestDeduction::TYPE_1,
-                'type'          =>  Office::TYPE_NURSERY
-            ],
-            [
-                'name'  =>  '日本橋ひよこ園',
-                'region_id'=>   2,
-                'industry_group_id' =>  2,
-                'office_group_id'   =>  2,
-                'rest_deduction_id' =>  RestDeduction::TYPE_2,
-                'type'          =>  Office::TYPE_NURSERY
-            ],
-            [
-                'name'  =>  '日本橋園',
-                'region_id'=>   2,
-                'industry_group_id' =>  2,
-                'office_group_id'   =>  2,
-                'rest_deduction_id' =>  RestDeduction::TYPE_1,
-                'type'          =>  Office::TYPE_NURSERY
-            ],
-            [
-                'name'  =>  '梅田あひる園',
-                'region_id'=>   2,
-                'industry_group_id' =>  2,
-                'office_group_id'   =>  2,
-                'rest_deduction_id' =>  RestDeduction::TYPE_1,
-                'type'          =>  Office::TYPE_NURSERY
-            ],
-            [
-                'name'  =>  '福岡かえる園',
-                'region_id'=>   3,
-                'industry_group_id' =>  2,
-                'office_group_id'   =>  3,
-                'rest_deduction_id' =>  RestDeduction::TYPE_2,
-                'type'          =>  Office::TYPE_NURSERY
-            ],
-            [
-                'name'  =>  '福岡すずめ園',
-                'region_id'=>   3,
-                'industry_group_id' =>  2,
-                'office_group_id'   =>  3,
-                'rest_deduction_id' =>  RestDeduction::TYPE_1,
-                'type'          =>  Office::TYPE_NURSERY
-            ],
-            [
-                'name'  =>  '新大阪支店',
-                'region_id'=>   2,
-                'industry_group_id' =>  1,
-                'office_group_id'   =>  2,
-                'rest_deduction_id' =>  RestDeduction::TYPE_2,
-                'type'          =>  Office::TYPE_OTHERS
-            ],
-            [
-                'name'  =>  '心斎橋支店',
-                'region_id'=>   2,
-                'industry_group_id' =>  1,
-                'office_group_id'   =>  2,
-                'rest_deduction_id' =>  RestDeduction::TYPE_1,
-                'type'          =>  Office::TYPE_OTHERS
-            ],
+//            [
+//                'name'  =>  '沖縄本部',
+//                'region_id'=>   4,
+//                'industry_group_id' =>  1,
+//                'office_group_id'   =>  3,
+//                'rest_deduction_id' =>  RestDeduction::TYPE_2,
+//                'type'          =>  Office::TYPE_OTHERS
+//            ],
+//            [
+//                'name'  =>  '天王寺ひよこ園',
+//                'region_id'=>   2,
+//                'industry_group_id' =>  2,
+//                'office_group_id'   =>  2,
+//                'rest_deduction_id' =>  RestDeduction::TYPE_1,
+//                'type'          =>  Office::TYPE_NURSERY
+//            ],
+//            [
+//                'name'  =>  '日本橋ひよこ園',
+//                'region_id'=>   2,
+//                'industry_group_id' =>  2,
+//                'office_group_id'   =>  2,
+//                'rest_deduction_id' =>  RestDeduction::TYPE_2,
+//                'type'          =>  Office::TYPE_NURSERY
+//            ],
+//            [
+//                'name'  =>  '日本橋園',
+//                'region_id'=>   2,
+//                'industry_group_id' =>  2,
+//                'office_group_id'   =>  2,
+//                'rest_deduction_id' =>  RestDeduction::TYPE_1,
+//                'type'          =>  Office::TYPE_NURSERY
+//            ],
+//            [
+//                'name'  =>  '梅田あひる園',
+//                'region_id'=>   2,
+//                'industry_group_id' =>  2,
+//                'office_group_id'   =>  2,
+//                'rest_deduction_id' =>  RestDeduction::TYPE_1,
+//                'type'          =>  Office::TYPE_NURSERY
+//            ],
+//            [
+//                'name'  =>  '福岡かえる園',
+//                'region_id'=>   3,
+//                'industry_group_id' =>  2,
+//                'office_group_id'   =>  3,
+//                'rest_deduction_id' =>  RestDeduction::TYPE_2,
+//                'type'          =>  Office::TYPE_NURSERY
+//            ],
+//            [
+//                'name'  =>  '福岡すずめ園',
+//                'region_id'=>   3,
+//                'industry_group_id' =>  2,
+//                'office_group_id'   =>  3,
+//                'rest_deduction_id' =>  RestDeduction::TYPE_1,
+//                'type'          =>  Office::TYPE_NURSERY
+//            ],
+//            [
+//                'name'  =>  '新大阪支店',
+//                'region_id'=>   2,
+//                'industry_group_id' =>  1,
+//                'office_group_id'   =>  2,
+//                'rest_deduction_id' =>  RestDeduction::TYPE_2,
+//                'type'          =>  Office::TYPE_OTHERS
+//            ],
+//            [
+//                'name'  =>  '心斎橋支店',
+//                'region_id'=>   2,
+//                'industry_group_id' =>  1,
+//                'office_group_id'   =>  2,
+//                'rest_deduction_id' =>  RestDeduction::TYPE_1,
+//                'type'          =>  Office::TYPE_OTHERS
+//            ],
             // 初期データ-------------------------------------------------
             [
                 'name'  =>  'もりのなかま保育園　札幌ひよこ',
-                'region_id'=>   2,
+                'region_id'=>   1,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -102,7 +102,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　札幌白石本郷通園',
-                'region_id'=>   2,
+                'region_id'=>   1,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -151,7 +151,7 @@ class OfficeSeeder extends Seeder
                 'number' => 'LK10'
             ],
             [
-                'name'  =>  'もりのなかま保育園　南大野田園', // もりのなかま保育園  富沢駅前園
+                'name'  =>  'もりのなかま保育園　富沢駅前園',
                 'region_id'=>   2,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
@@ -202,7 +202,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　郡山安積園',
-                'region_id'=>   2,
+                'region_id'=>   3,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -212,7 +212,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　松ノ木園',
-                'region_id'=>   2,
+                'region_id'=>   4,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -222,7 +222,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　東砂ひよこ園',
-                'region_id'=>   2,
+                'region_id'=>   4,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -232,7 +232,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　日本橋ひよこ園',
-                'region_id'=>   2,
+                'region_id'=>   5,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -242,7 +242,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　天王寺ひよこ園',
-                'region_id'=>   2,
+                'region_id'=>   5,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -252,7 +252,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　二島ひよこ園',
-                'region_id'=>   2,
+                'region_id'=>   6,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -262,7 +262,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　佐真下園',
-                'region_id'=>   2,
+                'region_id'=>   7,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -272,7 +272,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　真志喜園',
-                'region_id'=>   2,
+                'region_id'=>   7,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -282,7 +282,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　古謝園',
-                'region_id'=>   2,
+                'region_id'=>   7,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -292,7 +292,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　美里ひよこ園',
-                'region_id'=>   2,
+                'region_id'=>   7,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -302,7 +302,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　宮里園',
-                'region_id'=>   2,
+                'region_id'=>   7,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -312,7 +312,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　喜舎場ひよこ園',
-                'region_id'=>   2,
+                'region_id'=>   7,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -322,7 +322,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　中城屋宜園',
-                'region_id'=>   2,
+                'region_id'=>   7,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -332,7 +332,7 @@ class OfficeSeeder extends Seeder
             ],
             [
                 'name'  =>  'もりのなかま保育園　安慶名園',
-                'region_id'=>   2,
+                'region_id'=>   7,
                 'industry_group_id' =>  NULL,
                 'office_group_id'   =>  NULL,
                 'rest_deduction_id' =>  1,
@@ -340,7 +340,16 @@ class OfficeSeeder extends Seeder
                 'id' =>  25,
                 'number' => 'LK44'
             ],
-
+            [
+                'name'  =>  'D/T管理用',
+                'region_id'=>   NULL,
+                'industry_group_id' =>  NULL,
+                'office_group_id'   =>  NULL,
+                'rest_deduction_id' =>  1,
+                'type'          =>  1,
+                'id' =>  26,
+                'number' => NULL
+            ],
         ];
         $i = 1;
         foreach($data as $item)
