@@ -12,6 +12,8 @@ use Endroid\QrCode\Logo\Logo;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
 use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
 
 class QrService {
     public function getChildQrImageUri(Child $child)
@@ -44,7 +46,10 @@ class QrService {
 
         $result = $writer->write($qrCode, $logo, $label);
         $result->saveToFile(Storage::path("public/qrs/{$child->id}.png"));
-        return config('app.url') . Storage::url("public/qrs/{$child->id}.png");
+
+        $baseUrl = config('app.url');
+
+        return Str::of($baseUrl)->rtrim('/') . Storage::url("public/qrs/{$child->id}.png");
     }
     public function getChildQrImageTag(Child $child)
     {
