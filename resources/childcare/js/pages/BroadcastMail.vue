@@ -12,7 +12,7 @@
                                 <div class="col-md-1"></div>
                                 <label for="inputEmail3" class="col-form-label col-md-1 text-justify-content">宛先</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" id="inputEmail3" placeholder="ひよこ保育園保護者宛メール">
+                                    <input type="text" class="form-control" id="inputEmail3" placeholder="保育園保護者宛メール">
                                 </div>
                             </div>
                             <div class="form-group row">

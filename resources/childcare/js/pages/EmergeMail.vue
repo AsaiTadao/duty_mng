@@ -12,7 +12,7 @@
                                 <div class="col-md-1"></div>
                                 <label for="inputEmail3" class="col-form-label col-md-1 text-justify-content">宛先</label>
                                 <div class="col-md-5">
-                                    <input type="text" class="form-control" id="inputEmail3" placeholder="ひよこ保育園保護者宛メール">
+                                    <input type="text" class="form-control" id="inputEmail3" placeholder="保育園保護者宛メール">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -27,9 +27,9 @@
                                 <div class="col-md-6">
                                     <textarea class="form-control" rows="20">
 保護者様各位
-　ひよこ保育園からのお知らせです。
+保育園からのお知らせです。
 ----------------------------------------------
-　ひよこ保育園
+保育園
 　仙台市青葉区花京院2-1
 　TEL:022-797-7717
 　FAX:022-797-7718
