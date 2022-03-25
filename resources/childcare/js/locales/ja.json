@@ -40,7 +40,7 @@
     "Please input days": "日を入力してください",
     "Please input valid days": "有効日を入力してください",
     "Please input only English and number": "英数字のみ入力してください",
-    "Please enter 4 characters or less": "4文字以下を入力してください",
+    "Please enter 4 characters": "4桁のみを入力してください",
     "Please enter 10 characters or less": "10文字以下を入力してください",
     "Please enter 20 characters or less": "20文字以下を入力してください",
     "Please enter 50 characters or less": "50文字以下を入力してください",

@@ -520,8 +520,8 @@ export default {
                 valid = false;
             }
 
-            if (this.formData.password && this.formData.password.length > 4) {
-                this.errors.password = this.$t('Please enter 4 characters or less');
+            if (this.formData.password && this.formData.password.length != 4) {
+                this.errors.password = this.$t('Please enter 4 characters');
                 valid = false;
             }
             if (!this.formData.type) {
