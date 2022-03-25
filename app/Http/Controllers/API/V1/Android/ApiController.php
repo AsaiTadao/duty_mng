@@ -63,16 +63,18 @@ class ApiController extends Controller
         }
         $data = $request->all();
 
-        if(strpos($data['data'], "LK-USER-" ) === 0){
+        if(strpos($data['data'], "LK-USER-" ) !== false){
             // ToDo: 勤怠サブシステム打刻
-        } elseif(strpos($data['data'], "LK-CHILDREN-" ) === 0) {
+        } elseif(strpos($data['data'], "LK-CHILDREN-" ) !== false) {
+            //QRコードリーダーの仕様で一部QR読み取り時先頭に\000026などのプリフィックスが付与されるため
+            $data['data'] = strstr($data['data'], 'LK-CHILDREN-');
             Artisan::call('command:stampChildren', [
                 'device_id' => $data['device_id'],
                 'data' => $data['data'],
                 'datetime' => date('YmdHis', strtotime($data['datetime']))
             ]);
 
-            $qr= QrTransaction::where('qr', $data['data'])->where('ymd', date('Ymd', strtotime($data['datetime'])))->orderby('created_at', 'desc')->first();
+            $qr = QrTransaction::where('qr', $data['data'])->where('ymd', date('Ymd', strtotime($data['datetime'])))->orderby('created_at', 'desc')->first();
             switch ($qr->counter) {
                 case 1:
                     $type = 'commute';
@@ -80,8 +82,14 @@ class ApiController extends Controller
                 case 2:
                     $type = 'leave';
                     break;
-                default:
+                case 3:
                     return response()->json(['result' => false, 'error' => '既に退園済です']);
+                    break;
+                case 4:
+                    return response()->json(['result' => false, 'error' => '既に登園済です']);
+                    break;
+                default:
+                    return response()->json(['result' => false, 'error' => '打刻内容エラー']);
             }
 
         } else {

@@ -52,6 +52,7 @@ class stampChildrenCommand extends Command
         $ym = date("Ym", strtotime($datetime));
         $m = date("m", strtotime($datetime));
         $d = date("d", strtotime($datetime));
+        $time = date("His", strtotime($datetime));
 
         $child = Child::where('qr', $data)->first();
         if (empty($child) || empty($child->id)) {
@@ -71,11 +72,16 @@ class stampChildrenCommand extends Command
                 Log::info('ChildrenAttendence leave is stamped.');
                 $count = 3;
             } else {
-                    ChildrenAttendence::where('child_id', $child->id)->where('year_id', $year->id)
-                    ->where('month', $m)->where('day', $d)
-                    ->update(['leave_time' => $datetime]);
+                    if(date('His',strtotime( $attendence->commuting_time . '+10 min')) < $time) {
+                        ChildrenAttendence::where('child_id', $child->id)->where('year_id', $year->id)
+                            ->where('month', $m)->where('day', $d)
+                            ->update(['leave_time' => $datetime]);
 
-                $count = 2;
+                        $count = 2;
+                    } else {
+                        Log::info('ChildrenAttendence commute is stamped.');
+                        $count = 4;
+                    }
             }
         } else {
                     ChildrenAttendence::create([
