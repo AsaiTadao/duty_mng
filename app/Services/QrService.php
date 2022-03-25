@@ -20,7 +20,7 @@ class QrService {
     {
         if (Storage::exists("public/qrs/{$child->id}.png"))
         {
-            return config('app.url') . Storage::url("public/qrs/{$child->id}.png");
+            return Str::of(config('app.url'))->rtrim('/') . Storage::url("public/qrs/{$child->id}.png");
         }
         if (!$child->qr) return '';
         $writer = new PngWriter();
