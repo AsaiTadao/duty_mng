@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Str;
 class UtilService
 {
     public function bladeCompile($value, array $args = array())
@@ -28,6 +29,19 @@ class UtilService
         $content = ob_get_clean();
 
         return $content;
+    }
+
+    public function templateCompile($value, $args)
+    {
+        $search = [];
+        $replace = [];
+        foreach($args as $s => $r)
+        {
+            // if (!$r) continue;
+            $search[] = '__' . $s . '__';
+            $replace[] = $r;
+        }
+        return Str::replace($search, $replace, $value);
     }
 
 }

@@ -13,6 +13,8 @@ use App\Models\Child;
 use App\Models\MailJobHistory;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\MailJobHistoryResource;
+use App\Services\UtilService;
+use Illuminate\Support\Str;
 
 class MailController extends BaseController
 {
@@ -38,12 +40,23 @@ class MailController extends BaseController
         return $this->sendResponse();
     }
 
-    public function getMailTemplate(MailTemplateQuery $request)
+    public function getMailTemplate(MailTemplateQuery $request, UtilService $utilService)
     {
         $data = $request->validated();
         $type = $data['type'];
 
         $content = Storage::get('mail_template/' .($type == MailHistory::TYPE_NORMAL ? 'normal' : 'urgent') . '.txt');
+        $user = auth()->user();
+        $office = $user->office;
+        $loginUrl =  Str::of(config('app.url'))->rtrim('/') . '/login';
+        $content = $utilService->templateCompile($content, [
+            'office_name'   =>  $office->name,
+            'office_address'=> $office->address,
+            'office_tel'    =>  $office->tel,
+            'office_fax'    =>  $office->fax,
+            'login_url'     =>  $loginUrl
+        ]);
+
         return $this->sendResponse(['content' => $content]);
     }
 
