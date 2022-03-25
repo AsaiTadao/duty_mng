@@ -154,7 +154,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="table-responsive p-0">
+                        <div class="table-responsive p-0" v-if="isCompanyled()">
                             <table
                                 class="table table-bordered table-registry table-hover mb-0"
                             >
@@ -353,6 +353,9 @@ export default {
         },
         isCertifCategory(){
             return (this.session) ? this.session.office.certifTypeEnabled : false;
+        },
+        isCompanyled() {
+            return (this.session) ? this.session.office.businessTypeId == 1 : false;
         }
     },
     mounted() {
