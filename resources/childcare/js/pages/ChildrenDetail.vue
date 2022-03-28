@@ -90,6 +90,9 @@
                                         <th>
                                             パスワード
                                         </th>
+                                        <th>
+                                            QRコード
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
@@ -105,6 +108,11 @@
                                         </td>
                                         <td>
                                             ******
+                                        </td>
+                                        <td>
+                                            <a href="javascript:void(0)" @click="viewQRModal()">
+                                                表示
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -221,7 +229,11 @@
                                 </tbody>
                             </table>
                         </div>
-
+                        <div class="modal fade" id="qr-view-form" tabindex="-1" role="dialog" aria-labelledby="qr-view-form" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <qr-view-form :childId="childId"></qr-view-form>
+                            </div>
+                        </div>
                         <div class="float-right d-flex align-items-center mt-2">
                             <router-link class="btn btn-primary float-right mr-2" :to="{name: 'present-management', params: {childId}}">登降園管理</router-link>
                             <button class="btn btn-primary float-right" @click="editChild()">編集</button>
@@ -239,8 +251,10 @@ import { mapState } from 'vuex';
 import api, { apiErrorHandler } from '../global/api';
 import actionLoading from '../mixin/actionLoading';
 import { showSuccess } from '../helpers/error';
+import QrViewForm from './ChildrenDetail/QrViewForm.vue';
 
 export default {
+  components: { QrViewForm },
     mixins: [actionLoading],
     data() {
         return {
@@ -356,6 +370,9 @@ export default {
         },
         isCompanyled() {
             return (this.session) ? this.session.office.businessTypeId == 1 : false;
+        },
+        viewQRModal() {
+            $("#qr-view-form").modal('show');
         }
     },
     mounted() {
