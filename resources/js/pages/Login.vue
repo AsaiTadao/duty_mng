@@ -117,7 +117,11 @@ export default {
                         clearInterval(this.loginTimeInterval);
                         LocalStorage.saveToken(token);
                         this.$store.commit('session/setSession', user);
-                        this.$router.push({ name: 'stamp' })
+                        if(user.office && user.office.isNursery) {
+                            location.href = "/child/";
+                        } else {
+                            this.$router.push({ name: 'stamp' })
+                        }
                     })
                     .catch(e => {
                         this.unsetActionLoading();
