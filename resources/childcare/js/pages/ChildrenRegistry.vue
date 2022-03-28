@@ -164,7 +164,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="table-responsive p-0">
+                        <div class="table-responsive p-0" v-if="isCompanyled()">
                             <table
                                 class="table table-bordered table-registry table-hover mb-0"
                             >
@@ -520,8 +520,8 @@ export default {
                 valid = false;
             }
 
-            if (this.formData.password && this.formData.password.length > 4) {
-                this.errors.password = this.$t('Please enter 4 characters or less');
+            if (this.formData.password && this.formData.password.length != 4) {
+                this.errors.password = this.$t('Please enter 4 characters');
                 valid = false;
             }
             if (!this.formData.type) {
@@ -558,6 +558,9 @@ export default {
         },
         isCertifCategory(){
             return (this.session) ? this.session.office.certifTypeEnabled : false;
+        },
+        isCompanyled() {
+            return (this.session) ? this.session.office.businessTypeId == 1 : false;
         }
     },
     mounted() {
