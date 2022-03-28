@@ -135,6 +135,10 @@ export default {
         templateChanged(e) {
             this.type = e.target.value;
             this.fetchData();
+            this.subject = '';
+            if(this.type == 1) {
+                this.subject = this.$t("Urgent mail title");
+            }
         },
         sendMail() {
             if (!this.validate()) return;
