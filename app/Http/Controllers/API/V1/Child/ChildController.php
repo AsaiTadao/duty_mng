@@ -9,6 +9,7 @@ use App\Http\Resources\ChildResource;
 use App\Models\Child;
 use App\Models\ChildInformation;
 use App\Models\ChildrenClass;
+use App\Services\QrService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Crypt;
 
 class ChildController extends BaseController
 {
-    public function register(ChildRequest $request)
+    public function register(ChildRequest $request, QrService $qrService)
     {
         $user = auth()->user();
 
@@ -69,10 +70,11 @@ class ChildController extends BaseController
 
         $childInfo = new ChildInformation($data);
         $child->child_info()->save($childInfo);
+        $qrService->getChildQrImageUri($child);
         return $this->sendResponse(new ChildResource($child));
     }
 
-    public function update(Child $child, ChildRequest $request)
+    public function update(Child $child, ChildRequest $request, QrService $qrService)
     {
         $user = auth()->user();
         $data = $request->validated();
@@ -125,11 +127,12 @@ class ChildController extends BaseController
         $childInfo->save();
 
         $child->refresh();
-
+        $qrService->getChildQrImageUri($child);
         return $this->sendResponse(new ChildResource($child));
     }
-    public function retrieve(Child $child)
+    public function retrieve(Child $child, QrService $qrService)
     {
+        $qrService->getChildQrImageUri($child);
         return $this->sendResponse(new ChildResource($child));
     }
     public function delete(Child $child)
