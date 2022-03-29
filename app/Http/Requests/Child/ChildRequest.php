@@ -29,7 +29,7 @@ class ChildRequest extends FormRequest {
             'exit_date'  => ['nullable', 'date_format:Y-m-d'],
             'email'     =>  ['required', 'email:dns,spoof'],
             'password'  =>  ['nullable'],
-            'type'      =>  ['required', 'in:' . $this->childTypesRule],
+            'type'      =>  ['nullable', 'in:' . $this->childTypesRule],
             'company_name' => ['nullable', 'string'],
             'free_of_charge'=>  ['nullable', 'in:0,1'],
             'certificate_of_payment'=> ['nullable', 'in:0,1'],
