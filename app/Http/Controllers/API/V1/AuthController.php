@@ -30,27 +30,29 @@ class AuthController extends BaseController
                 'message'   =>  trans('auth.failed')
             ]);
         }
+        $res = $user->toArray();
         if ($user->office) {
-            $user->office = new OfficeResource($user->office);
+            $res['office'] = new OfficeResource($user->office);
         }
 
         return response()->json([
             'success'   =>  true,
             'data'      =>  [
                 'token' =>  $user->createToken('access_token')->plainTextToken,
-                'user'  =>  $user
+                'user'  =>  $res
             ]
         ]);
     }
     public function me()
     {
         $user = auth()->user();
+        $res = $user->toArray();
         if ($user->office) {
-            $user->office = new OfficeResource($user->office);
+            $res['office'] = new OfficeResource($user->office);
         }
         return response()->json([
             'success'   =>  true,
-            'data'      =>  $user
+            'data'      =>  $res
         ]);
     }
 }
