@@ -173,6 +173,10 @@ export default {
         },
         validate() {
             let valid = true;
+            if(this.formData.weather && this.formData.weather.length > 10) {
+                this.errors.weather = this.$t('Please enter 10 characters or less');
+                valid = false;
+            }
             if(!this.formData.guardian) {
                 this.errors.guardian = this.$t('Please input name');
                 valid = false;

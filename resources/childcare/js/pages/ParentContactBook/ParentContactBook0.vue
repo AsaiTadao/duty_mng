@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center" style="padding-top:1px; padding-bottom:1px;">
-                                        <input type="number" min="0" max="60" class="form-control" style="max-width: 55%;"  :class="{'is-invalid': errors.temperatureStd}" v-model="formData.temperatureStd" @change="dataChanged = true; errors.temperatureStd = null;"/>℃　
+                                        <input type="number" min="32" max="42" class="form-control" style="max-width: 55%;"  :class="{'is-invalid': errors.temperatureStd}" v-model="formData.temperatureStd" @change="dataChanged = true; errors.temperatureStd = null;"/>℃　
                                         <span v-if="errors.temperatureStd"  class="error invalid-feedback">
                                             {{errors.temperatureStd}}
                                         </span>
@@ -143,9 +143,9 @@
                                                     </td>
                                                     <td rowspan="2" style="width: 120px;">
                                                         <div class="d-flex justify-content-center is-invalid" style="width: fit-content; margin: auto;">
-                                                            <input type="number" min="0" max="60" class="form-control" v-if="formData[`temperature${('0' + hour.time).slice(-2)}School`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}Home`]}" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" disabled @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}Home`] = null;"/>
-                                                            <input type="number" min="0" max="60" class="form-control" v-else-if="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}Home`]}" v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}Home`] = null;"/>
-                                                            <input type="number" min="0" max="60" class="form-control" v-else v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}Home`]}" @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}Home`] = null;"/>
+                                                            <input type="number" min="32" max="42" class="form-control" v-if="formData[`temperature${('0' + hour.time).slice(-2)}School`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}Home`]}" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" disabled @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}Home`] = null;"/>
+                                                            <input type="number" min="32" max="42" class="form-control" v-else-if="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}Home`]}" v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}Home`] = null;"/>
+                                                            <input type="number" min="32" max="42" class="form-control" v-else v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}Home`]}" @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}Home`] = null;"/>
                                                             <label class="align-self-center m-0 ml-1">℃</label>
                                                         </div>
                                                         <span v-if="errors[`temperature${('0' + hour.time).slice(-2)}Home`]" class="error invalid-feedback">
@@ -601,6 +601,10 @@ export default {
             //     this.errors.weather = this.$t('Please input weather');
             //     valid = false;
             // }
+            if(this.formData.weather && this.formData.weather.length > 10) {
+                this.errors.weather = this.$t('Please enter 10 characters or less');
+                valid = false;
+            }
             if(!this.formData.guardian) {
                 this.errors.guardian = this.$t('Please input name');
                 valid = false;

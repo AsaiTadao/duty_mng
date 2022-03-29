@@ -71,5 +71,6 @@
     "Please input positive number": "整数を入力してください",
     "Please input subject": "メール件名を入力してください",
     "Successfully sent": "送信に成功しました",
-    "Please input valid number": "有効的数を入力してください"
+    "Please input valid number": "有効的数を入力してください",
+    "Urgent mail title": "【緊急連絡】大事なお知らせです。必ずお読み下さい。"
 }

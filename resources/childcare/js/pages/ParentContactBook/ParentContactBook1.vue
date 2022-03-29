@@ -384,7 +384,7 @@
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="60" v-model="formData.temperature1Home" :class="{'is-invalid': errors.temperature1Home}" @change="dataChanged = true; errors.temperature1Home = null;">
+                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature1Home" :class="{'is-invalid': errors.temperature1Home}" @change="dataChanged = true; errors.temperature1Home = null;">
                                                             <span v-if="errors.temperature1Home" class="error invalid-feedback">
                                                                 {{errors.temperature1Home}}
                                                             </span>
@@ -395,7 +395,7 @@
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="60" v-model="formData.temperature2Home" :class="{'is-invalid': errors.temperature2Home}" @change="dataChanged = true; errors.temperature2Home = null;">
+                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature2Home" :class="{'is-invalid': errors.temperature2Home}" @change="dataChanged = true; errors.temperature2Home = null;">
                                                             <span v-if="errors.temperature2Home" class="error invalid-feedback">
                                                                 {{errors.temperature2Home}}
                                                             </span>
@@ -406,7 +406,7 @@
                                                 <div class="col-md-4 col-12 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="60" v-model="formData.temperature3Home" :class="{'is-invalid': errors.temperature3Home}" @change="dataChanged = true; errors.temperature3Home = null;">
+                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature3Home" :class="{'is-invalid': errors.temperature3Home}" @change="dataChanged = true; errors.temperature3Home = null;">
                                                             <span v-if="errors.temperature3Home" class="error invalid-feedback">
                                                                 {{errors.temperature3Home}}
                                                             </span>
@@ -428,7 +428,7 @@
                                                 <div class="col-md-6 col-6 px-md-0 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="60" v-model="formData.temperature1Home" :class="{'is-invalid': errors.temperature1Home}" @change="dataChanged = true; errors.temperature1Home = null;">
+                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature1Home" :class="{'is-invalid': errors.temperature1Home}" @change="dataChanged = true; errors.temperature1Home = null;">
                                                             <span v-if="errors.temperature1Home" class="error invalid-feedback">
                                                                 {{errors.temperature1Home}}
                                                             </span>
@@ -446,7 +446,7 @@
                                                 <div class="col-md-6 col-6 px-md-0 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="60" v-model="formData.temperature2Home" :class="{'is-invalid': errors.temperature2Home}" @change="dataChanged = true; errors.temperature2Home = null;">
+                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature2Home" :class="{'is-invalid': errors.temperature2Home}" @change="dataChanged = true; errors.temperature2Home = null;">
                                                             <span v-if="errors.temperature2Home" class="error invalid-feedback">
                                                                 {{errors.temperature2Home}}
                                                             </span>
@@ -464,7 +464,7 @@
                                                 <div class="col-md-6 col-6 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
-                                                            <input type="number" class="form-control" min="0" max="60" v-model="formData.temperature3Home" :class="{'is-invalid': errors.temperature3Home}" @change="dataChanged = true; errors.temperature3Home = null;">
+                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature3Home" :class="{'is-invalid': errors.temperature3Home}" @change="dataChanged = true; errors.temperature3Home = null;">
                                                             <span v-if="errors.temperature3Home" class="error invalid-feedback">
                                                                 {{errors.temperature3Home}}
                                                             </span>
@@ -918,6 +918,10 @@ export default {
             //     this.errors.weather = this.$t('Please input weather');
             //     valid = false;
             // }
+            if(this.formData.weather && this.formData.weather.length > 10) {
+                this.errors.weather = this.$t('Please enter 10 characters or less');
+                valid = false;
+            }
             if(!this.formData.guardian) {
                 this.errors.guardian = this.$t('Please input name');
                 valid = false;

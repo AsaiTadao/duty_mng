@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\OfficeResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -29,22 +30,29 @@ class AuthController extends BaseController
                 'message'   =>  trans('auth.failed')
             ]);
         }
-        $user->office;
+        $res = $user->toArray();
+        if ($user->office) {
+            $res['office'] = new OfficeResource($user->office);
+        }
+
         return response()->json([
             'success'   =>  true,
             'data'      =>  [
                 'token' =>  $user->createToken('access_token')->plainTextToken,
-                'user'  =>  $user
+                'user'  =>  $res
             ]
         ]);
     }
     public function me()
     {
         $user = auth()->user();
-        $user->office;
+        $res = $user->toArray();
+        if ($user->office) {
+            $res['office'] = new OfficeResource($user->office);
+        }
         return response()->json([
             'success'   =>  true,
-            'data'      =>  $user
+            'data'      =>  $res
         ]);
     }
 }
