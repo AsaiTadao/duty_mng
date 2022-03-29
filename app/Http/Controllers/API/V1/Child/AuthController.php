@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API\V1\Child;
 
 use App\Http\Controllers\API\V1\BaseController;
 use App\Http\Requests\Child\LoginRequest;
+use App\Http\Resources\OfficeResource;
 use App\Models\Child;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -44,6 +46,10 @@ class AuthController extends BaseController
         $user = $request->user;
         $user->office;
         $result = $user->toArray();
+        if ($user instanceof User && $user->office) {
+            $result['office'] = new OfficeResource($user->office);
+        }
+
         $result['office']['certif_type_enabled'] = $user->office->certif_type_enabled;
         return $this->sendResponse($result);
     }
