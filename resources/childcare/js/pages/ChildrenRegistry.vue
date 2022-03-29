@@ -492,16 +492,6 @@ export default {
             //     this.errors.classId = this.$t('Please input number');
             //     valid = false;
             // }
-            if (this.formData.certificateOfPayment == 1) {
-                if (!this.formData.certificateExpirationDate) {
-                    this.errors.certificateExpirationDate = this.$t('Please input certificateExpirationDate');
-                    valid = false;
-                }
-                if (this.formData.certificateExpirationDate && !validateYYMMDD(this.formData.certificateExpirationDate)) {
-                    this.errors.certificateExpirationDate = this.$t('Please input certificateExpirationDate');                              //need trans
-                    valid = false;
-                }
-            }
             if (!this.formData.email) {
                 this.errors.email = this.$t('Please input email');
                 valid = false;
@@ -524,35 +514,47 @@ export default {
                 this.errors.password = this.$t('Please enter 4 characters');
                 valid = false;
             }
-            if (!this.formData.type) {
-                this.errors.type = this.$t('Please input type');
-                valid = false;
-            }
-            if (this.formData.type == 1 || this.formData.type == 2) {
-                if (!this.formData.companyName) {
-                    this.errors.companyName = this.$t('Please input name');
+            if (this.isCompanyled()) {
+                if (this.formData.certificateOfPayment == 1) {
+                    if (!this.formData.certificateExpirationDate) {
+                        this.errors.certificateExpirationDate = this.$t('Please input certificateExpirationDate');
+                        valid = false;
+                    }
+                    if (this.formData.certificateExpirationDate && !validateYYMMDD(this.formData.certificateExpirationDate)) {
+                        this.errors.certificateExpirationDate = this.$t('Please input certificateExpirationDate');                              //need trans
+                        valid = false;
+                    }
+                }
+                if (!this.formData.type) {
+                    this.errors.type = this.$t('Please input type');
                     valid = false;
                 }
-                if (this.formData.companyName && this.formData.companyName.length > 20) {
-                    this.errors.companyName = this.$t('Please enter 20 characters or less');
+                if (this.formData.type == 1 || this.formData.type == 2) {
+                    if (!this.formData.companyName) {
+                        this.errors.companyName = this.$t('Please input name');
+                        valid = false;
+                    }
+                    if (this.formData.companyName && this.formData.companyName.length > 20) {
+                        this.errors.companyName = this.$t('Please enter 20 characters or less');
+                        valid = false;
+                    }
+                }
+                if (this.formData.freeOfCharge === null || this.formData.freeOfCharge === undefined) {
+                    this.errors.freeOfCharge = this.$t('Please select freeOfCharge');
                     valid = false;
                 }
-            }
-            if (this.formData.freeOfCharge === null || this.formData.freeOfCharge === undefined) {
-                this.errors.freeOfCharge = this.$t('Please select freeOfCharge');
-                valid = false;
-            }
-            if (this.formData.certificateOfPayment === null || this.formData.certificateOfPayment === undefined) {
-                this.errors.certificateOfPayment = this.$t('Please select certificateOfPayment');
-                valid = false;
-            }
-            if (this.formData.taxExemptHousehold === null || this.formData.taxExemptHousehold === undefined) {
-                this.errors.taxExemptHousehold = this.$t('Please select taxExemptHousehold');
-                valid = false;
-            }
-            if (this.formData.remarks && this.formData.remarks.length > 50) {
-                this.errors.remarks = this.$t('Please enter 50 characters or less');
-                valid = false;
+                if (this.formData.certificateOfPayment === null || this.formData.certificateOfPayment === undefined) {
+                    this.errors.certificateOfPayment = this.$t('Please select certificateOfPayment');
+                    valid = false;
+                }
+                if (this.formData.taxExemptHousehold === null || this.formData.taxExemptHousehold === undefined) {
+                    this.errors.taxExemptHousehold = this.$t('Please select taxExemptHousehold');
+                    valid = false;
+                }
+                if (this.formData.remarks && this.formData.remarks.length > 50) {
+                    this.errors.remarks = this.$t('Please enter 50 characters or less');
+                    valid = false;
+                }
             }
             return valid;
         },
