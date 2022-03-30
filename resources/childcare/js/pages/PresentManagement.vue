@@ -48,7 +48,7 @@
                                                 <td class="align-middle">{{getAbsenceName(item.reasonForAbsenceId, item.noSchedule)}}</td>
                                                 <td class="align-middle">{{changeExtensionFormat(item.extension)}}</td>
                                                 <td>
-                                                    <a href="javascript:void(0)" class="mx-2" @click="openEditForm(item.day)">
+                                                    <a href="javascript:void(0)" class="mx-2" @click="openEditForm(item.day)" v-if="!item.exclude">
                                                         <i class="far fa-edit fa-lg"></i>
                                                     </a>
                                                 </td>
