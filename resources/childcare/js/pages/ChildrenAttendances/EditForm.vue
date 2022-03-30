@@ -167,7 +167,7 @@ import { showSuccess } from '../../helpers/error';
                 formData: {
                     id: null,
                     commutingTimeHour: null,
-                    commutingTimMin: null,
+                    commutingTimeMin: null,
                     leaveTimeHour: null,
                     leaveTimeMin: null,
                     extensionTimeHour: null,
@@ -249,8 +249,8 @@ import { showSuccess } from '../../helpers/error';
                 //     this.errors.leaveTimeMin = this.$t('Please input number');
                 //     valid = false;
                 // }
-                if (this.formData.leaveTimeHour && this.formData.leaveTimeMin && ('0' + this.formData.leaveTimeHour).slice(-2) + ":" + ('0' + this.formData.leaveTimeMin).slice(-2) < ('0' + this.formData.commutingTimeHour).slice(-2) + ":" + ('0' + this.formData.commutingTimMin).slice(-2)) {
-                    this.errors.leaveTimeHour = this.$t('start time must be earlier than end time');
+                if (this.formData.leaveTimeHour && this.formData.leaveTimeMin && ('0' + this.formData.leaveTimeHour).slice(-2) + ":" + ('0' + this.formData.leaveTimeMin).slice(-2) < ('0' + this.formData.commutingTimeHour).slice(-2) + ":" + ('0' + this.formData.commutingTimeMin).slice(-2)) {
+                    this.errors.leaveTimeHour = this.$t('end time must be later than start time');
                     valid = false;
                 }
                 if (this.formData.commutingTimeHour && this.formData.reasonForAbsenceId || this.formData.commutingTimeMin && this.formData.reasonForAbsenceId) {
