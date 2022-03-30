@@ -16,7 +16,8 @@
                                         ref="programaticOpen"
                                         :placeholder="todayDate"
                                         @selected="getContact"
-                                        v-model="selectedDate">
+                                        v-model="selectedDate"
+                                        :disabled-dates="disabledDates">
                                         </datepicker>
                                         <button type="button" class="btn btn-sm btn-outline mx-0" @click="openDatePicker()">
                                         <i class="fas fa-calendar-alt fa-2x"></i>
@@ -845,6 +846,9 @@ export default {
             errors: {},
             currentDate: new Date(),
             todayDate: "",
+            disabledDates: {
+                to: null,
+            },
             selectedDate: new Date(),
             ja: ja,
         }
@@ -1208,6 +1212,9 @@ export default {
         this.selectedDate = this.date;
         this.convertToFormData();
         this.initFormError();
+        if(this.child.admissionDate) {
+            this.disabledDates = {to: moment(this.child.admissionDate).subtract(1, "days").toDate()};
+        }
     }
 }
 </script>

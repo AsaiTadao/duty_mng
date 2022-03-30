@@ -19,25 +19,27 @@
                             'menu-open': '/parent/' + route.path === currentRoute
                         }"
                     >
-                        <router-link v-if="isMobile()"
-                            :to="'/parent/' + route.path"
-                            class="nav-link"
-                            data-widget="pushmenu"
-                        >
-                            <i :class="'nav-icon ' + route.meta.icon"></i>
-                            <p>
-                                {{ route.meta.anchor }}
-                            </p>
-                        </router-link>
-                        <router-link v-else
-                            :to="'/parent/' + route.path"
-                            class="nav-link"
-                        >
-                            <i :class="'nav-icon ' + route.meta.icon"></i>
-                            <p>
-                                {{ route.meta.anchor }}
-                            </p>
-                        </router-link>
+                        <template v-if="(route.name == 'parent-contact-book' && isAfterAdmission()) || (route.name != 'parent-contact-book')">
+                            <router-link v-if="isMobile()"
+                                :to="'/parent/' + route.path"
+                                class="nav-link"
+                                data-widget="pushmenu"
+                            >
+                                <i :class="'nav-icon ' + route.meta.icon"></i>
+                                <p>
+                                    {{ route.meta.anchor }}
+                                </p>
+                            </router-link>
+                            <router-link v-else
+                                :to="'/parent/' + route.path"
+                                class="nav-link"
+                            >
+                                <i :class="'nav-icon ' + route.meta.icon"></i>
+                                <p>
+                                    {{ route.meta.anchor }}
+                                </p>
+                            </router-link>
+                        </template>
                     </li>
                 </ul>
             </nav>
@@ -45,6 +47,7 @@
     </aside>
 </template>
 <script>
+import moment from 'moment';
 import { mapState } from 'vuex';
 import { Guards } from '../global/consts';
 import routes from "../router/routes";
@@ -61,13 +64,22 @@ export default {
             return route;
         },
         ...mapState({
-            roleId: state =>  state.session.info.roleId || Guards.PARENT
+            roleId: state =>  state.session.info.roleId || Guards.PARENT,
+            session: state => state.session.info
         })
     },
     methods: {
         isMobile() {
             if (window.innerWidth < 768) {
                 return true;
+            }
+            return false;
+        },
+        isAfterAdmission() {
+            if (this.session.admissionDate) {
+                if(moment().add(1, "days").format("YYYY-MM-DD") >= this.session.admissionDate) {
+                    return true;
+                }
             }
             return false;
         }

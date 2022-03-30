@@ -49,7 +49,7 @@
                                                 <td>{{ getAbsenceName(item.reasonForAbsenceId, item.noSchedule) }}</td>
                                                 <td>{{ item.extension ? item.extension : '' }}</td>
                                                 <td>
-                                                    <a href="javascript:void(0)" class="mx-2" @click="openContactBook(item.day)">
+                                                    <a href="javascript:void(0)" class="mx-2" @click="openContactBook(item.day)" v-if="isAfterAdmission(item.day)">
                                                         <!-- <template v-if="item.contactStatus == 0">未入力</template> -->
                                                         <!-- <template v-else>確認</template> -->
                                                         確認
@@ -118,6 +118,7 @@ export default {
                 return '';
             },
             reasonForAbsences: state => state.constants.reasonForAbsences,
+            session: state => state.session.info,
         }),
     },
     methods: {
@@ -137,6 +138,16 @@ export default {
             this.selectedDate = moment(this.currentDate.format('YYYY-MM-') + String(day).padStart(2, '0')).toDate();
             const queryDate = moment(this.selectedDate).format('YYYY-MM-DD');
             this.$router.push({name: 'parent-contact-book', params: {date: queryDate}});
+        },
+        isAfterAdmission(day) {
+            const selectedDate = moment(this.currentDate.format('YYYY-MM-') + String(day).padStart(2, '0')).toDate();
+            const queryDate = moment(selectedDate).add(1, "days").format('YYYY-MM-DD');
+            if(this.session.admissionDate) {
+                if (queryDate >= this.session.admissionDate) {
+                    return true;
+                }
+            }
+            return false;
         },
         fetchData() {
             this.setActionLoading();

@@ -17,7 +17,8 @@
                                     ref="programaticOpen"
                                     :placeholder="todayDate"
                                     @selected="getContact"
-                                    v-model="selectedDate">
+                                    v-model="selectedDate"
+                                    :disabled-dates="disabledDates">
                                     </datepicker>
                                     <button type="button" class="btn btn-sm btn-outline mx-0" @click="openDatePicker()">
                                     <i class="fas fa-calendar-alt fa-2x"></i>
@@ -120,6 +121,9 @@ export default {
             errors: {},
             currentDate: new Date(),
             todayDate: "",
+            disabledDates: {
+                to: null,
+            },
             selectedDate: new Date(),
             ja: ja,
         }
@@ -258,14 +262,14 @@ export default {
             location.href = process.env.MIX_APP_BASE_URL + 'childcare-contact-book/excel/' + this.child.id + '/?date=' + date + '&token=' + LocalStorage.getToken();
         }
     },
-    created() {
-
-    },
     mounted() {
         this.todayDate = this.getCurrentDate().toString();
         this.selectedDate = this.date;
         this.convertToFormData();
         this.initFormError();
+        if(this.child.admissionDate) {
+            this.disabledDates = {to: moment(this.child.admissionDate).toDate()};
+        }
     }
 }
 </script>
