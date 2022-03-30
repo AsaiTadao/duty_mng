@@ -13,7 +13,7 @@
                 </div>
                 <div class="mt-3">
                     <button class="btn btn-sm btn-primary" @click="copyQrImage()">
-                        QRコードコーピ
+                        QRコードコピー
                     </button>
 
                 </div>
