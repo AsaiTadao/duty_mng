@@ -86,12 +86,12 @@ class AttendanceController extends BaseController
                         'children_attendences.day'  =>  (int)$day,
                     ]);
             })
-            ->where(function($query) {
-                $query->where('children.exit_date', '>', Carbon::now()->format('Y-m-d'))
+            ->where(function($query) use($data) {
+                $query->where('children.exit_date', '>=', $data['date'])
                     ->orWhere('children.exit_date', '=', null);
             })
-            ->where(function($query) {
-                $query->where('children.admission_date', '<=', Carbon::now()->format('Y-m-d'))
+            ->where(function($query) use($data) {
+                $query->where('children.admission_date', '<=', $data['date'])
                     ->orWhere('children.admission_date', '=', null);
             })
             ->select('children_attendences.*', 'children.id', 'children.class_id', 'children.name')
@@ -158,6 +158,15 @@ class AttendanceController extends BaseController
             }
             $item['contact_status'] = $contact_status;
 
+            /** exclude before admission date and after exit_date */
+            if ($child->admission_date && $baseDate->format('Y-m-d') < $child->admission_date) {
+                $item['exclude'] = true;
+            }
+
+            if ($child->exit_date && $baseDate->format('Y-m-d') > $child->exit_date) {
+                $item['exclude'] = true;
+            }
+
             $result[] = $item;
         }
         return $this->sendResponse($result);
@@ -198,12 +207,12 @@ class AttendanceController extends BaseController
         $office_id = $user->office_id;
 
         $childQb = Child::where(['office_id' => $office_id])
-        ->where(function($query) {
+        ->where(function($query) use ($data) {
             $query->whereNull('exit_date')
-                ->orWhere('exit_date', '>', Carbon::now());
+                ->orWhere('exit_date', '>=', $data['date']);
         })
-        ->where(function($query) {
-            $query->where('admission_date', '<=', Carbon::now()->format('Y-m-d'))
+        ->where(function($query) use ($data) {
+            $query->where('admission_date', '<=', $data['date'])
                 ->orWhere('admission_date', '=', null);
         });
         if (!empty($data['children_class_id']))

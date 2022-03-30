@@ -78,12 +78,12 @@ class ChildApplicationTableController extends BaseController
         ];
         [$year, $month] = explode('-', $date);
 
-        $children = Child::with('child_info')->where(function($query) {
+        $children = Child::with('child_info')->where(function($query) use ($date) {
                 $query->whereNull('exit_date')
-                    ->orWhere('exit_date', '>', Carbon::now());
+                    ->orWhere('exit_date', '>=', $date);
             })
-            ->where(function($query) {
-                $query->where('admission_date', '<=', Carbon::now()->format('Y-m-d'))
+            ->where(function($query) use ($date) {
+                $query->where('admission_date', '<=', $date)
                     ->orWhere('admission_date', '=', null);
             })
             ->where(['office_id' => $office->id])
