@@ -95,6 +95,7 @@
     </section>
 </template>
 <script>
+import moment from 'moment';
 import { mapState } from 'vuex';
 import api, { apiErrorHandler } from '../global/api';
 import { showSuccess } from '../helpers/error';
@@ -207,7 +208,7 @@ export default {
             }
             api.get('child', null, query)
             .then((response) => {
-                this.parents = response;
+                this.parents = response.filter(item => item.admissionDate == null || item.admissionDate < moment(new Date()).format("YYYY-MM-DD"));
             })
             .catch(apiErrorHandler)
         },
