@@ -90,6 +90,10 @@ class AttendanceController extends BaseController
                 $query->where('children.exit_date', '>', Carbon::now()->format('Y-m-d'))
                     ->orWhere('children.exit_date', '=', null);
             })
+            ->where(function($query) {
+                $query->where('children.admission_date', '<=', Carbon::now()->format('Y-m-d'))
+                    ->orWhere('children.admission_date', '=', null);
+            })
             ->select('children_attendences.*', 'children.id', 'children.class_id', 'children.name')
             ->get();
         return $this->sendResponse(ChildAttendanceResource::collection($childrenAttendences));
