@@ -197,9 +197,14 @@ class AttendanceController extends BaseController
         $data = $request->validated();
         $office_id = $user->office_id;
 
-        $childQb = Child::where(['office_id' => $office_id])->where(function($query) {
+        $childQb = Child::where(['office_id' => $office_id])
+        ->where(function($query) {
             $query->whereNull('exit_date')
                 ->orWhere('exit_date', '>', Carbon::now());
+        })
+        ->where(function($query) {
+            $query->where('admission_date', '<=', Carbon::now()->format('Y-m-d'))
+                ->orWhere('admission_date', '=', null);
         });
         if (!empty($data['children_class_id']))
         {

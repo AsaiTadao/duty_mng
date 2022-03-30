@@ -82,6 +82,10 @@ class ChildApplicationTableController extends BaseController
                 $query->whereNull('exit_date')
                     ->orWhere('exit_date', '>', Carbon::now());
             })
+            ->where(function($query) {
+                $query->where('admission_date', '<=', Carbon::now()->format('Y-m-d'))
+                    ->orWhere('admission_date', '=', null);
+            })
             ->where(['office_id' => $office->id])
             ->get();
         $data['children_stat'] = [

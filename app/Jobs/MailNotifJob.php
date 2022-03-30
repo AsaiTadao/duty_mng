@@ -52,7 +52,7 @@ class MailNotifJob implements ShouldQueue
             ->where(function ($query) {
                 $query->whereNull('exit_date')
                     ->orWhere('exit_date', '>', Carbon::now());
-            });;
+            });
         if ($children_class_id)
         {
             $qb->where(['class_id' => $children_class_id]);
@@ -60,6 +60,11 @@ class MailNotifJob implements ShouldQueue
         if ($this->mailJobHistory->child_id)
         {
             $qb->where(['id' => $this->mailJobHistory->child_id]);
+        } else {
+            $qb->where(function($query) {
+                $query->where('admission_date', '<=', Carbon::now()->format('Y-m-d'))
+                    ->orWhere('admission_date', '=', null);
+            });
         }
 
         $children = $qb->get();
