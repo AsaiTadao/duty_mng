@@ -69,7 +69,7 @@ class Office extends Model
     {
         if ($this->office_information)
         {
-            return $this->office_information->business_type_id === BusinessType::TYPE_2 || $this->office_information->business_type_id === BusinessType::TYPE_2;
+            return $this->office_information->business_type_id === BusinessType::TYPE_2 || $this->office_information->business_type_id === BusinessType::TYPE_3;
         }
         return false;
     }

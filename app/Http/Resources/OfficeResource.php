@@ -44,6 +44,7 @@ class OfficeResource extends JsonResource
             'appropriate_number_4'  =>  $office_info ? $office_info->appropriate_number_4 : null,
             'appropriate_number_5'  =>  $office_info ? $office_info->appropriate_number_5 : null,
             'business_type_id'  =>  $office_info ? $office_info->business_type_id : null,
+            'certif_type_enabled'   =>  $this->certif_type_enabled
         ];
         // return parent::toArray($request);
     }
