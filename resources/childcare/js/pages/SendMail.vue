@@ -208,7 +208,7 @@ export default {
             }
             api.get('child', null, query)
             .then((response) => {
-                this.parents = response.filter(item => item.admissionDate == null || item.admissionDate < moment(new Date()).format("YYYY-MM-DD"));
+                this.parents = response.filter(item => item.admissionDate == null || item.admissionDate <= moment(new Date()).format("YYYY-MM-DD"));
             })
             .catch(apiErrorHandler)
         },
