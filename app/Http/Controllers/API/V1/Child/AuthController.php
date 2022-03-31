@@ -50,7 +50,7 @@ class AuthController extends BaseController
             $result['office'] = new OfficeResource($user->office);
         }
 
-        $result['office']['certif_type_enabled'] = $user->office->certif_type_enabled;
+        $result['office']['certif_type_enabled'] =  $user->office ?  $user->office->certif_type_enabled : false;
         return $this->sendResponse($result);
     }
     public function currentOffice(Request $request)
