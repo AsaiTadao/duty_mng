@@ -78,12 +78,15 @@ class ChildApplicationTableController extends BaseController
         ];
         [$year, $month] = explode('-', $date);
 
-        $children = Child::with('child_info')->where(function($query) use ($date) {
+        $baseDay = Carbon::parse($date . '-01');
+        $daysInMonth = $baseDay->daysInMonth;
+
+        $children = Child::with('child_info')->where(function($query) use ($baseDay) {
                 $query->whereNull('exit_date')
-                    ->orWhere('exit_date', '>=', $date);
+                    ->orWhere('exit_date', '>=', $baseDay->format('Y-m-d'));
             })
-            ->where(function($query) use ($date) {
-                $query->where('admission_date', '<=', $date)
+            ->where(function($query) use ($baseDay, $daysInMonth) {
+                $query->where('admission_date', '<=', $baseDay->day($daysInMonth)->format('Y-m-d'))
                     ->orWhere('admission_date', '=', null);
             })
             ->where(['office_id' => $office->id])
@@ -127,8 +130,7 @@ class ChildApplicationTableController extends BaseController
             ->whereYear('date', $year)
             ->get();
 
-        $baseDay = Carbon::parse($date . '-01');
-        $daysInMonth = $baseDay->daysInMonth;
+
         $data['children_stat']['extension_stat'] = [];
         $data['children_stat']['absent_stat'] = [];
 
