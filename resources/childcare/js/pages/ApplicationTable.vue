@@ -237,7 +237,7 @@
                                     </thead>
                                     <tbody>
                                         <tr class="dark-yellow" style="font-size: 12px;">
-                                            <td rowspan="7" class="light-green header-fix-sub align-middle p-1" style="width: 25px;">
+                                            <td :rowspan="childrenClass.length  + 2" class="light-green header-fix-sub align-middle p-1" style="width: 25px;">
                                             {{index - 1}}歳児
                                             </td>
                                             <td rowspan="2" class="header-fix-sub-25 dark-yellow align-middle p-1" style="width:35px;">
