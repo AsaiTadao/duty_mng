@@ -25,7 +25,7 @@
                                     </div>
                                     <div class="d-flex align-items-center px-3">
                                         <div for="weatherStauts" class="form-label mr-2">天気:</div>
-                                        <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" :class="{'is-invalid' : errors.weather}" v-model="formData.weather" @change="dataChanged = true; errors.weather = null;"/>
+                                        <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" :class="{'is-invalid' : errors.weather}" v-model="formData.weather" @change="dataChanged = true; errors.weather = null;inputError = false;"/>
                                     </div>
                                     <span v-if="errors.weather" class="error invalid-feedback">
                                         {{errors.weather}}
@@ -37,7 +37,7 @@
                             <div class="form-group row">
                                 <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                     <label for="parentname" style="min-width: 100px; margin-bottom:0px;">記入者 保護者様名：</label>
-                                    <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" :class="{'is-invalid': errors.guardian}" @change="dataChanged = true; errors.guardian = null;"/>
+                                    <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" :class="{'is-invalid': errors.guardian}" @change="dataChanged = true; errors.guardian = null;inputError = false;"/>
                                     <span v-if="errors.guardian" class="error invalid-feedback">
                                         {{errors.guardian}}
                                     </span>
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
                                     <div class="light-pink d-flex justify-content-center fixed-height-40" style="padding-top:1px; padding-bottom:1px;">
-                                        <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.pickUpPerson" :class="{'is-invalid': errors.pickUpPerson}" @change="dataChanged = true;errors.pickUpPerson = null;"/>
+                                        <input type="text" class="form-control" style="max-width: 55%;" v-model="formData.pickUpPerson" :class="{'is-invalid': errors.pickUpPerson}" @change="dataChanged = true;errors.pickUpPerson = null;inputError = false;"/>
                                         <span v-if="errors.pickUpPerson" class="error invalid-feedback">
                                             {{errors.pickUpPerson}}
                                         </span>
@@ -91,7 +91,7 @@
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
                                                         <div class="text-center d-flex justify-content-center meal-time-input">
-                                                            <hour-minute-input v-model="formData.mealTime1Home" :error="errors.mealTime1Home" @input="dataChanged = true; errors.mealTime1Home = null;"/>
+                                                            <hour-minute-input v-model="formData.mealTime1Home" :error="errors.mealTime1Home" @input="dataChanged = true; errors.mealTime1Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -110,7 +110,7 @@
                                                 <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo1Home" :class="{'is-invalid' : errors.mealMemo1Home}" @change="dataChanged = true; errors.mealMemo1Home = null;"/>
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo1Home" :class="{'is-invalid' : errors.mealMemo1Home}" @change="dataChanged = true; errors.mealMemo1Home = null;inputError = false;"/>
                                                             <span v-if="errors.mealMemo1Home" class="error invalid-feedback">
                                                                 {{errors.mealMemo1Home}}
                                                             </span>
@@ -120,7 +120,7 @@
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
                                                         <div class="text-center d-flex justify-content-center meal-time-input">
-                                                            <hour-minute-input v-model="formData.mealTime2Home" :error="errors.mealTime2Home" @input="dataChanged = true; errors.mealTime2Home = null;"/>
+                                                            <hour-minute-input v-model="formData.mealTime2Home" :error="errors.mealTime2Home" @input="dataChanged = true; errors.mealTime2Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -139,7 +139,7 @@
                                                 <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo2Home" :class="{'is-invalid' : errors.mealMemo2Home}" @change="dataChanged = true; errors.mealMemo2Home = null;"/>
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo2Home" :class="{'is-invalid' : errors.mealMemo2Home}" @change="dataChanged = true; errors.mealMemo2Home = null;inputError = false;"/>
                                                             <span v-if="errors.mealMemo2Home" class="error invalid-feedback">
                                                                 {{errors.mealMemo2Home}}
                                                             </span>
@@ -149,7 +149,7 @@
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-bottom: 1px; padding-top: 1px;">
                                                         <div class="text-center d-flex justify-content-center meal-time-input">
-                                                            <hour-minute-input v-model="formData.mealTime3Home" :error="errors.mealTime3Home" @input="dataChanged = true; errors.mealTime3Home = null;"/>
+                                                            <hour-minute-input v-model="formData.mealTime3Home" :error="errors.mealTime3Home" @input="dataChanged = true; errors.mealTime3Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -168,7 +168,7 @@
                                                 <div class="col-md-3 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
-                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo3Home" :class="{'is-invalid' : errors.mealMemo3Home}" @change="dataChanged = true; errors.mealMemo3Home = null;"/>
+                                                            <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo3Home" :class="{'is-invalid' : errors.mealMemo3Home}" @change="dataChanged = true; errors.mealMemo3Home = null;inputError = false;"/>
                                                             <span v-if="errors.mealMemo3Home" class="error invalid-feedback">
                                                                 {{errors.mealMemo3Home}}
                                                             </span>
@@ -257,7 +257,7 @@
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center px-2">
-                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount1Home" :class="{'is-invalid' : errors.defecationCount1Home}" @change="dataChanged = true; errors.defecationCount1Home = null;">
+                                                            <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount1Home" :class="{'is-invalid' : errors.defecationCount1Home}" @change="dataChanged = true; errors.defecationCount1Home = null;inputError = false;">
                                                             <span v-if="errors.defecationCount1Home" class="error invalid-feedback">
                                                                 {{errors.defecationCount1Home}}
                                                             </span>
@@ -308,18 +308,18 @@
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.sleepStart1Home" :error="errors.sleepStart1Home" @input="dataChanged = true; errors.sleepStart1Home = null;"/>
+                                                            <hour-minute-input v-model="formData.sleepStart1Home" :error="errors.sleepStart1Home" @input="dataChanged = true; errors.sleepStart1Home = null;inputError = false;"/>
                                                             ~
-                                                            <hour-minute-input v-model="formData.sleepEnd1Home" :error="errors.sleepEnd1Home" @input="dataChanged = true; errors.sleepEnd1Home = null;"/>
+                                                            <hour-minute-input v-model="formData.sleepEnd1Home" :error="errors.sleepEnd1Home" @input="dataChanged = true; errors.sleepEnd1Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.sleepStart2Home" :error="errors.sleepStart2Home" @input="dataChanged = true; errors.sleepStart2Home = null;"/>
+                                                            <hour-minute-input v-model="formData.sleepStart2Home" :error="errors.sleepStart2Home" @input="dataChanged = true; errors.sleepStart2Home = null;inputError = false;"/>
                                                             ~
-                                                            <hour-minute-input v-model="formData.sleepEnd2Home" :error="errors.sleepEnd2Home" @input="dataChanged = true; errors.sleepEnd2Home = null;"/>
+                                                            <hour-minute-input v-model="formData.sleepEnd2Home" :error="errors.sleepEnd2Home" @input="dataChanged = true; errors.sleepEnd2Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -364,28 +364,28 @@
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.temperatureTime1Home" :error="errors.temperatureTime1Home" @input="dataChanged = true; errors.temperatureTime1Home = null;"/>
+                                                            <hour-minute-input v-model="formData.temperatureTime1Home" :error="errors.temperatureTime1Home" @input="dataChanged = true; errors.temperatureTime1Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.temperatureTime2Home" :error="errors.temperatureTime2Home" @input="dataChanged = true; errors.temperatureTime2Home = null;"/>
+                                                            <hour-minute-input v-model="formData.temperatureTime2Home" :error="errors.temperatureTime2Home" @input="dataChanged = true; errors.temperatureTime2Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.temperatureTime3Home" :error="errors.temperatureTime3Home" @input="dataChanged = true; errors.temperatureTime3Home = null;"/>
+                                                            <hour-minute-input v-model="formData.temperatureTime3Home" :error="errors.temperatureTime3Home" @input="dataChanged = true; errors.temperatureTime3Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
-                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature1Home" :class="{'is-invalid': errors.temperature1Home}" @change="dataChanged = true; errors.temperature1Home = null;">
+                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature1Home" :class="{'is-invalid': errors.temperature1Home}" @change="dataChanged = true; errors.temperature1Home = null;inputError = false;">
                                                             <span v-if="errors.temperature1Home" class="error invalid-feedback">
                                                                 {{errors.temperature1Home}}
                                                             </span>
@@ -396,7 +396,7 @@
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
-                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature2Home" :class="{'is-invalid': errors.temperature2Home}" @change="dataChanged = true; errors.temperature2Home = null;">
+                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature2Home" :class="{'is-invalid': errors.temperature2Home}" @change="dataChanged = true; errors.temperature2Home = null;inputError = false;">
                                                             <span v-if="errors.temperature2Home" class="error invalid-feedback">
                                                                 {{errors.temperature2Home}}
                                                             </span>
@@ -407,7 +407,7 @@
                                                 <div class="col-md-4 col-12 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
-                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature3Home" :class="{'is-invalid': errors.temperature3Home}" @change="dataChanged = true; errors.temperature3Home = null;">
+                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature3Home" :class="{'is-invalid': errors.temperature3Home}" @change="dataChanged = true; errors.temperature3Home = null;inputError = false;">
                                                             <span v-if="errors.temperature3Home" class="error invalid-feedback">
                                                                 {{errors.temperature3Home}}
                                                             </span>
@@ -422,14 +422,14 @@
                                                 <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.temperatureTime1Home" :error="errors.temperatureTime1Home" @input="dataChanged = true; errors.temperatureTime1Home = null;"/>
+                                                            <hour-minute-input v-model="formData.temperatureTime1Home" :error="errors.temperatureTime1Home" @input="dataChanged = true; errors.temperatureTime1Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 px-md-0 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
-                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature1Home" :class="{'is-invalid': errors.temperature1Home}" @change="dataChanged = true; errors.temperature1Home = null;">
+                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature1Home" :class="{'is-invalid': errors.temperature1Home}" @change="dataChanged = true; errors.temperature1Home = null;inputError = false;">
                                                             <span v-if="errors.temperature1Home" class="error invalid-feedback">
                                                                 {{errors.temperature1Home}}
                                                             </span>
@@ -440,14 +440,14 @@
                                                 <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.temperatureTime2Home" :error="errors.temperatureTime2Home" @input="dataChanged = true; errors.temperatureTime2Home = null;"/>
+                                                            <hour-minute-input v-model="formData.temperatureTime2Home" :error="errors.temperatureTime2Home" @input="dataChanged = true; errors.temperatureTime2Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 px-md-0 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
-                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature2Home" :class="{'is-invalid': errors.temperature2Home}" @change="dataChanged = true; errors.temperature2Home = null;">
+                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature2Home" :class="{'is-invalid': errors.temperature2Home}" @change="dataChanged = true; errors.temperature2Home = null;inputError = false;">
                                                             <span v-if="errors.temperature2Home" class="error invalid-feedback">
                                                                 {{errors.temperature2Home}}
                                                             </span>
@@ -458,14 +458,14 @@
                                                 <div class="col-md-6 col-6 pl-0 pr-1">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center">
-                                                            <hour-minute-input v-model="formData.temperatureTime3Home" :error="errors.temperatureTime3Home" @input="dataChanged = true; errors.temperatureTime3Home = null;"/>
+                                                            <hour-minute-input v-model="formData.temperatureTime3Home" :error="errors.temperatureTime3Home" @input="dataChanged = true; errors.temperatureTime3Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 pl-0">
                                                     <div class="d-flex justify-content-center light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center">
-                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature3Home" :class="{'is-invalid': errors.temperature3Home}" @change="dataChanged = true; errors.temperature3Home = null;">
+                                                            <input type="number" class="form-control" min="32" max="42" v-model="formData.temperature3Home" :class="{'is-invalid': errors.temperature3Home}" @change="dataChanged = true; errors.temperature3Home = null;inputError = false;">
                                                             <span v-if="errors.temperature3Home" class="error invalid-feedback">
                                                                 {{errors.temperature3Home}}
                                                             </span>
@@ -762,8 +762,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="float-right d-flex align-items-center mt-2">
+                                    <div class="float-right d-flex align-items-center mt-2" :class="{'is-invalid': inputError}">
                                         <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
+                                    </div>
+                                    <div v-if="inputError" class="error invalid-feedback text-right" style="margin-top: 60px;">
+                                        {{$t("Input error")}}
                                     </div>
                                 </div>
                             </div>
@@ -844,6 +847,7 @@ export default {
             dataChanged: false,
             formData: {...initialFormData},
             errors: {},
+            inputError: false,
             currentDate: new Date(),
             todayDate: "",
             disabledDates: {
@@ -963,16 +967,16 @@ export default {
                 this.errors.mealTime3Home = this.$t('Invalid time format');
                 valid = false;
             }
-            if(this.formData.mealMemo1Home && this.formData.mealMemo1Home.length > 20) {
-                this.errors.mealMemo1Home = this.$t("Please enter 20 characters or less");
+            if(this.formData.mealMemo1Home && this.formData.mealMemo1Home.length > 50) {
+                this.errors.mealMemo1Home = this.$t("Please enter 50 characters or less");
                 valid = false;
             }
-            if(this.formData.mealMemo2Home && this.formData.mealMemo2Home.length > 20) {
-                this.errors.mealMemo2Home = this.$t("Please enter 20 characters or less");
+            if(this.formData.mealMemo2Home && this.formData.mealMemo2Home.length > 50) {
+                this.errors.mealMemo2Home = this.$t("Please enter 50 characters or less");
                 valid = false;
             }
-            if(this.formData.mealMemo3Home && this.formData.mealMemo3Home.length > 20) {
-                this.errors.mealMemo3Home = this.$t("Please enter 20 characters or less");
+            if(this.formData.mealMemo3Home && this.formData.mealMemo3Home.length > 50) {
+                this.errors.mealMemo3Home = this.$t("Please enter 50 characters or less");
                 valid = false;
             }
             this.formData.sleepStart1Home = changeToHhMm(this.formData.sleepStart1Home);
@@ -1038,6 +1042,7 @@ export default {
                 this.errors.temperature3Home = this.$t('Please input positive number');
                 valid = false;
             }
+            this.inputError = !valid;
             return valid;
         },
         initFormError() {

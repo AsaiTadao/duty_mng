@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="d-flex align-items-center px-3">
                                     <div for="weatherStauts" class="form-label mr-2">天気</div>
-                                    <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" :class="{'is-invalid' : errors.weather}" v-model="formData.weather" @change="dataChanged = true; errors.weather = null;"/>
+                                    <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" :class="{'is-invalid' : errors.weather}" v-model="formData.weather" @change="dataChanged = true; errors.weather = null;inputError = false;"/>
                                 </div>
                                 <span v-if="errors.weather" class="error invalid-feedback">
                                     {{errors.weather}}
@@ -37,7 +37,7 @@
                         <div class="form-group row">
                             <div class="col-md-5 col-12 align-items-center mb-2" style="display:flex;">
                                     <label for="parentname" style="min-width: 100px; margin-bottom:0px;">記入者 保護者様名：</label>
-                                    <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" :class="{'is-invalid': errors.guardian}" @change="dataChanged = true; errors.guardian = null;"/>
+                                    <input type="text" class="form-control" id="parentname" style="width: calc(90% - 130px);" v-model="formData.guardian" :class="{'is-invalid': errors.guardian}" @change="dataChanged = true; errors.guardian = null;inputError = false;"/>
                                     <span v-if="errors.guardian" class="error invalid-feedback">
                                         {{errors.guardian}}
                                     </span>
@@ -68,8 +68,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="float-right d-flex align-items-center mt-2">
+                        <div class="float-right d-flex align-items-center mt-2" :class="{'is-invalid': inputError}">
                             <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
+                        </div>
+                        <div v-if="inputError" class="error invalid-feedback text-right" style="margin-top: 60px;">
+                            {{$t("Input error")}}
                         </div>
                     </div>
                 </div>
@@ -112,6 +115,7 @@ export default {
             dataChanged: false,
             formData: {...initialFormData},
             errors: {},
+            inputError: false,
             currentDate: new Date(),
             todayDate: "",
             disabledDates: {
@@ -189,6 +193,7 @@ export default {
                 this.errors.guardian = this.$t('Please enter 20 characters or less');
                 valid = false;
             }
+            this.inputError = !valid;
             return valid;
         },
         initFormError() {
