@@ -88,14 +88,14 @@
                                         </div>
                                         <div class="col-md-11 col-10">
                                             <div class="row">
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                <div class="col-md-5 col-12 pr-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
                                                         <div class="text-center d-flex justify-content-center meal-time-input">
                                                             <hour-minute-input v-model="formData.mealTime1Home" :error="errors.mealTime1Home" @input="dataChanged = true; errors.mealTime1Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-12 px-md-0 pl-0">
+                                                <div class="col-md-7 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
                                                             <input class="mr-0 align-self-center" type="radio" name="radio1" :value="1" v-model="formData.mealAmount1Home" @change="dataChanged = true;">
@@ -107,7 +107,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 col-12 pl-0">
+                                                <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
                                                             <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo1Home" :class="{'is-invalid' : errors.mealMemo1Home}" @change="dataChanged = true; errors.mealMemo1Home = null;inputError = false;"/>
@@ -117,14 +117,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                <div class="col-md-5 col-12 pr-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-bottom: 1px; padding-top: 1px;">
                                                         <div class="text-center d-flex justify-content-center meal-time-input">
                                                             <hour-minute-input v-model="formData.mealTime2Home" :error="errors.mealTime2Home" @input="dataChanged = true; errors.mealTime2Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-12 px-md-0 pl-0">
+                                                <div class="col-md-7 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
                                                             <input class="mr-0 align-self-center" type="radio" name="radio2" :value="1" v-model="formData.mealAmount2Home" @change="dataChanged = true;">
@@ -136,7 +136,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 col-12 pl-0">
+                                                <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
                                                             <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo2Home" :class="{'is-invalid' : errors.mealMemo2Home}" @change="dataChanged = true; errors.mealMemo2Home = null;inputError = false;"/>
@@ -146,15 +146,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                <div class="col-md-5 col-12 pr-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-bottom: 1px; padding-top: 1px;">
                                                         <div class="text-center d-flex justify-content-center meal-time-input">
                                                             <hour-minute-input v-model="formData.mealTime3Home" :error="errors.mealTime3Home" @input="dataChanged = true; errors.mealTime3Home = null;inputError = false;"/>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-12 px-md-0 pl-0">
-                                                    <div class="light-brown text-center white-l-border-2">
+                                                <div class="col-md-7 col-12 pl-0">
+                                                    <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
                                                             <input class="mr-0 align-self-center" type="radio" name="radio3" :value="1" v-model="formData.mealAmount3Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">完食</label>
@@ -165,7 +165,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 col-12 pl-0">
+                                                <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center d-flex justify-content-center px-2">
                                                             <input type="text" class="form-control" placeholder="メモ" v-model="formData.mealMemo3Home" :class="{'is-invalid' : errors.mealMemo3Home}" @change="dataChanged = true; errors.mealMemo3Home = null;inputError = false;"/>
@@ -504,47 +504,47 @@
                                         </div>
                                         <div class="col-md-11 col-10">
                                             <div class="row">
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                <div class="col-md-7 col-12 pr-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                         {{formData.mealTime1School}}
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2 col-12 px-md-0 pl-0">
+                                                <div class="col-md-5 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                         {{formatMealStatus(formData.mealAmount1School)}}
                                                     </div>
                                                 </div>
-                                                <div class="col-md-7 col-12 pl-0">
+                                                <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                         {{formData.mealMemo1School}}
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                <div class="col-md-7 col-12 pr-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                         {{formData.mealTime2School}}
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2 col-12 px-md-0 pl-0">
+                                                <div class="col-md-5 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                         {{formatMealStatus(formData.mealAmount2School)}}
                                                     </div>
                                                 </div>
-                                                <div class="col-md-7 col-12 pl-0">
+                                                <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                     {{formData.mealMemo2School}}
                                                     </div>
                                                 </div>
-                                                <div class="col-md-3 col-12 px-md-0 pl-0">
+                                                <div class="col-md-7 col-12 pr-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                         {{formData.mealTime3School}}
                                                     </div>
                                                 </div>
-                                                <div class="col-md-2 col-12 px-md-0 pl-0">
+                                                <div class="col-md-5 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
                                                         {{formatMealStatus(formData.mealAmount3School)}}
                                                     </div>
                                                 </div>
-                                                <div class="col-md-7 col-12 pl-0">
+                                                <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
                                                         {{formData.mealMemo3School}}
                                                     </div>
