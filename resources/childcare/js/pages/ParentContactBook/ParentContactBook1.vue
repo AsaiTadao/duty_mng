@@ -23,7 +23,7 @@
                                         <i class="fas fa-calendar-alt fa-2x"></i>
                                         </button>
                                     </div>
-                                    <div class="d-flex align-items-center px-3">
+                                    <div class="d-flex align-items-center px-3 is-invalid">
                                         <div for="weatherStauts" class="form-label mr-2">天気:</div>
                                         <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" :class="{'is-invalid' : errors.weather}" v-model="formData.weather" @change="dataChanged = true; errors.weather = null;inputError = false;"/>
                                     </div>
@@ -506,7 +506,7 @@
                                             <div class="row">
                                                 <div class="col-md-7 col-12 pr-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealTime1School}}
+                                                        {{formatTimeStd(formData.mealTime1School)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5 col-12 pl-0">
@@ -516,12 +516,14 @@
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealMemo1School}}
+                                                        <span class="d-inline-block text-left">
+                                                            {{formData.mealMemo1School}}
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pr-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealTime2School}}
+                                                        {{formatTimeStd(formData.mealTime2School)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5 col-12 pl-0">
@@ -531,12 +533,14 @@
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                    {{formData.mealMemo2School}}
+                                                        <span class="d-inline-block text-left">
+                                                            {{formData.mealMemo2School}}
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pr-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealTime3School}}
+                                                        {{formatTimeStd(formData.mealTime3School)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5 col-12 pl-0">
@@ -546,7 +550,9 @@
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealMemo3School}}
+                                                        <span class="d-inline-block text-left">
+                                                            {{formData.mealMemo3School}}
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -686,17 +692,17 @@
                                             <div class="row">
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime1School}}
+                                                        {{formatTimeStd(formData.temperatureTime1School)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime2School}}
+                                                        {{formatTimeStd(formData.temperatureTime2School)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime3School}}
+                                                        {{formatTimeStd(formData.temperatureTime3School)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
@@ -720,7 +726,7 @@
                                             <div class="row">
                                                 <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime1School}}
+                                                        {{formatTimeStd(formData.temperatureTime1School)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 px-md-0 pl-0">
@@ -730,7 +736,7 @@
                                                 </div>
                                                 <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime2School}}
+                                                        {{formatTimeStd(formData.temperatureTime2School)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 px-md-0 pl-0">
@@ -740,7 +746,7 @@
                                                 </div>
                                                 <div class="col-md-6 col-6 pl-0 pr-1">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime3School}}
+                                                        {{formatTimeStd(formData.temperatureTime3School)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 pl-0">
@@ -1147,10 +1153,14 @@ export default {
         },
         formatSleepTime(sleepTimeStart, sleepTimeEnd) {
             if(sleepTimeStart && sleepTimeEnd) {
-                return sleepTimeStart + "~" + sleepTimeEnd;
+                return moment(sleepTimeStart, 'HH:mm:ss').format('HH:mm') + "~" + moment(sleepTimeEnd, 'HH:mm:ss').format('HH:mm');
             } else {
                 return '';
             }
+        },
+        formatTimeStd(time) {
+            if(time) return moment(time, 'HH:mm:ss').format('HH:mm');
+            return null;
         },
         formatTemperature(temperature){
             if(temperature) {

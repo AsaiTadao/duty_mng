@@ -727,7 +727,7 @@ export default {
                 return '';
             }
         },
-        formatTemperatureTime(time) {
+        formatTimeStd(time) {
             if(time) return moment(time, 'HH:mm:ss').format('HH:mm');
             return null;
         },
