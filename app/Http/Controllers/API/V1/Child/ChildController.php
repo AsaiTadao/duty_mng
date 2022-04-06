@@ -87,6 +87,7 @@ class ChildController extends BaseController
         // if ($existing && $existing->id !== $child->id) {
         //     return response()->json(['message' => trans('This email is already registered')]);
         // }
+
         $child->fill($data);
 
         if (empty($data['class_id']))
@@ -123,7 +124,14 @@ class ChildController extends BaseController
         {
             $childInfo = new ChildInformation(['child_id' => $child->id]);
         }
+        $type_updated_before = $child->child_info->type;
+
         $childInfo->fill($data);
+        if ($type_updated_before && $type_updated_before !== $childInfo->type)
+        {
+            $childInfo->type_updated_at = Carbon::now();
+            $childInfo->type_updated_before = $type_updated_before;
+        }
         $childInfo->save();
 
         $child->refresh();

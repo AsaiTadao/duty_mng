@@ -238,7 +238,7 @@ class ChildApplicationTableController extends BaseController
                     'number'    =>  $child->number,
                     'name'      =>  $child->name,
                     'birthday'  =>  $child->birthday ? Carbon::parse($child->birthday)->format('Y-m-d') : '',
-                    'type'      =>  $this->getChildTypeLabel($child),
+                    'type'      =>  $this->getChildTypeLabel($child, $date),
                     'company_name'  =>  $child->company_name,
                     'admission_date'    =>  $child->admission_date,
                     'free_of_charge' => $child->free_of_charge_label,
@@ -302,11 +302,22 @@ class ChildApplicationTableController extends BaseController
         return $data;
 
     }
-    private function getChildTypeLabel($child)
+    private function getChildTypeLabel($child, $date)
     {
         if (!$child->child_info) return '';
-        $childType = $this->childTypes->first(function ($value, $key) use ($child){
-            return $value->key === $child->child_info->type;
+        if (!$child->child_info->type) return '';
+        $type = $child->child_info->type;
+        if ($child->child_info->type_updated_at && $child->child_info->type_updated_before)
+        {
+            $updated_at = Carbon::parse($child->child_info->type_updated_at)->format('Y-m');
+            if ($date <= $updated_at)
+            {
+                $type = $child->child_info->type_updated_before;
+            }
+        }
+
+        $childType = $this->childTypes->first(function ($value, $key) use ($type){
+            return $value->key == $type;
         });
         if (!$childType) return '';
         return $childType->value;
