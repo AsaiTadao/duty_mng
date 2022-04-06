@@ -1094,6 +1094,7 @@ export default {
                     } else {
                         this.formData = {...initialFormData};
                     }
+                    this.$parent.getContactBook(this.selectedDate);
                 })
                 .catch(e => {
                     this.dataChanged = false;

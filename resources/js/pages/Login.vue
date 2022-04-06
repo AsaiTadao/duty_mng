@@ -170,7 +170,7 @@ export default {
             }
         },
         validateEmail(inputText) {
-            var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            var mailFormat = /^[\w\-._]+@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
             if(String(inputText).toLowerCase().match(mailFormat)) {
                 return true;
             } else {
