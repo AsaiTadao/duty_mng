@@ -70,6 +70,7 @@
 </template>
 <script>
 import form from 'vuejs-form';
+import { Guards } from '../../childcare/js/global/consts';
 import api, { apiErrorHandler } from '../global/api';
 import LocalStorage from '../helpers/localStorage';
 import actionLoading from '../mixin/actionLoading';
@@ -119,6 +120,8 @@ export default {
                         this.$store.commit('session/setSession', user);
                         if(user.office && user.office.isNursery) {
                             location.href = "/child/";
+                        } else if(user.roleId == Guards.ADMIN) {
+                            location.href = "/child/application-table";
                         } else {
                             this.$router.push({ name: 'stamp' })
                         }
