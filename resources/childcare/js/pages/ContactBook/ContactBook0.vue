@@ -77,7 +77,7 @@
                                 <div class="col-md-2 col-4" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center py-2" style="height:39px;">
                                         <!-- <hour-minute-input v-model="formData.temperatureTimeStd" :error="errors.temperatureTimeStd" @input="dataChanged = true; errors.temperatureTimeStd = null;"/> -->
-                                        {{formData.temperatureTimeStd}}
+                                        {{formatTimeStd(formData.temperatureTimeStd)}}
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
@@ -101,7 +101,7 @@
                                 <div class="col-md-4 col-8" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center py-2" style="height:39px;">
                                        <!-- <hour-minute-input v-model="formData.pickUpTime" @input="dataChanged = true; errors.pickUpTime = null;" :error="errors.pickUpTime"/> -->
-                                        {{formData.pickUpTime}}
+                                        {{formatTimeStd(formData.pickUpTime)}}
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
@@ -744,6 +744,12 @@ export default {
             } else {
                 return '';
             }
+        },
+        formatTimeStd(timeStd) {
+            if(timeStd) {
+                return moment(timeStd, 'hh:mm:ss').format('HH:mm');
+            }
+            return null;
         },
         previousDay() {
             return moment(this.selectedDate).subtract(1, 'days').format('M月 D日 (ddd)');

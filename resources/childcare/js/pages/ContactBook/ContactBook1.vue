@@ -61,7 +61,7 @@
                                 <div class="col-md-4 col-8" style="padding:1px;">
                                     <div class="light-pink text-center d-flex justify-content-center fixed-height-40 py-2" style="height: 39px;">
                                        <!-- <hour-minute-input v-model="formData.pickUpTime" @input="dataChanged = true; errors.pickUpTime = null;" :error="errors.pickUpTime"/> -->
-                                       {{formData.pickUpTime}}
+                                       {{formatTimeStd(formData.pickUpTime)}}
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-4" style="padding:1px;">
@@ -97,7 +97,7 @@
                                             <div class="row">
                                                 <div class="col-md-7 col-12 pr-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealTime1Home}}
+                                                        {{formatTimeStd(formData.mealTime1Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5 col-12 pl-0">
@@ -107,12 +107,14 @@
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealMemo1Home}}
+                                                        <span class="d-inline-block text-left">
+                                                            {{formData.mealMemo1Home}}
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pr-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealTime2Home}}
+                                                        {{formatTimeStd(formData.mealTime2Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5 col-12 pl-0">
@@ -122,12 +124,14 @@
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                    {{formData.mealMemo2Home}}
+                                                        <span class="d-inline-block text-left">
+                                                            {{formData.mealMemo2Home}}
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-7 col-12 pr-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealTime3Home}}
+                                                        {{formatTimeStd(formData.mealTime3Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-5 col-12 pl-0">
@@ -137,7 +141,9 @@
                                                 </div>
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.mealMemo3Home}}
+                                                        <span class="d-inline-block text-left">
+                                                            {{formData.mealMemo3Home}}
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -277,17 +283,17 @@
                                             <div class="row">
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime1Home}}
+                                                        {{formatTimeStd(formData.temperatureTime1Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime2Home}}
+                                                        {{formatTimeStd(formData.temperatureTime2Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime3Home}}
+                                                        {{formatTimeStd(formData.temperatureTime3Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 col-12 px-md-0 pl-0">
@@ -311,7 +317,7 @@
                                             <div class="row">
                                                 <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime1Home}}
+                                                        {{formatTimeStd(formData.temperatureTime1Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 px-md-0 pl-0">
@@ -321,7 +327,7 @@
                                                 </div>
                                                 <div class="col-md-6 col-6 px-md-0 pl-0 pr-1">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime2Home}}
+                                                        {{formatTimeStd(formData.temperatureTime2Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 px-md-0 pl-0">
@@ -331,7 +337,7 @@
                                                 </div>
                                                 <div class="col-md-6 col-6 pl-0 pr-1">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.temperatureTime3Home}}
+                                                        {{formatTimeStd(formData.temperatureTime3Home)}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 col-6 pl-0">
@@ -1172,7 +1178,7 @@ export default {
         },
         formatSleepTime(sleepTimeStart, sleepTimeEnd) {
             if(sleepTimeStart && sleepTimeEnd) {
-                return sleepTimeStart + "~" + sleepTimeEnd;
+                return moment(sleepTimeStart, 'hh:mm:ss').format("HH:mm") + "~" + moment(sleepTimeEnd, 'hh:mm:ss').format("HH:mm");
             } else {
                 return '';
             }
@@ -1236,6 +1242,12 @@ export default {
             } else {
                 return '';
             }
+        },
+        formatTimeStd(timeStd) {
+            if(timeStd) {
+                return moment(timeStd, 'hh:mm:ss').format('HH:mm');
+            }
+            return null;
         },
         isMobile() {
             if(window.innerWidth < 768) {

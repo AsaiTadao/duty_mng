@@ -23,7 +23,7 @@
                                     <i class="fas fa-calendar-alt fa-2x"></i>
                                     </button>
                                 </div>
-                                <div class="d-flex align-items-center px-3">
+                                <div class="d-flex align-items-center px-3 is-invalid">
                                     <div for="weatherStauts" class="form-label mr-2">天気</div>
                                     <input type="text" class="form-control fixed-width-80 px-0" value="晴れ" id="weatherStauts" :class="{'is-invalid' : errors.weather}" v-model="formData.weather" @change="dataChanged = true; errors.weather = null;inputError = false;"/>
                                 </div>
