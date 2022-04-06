@@ -264,6 +264,7 @@ class ChildApplicationTableController extends BaseController
                     ReasonForAbsence::REASON_HOLIDAY   =>  0,
                 ];
 
+                $regulation_days = 0;
                 for ($i = 1; $i <= $daysInMonth; $i++)
                 {
                     $attendance = $childAttendances->firstWhere('day', $i);
@@ -279,12 +280,19 @@ class ChildApplicationTableController extends BaseController
                             $extensionState[$i] = $attendance->reason_for_absence->ruby;
                             $absentState[$attendance->reason_for_absence_id]++;
                         }
+                        if ($attendance->commuting_time
+                            || $attendance->reason_for_absence_id === ReasonForAbsence::REASON_CORONA
+                            || $attendance->reason_for_absence_id === ReasonForAbsence::REASON_SICK)
+                        {
+                            $regulation_days++;
+                        }
                     } else {
                         $extensionState[$i] = '';
                     }
                 }
                 $childItem['extension_state'] = $extensionState;
                 $childItem['absent_state'] = $absentState;
+                $childItem['regulation_days'] = $regulation_days;
 
                 $childTable[$childrenClass->id][] = $childItem;
             }
