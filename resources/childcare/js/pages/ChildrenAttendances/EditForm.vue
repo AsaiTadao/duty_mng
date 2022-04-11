@@ -105,7 +105,7 @@
                         {{ errors.extensionTimeHour }}
                     </span>
                 </div>
-                <div class="form-control-label">時</div>
+                <div class="form-control-label">時間</div>
                 <div class="col-md-3 col-3">
                     <div class="d-flex is-invalid">
                         <input type="number" min="0" max="59" class="form-control mr-2" :class="{'is-invalid' : errors.extensionTimeMin}" v-model="formData.extensionTimeMin" @change="() => {errors.extensionTimeMin=null}">
