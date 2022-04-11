@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Child;
 use App\Models\ChildrenAttendence;
+use App\Models\OfficeInformation;
 use App\Models\QrTransaction;
 use App\Models\Year;
 use Illuminate\Console\Command;
@@ -73,9 +74,18 @@ class stampChildrenCommand extends Command
                 $count = 3;
             } else {
                     if(date('His',strtotime( $attendence->commuting_time . '+10 min')) < $time) {
+                        $office = OfficeInformation::where('office_id', $child->office_id)->first();
+                        $close_time = $office->close_time;
+                        $extension = strtotime($time) - strtotime($date . $close_time);
+                        //延長時間timezoneの問題で9時間ずれるので補正
+                        $extension = $extension > 0 ? date("H:i:s",$extension - 9*60*60) : NULL;
+
                         ChildrenAttendence::where('child_id', $child->id)->where('year_id', $year->id)
                             ->where('month', $m)->where('day', $d)
-                            ->update(['leave_time' => $datetime]);
+                            ->update([
+                                'leave_time' => $datetime,
+                                'extension' => $extension
+                            ]);
 
                         $count = 2;
                     } else {
