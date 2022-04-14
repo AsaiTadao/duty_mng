@@ -58,6 +58,8 @@
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
                                     <div class="light-pink form-check text-center py-2">
+                                        <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="0" @change="dataChanged = true;">
+                                        <label class="form-check-label mr-4">-</label>
                                         <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="1" @change="dataChanged = true;">
                                         <label class="form-check-label mr-4">普通</label>
                                         <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="2" @change="dataChanged = true;">
