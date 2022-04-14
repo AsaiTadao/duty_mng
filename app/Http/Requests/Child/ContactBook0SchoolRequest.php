@@ -11,7 +11,7 @@ class ContactBook0SchoolRequest extends FormRequest {
         return [
             'date'              =>  ['required', 'date_format:Y-m-d'],
             'weather'           =>  ['nullable', 'string'],
-            'mood'              =>  ['nullable', 'in:1,2,3'],
+            'mood'              =>  ['nullable', 'in:0,1,2,3'],
             // 'pick_up_person'    =>  ['nullable', 'string'],
             // 'pick_up_time'      =>  ['nullable', 'date_format:H:i'],
             'nurse_name'        =>  ['nullable', 'string'],

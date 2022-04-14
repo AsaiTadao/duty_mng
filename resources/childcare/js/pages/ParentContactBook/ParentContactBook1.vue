@@ -779,18 +779,20 @@
                                             <div class="dark-yellow text-center py-2 text-white">
                                                 保育園での様子・連絡事項
                                             </div>
-                                            <div class="light-yellow p-4 mt-1" style="height: 300px;">
+                                            <div class="light-yellow p-4 mt-1" style="height: 300px;overflow-y:overlay;">
                                                 {{formData.state0School}}
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="float-right d-flex align-items-center mt-2" :class="{'is-invalid': inputError}">
-                                        <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
-                                    </div>
-                                    <div v-if="inputError" class="error invalid-feedback text-right" style="margin-top: 60px;">
-                                        {{$t("Input error")}}
-                                    </div>
                                 </div>
+                            </div>
+                            <child-mail-history :childId="child.id"></child-mail-history>
+                            <div class="float-right d-flex align-items-center mt-2" :class="{'is-invalid': inputError}">
+                                <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
+                                <button class="btn btn-primary float-right" @click="exportExcel">Excel出力</button>
+                            </div>
+                            <div v-if="inputError" class="error invalid-feedback text-right" style="margin-top: 60px;">
+                                {{$t("Input error")}}
                             </div>
                         </div>
                     </div>
@@ -808,6 +810,8 @@ import api, { apiErrorHandler } from '../../global/api';
 import HourMinuteInput from '../../components/HourMinuteInput.vue';
 import { showSuccess } from '../../helpers/error';
 import { validateHhMm, changeToHhMm } from '../../helpers/datetime';
+import LocalStorage from '../../helpers/localStorage';
+import ChildMailHistory from '../ContactBook/ChildMailHistory.vue';
 
 const initialFormData = {
     date: new Date(),
@@ -848,7 +852,8 @@ const initialFormData = {
 export default {
     components: {
         Datepicker,
-        HourMinuteInput
+        HourMinuteInput,
+        ChildMailHistory
     },
     mixins: [actionLoading],
     computed: {
@@ -1235,6 +1240,10 @@ export default {
                 return false;
             }
         },
+        exportExcel() {
+            const date = moment(this.selectedDate).format('YYYY-MM-DD');
+            location.href = process.env.MIX_APP_BASE_URL + 'childcare-contact-book/excel/' + this.child.id + '/?date=' + date + '&token=' + LocalStorage.getToken();
+        }
     },
     created() {
 

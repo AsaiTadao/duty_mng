@@ -58,6 +58,8 @@
                                 </div>
                                 <div class="col-md-4 col-8" style="padding:1px;">
                                     <div class="light-pink form-check text-center py-2">
+                                        <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="0" @change="dataChanged = true;">
+                                        <label class="form-check-label mr-4">-</label>
                                         <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="1" @change="dataChanged = true;">
                                         <label class="form-check-label mr-4">普通</label>
                                         <input class="form-check-input" type="radio" name="radio1" v-model="formData.mood" :value="2" @change="dataChanged = true;">
@@ -233,8 +235,10 @@
                                     </div>
                                 </div>
                             </div>
+                            <child-mail-history :childId="child.id"></child-mail-history>
                             <div class="float-right d-flex align-items-center mt-2" :class="{'is-invalid': inputError}">
                                 <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
+                                <button class="btn btn-primary float-right" @click="exportExcel">Excel出力</button>
                             </div>
                             <div v-if="inputError" class="error invalid-feedback text-right" style="margin-top: 60px;">
                                 {{$t("Input error")}}
@@ -255,6 +259,8 @@ import api, { apiErrorHandler } from '../../global/api';
 import HourMinuteInput from '../../components/HourMinuteInput.vue';
 import { showSuccess } from '../../helpers/error';
 import { changeToHhMm, validateHhMm } from '../../helpers/datetime';
+import LocalStorage from '../../helpers/localStorage';
+import ChildMailHistory from '../ContactBook/ChildMailHistory.vue';
 
 const initialFormData = {
     date: new Date(),
@@ -391,7 +397,8 @@ const initialFormData = {
 export default {
     components: {
         Datepicker,
-        HourMinuteInput
+        HourMinuteInput,
+        ChildMailHistory
     },
     mixins: [actionLoading],
     props: {
@@ -580,6 +587,10 @@ export default {
                     this.formData[`sleep${('0' + hourIndex).slice(-2) + '30'}Home`] = 1 - this.formData[`sleep${('0' + hourIndex).slice(-2) + '30'}Home`];
                 }
             }
+        },
+        exportExcel() {
+            const date = moment(this.selectedDate).format('YYYY-MM-DD');
+            location.href = process.env.MIX_APP_BASE_URL + 'childcare-contact-book/excel/' + this.child.id + '/?date=' + date + '&token=' + LocalStorage.getToken();
         },
         saveContact() {
             if(this.actionLoading) return;

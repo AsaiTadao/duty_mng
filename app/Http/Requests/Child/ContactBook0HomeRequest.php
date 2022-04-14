@@ -10,7 +10,7 @@ class ContactBook0HomeRequest extends FormRequest {
         return [
             'date'      =>  ['required', 'date_format:Y-m-d'],
             'weather'   => ['nullable', 'string'],
-            'mood'      => ['nullable', 'in:1,2,3'],
+            'mood'      => ['nullable', 'in:0,1,2,3'],
             'pick_up_person'  =>  ['nullable'],
             'pick_up_time'    =>  ['nullable', 'date_format:H:i'],
             'guardian'          =>  ['nullable', 'string'],

@@ -326,7 +326,7 @@
                                             <td class="p-1">{{child.absentState[6]}}</td>
                                             <td class="p-1">{{child.exitDate}}</td>
                                             <td class="p-1" v-if="child.regulationDays >= 16">●</td>
-                                            <td class="p-1">-</td>
+                                            <td class="p-1" v-else>-</td>
                                             <td></td>
                                         </tr>
                                     </tbody>
