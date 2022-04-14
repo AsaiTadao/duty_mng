@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API\V1\Child;
 
 use App\Http\Controllers\API\V1\BaseController;
+use App\Http\Requests\Child\MailHistoryQuery;
 use App\Http\Requests\Child\MailJobQuery;
 use App\Http\Requests\Child\MailRequest;
 use App\Http\Requests\Child\MailTemplateQuery;
+use App\Http\Resources\MailHistoryLightResource;
 use App\Services\AttachmentService;
 use App\Jobs\MailNotifJob;
 use App\Models\MailHistory;
@@ -14,6 +16,8 @@ use App\Models\MailJobHistory;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\MailJobHistoryResource;
 use App\Services\UtilService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class MailController extends BaseController
@@ -105,5 +109,14 @@ class MailController extends BaseController
         $mailJobHistory->save();
         MailNotifJob::dispatch($mailJobHistory);
         return $this->sendResponse();
+    }
+    public function getMailHistories(Child $child, Request $request)
+    {
+        $user = $request->user;
+        if (!Gate::forUser($user)->allows('handle-child', $child))
+        {
+            abort(404, "Bad request");
+        }
+        return $this->sendResponse(MailHistoryLightResource::collection(MailHistory::where(['child_id' => $child->id])->get()));
     }
 }

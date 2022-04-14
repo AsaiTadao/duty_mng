@@ -73,6 +73,7 @@
                                 </div>
                             </div>
                         </div>
+                        <child-mail-history :childId="child.id"></child-mail-history>
                         <div class="float-right d-flex align-items-center mt-2" :class="{'is-invalid': inputError}">
                             <button class="btn btn-primary float-right mr-2" @click="saveContact(1)">一時保存</button>
                             <button class="btn btn-primary float-right mr-2" @click="saveContact(2)">完了</button>

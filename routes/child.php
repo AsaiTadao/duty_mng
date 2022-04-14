@@ -20,6 +20,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
         Route::get('/current-office', [AuthController::class, 'currentOffice']);
         Route::get('/monthly-attendance/{child}', [AttendanceController::class, 'monthlyList']);
         Route::get('/contact-book/child/{child}', [ContactBookController::class, 'retrieve']);
+        Route::get('/child/{child}/mail-history', [MailController::class, 'getMailHistories']);
     });
     Route::middleware(['auth:api'])->group(function () {
         Route::put('/register/{child}', [ChildController::class, 'update'])->middleware('can:handle-child,child');
