@@ -237,6 +237,7 @@
                             </div>
                             <div class="float-right d-flex align-items-center mt-2" :class="{'is-invalid': inputError}">
                                 <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
+                                <button class="btn btn-primary float-right" @click="exportExcel">Excel出力</button>
                             </div>
                             <div v-if="inputError" class="error invalid-feedback text-right" style="margin-top: 60px;">
                                 {{$t("Input error")}}
@@ -257,6 +258,7 @@ import api, { apiErrorHandler } from '../../global/api';
 import HourMinuteInput from '../../components/HourMinuteInput.vue';
 import { showSuccess } from '../../helpers/error';
 import { changeToHhMm, validateHhMm } from '../../helpers/datetime';
+import LocalStorage from '../../helpers/localStorage';
 
 const initialFormData = {
     date: new Date(),
@@ -582,6 +584,10 @@ export default {
                     this.formData[`sleep${('0' + hourIndex).slice(-2) + '30'}Home`] = 1 - this.formData[`sleep${('0' + hourIndex).slice(-2) + '30'}Home`];
                 }
             }
+        },
+        exportExcel() {
+            const date = moment(this.selectedDate).format('YYYY-MM-DD');
+            location.href = process.env.MIX_APP_BASE_URL + 'childcare-contact-book/excel/' + this.child.id + '/?date=' + date + '&token=' + LocalStorage.getToken();
         },
         saveContact() {
             if(this.actionLoading) return;
