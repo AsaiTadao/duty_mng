@@ -98,6 +98,8 @@
                                                 <div class="col-md-7 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio1" :value="0" v-model="formData.mealAmount1Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">-</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio1" :value="1" v-model="formData.mealAmount1Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">完食</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio1" :value="2" v-model="formData.mealAmount1Home" @change="dataChanged = true;">
@@ -127,6 +129,8 @@
                                                 <div class="col-md-7 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio2" :value="0" v-model="formData.mealAmount2Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">-</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio2" :value="1" v-model="formData.mealAmount2Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">完食</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio2" :value="2" v-model="formData.mealAmount2Home" @change="dataChanged = true;">
@@ -156,6 +160,8 @@
                                                 <div class="col-md-7 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio3" :value="0" v-model="formData.mealAmount3Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">-</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio3" :value="1" v-model="formData.mealAmount3Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">完食</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio3" :value="2" v-model="formData.mealAmount3Home" @change="dataChanged = true;">
@@ -197,6 +203,8 @@
                                                 <div class="col-md-9 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio4" :value="0" v-model="formData.mood1Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">-</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio4" :value="1" v-model="formData.mood1Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio4" :value="2" v-model="formData.mood1Home" @change="dataChanged = true;">
@@ -214,6 +222,8 @@
                                                 <div class="col-md-9 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2">
                                                         <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio5" :value="0" v-model="formData.mood2Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">-</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio5" :value="1" v-model="formData.mood2Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio5" :value="2" v-model="formData.mood2Home" @change="dataChanged = true;">
@@ -245,6 +255,8 @@
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2">
                                                         <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio6" :value="0" v-model="formData.defecation1Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">-</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio6" :value="1" v-model="formData.defecation1Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio6" :value="2" v-model="formData.defecation1Home" @change="dataChanged = true;">
@@ -272,6 +284,8 @@
                                                 <div class="col-md-7 col-12 px-md-0 pl-0">
                                                     <div class="light-brown text-center white-l-border-2">
                                                         <div class="d-flex justify-content-center py-2">
+                                                            <input class="mr-0 align-self-center" type="radio" name="radio7" :value="0" v-model="formData.defecation2Home" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-2">-</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio7" :value="1" v-model="formData.defecation2Home" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-2">普通</label>
                                                             <input class="mr-0 align-self-center" type="radio" name="radio7" :value="2" v-model="formData.defecation2Home" @change="dataChanged = true;">
@@ -340,6 +354,8 @@
                                                 <div class="col-md-12 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2">
                                                         <div class="form-check text-center">
+                                                            <input class="form-check-input" type="radio" name="radio8" :value="0" v-model="formData.bathingHome" @change="dataChanged = true;">
+                                                            <label class="form-check-label mr-5">-</label>
                                                             <input class="form-check-input" type="radio" name="radio8" :value="1" v-model="formData.bathingHome" @change="dataChanged = true;">
                                                             <label class="form-check-label mr-5">有り</label>
                                                             <input class="form-check-input" type="radio" name="radio8" :value="2" v-model="formData.bathingHome" @change="dataChanged = true;">
