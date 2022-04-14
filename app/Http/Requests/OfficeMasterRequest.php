@@ -15,15 +15,14 @@ class OfficeMasterRequest extends FormRequest {
             'rest_deduction_id'=>  ['required', 'exists:rest_deductions,id'],
             'open_time' =>  ['nullable', 'date_format:H:i'],
             'close_time'=>  ['nullable', 'date_format:H:i'],
-            'capacity'  =>  ['required', 'numeric', 'min:0'],
+            'capacity'  =>  ['nullable', 'numeric', 'min:0'],
             'appropriate_number_0'  =>  ['nullable', 'numeric', 'min:0'],
             'appropriate_number_1'  =>  ['nullable', 'numeric', 'min:0'],
             'appropriate_number_2'  =>  ['nullable', 'numeric', 'min:0'],
             'appropriate_number_3'  =>  ['nullable', 'numeric', 'min:0'],
             'appropriate_number_4'  =>  ['nullable', 'numeric', 'min:0'],
             'appropriate_number_5'  =>  ['nullable', 'numeric', 'min:0'],
-            'business_type_id' =>  ['required', 'exists:business_types,id'],
-
+            'business_type_id'      =>  ['nullable', 'exists:business_types,id'],
         ];
     }
 }

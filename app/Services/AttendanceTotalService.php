@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use App\Models\AttendanceTotal;
 use App\Models\EmploymentStatus;
 use App\Models\ScheduledWorking;
+use App\Models\Setting;
 use App\Models\ShiftPlan;
 use App\Models\User;
 use App\Models\Year;
@@ -92,6 +93,7 @@ class AttendanceTotalService
 
         $attendanceItems = [];
         $attendanceMetaItems = [];
+        $planedWorkDays = 0; // for headquarter employee over time working hours
         for($day = 1; $day <= $daysInMonth; $day++)
         {
             $work_hours = 0;                        // 総出勤時間
@@ -174,6 +176,8 @@ class AttendanceTotalService
                     continue;
                 }
             }
+            $setting = Setting::first();
+            $this->roundProcess($attendance, $setting);
 
             // boc: shift foreach
             for ($i = 1; $i < 3; $i++)
@@ -189,7 +193,6 @@ class AttendanceTotalService
                 $wh = $attendance->$commuting_time_i->floatDiffInMinutes($attendance->$leave_time_i, false);
                 if ($wh < 0)  continue;             // invalid stamp (leave time is before commuting time)
                 // eoc: filter invalid stamp
-
                 $work_hours += $wh;
 
                 if ($attendance->$shift_i) {
@@ -227,9 +230,12 @@ class AttendanceTotalService
                 if (!$isInHeadquarter) {
                     $overtime_working_hours = $over_shift_time;
                 } else {
-                    // TODO #LK-32
-                    if ($total_working_hours > ($user->working_hours * 60)) {
-                        $overtime_working_hours = $total_working_hours - $user->working_hours * 60;
+                    // calculate planed working days for headquarter employees
+                    $workShifts = $dayShifts->filter(function ($value, $key) {
+                        return !$value->vacation_reason_id || $value->vacation_reason_id === VacationReason::WORK;
+                    });
+                    if (count($workShifts) > 0) {
+                        $planedWorkDays++;
                     }
                 }
             } else {
@@ -346,7 +352,16 @@ class AttendanceTotalService
             if ($scheduled_working) {
                 $attendanceTotal->scheduled_working_hours_a = 60 * $user->working_hours * $scheduled_working->days;   // 所定労働時間マスタで登録した事業所毎の日数×社員マスタに登録した個々人の勤務時間で算出
                 $attendanceTotal->excess_and_deficiency_time = $attendanceTotal->scheduled_working_hours_b - $attendanceTotal->scheduled_working_hours_a; // 過不足時間 = 登録した所定労働時間－計算した所定労働時間
+
+                if ($user->employment_status_id === EmploymentStatus::NORMAL && $isInHeadquarter) {
+                    if ($attendanceTotal->total_working_hours > 60 * $user->working_hours * $scheduled_working->days)
+                    {
+                        $attendanceTotal->overtime_hours_weekdays = $attendanceTotal->total_working_hours - 60 * $user->working_hours * $scheduled_working->days;
+                    }
+                }
             }
+
+
         }
 
         return [$attendanceItems, $attendanceTotal, $attendanceMetaItems];
@@ -360,5 +375,48 @@ class AttendanceTotalService
 
         return calcOverlappedPeriod($start, $end, $midStart, $midEnd);
     }
+    public function roundProcess(&$attendance, $setting)
+    {
+        if (!$setting) return $attendance;
+        for ($i = 1; $i < 3; $i++)
+        {
+            $commuting_time_i = "commuting_time_$i";
+            $leave_time_i = "leave_time_$i";
+            $shift_i = "shift$i";
+            $behind_time_i = "behind_time_$i";
+            $leave_early_i = "leave_early_$i";
 
+            if ($setting->fraction_commuting_time && $attendance->$commuting_time_i && $attendance->$shift_i && $attendance->$shift_i->start_time)
+            {
+                $shiftStartTime = Carbon::parse($attendance->$shift_i->start_time);
+                $diff = $attendance->$commuting_time_i->floatDiffInMinutes($shiftStartTime, false);
+                if ($diff > 0 && $diff <= $setting->fraction_commuting_time) {
+                    $attendance->$commuting_time_i = $shiftStartTime;
+                }
+            }
+            if ($setting->fraction_leave_time && $attendance->$leave_time_i && $attendance->$shift_i && $attendance->$shift_i->end_time)
+            {
+                $shiftEndTime = Carbon::parse($attendance->$shift_i->end_time);
+                $diff = $attendance->$leave_time_i->floatDiffInMinutes($shiftEndTime, false);
+                if ($diff < 0 && abs($diff) <= $setting->fraction_leave_time)
+                {
+                    $attendance->$leave_time_i = $shiftEndTime;
+                }
+            }
+            if ($setting->fraction_behind_time && $attendance->$behind_time_i > 0)
+            {
+                $attendance->$behind_time_i = ceil($attendance->$behind_time_i);
+                if ($attendance->$behind_time_i % $setting->fraction_behind_time > 0) {
+                    $attendance->$behind_time_i = $attendance->$behind_time_i + $setting->fraction_behind_time - ($attendance->$behind_time_i % $setting->fraction_behind_time);
+                }
+            }
+            if ($setting->fraction_leave_early && $attendance->$leave_early_i > 0)
+            {
+                $attendance->$leave_early_i = ceil($attendance->$leave_early_i);
+                if ($attendance->$leave_early_i % $setting->fraction_leave_early > 0) {
+                    $attendance->$leave_early_i = $attendance->$leave_early_i + $setting->fraction_leave_early - ($attendance->$leave_early_i % $setting->fraction_leave_early);
+                }
+            }
+        }
+    }
 }
