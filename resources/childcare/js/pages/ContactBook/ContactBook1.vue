@@ -783,7 +783,7 @@
                                             <div class="dark-yellow text-center py-2 text-white">
                                                 保育園での様子・連絡事項
                                             </div>
-                                            <div class="light-yellow p-4 mt-1" style="height: 300px;">
+                                            <div class="light-yellow p-4 mt-1" style="height: 300px;overflow-y:overlay;">
                                                 <textarea class="form-control" style="height: 95%;" v-model="formData.state0School" @change="dataChanged = true;">
 
                                                 </textarea>

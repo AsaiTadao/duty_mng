@@ -779,7 +779,7 @@
                                             <div class="dark-yellow text-center py-2 text-white">
                                                 保育園での様子・連絡事項
                                             </div>
-                                            <div class="light-yellow p-4 mt-1" style="height: 300px;">
+                                            <div class="light-yellow p-4 mt-1" style="height: 300px;overflow-y:overlay;">
                                                 {{formData.state0School}}
                                             </div>
                                         </div>
