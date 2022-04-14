@@ -124,7 +124,7 @@ class ChildController extends BaseController
         {
             $childInfo = new ChildInformation(['child_id' => $child->id]);
         }
-        $type_updated_before = $child->child_info->type;
+        $type_updated_before = $child->child_info ? $child->child_info->type : null;
 
         $childInfo->fill($data);
         if ($type_updated_before && $type_updated_before !== $childInfo->type)

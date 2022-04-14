@@ -1,15 +1,15 @@
 <template>
     <div class="mail-history-table">
-        <table class="table table-bordered table-striped table-children table-head-fixed table-hover">
-            <tbody>
-                <tr v-for="mailHistory in mailHistories" :key="mailHistory.id">
-                    <td class="thead">日時</td>
-                    <td>{{ mailHistory.createdAt }}</td>
-                    <td class="thead">件名</td>
-                    <td>{{ mailHistory.subject }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="d-flex w-100 mail-row" v-for="mailHistory in mailHistories" :key="mailHistory.id">
+            <div class="thead p-2 border border-top-0 border-white" style="flex:1; ">日時</div>
+            <div class="tbody p-2 border border-top-0 border-left-0 border-white" style="flex:3;">
+                {{ mailHistory.createdAt }}
+            </div>
+            <div class="thead p-2 border border-top-0 border-left-0 border-white" style="flex:1;">件名</div>
+            <div class="tbody p-2 border border-top-0 border-left-0 border-white" style="flex:6;">
+                {{ mailHistory.subject }}
+            </div>
+        </div>
     </div>
 </template>
 
@@ -53,5 +53,11 @@ export default {
 }
 .thead {
     background: #a89557;
+}
+.tbody {
+    background: #dcd5bc;
+}
+.mail-row > div{
+    border-width: 2px !important;
 }
 </style>
