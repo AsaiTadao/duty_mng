@@ -58,7 +58,7 @@
                                 <div class="dark-blue text-center py-2 text-white">
                                     家庭からの連絡事項
                                 </div>
-                                <div class="light-blue p-4 mt-1" style="height: 300px;">
+                                <div class="light-blue p-4 mt-1" style="height: 300px;overflow-y:overlay;">
                                     {{formData.contact0Home}}
                                 </div>
                             </div>
