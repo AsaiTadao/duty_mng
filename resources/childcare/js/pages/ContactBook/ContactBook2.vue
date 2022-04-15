@@ -113,6 +113,7 @@ import api, { apiErrorHandler } from '../../global/api';
 import HourMinuteInput from '../../components/HourMinuteInput.vue';
 import { showSuccess } from '../../helpers/error';
 import LocalStorage from '../../helpers/localStorage';
+import ChildMailHistory from './ChildMailHistory.vue';
 
 const initialFormData = {
     date: new Date(),
@@ -125,7 +126,8 @@ const initialFormData = {
 
 export default {
     components: {
-        Datepicker
+        Datepicker,
+        ChildMailHistory
     },
     mixins: [actionLoading],
     props: {
