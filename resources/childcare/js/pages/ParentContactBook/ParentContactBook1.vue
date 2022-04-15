@@ -31,6 +31,21 @@
                                         {{errors.weather}}
                                     </span>
                                 </div>
+                                <div class="col-md-6 col-12 d-flex align-items-center"></div>
+                                <div class="col-md-6 col-12 d-flex align-items-center">
+                                    <div class="calendar-left flex-grow-1">
+                                        <button type="button" class="btn btn-sm btn-outline" @click="onPrev">
+                                            <i class="fas fa-caret-left fa-2x"></i>
+                                        </button>
+                                        <!-- <div class="mx-2">{{ displayDate }}</div> -->
+                                        <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="onCurrentMonth">
+                                            今日
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline" @click="onNext">
+                                            <i class="fas fa-caret-right fa-2x"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -1243,7 +1258,19 @@ export default {
         exportExcel() {
             const date = moment(this.selectedDate).format('YYYY-MM-DD');
             location.href = process.env.MIX_APP_BASE_URL + 'childcare-contact-book/excel/' + this.child.id + '/?date=' + date + '&token=' + LocalStorage.getToken();
-        }
+        },
+        onNext() {
+            var date = moment(this.selectedDate).add(1, 'days').format('YYYY-MM-DD');
+            this.getContact(date);
+        },
+        onPrev() {
+            var date = moment(this.selectedDate).add(-1, 'days').format('YYYY-MM-DD');
+            this.getContact(date);
+        },
+        onCurrentMonth(){
+            var date = moment().format('YYYY-MM-DD');
+            this.getContact(date);
+        },
     },
     created() {
 
@@ -1267,6 +1294,11 @@ export default {
     }
     .calendar-title {
         display: flex;
+        align-items: center;
+    }
+    .calendar-left {
+        display: flex;
+        justify-content: left;
         align-items: center;
     }
     .hour-minute-input > input {

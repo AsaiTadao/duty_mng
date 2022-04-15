@@ -15,8 +15,32 @@
                                     <div>{{ classLabel }}</div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div>{{ date.format('YYYY年 MM月 DD日（ddd）') }}</div>
-                                    <div>天気：<input type="text" class="input-fit" v-model="weather" readonly/></div>
+                                    <div class="card-tools calendar-center flex-grow-1">
+                                        <datepicker
+                                        :language="ja"
+                                        :format="customFormatter"
+                                        ref="programaticOpen"
+                                        :placeholder="todayDate"
+                                        @selected="getDiaryRead"
+                                        v-model="selectedDate">
+                                        </datepicker>
+                                        <button type="button" class="btn btn-sm btn-outline mx-2" @click="openDatePicker()">
+                                            <i class="fas fa-calendar-alt fa-2x"></i>
+                                        </button>
+                                    </div>
+                                    <div class="calendar-center flex-grow-1">
+                                        <button type="button" class="btn btn-sm btn-outline" @click="onPrev">
+                                            <i class="fas fa-caret-left fa-2x"></i>
+                                        </button>
+                                        <!-- <div class="mx-2">{{ displayDate }}</div> -->
+                                        <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="onCurrentMonth">
+                                            今日
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline" @click="onNext">
+                                            <i class="fas fa-caret-right fa-2x"></i>
+                                        </button>
+                                    </div>
+                                    <div class="text-center">天気：<input type="text" class="input-fit" v-model="weather" readonly/></div>
                                 </div>
                                 <div class="col-md-4">
                                     <table class="table table-bordered table-diary">
@@ -208,7 +232,9 @@
     </section>
 </template>
 <script>
-import moment from 'moment';
+import Datepicker from "vuejs-datepicker";
+import moment from 'moment-timezone';
+import { ja } from 'vuejs-datepicker/dist/locale';
 import { mapState } from 'vuex';
 import api, { apiErrorHandler } from '../global/api';
 import actionLoading from '../mixin/actionLoading';
@@ -216,10 +242,15 @@ import { showSuccess } from '../helpers/error';
 import LocalStorage from '../helpers/localStorage';
 
 export default {
+    components: {
+        Datepicker
+    },
     mixins: [actionLoading],
     data() {
         return {
             date: moment(),
+            todayDate: "",
+            selectedDate: new Date(),
             childrenClassId: null,
             weather: '',
             reasonForAbsence: '',
@@ -230,7 +261,7 @@ export default {
             healthStatus: '',
             remarks: '',
             specialNote: '',
-
+            ja: ja,
             office: {},
             stat: {
                 all: '',
@@ -252,6 +283,8 @@ export default {
     mounted() {
         if (this.$route.query.date) {
             this.date = moment(this.$route.query.date, 'YYYY-MM-DD');
+            this.todayDate = moment(this.$route.query.date, 'YYYY-MM-DD').format('YYYY年 M月 D日 (ddd)');
+            this.selectedDate = this.$route.query.date;
         }
         this.childrenClassId = this.$route.params.classId;
         this.fetchData();
@@ -289,15 +322,63 @@ export default {
             .then(response => {this.stat = response})
             .catch(apiErrorHandler);
         },
+        openDatePicker(){
+            this.$refs.programaticOpen.showCalendar();
+        },
+        customFormatter(date) {
+            return moment(date).format('YYYY年 M月 D日 (ddd)');
+        },
         exportExcel() {
             location.href = process.env.MIX_APP_BASE_URL + 'childcare-diary/excel?children_class_id=' + this.childrenClassId + '&date=' + this.date.format('YYYY-MM-DD') + '&token=' + LocalStorage.getToken();
-        }
+        },
+        getDiaryRead(date) {
+            if(date){
+                this.date = date;
+            } else {
+                this.date = new Date();
+            }
+            this.date = moment(this.date);
+            this.fetchData();
+            this.fetchStat();
+        },
+        onNext() {
+            this.date = moment(this.date.add(1, 'days').format('YYYY-MM-DD'), 'YYYY-MM-DD');
+            this.selectedDate = moment(this.date).format('YYYY-MM-DD');
+            this.fetchData();
+            this.fetchStat();
+        },
+        onPrev() {
+            this.date = moment(this.date.add(-1, 'days').format('YYYY-MM-DD'), 'YYYY-MM-DD');
+            this.selectedDate = moment(this.date).format('YYYY-MM-DD');
+            this.fetchData();
+            this.fetchStat();
+        },
+        onCurrentMonth(){
+            this.date = moment();
+            this.selectedDate = moment(this.date).format('YYYY-MM-DD');
+            this.fetchData();
+            this.fetchStat();
+        },
     }
 };
 </script>
 <style scoped>
-.input-fit {
-    border: none;
-    outline: none;
-}
+    .input-fit {
+        border: none;
+        outline: none;
+    }
+    .calendar-left {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+    }
+    .calendar-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .calendar-title {
+        display: flex;
+        align-items: center;
+    }
 </style>

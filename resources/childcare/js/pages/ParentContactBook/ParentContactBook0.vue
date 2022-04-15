@@ -31,6 +31,21 @@
                                         {{errors.weather}}
                                     </span>
                                 </div>
+                                <div class="col-md-6 col-12 d-flex align-items-center"></div>
+                                <div class="col-md-6 col-12 d-flex align-items-center">
+                                    <div class="calendar-left flex-grow-1">
+                                        <button type="button" class="btn btn-sm btn-outline" @click="onPrev">
+                                            <i class="fas fa-caret-left fa-2x"></i>
+                                        </button>
+                                        <!-- <div class="mx-2">{{ displayDate }}</div> -->
+                                        <button type="button" class="btn btn-sm btn-outline-primary mx-2" @click="onCurrentMonth">
+                                            今日
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline" @click="onNext">
+                                            <i class="fas fa-caret-right fa-2x"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -209,7 +224,7 @@
                                     <div class="dark-yellow text-center py-2 text-white">
                                         保育園での様子
                                     </div>
-                                    <div class="light-yellow p-4 mt-1" style="height: 300px;">
+                                    <div class="light-yellow p-4 mt-1" style="height: 300px;overflow-y:overlay;">
                                         {{formData.state0School}}
                                     </div>
                                 </div>
@@ -230,7 +245,7 @@
                                     <div class="dark-yellow text-center py-2 text-white">
                                         保育園からの連絡事項
                                     </div>
-                                    <div class="light-yellow p-4 mt-1" style="height: 300px;">
+                                    <div class="light-yellow p-4 mt-1" style="height: 300px;overflow-y:overlay;">
                                         {{formData.contact0School}}
                                     </div>
                                 </div>
@@ -748,7 +763,19 @@ export default {
         },
         currentDay() {
             return moment(this.selectedDate).format('M月 D日 (ddd)');
-        }
+        },
+        onNext() {
+            var date = moment(this.selectedDate).add(1, 'days').format('YYYY-MM-DD');
+            this.getContact(date);
+        },
+        onPrev() {
+            var date = moment(this.selectedDate).add(-1, 'days').format('YYYY-MM-DD');
+            this.getContact(date);
+        },
+        onCurrentMonth(){
+            var date = moment().format('YYYY-MM-DD');
+            this.getContact(date);
+        },
     },
     created() {
 
@@ -772,6 +799,11 @@ export default {
     }
     .calendar-title {
         display: flex;
+        align-items: center;
+    }
+    .calendar-left {
+        display: flex;
+        justify-content: left;
         align-items: center;
     }
 @media (max-width: 500px) {
