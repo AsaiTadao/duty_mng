@@ -83,7 +83,6 @@
                                 </div>
                             </div>
                         </div>
-                        <child-mail-history :childId="child.id"></child-mail-history>
                         <div class="float-right d-flex align-items-center mt-2" :class="{'is-invalid': inputError}">
                             <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
                             <button class="btn btn-primary float-right" @click="exportExcel">Excel出力</button>
@@ -107,7 +106,6 @@ import api, { apiErrorHandler } from '../../global/api';
 import HourMinuteInput from '../../components/HourMinuteInput.vue';
 import { showSuccess } from '../../helpers/error';
 import LocalStorage from '../../helpers/localStorage';
-import ChildMailHistory from '../ContactBook/ChildMailHistory.vue';
 
 const initialFormData = {
     date: new Date(),
@@ -121,8 +119,7 @@ const initialFormData = {
 
 export default {
     components: {
-        Datepicker,
-        ChildMailHistory
+        Datepicker
     },
     mixins: [actionLoading],
     props: {
