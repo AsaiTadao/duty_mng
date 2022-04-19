@@ -235,6 +235,7 @@
                             </div>
                         </div>
                         <div class="float-right d-flex align-items-center mt-2">
+                            <button class="btn btn-primary mr-2" @click="childCancel()" :disabled="this.childInfor.canceledAt">キャンセル</button>
                             <router-link class="btn btn-primary float-right mr-2" :to="{name: 'present-management', params: {childId}}">登降園管理</router-link>
                             <button class="btn btn-primary float-right" @click="editChild()">編集</button>
                         </div>
@@ -373,6 +374,21 @@ export default {
         },
         viewQRModal() {
             $("#qr-view-form").modal('show');
+        },
+        childCancel() {
+            if(this.childInfor.canceledAt) return;
+            if(this.actionLoading) return;
+            this.setActionLoading();
+            api.put('cancel/' + this.childId)
+            .then(response => {
+                    this.unsetActionLoading();
+                    showSuccess(this.$t('Successfully saved'));
+                    this.getChildInfor();
+                })
+                .catch(e => {
+                    apiErrorHandler(e);
+                    this.unsetActionLoading();
+                });
         }
     },
     mounted() {
