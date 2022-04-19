@@ -11,6 +11,7 @@ class ChildQuery extends FormRequest {
             'query'             => ['nullable', 'string'],
             'plan_registered'   => ['nullable', 'in:0,1,2'],
             'including_exited'  => ['nullable', 'boolean'],
+            'including_canceled'  => ['nullable', 'boolean'],
             'class_id'          => ['nullable', 'exists:children_classes,id']
         ];
     }

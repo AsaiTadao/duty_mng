@@ -25,6 +25,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
     Route::middleware(['auth:api'])->group(function () {
         Route::put('/register/{child}', [ChildController::class, 'update'])->middleware('can:handle-child,child');
         Route::post('/register', [ChildController::class, 'register']);
+        Route::put('/cancel/{child}', [ChildController::class, 'cancel']);
         Route::get('/child', [ChildController::class, 'list']);
         Route::get('/child/{child}', [ChildController::class, 'retrieve'])->middleware('can:handle-child,child');
         Route::delete('/child/{child}', [ChildController::class, 'delete'])->middleware('can:handle-child,child');

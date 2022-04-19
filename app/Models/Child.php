@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\ChildCancelScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -36,6 +37,11 @@ class Child extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new ChildCancelScope);
+    }
 
     public function child_info()
     {

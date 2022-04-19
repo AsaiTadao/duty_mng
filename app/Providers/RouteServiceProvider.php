@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Child;
+use App\Scopes\ChildCancelScope;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -54,6 +56,9 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/android.php'));
+        });
+        Route::bind('child', function($id) {
+            return Child::withoutGlobalScopes([ChildCancelScope::class])->findOrFail($id);
         });
     }
 

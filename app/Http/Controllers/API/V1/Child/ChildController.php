@@ -9,6 +9,7 @@ use App\Http\Resources\ChildResource;
 use App\Models\Child;
 use App\Models\ChildInformation;
 use App\Models\ChildrenClass;
+use App\Scopes\ChildCancelScope;
 use App\Services\QrService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -148,6 +149,12 @@ class ChildController extends BaseController
         $child->delete();
         return $this->sendResponse([]);
     }
+    public function cancel(Child $child)
+    {
+        $child->canceled_at = Carbon::now();
+        $child->save();
+        return $this->sendResponse([]);
+    }
     public function list(ChildQuery $request)
     {
         $user = auth()->user();
@@ -178,6 +185,10 @@ class ChildController extends BaseController
         if (isset($data['plan_registered']))
         {
             $qb->where(['plan_registered' => $data['plan_registered']]);
+        }
+        if (!empty($data['including_canceled']))
+        {
+            $qb->withoutGlobalScopes([ChildCancelScope::class]);
         }
         return $this->sendResponse($qb->get());
     }
