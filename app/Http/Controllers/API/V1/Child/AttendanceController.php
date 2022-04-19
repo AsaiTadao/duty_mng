@@ -78,6 +78,7 @@ class AttendanceController extends BaseController
 
         // $childrenIds = Child::where(['office_id' => $user->office_id])->get()->pluck('id')->toArray();
         $childrenAttendences = DB::table('children')->where(['office_id' => $user->office_id])
+            ->whereNull('canceled_at')
             ->leftJoin('children_attendences', function ($join) use ($Year, $month, $day) {
                 $join->on('children_attendences.child_id', '=', 'children.id')
                     ->where([

@@ -10,7 +10,7 @@ class ChildCancelScope implements Scope
 {
     public function apply(Builder $builder, Model $model)
     {
-        $builder->whereNotNull('canceled_at');
+        $builder->whereNull('canceled_at');
     }
 
 }
