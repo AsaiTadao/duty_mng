@@ -171,12 +171,6 @@ class ChildController extends BaseController
                     ->orWhere('email', 'like', '%' . $search . '%');
             });
         }
-        if (empty($data['including_exited'])) {
-            $qb->where(function ($query) {
-                $query->whereNull('exit_date')
-                    ->orWhere('exit_date', '>', Carbon::now());
-            });
-        }
         if (!empty($data['class_id']))
         {
             $qb->where(['class_id' => $data['class_id']]);
@@ -186,9 +180,36 @@ class ChildController extends BaseController
         {
             $qb->where(['plan_registered' => $data['plan_registered']]);
         }
-        if (!empty($data['including_canceled']))
-        {
-            $qb->withoutGlobalScopes([ChildCancelScope::class]);
+
+        $qb->withoutGlobalScopes([ChildCancelScope::class]);
+        if (empty($data['all'])) {
+            $qb->where(function ($query1) use ($data) {
+                if (!empty($data['canceled']))
+                {
+                    $query1->whereNotNull('canceled_at');
+                    if (!empty($data['exited'])) {
+                        $query1->orWhere('exit_date', '<', Carbon::now());
+                    } else {
+                        $query1->Where(function ($query) {
+                            $query->whereNull('exit_date')
+                                ->orWhere('exit_date', '>=', Carbon::now());
+                        });
+                    }
+
+                } else {
+                    $query1->whereNull('canceled_at');
+
+                    if (!empty($data['exited'])) {
+                        $query1->Where('exit_date', '<', Carbon::now());
+                    } else {
+                        $query1->Where(function ($query) {
+                            $query->whereNull('exit_date')
+                                ->orWhere('exit_date', '>=', Carbon::now());
+                        });
+                    }
+                }
+            });
+
         }
         return $this->sendResponse($qb->get());
     }
