@@ -13,10 +13,14 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="d-flex align-items-center">
-                                    <input type="checkbox" class="align-middle" :value="1" v-model="retiredDisplay" @click="changeRetiredDisplay">
-                                    <div class="ml-1">退園児を含む</div>
+                                    <input type="checkbox" class="align-middle" :value="1" v-model="all" @click="changeAll">
+                                    <div class="ml-1 mr-2">全て</div>
+                                    <input type="checkbox" class="align-middle" :value="2" v-model="exited" @click="changeExited">
+                                    <div class="ml-1 mr-2">退園児</div>
+                                    <input type="checkbox" class="align-middle" :value="3" v-model="canceled" @click="changeCanceled">
+                                    <div class="ml-1 mr-2">キャンセル</div>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -27,7 +31,7 @@
                                     <option :value="1">登録有</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <button type="submit" class="btn btn-sm btn-primary float-right" @click="registerChild()">
                                     新規登録
                                 </button>
@@ -113,7 +117,9 @@ export default {
     mixins: [actionLoading],
     data() {
         return {
-            retiredDisplay: false,
+            all: false,
+            exited: false,
+            canceled: false,
             childrenList: [],
             searchInput: '',
             planRegistered: -1,
@@ -134,9 +140,9 @@ export default {
             this.setActionLoading();
             let query;
             if(this.planRegistered != -1)
-                query = {query: this.searchFilter, plan_registered: this.planRegistered, including_exited: this.retiredDisplay ? 1 : 0};
+                query = {query: this.searchFilter, plan_registered: this.planRegistered, all: this.all ? 1 : 0, exited: this.exited ? 1 : 0, canceled: this.canceled ? 1 : 0};
             else
-                query = {query: this.searchFilter, including_exited: this.retiredDisplay ? 1 : 0};
+                query = {query: this.searchFilter, all: this.all ? 1 : 0, exited: this.exited ? 1 : 0, canceled: this.canceled ? 1 : 0};
             api.get('child', null, query)
                 .then(response => {
                     this.unsetActionLoading();
@@ -170,8 +176,25 @@ export default {
                 return null;
             }
         },
-        changeRetiredDisplay() {
-            this.retiredDisplay = !this.retiredDisplay;
+        changeAll() {
+            this.all = !this.all;
+            if(this.all) {
+                this.exited = true;
+                this.canceled = true;
+            } else {
+                this.exited = false;
+                this.canceled = false;
+            }
+            this.getChildrenList();
+        },
+        changeExited() {
+            this.exited = !this.exited;
+            this.all = false;
+            this.getChildrenList();
+        },
+        changeCanceled() {
+            this.canceled = !this.canceled;
+            this.all = false;
             this.getChildrenList();
         }
     },
