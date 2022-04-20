@@ -2,11 +2,12 @@
 
 namespace App\Exports;
 
+use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeWriting;
 use Maatwebsite\Excel\Files\LocalTemporaryFile;
 use Maatwebsite\Excel\Excel;
-use Carbon\Carbon;
+
 
 class ShiftExport implements WithEvents
 {
@@ -59,23 +60,20 @@ class ShiftExport implements WithEvents
                                 if (!empty($shift->working_hour_name)) {
                                     $name = $shift->working_hour_name;
                                     $is_work_day = true;
-                                    $diff = $this->calcPeriod($shift->start_time, $shift->end_time);
+                                    $diff = $this->calcPeriod($shift->start_date_time, $shift->end_date_time);
                                     $total_work_minutes += $diff;
                                 } else if (!empty($shift->vacation_reason_id)) {
                                     $name = '休';
                                 } else {
                                     $name = 'custom';
                                     $is_work_day = true;
-                                    $diff = $this->calcPeriod($shift->start_time, $shift->end_time);
+                                    $diff = $this->calcPeriod($shift->start_date_time, $shift->end_date_time);
                                     $total_work_minutes += $diff;
                                 }
                                 $shiftNames[] = $name;
 
-                                if ($shift->rest_start_time && $shift->rest_end_time)
-                                {
-                                    $diff = $this->calcPeriod($shift->rest_start_time, $shift->rest_end_time);
-                                    $total_rest_minutes += $diff;
-                                }
+                                $diff = $this->calcPeriod($shift->rest_start_date_time, $shift->rest_end_date_time);
+                                $total_rest_minutes += $diff;
                             }
                             if ($is_work_day) $work_days++;
                             $sheet->setCellValue($col . $row, implode(", ", $shiftNames));
@@ -93,8 +91,10 @@ class ShiftExport implements WithEvents
         ];
     }
     private function calcPeriod($start, $end){
+        if (!$start || !$end) return null;
         $start = Carbon::parse($start);
         $end = Carbon::parse($end);
+
         $diff = $start->floatDiffInMinutes($end);
         return $diff;
     }

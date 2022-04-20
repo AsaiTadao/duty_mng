@@ -43,7 +43,7 @@ class StampService
      */
     public function commute($user,  Carbon $stamp)
     {
-        $stampTime = $stamp->format('H:i:s');
+        $stampTime = $stamp->toDateTimeLocalString();
         [$attendance, $shifts] = $this->getAttendanceShifts($user, $stamp);
 
         // boc --- resolve #7214
@@ -112,7 +112,7 @@ class StampService
                 if ($attendance->commuting_time_1 || $attendance->leave_time_1) {
                     continue;
                 }
-                if ($stampTime >= $shift->end_time) {
+                if ($stampTime >= $shift->end_date_time) {
                     continue;
                 }
                 $attendance->shift1()->associate($shift);
@@ -128,10 +128,10 @@ class StampService
                 if ($attendance->commuting_time_2) {
                     continue;
                 }
-                if ($stampTime >= $shift->end_time) {
+                if ($stampTime >= $shift->end_date_time) {
                     continue;
                 }
-                if ($stampTime <= $shifts[0]->end_time) {
+                if ($stampTime <= $shifts[0]->end_date_time) {
                     $this->error = 'Stamp is before the first shift';
                     $this->log($user, "getMatchedShift return 9 postion");
                     return null;
@@ -150,7 +150,7 @@ class StampService
         // boc: check beyond shifts
         if (!$attendance->commuting_time_1 && !$attendance->leave_time_1) {
             if (!empty($shifts[0])) {
-                if ($stampTime < $shifts[0]->end_time) {
+                if ($stampTime < $shifts[0]->end_date_time) {
                     $attendance->shift1->associcate($shifts[0]);
                     $this->log($user, "getMatchedShift return 11 postion");
                     $attendance->commuting_time_1 = $stamp;
@@ -169,7 +169,7 @@ class StampService
             }
         } else if (!$attendance->commuting_time_2 && !$attendance->leave_time_2) {
             if (!empty($shifts[1])) {
-                if ($stampTime > $shifts[0]->end_time) {
+                if ($stampTime > $shifts[0]->end_date_time) {
                     $attendance->shift1->associcate($shifts[1]);
                     $this->log($user, "getMatchedShift return 13 postion");
                     $attendance->commuting_time_2 = $stamp;
@@ -180,7 +180,7 @@ class StampService
                 }
             } else {
                 if (!empty($shifts[0])) {
-                    if ($stampTime > $shifts[0]->end_time ) {
+                    if ($stampTime > $shifts[0]->end_date_time ) {
                         $this->log($user, "getMatchedShift return 14 postion");
                         $attendance->commuting_time_2 = $stamp;
                         return [
@@ -239,9 +239,9 @@ class StampService
             return $attendance;
         }
 
-        if ($stamp->format('H:i:s') > $shifts[1]->start_time) {
-            $diffWithFirst = Carbon::parse($stamp->format('Y-m-d') . ' ' . $shifts[0]->end_time)->floatDiffInMinutes($stamp);
-            $diffWitSecond = Carbon::parse($stamp->format('Y-m-d') . ' ' . $shifts[1]->end_time)->floatDiffInMinutes($stamp);
+        if ($stamp->toDateTimeLocalString() > $shifts[1]->start_date_time) {
+            $diffWithFirst = Carbon::parse($shifts[0]->end_date_time)->floatDiffInMinutes($stamp);
+            $diffWitSecond = Carbon::parse($shifts[1]->end_date_time)->floatDiffInMinutes($stamp);
             if ($diffWitSecond < $diffWithFirst) {
                 $attendance->leave_time_2 = $stamp;
                 $this->log($user, "leave : return position 4");
@@ -281,6 +281,7 @@ class StampService
             ->where(['date' => $date])
             ->orderBy('start_time')
             ->get();
+        // TODO check stamp is mid, so $shifts maybe of previous date
         if (!$attendance) {
             $attendance = new Attendance([
                 'year_id'   =>  $year->id,
@@ -311,8 +312,8 @@ class StampService
                 $tmp = calcOverlappedPeriod(
                     $attendance->commuting_time_1,
                     $attendance->leave_time_1,
-                    Carbon::parse($dateString . ' ' . $shift->start_time),
-                    Carbon::parse( ($shift->start_time > $shift->end_time ? $afterDateString : $dateString )  . ' ' . $shift->end_time)
+                    Carbon::parse($shift->start_date_time),
+                    Carbon::parse($shift->end_date_time)
                 );
                 if ($overlapped < $tmp) {
                     $selectedIndex = $i;
@@ -333,8 +334,8 @@ class StampService
                 $tmp = calcOverlappedPeriod(
                     $attendance->commuting_time_1,
                     $attendance->leave_time_1,
-                    Carbon::parse($dateString . ' ' . $shift->start_time),
-                    Carbon::parse(($shift->start_time > $shift->end_time ? $afterDateString : $dateString )  . ' ' . $shift->end_time)
+                    Carbon::parse($shift->start_date_time),
+                    Carbon::parse($shift->end_date_time)
                 );
                 if ($overlapped < $tmp) {
                     $selectedIndex = $i;
@@ -355,8 +356,8 @@ class StampService
                 $tmp = calcOverlappedPeriod(
                     $attendance->commuting_time_1,
                     $attendance->leave_time_1,
-                    Carbon::parse($dateString . ' ' . $shift->start_time),
-                    Carbon::parse(($shift->start_time > $shift->end_time ? $afterDateString : $dateString )  . ' ' . $shift->end_time)
+                    Carbon::parse($shift->start_date_time),
+                    Carbon::parse($shift->end_date_time)
                 );
                 if ($overlapped < $tmp) {
                     $selectedIndex = $i;

@@ -197,22 +197,18 @@ class AttendanceTotalService
 
                 if ($attendance->$shift_i) {
                     if ($attendance->$shift_i->rest_start_time && $attendance->$shift_i->rest_end_time) {
-                        $rh = diffBetweenTwoTimes($attendance->$shift_i->rest_start_time, $attendance->$shift_i->rest_end_time);
+                        $rh = diffBetweenTwoTimes($attendance->$shift_i->rest_start_date_time, $attendance->$shift_i->rest_end_date_time);
 
                         // TODO consider rest time is in midnight
-                        $rest_start_time = Carbon::parse(
-                            $yearNumber . '-' . sprintf('%02d', $monthValue) . '-' . sprintf('%02d', $day) . ' ' . $attendance->$shift_i->rest_start_time
-                        );
-                        $rest_end_time = Carbon::parse(
-                            $yearNumber . '-' . sprintf('%02d', $monthValue) . '-' . sprintf('%02d', $day) . ' ' . $attendance->$shift_i->rest_end_time
-                        );
+                        $rest_start_time = Carbon::parse($attendance->$shift_i->rest_start_date_time);
+                        $rest_end_time = Carbon::parse($attendance->$shift_i->rest_end_date_time);
 
                         $rh = calcOverlappedPeriod($attendance->$commuting_time_i, $attendance->$leave_time_i, $rest_start_time, $rest_end_time);
                         if ($rh > 0) {
                             $rest_hours += $rh;
                         }
                     }
-                    $oth = diffBetweenTimeAndCarbonTime($attendance->$shift_i->end_time, $attendance->$leave_time_i);
+                    $oth = Carbon::parse($attendance->$shift_i->end_date_time)->floatDiffInMinutes($attendance->$leave_time_i, false);
                     if ($oth > 0) {
                         $over_shift_time += $oth;
                     }
@@ -388,7 +384,7 @@ class AttendanceTotalService
 
             if ($setting->fraction_commuting_time && $attendance->$commuting_time_i && $attendance->$shift_i && $attendance->$shift_i->start_time)
             {
-                $shiftStartTime = Carbon::parse($attendance->$shift_i->start_time);
+                $shiftStartTime = Carbon::parse($attendance->$shift_i->start_date_time);
                 $diff = $attendance->$commuting_time_i->floatDiffInMinutes($shiftStartTime, false);
                 if ($diff > 0 && $diff <= $setting->fraction_commuting_time) {
                     $attendance->$commuting_time_i = $shiftStartTime;
@@ -396,7 +392,7 @@ class AttendanceTotalService
             }
             if ($setting->fraction_leave_time && $attendance->$leave_time_i && $attendance->$shift_i && $attendance->$shift_i->end_time)
             {
-                $shiftEndTime = Carbon::parse($attendance->$shift_i->end_time);
+                $shiftEndTime = Carbon::parse($attendance->$shift_i->end_date_time);
                 $diff = $attendance->$leave_time_i->floatDiffInMinutes($shiftEndTime, false);
                 if ($diff < 0 && abs($diff) <= $setting->fraction_leave_time)
                 {

@@ -70,16 +70,15 @@ class ShiftController extends BaseController
         $data = $request->validated();
         $date = Carbon::parse($data['date']);
 
-        $shifts = DB::table('shift_plans')
+        $shifts = ShiftPlan::query()
             ->leftJoin('users', 'shift_plans.user_id', '=', 'users.id')
             ->where('users.office_id', '=', $office->id)
             ->leftJoin('working_hours', 'shift_plans.working_hours_id', '=', 'working_hours.id')
             ->whereDate('shift_plans.date', $date)
             ->select('shift_plans.*')
             ->get();
-
         $childSchedule = $childcareService->getChildSchedule($office, $date);
-        $actualWorkerSchedule = $childcareService->calcWorkerNumberPerPeriod($shifts);
+        $actualWorkerSchedule = $childcareService->calcWorkerNumberPerPeriod($shifts, $date);
 
         $childSchedule['actual_workers'] = $actualWorkerSchedule;
         return $this->sendResponse($childSchedule);

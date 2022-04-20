@@ -25,7 +25,7 @@ class AttendancePreProcessor
 
             if ($attendance->$commute_time) {
                 if ($attendance->$shift) {
-                    $minutes = Carbon::parse($attendance->$commute_time->format('Y-m-d') . ' ' . $attendance->$shift->start_time)
+                    $minutes = Carbon::parse($attendance->$shift->start_date_time)
                         ->floatDiffInMinutes($attendance->$commute_time, false);
                     if ($minutes > 0) {
                         $attendance->$behind_time = $minutes;
@@ -41,16 +41,9 @@ class AttendancePreProcessor
 
             if ($attendance->$leave_time) {
                 if ($attendance->$shift) {
-                    if ($attendance->$shift->start_time > $attendance->$shift->end_time)
-                    {
-                        [$y, $m, $d] = explode('-', $attendance->$leave_time->format('Y-m-d'));
-                        $date = $y . '-' . $m . '-' . ($d + 1);
-                    } else {
-                        $date = $attendance->$leave_time->format('Y-m-d');
-                    }
                     $minutes = $attendance->$leave_time
                         ->floatDiffInMinutes(
-                            Carbon::parse($date . ' ' . $attendance->$shift->end_time),
+                            Carbon::parse($attendance->$shift->end_date_time),
                             false
                         );
                     if ($minutes > 0) {

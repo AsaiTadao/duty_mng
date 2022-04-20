@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Child;
+use App\Models\ChildcarePlanDay;
+use App\Models\ChildrenClass;
 use App\Models\Office;
 use Illuminate\Support\Carbon;
 
@@ -13,13 +16,13 @@ class ChildcareService
         '17:00:00','17:30:00','18:00:00','18:30:00','19:00:00','19:30:00','20:00:00','20:30:00','21:00:00','21:30:00', '22:00:00'
     ];
 
-    public function calcWorkerNumberPerPeriod($shifts)
+    public function calcWorkerNumberPerPeriod($shifts, $date)
     {
         $timePeriods = self::TIME_PERIODS;
         $len = count($timePeriods);
 
-        $dateString = "2021-11-08";
-
+        // $dateString = "2021-11-08";
+        $dateString = $date->format('Y-m-d');
         $result = [];
         for ($i = 0; $i < $len - 1; $i++)
         {
@@ -31,10 +34,10 @@ class ChildcareService
                     continue;
                 }
                 $overlapped = calcOverlappedPeriod(
-                    Carbon::parse($dateString . ' ' . $timePeriods[$i]),
-                    Carbon::parse($dateString . ' ' . $timePeriods[$i + 1]),
-                    Carbon::parse($dateString . ' ' . $shift->start_time),
-                    Carbon::parse($dateString . ' ' . $shift->end_time),
+                    Carbon::parse($dateString . 'T' . $timePeriods[$i]),
+                    Carbon::parse($dateString . 'T' . $timePeriods[$i + 1]),
+                    Carbon::parse($shift->start_date_time),
+                    Carbon::parse($shift->end_date_time),
                 );
                 if ($overlapped)
                 {
@@ -48,18 +51,86 @@ class ChildcareService
 
     public function getChildSchedule(Office $office, Carbon $date)
     {
-        $children0 =
-            [ 0, 6, 6, 6, 6, 6, 6, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0];
-        $children1 =
-            [ 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0];
-        $children2 =
-            [ 0, 2, 2, 2, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0];
-        $children3 =
-            [ 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0];
-        $children4 =
-            [ 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        $children5 =
-            [ 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0];
+        $children = Child::where(['office_id' => $office->id])
+            ->where(function($query) use ($date) {
+                $query->whereNull('exit_date')
+                    ->orWhere('exit_date', '>=', $date);
+            })
+            ->where(function($query) use ($date) {
+                $query->where('admission_date', '<=', $date)
+                    ->orWhere('admission_date', '=', null);
+            })
+            ->get();
+
+        $childrenPlans = [];
+        foreach($children as $child)
+        {
+            $plan = ChildcarePlanDay::where(['child_id' => $child->id, 'date' => $date])->first();
+            if ($plan && $plan->start_time && $plan->end_time)
+            {
+                $childrenPlans[] = [
+                    'class_id'  =>  $child->class_id,
+                    'plan' => $plan
+                ];
+            }
+        }
+        $childrenPlans = ChildcarePlanDay::where(['child']);
+
+        // calc overlap in 7:00 ~ 22:00
+        $baseDate = clone $date;
+        $baseDate->hour = 7;
+        $baseDate->minute = 0;
+        $baseDate->second = 0;
+
+        $baseDateString = $baseDate->format('Y-m-d');
+
+        $children0 = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        $children1 = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        $children2 = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        $children3 = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        $children4 = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        $children5 = [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+        for($i = 0; $i < 30; $i++)
+        {
+            foreach($childrenPlans as $childPlan)
+            {
+                $plan = $childPlan['plan'];
+                $class_id = $childPlan['class_id'];
+
+                $plan_start_time = Carbon::parse($plan->start_date_time);
+                $plan_end_time = Carbon::parse($plan->end_date_time);
+                $baseEndDate = clone $baseDate;
+                $baseEndDate->addMinutes(30);
+
+                $overlapped = calcOverlappedPeriod($baseDate, $baseEndDate, $plan_start_time, $plan_end_time);
+                if ($overlapped)
+                {
+                    switch($class_id)
+                    {
+                        case ChildrenClass::AGE_0: $children0[$i]++; break;
+                        case ChildrenClass::AGE_1: $children1[$i]++; break;
+                        case ChildrenClass::AGE_2: $children2[$i]++; break;
+                        case ChildrenClass::AGE_3: $children3[$i]++; break;
+                        case ChildrenClass::AGE_4: $children4[$i]++; break;
+                        case ChildrenClass::AGE_5: $children5[$i]++; break;
+                    }
+                }
+            }
+        }
+
+        // $children0 =
+        //     [ 0, 6, 6, 6, 6, 6, 6, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0];
+        // $children1 =
+        //     [ 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0];
+        // $children2 =
+        //     [ 0, 2, 2, 2, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0];
+        // $children3 =
+        //     [ 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0];
+        // $children4 =
+        //     [ 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        // $children5 =
+        //     [ 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0];
 
         $nurseRate = [3, 6, 7, 7, 7, 7];
 

@@ -145,11 +145,11 @@ class ShiftProcessor
                 for ($j = $i + 1; $j < count($shiftArr); $j++) {
                     $targetShift = $shiftArr[$j];
 
-                    $org_start_time = $shift->start_time > $shift->end_time ? $shift->end_time : $shift->start_time;
-                    $org_end_time = $shift->start_time > $shift->end_time ? $shift->start_time : $shift->end_time;
+                    $org_start_time = $shift->start_date_time;
+                    $org_end_time = $shift->end_date_time;
 
-                    $tar_start_time = $targetShift->start_time > $targetShift->end_time ? $targetShift->end_time : $targetShift->start_time;
-                    $tar_end_time = $targetShift->start_time > $targetShift->end_time ? $targetShift->start_time : $targetShift->end_time;
+                    $tar_start_time = $targetShift->start_date_time;
+                    $tar_end_time = $targetShift->end_date_time;
 
                     if (
                         ($org_start_time >= $tar_start_time &&
