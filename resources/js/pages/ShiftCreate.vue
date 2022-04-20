@@ -279,9 +279,16 @@ export default {
                     if(shift[i].length) {
                         for (let j=0; j<shift[i].length; j++) {
                             if(!shift[i][j].vacationReasonId) {
-                                let dayTimes = (new Date('2021-01-01 ' + shift[i][j].endTime).getTime() - new Date('2021-01-01 ' + shift[i][j].startTime).getTime());
+                                let dayTimes;
+                                if(shift[i][j].endTime >= shift[i][j].startTime)
+                                    dayTimes = (new Date('2021-01-01 ' + shift[i][j].endTime).getTime() - new Date('2021-01-01 ' + shift[i][j].startTime).getTime());
+                                 else
+                                    dayTimes = (new Date('2021-01-02 ' + shift[i][j].endTime).getTime() - new Date('2021-01-01 ' + shift[i][j].startTime).getTime());
                                 if(shift[i][j].restEndTime && shift[i][j].restStartTime) {
-                                    dayTimes = dayTimes -(new Date('2021-01-01 ' + shift[i][j].restEndTime).getTime() - new Date('2021-01-01 ' + shift[i][j].restStartTime).getTime());
+                                    if(shift[i][j].restEndTime >= shift[i][j].restStartTime)
+                                        dayTimes = dayTimes -(new Date('2021-01-01 ' + shift[i][j].restEndTime).getTime() - new Date('2021-01-01 ' + shift[i][j].restStartTime).getTime());
+                                    else
+                                        dayTimes = dayTimes -(new Date('2021-01-02 ' + shift[i][j].restEndTime).getTime() - new Date('2021-01-01 ' + shift[i][j].restStartTime).getTime());
                                 }
                                 workingTimes += dayTimes/(1000*60*60);
                             }

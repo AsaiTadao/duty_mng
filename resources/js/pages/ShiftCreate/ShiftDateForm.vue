@@ -267,9 +267,16 @@ import ShiftForm from './ShiftForm.vue';
             },
             getBetweenTimes(startTime, endTime) {
                 if(!startTime || !endTime) return 0;
-                let t1 = moment(startTime, "hh:mm:ss");
-                let t2 = moment(endTime, "hh:mm:ss");
-                let t3 = moment.duration(t2.diff(t1, 'minutes'));
+                let t1,t2,t3;
+                if(endTime >= startTime) {
+                    t1 = moment(startTime, "hh:mm:ss");
+                    t2 = moment(endTime, "hh:mm:ss");
+                    t3 = moment.duration(t2.diff(t1, 'minutes'));
+                } else {
+                    t1 = moment(startTime, "hh:mm:ss");
+                    t2 = moment(endTime, "hh:mm:ss").add(1, "days");
+                    t3 = moment.duration(t2.diff(t1, 'minutes'));
+                }
                 return (t3 / 60).toFixed(2);
             },
             getRestHours(shift) {
@@ -278,7 +285,9 @@ import ShiftForm from './ShiftForm.vue';
             },
             getColor(hourIndex, shift) {
                 let indexTime = hourIndex + ":00";
-                let workTimeIn = shift.shifts.filter(item => (indexTime >= item.startTime && indexTime < item.endTime));
+                let workTimeIn = shift.shifts.filter(item => (
+                    item.startTime <= item.endTime ? indexTime >= item.startTime && indexTime < item.endTime : indexTime >= item.startTime && indexTime <= "22:00:00"
+                    ));
                 let restTimeIn = shift.shifts.filter(item => (indexTime >= item.restStartTime && indexTime < item.restEndTime));
                 let backColor = "";
                 if(workTimeIn && workTimeIn.length > 0) {
