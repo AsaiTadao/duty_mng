@@ -376,6 +376,7 @@ export default {
             $("#qr-view-form").modal('show');
         },
         childCancel() {
+            if(!confirm(this.$t('Are you sure you want to cancel?'))) return;
             if(this.childInfor.canceledAt) return;
             if(this.actionLoading) return;
             this.setActionLoading();
