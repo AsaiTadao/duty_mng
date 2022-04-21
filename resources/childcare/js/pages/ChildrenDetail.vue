@@ -350,7 +350,7 @@ export default {
             const ageInMonth = moment().diff(birthDay, 'months');
             const y = Math.floor(ageInMonth / 12);
             const m = ageInMonth % 12;
-            return (y ? y + '歳' : '') + (m ? m + 'ヶ月' : '');
+            return (y ? y + '歳' : '') + (m + 'ヶ月');
         },
         getPlan() {
             api.get(`plan/${this.childId}`)
