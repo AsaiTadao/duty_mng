@@ -289,6 +289,22 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.extensionTimeMin = this.$t('Please input positive number');
                     valid = false;
                 }
+                if (this.formData.extensionTimeHour && this.formData.extensionTimeMin && !this.formData.commutingTimeHour) {
+                    this.errors.commutingTimeHour = this.$t('Please input number');                                 // need trans
+                    valid = false;
+                }
+                if (this.formData.extensionTimeHour && this.formData.extensionTimeMin && !this.formData.commutingTimeMin) {
+                    this.errors.commutingTimeMin = this.$t('Please input number');                                 // need trans
+                    valid = false;
+                }
+                if (this.formData.extensionTimeHour && this.formData.extensionTimeMin && !this.formData.leaveTimeHour) {
+                    this.errors.leaveTimeHour = this.$t('Please input number');                                 // need trans
+                    valid = false;
+                }
+                if (this.formData.extensionTimeHour && this.formData.extensionTimeMin && !this.formData.leaveTimeMin) {
+                    this.errors.leaveTimeMin = this.$t('Please input number');                                 // need trans
+                    valid = false;
+                }
                 // if (!this.formData.extensionTimeHour && this.formData.extensionTimeMin) {
                 //     this.errors.extensionTimeHour = this.$t('Please input valid number');
                 //     valid = false;
