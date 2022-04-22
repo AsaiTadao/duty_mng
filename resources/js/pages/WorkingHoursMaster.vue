@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header calendar-title">
-                        <h3 class="card-title mb-0">時間帯マスタ</h3>
+                        <h3 class="card-title mb-0">勤務時間マスタ</h3>
                         <h3 class="card-title mb-0 ml-5">ラテラル保育園</h3>
                     </div>
                     <div class="card-body">
