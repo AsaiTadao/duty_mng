@@ -249,6 +249,14 @@ import { showSuccess } from '../../helpers/error';
                 //     this.errors.leaveTimeMin = this.$t('Please input number');
                 //     valid = false;
                 // }
+                if (this.formData.leaveTimeHour && !this.formData.leaveTimeMin) {
+                    this.errors.leaveTimeMin = this.$t('Please input number');
+                    valid = false;
+                }
+                if (!this.formData.leaveTimeHour && this.formData.leaveTimeMin) {
+                    this.errors.leaveTimeHour = this.$t('Please input number');
+                    valid = false;
+                }
                 if (this.formData.leaveTimeHour && this.formData.leaveTimeMin && ('0' + this.formData.leaveTimeHour).slice(-2) + ":" + ('0' + this.formData.leaveTimeMin).slice(-2) < ('0' + this.formData.commutingTimeHour).slice(-2) + ":" + ('0' + this.formData.commutingTimeMin).slice(-2)) {
                     this.errors.leaveTimeHour = this.$t('end time must be later than start time');
                     valid = false;
