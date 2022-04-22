@@ -285,7 +285,7 @@ export default {
                     this.planDayErrors[index].endTime = this.$t('Invalid time format');
                 }
 
-                if (plan.startTime && (plan.startTime === plan.endTime || plan.startTime > plan.endTime)) {
+                if (plan.startTime && (plan.startTime === plan.endTime || plan.startTime >= plan.endTime)) {
                     valid = false;
                     this.planDayErrors[index].endTime = this.$t('Invalid time period');
                 }
