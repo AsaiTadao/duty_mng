@@ -284,10 +284,13 @@
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center px-2">
+                                                            <div class="d-flex justify-content-center align-items-center">
                                                             <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount1Home" :class="{'is-invalid' : errors.defecationCount1Home}" @change="dataChanged = true; errors.defecationCount1Home = null;inputError = false;">
+                                                            回
                                                             <span v-if="errors.defecationCount1Home" class="error invalid-feedback">
                                                                 {{errors.defecationCount1Home}}
                                                             </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -313,10 +316,13 @@
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center px-2">
+                                                            <div class="d-flex justify-content-center align-items-center">
                                                             <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount2Home" :class="{'is-invalid' : errors.defecationCount2Home}" @change="dataChanged = true; errors.defecationCount2Home = null;">
+                                                            回
                                                             <span v-if="errors.defecationCount2Home" class="error invalid-feedback">
                                                                 {{errors.defecationCount2Home}}
                                                             </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -646,7 +652,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.defecationCount1School}}
+                                                        {{formData.defecationCount1School ? formData.defecationCount1School + '回' : ''}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
@@ -661,7 +667,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.defecationCount2School}}
+                                                        {{formData.defecationCount2School ? formData.defecationCount2School + '回' : ''}}
                                                     </div>
                                                 </div>
                                             </div>

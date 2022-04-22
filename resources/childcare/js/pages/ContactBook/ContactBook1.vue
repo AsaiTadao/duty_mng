@@ -221,7 +221,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2 py-2 fixed-height-40">
-                                                        {{formData.defecationCount1Home}}
+                                                        {{formData.defecationCount1Home ? formData.defecationCount1Home + '回': ''}}
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3 col-12 px-md-0 pl-0">
@@ -236,7 +236,7 @@
                                                 </div>
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2 py-2 fixed-height-40">
-                                                        {{formData.defecationCount2Home}}
+                                                        {{formData.defecationCount2Home ? formData.defecationCount2Home + '回': ''}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -570,7 +570,10 @@
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-lb-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center px-2">
+                                                            <div class="d-flex justify-content-center align-items-center">
                                                             <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount1School" :class="{'is-invalid' : errors.defecationCount1School}" @change="dataChanged = true; errors.defecationCount1School = null;inputError = false;">
+                                                            回
+                                                            </div>
                                                             <span v-if="errors.defecationCount1School" class="error invalid-feedback">
                                                                 {{errors.defecationCount1School}}
                                                             </span>
@@ -599,7 +602,10 @@
                                                 <div class="col-md-2 col-12 pl-0">
                                                     <div class="light-brown text-center white-l-border-2" style="padding-top:1px; padding-bottom:1px;">
                                                         <div class="text-center justify-content-center px-2">
+                                                            <div class="d-flex justify-content-center align-items-center">
                                                             <input type="number" class="form-control" min="0" max="24" v-model="formData.defecationCount2School" :class="{'is-invalid' : errors.defecationCount2School}" @change="dataChanged = true; errors.defecationCount2School = null;inputError = false;">
+                                                            回
+                                                            </div>
                                                             <span v-if="errors.defecationCount2School" class="error invalid-feedback">
                                                                 {{errors.defecationCount2School}}
                                                             </span>
