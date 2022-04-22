@@ -249,6 +249,22 @@ import { showSuccess } from '../../helpers/error';
                 //     this.errors.leaveTimeMin = this.$t('Please input number');
                 //     valid = false;
                 // }
+                if (this.formData.commutingTimeHour > 24) {
+                    this.errors.commutingTimeHour = this.$t('Invalid time format');                                 // need trans
+                    valid = false;
+                }
+                if (this.formData.commutingTimeMin > 59) {
+                    this.errors.commutingTimeMin = this.$t('Invalid time format');                                 // need trans
+                    valid = false;
+                }
+                if (this.formData.leaveTimeHour > 24) {
+                    this.errors.leaveTimeHour = this.$t('Invalid time format');                                 // need trans
+                    valid = false;
+                }
+                if (this.formData.leaveTimeMin > 59) {
+                    this.errors.leaveTimeMin = this.$t('Invalid time format');                                 // need trans
+                    valid = false;
+                }
                 if (this.formData.leaveTimeHour && !this.formData.leaveTimeMin) {
                     this.errors.leaveTimeMin = this.$t('Please input number');
                     valid = false;
