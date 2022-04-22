@@ -977,7 +977,7 @@ export default {
                 valid = false;
             }
             if(!this.formData.pickUpPerson) {
-                this.errors.pickUpPerson = this.$t('Please input name');
+                this.errors.pickUpPerson = this.$t('Please input');
                 valid = false;
             }
             if(this.formData.pickUpPerson && this.formData.pickUpPerson.length > 20) {
