@@ -478,6 +478,10 @@ export default {
                 valid = false;
             }
 
+            if (this.formData.admissionDate > this.formData.exitDate) {
+                this.errors.admissionDate = this.$t('Please input exitDate after admissionDate');                              //need trans
+                valid = false;
+            }
             // if (!this.formData.exitDate) {
             //     this.errors.exitDate = this.$t('Please input exitDate');                              //need trans
             //     valid = false;
