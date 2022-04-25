@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\Route;
 // ->middleware('auth');
 Route::get('/shift/csv/{office}', [ShiftController::class, 'csv']);
 Route::get('/user/csv', [UserController::class, 'csv']);
-Route::get('/work-total/csv/{office}', [WorkTotalController::class, 'csv'])->name('work_total.csv.get');
+Route::get('/work-total/csv', [WorkTotalController::class, 'csv'])->name('work_total.csv.get');
 Route::get("/test", [TestController::class, 'test']);
 Route::get('/individual-summary/excel', [WorkTotalController::class, 'exportIndividual']);
 
