@@ -11,7 +11,7 @@ class ContactBook345SchoolRequest extends FormRequest {
     {
         return [
             'date'              =>  ['required', 'date_format:Y-m-d'],
-            'weather'           =>  ['required', 'string'],
+            'weather'           =>  ['nullable', 'string'],
             'nurse_name'        =>  ['nullable', 'string'],
             'guardian'          =>  ['nullable', 'string'],
             'contact_0_school'  =>  ['nullable', 'string'],

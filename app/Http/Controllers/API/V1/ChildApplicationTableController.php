@@ -12,6 +12,7 @@ use App\Models\Code;
 use App\Models\Office;
 use App\Models\ReasonForAbsence;
 use App\Models\User;
+use App\Models\Year;
 use App\Services\Child\AttendanceService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Gate;
@@ -218,10 +219,12 @@ class ChildApplicationTableController extends BaseController
         $childrenClasses = ChildrenClass::get();
 
         $childTable = [];
+        $diff = Year::diff($date);
         foreach ($childrenClasses as $childrenClass)
         {
-            $classChildren = $children->filter(function ($value, $key) use ($childrenClass) {
-                return $value->class_id === $childrenClass->id;
+
+            $classChildren = $children->filter(function ($value, $key) use ($childrenClass, $diff) {
+                return $value->class_id === $childrenClass->id - $diff;
             });
             $childTable[$childrenClass->id] = [];
             foreach ($classChildren as $child)

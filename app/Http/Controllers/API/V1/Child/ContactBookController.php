@@ -12,7 +12,9 @@ use App\Http\Requests\Child\ContactBook345HomeRequest;
 use App\Http\Requests\Child\ContactBook345SchoolRequest;
 use App\Http\Requests\Child\ContactBookQuery;
 use App\Models\Child;
+use App\Models\ChildrenClass;
 use App\Models\ContactBook;
+use App\Models\Year;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Sanctum\PersonalAccessToken;
 use Maatwebsite\Excel\Facades\Excel;
@@ -118,6 +120,14 @@ class ContactBookController extends BaseController
         $data = $request->validated();
         $date = $data['date'];
         $contactBook = ContactBook::where(['child_id' => $child->id, 'date' => $date])->first();
+
+        $diff = Year::diff($date);
+        $child->class_id = $child->class_id + $diff;
+        if($child->class_id < ChildrenClass::AGE_0) {
+            $child->class_id = ChildrenClass::AGE_0;
+        } elseif($child->class_id > ChildrenClass::AGE_5) {
+            $child->class_id = ChildrenClass::AGE_5;
+        }
 
         // if (!$contactBook)
         // {
