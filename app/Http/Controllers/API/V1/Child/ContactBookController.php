@@ -11,10 +11,12 @@ use App\Http\Requests\Child\ContactBook12SchoolRequest;
 use App\Http\Requests\Child\ContactBook345HomeRequest;
 use App\Http\Requests\Child\ContactBook345SchoolRequest;
 use App\Http\Requests\Child\ContactBookQuery;
+use App\Http\Requests\Child\ContactBookTypeRequest;
 use App\Models\Child;
 use App\Models\ChildrenClass;
 use App\Models\ContactBook;
-use App\Models\Year;
+use App\Models\ChildrenClassPeriod;
+use App\Models\ContactBookTypePeriod;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Sanctum\PersonalAccessToken;
 use Maatwebsite\Excel\Facades\Excel;
@@ -65,6 +67,26 @@ class ContactBookController extends BaseController
         $contactBook->fill($data);
         $contactBook->save();
         return $this->sendResponse($contactBook);
+    }
+
+    public function typeSave(Child $child, ContactBookTypeRequest $request)
+    {
+        $data = $request->validated();
+        $date = $data['date'];
+        $type = $data['type'];
+
+        ContactBookTypePeriod::appendType($child->id, $type, $date);
+
+        $contactBook = ContactBook::where(['child_id' => $child->id, 'date' => $date])->first();
+
+        if (!$contactBook) {
+            $contactBook = new ContactBook(['child_id' => $child->id, 'date' => $date]);
+        }
+
+        return $this->sendResponse([
+            'contact_book' => $contactBook,
+            'contact_book_type' => $type
+        ]);
     }
 
     public function homeSave0(Child $child, ContactBook0HomeRequest $request)
@@ -121,14 +143,6 @@ class ContactBookController extends BaseController
         $date = $data['date'];
         $contactBook = ContactBook::where(['child_id' => $child->id, 'date' => $date])->first();
 
-        $diff = Year::diff($date);
-        $child->class_id = $child->class_id + $diff;
-        if($child->class_id < ChildrenClass::AGE_0) {
-            $child->class_id = ChildrenClass::AGE_0;
-        } elseif($child->class_id > ChildrenClass::AGE_5) {
-            $child->class_id = ChildrenClass::AGE_5;
-        }
-
         // if (!$contactBook)
         // {
         //     $result = [];
@@ -146,8 +160,9 @@ class ContactBookController extends BaseController
         // }
 
         return $this->sendResponse([
-            'child'      => $child,
-            'contact_book' => $contactBook
+            'child' => $child,
+            'contact_book' => $contactBook,
+            'contact_book_type' => ContactBookTypePeriod::getType($child, $date)
         ]);
     }
 

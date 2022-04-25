@@ -10,6 +10,8 @@ use App\Models\Child;
 use App\Models\ChildInformation;
 use App\Models\ChildrenClass;
 use App\Scopes\ChildCancelScope;
+use App\Models\ChildrenClassPeriod;
+use App\Models\ContactBookTypePeriod;
 use App\Services\QrService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
@@ -72,6 +74,10 @@ class ChildController extends BaseController
         $childInfo = new ChildInformation($data);
         $child->child_info()->save($childInfo);
         $qrService->getChildQrImageUri($child);
+
+        ChildrenClassPeriod::appendClass($child->id, $child->class_id, $child->admission_date);
+        ContactBookTypePeriod::appendType($child->id, ContactBookTypePeriod::typeByBirthday($child->birthday), $child->admission_date);
+
         return $this->sendResponse(new ChildResource($child));
     }
 
@@ -88,6 +94,8 @@ class ChildController extends BaseController
         // if ($existing && $existing->id !== $child->id) {
         //     return response()->json(['message' => trans('This email is already registered')]);
         // }
+
+        $beforeClassID = $child->class_id;
 
         $child->fill($data);
 
@@ -137,6 +145,14 @@ class ChildController extends BaseController
 
         $child->refresh();
         $qrService->getChildQrImageUri($child);
+
+        if ($beforeClassID != $child->class_id) {
+            $now = Carbon::now();
+
+            ChildrenClassPeriod::appendClass($child->id, $child->class_id, $now);
+            ContactBookTypePeriod::appendType($child->id, ContactBookTypePeriod::typeByClassID($child->class_id), $now);
+        }
+
         return $this->sendResponse(new ChildResource($child));
     }
     public function retrieve(Child $child, QrService $qrService)

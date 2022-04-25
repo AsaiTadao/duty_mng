@@ -8,6 +8,7 @@ use App\Http\Controllers\API\V1\ShiftController;
 use App\Http\Controllers\API\V1\UserController;
 use App\Http\Controllers\API\V1\WorkTotalController;
 use App\Http\Controllers\ChildcareController;
+use App\Http\Controllers\NoticeController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,8 @@ Route::get('/user/csv', [UserController::class, 'csv']);
 Route::get('/work-total/csv/{office}', [WorkTotalController::class, 'csv'])->name('work_total.csv.get');
 Route::get("/test", [TestController::class, 'test']);
 Route::get('/individual-summary/excel', [WorkTotalController::class, 'exportIndividual']);
+Route::get("/notice/{id}", [NoticeController::class, 'notice']);
+Route::get("/notice-finish/{id}/{date}/{bool}", [NoticeController::class, 'noticeFinish']);
 
 Route::get('/child-monthly-attendance/csv/{child}', [AttendanceController::class, 'monthlyListCsv']);
 Route::get('/childcare-contact-book/excel/{child}', [ContactBookController::class, 'excel']);

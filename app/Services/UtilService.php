@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use Illuminate\Support\Str;
+use DateTime;
+
 class UtilService
 {
     public function bladeCompile($value, array $args = array())
@@ -44,4 +46,25 @@ class UtilService
         return Str::replace($search, $replace, $value);
     }
 
+    /**
+     * 日時の差分比較
+     * $datetime
+     */
+    function diffTime($datetime) {
+        $date_time = new DateTime($datetime);
+        $date_time2 = new DateTime();
+        $diff = $date_time->diff($date_time2);
+        if (!empty($y = $diff->format('%y'))) {
+            return $y . '年前';
+        } else if (!empty($m = $diff->format('%m'))) {
+            return $m . 'ヶ月前';
+        } else if (!empty($d = $diff->format('%d'))) {
+            return $d . '日前';
+        } else if (!empty($h = $diff->format('%h'))) {
+            return $h . '時間前';
+        } else if (!empty($i= $diff->format('%i'))) {
+            return $i . '分前';
+        }
+        return null;
+    }
 }

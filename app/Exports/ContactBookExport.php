@@ -3,7 +3,6 @@
 namespace App\Exports;
 
 use App\Models\ChildrenClass;
-use App\Models\Year;
 use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeWriting;
@@ -28,14 +27,6 @@ class ContactBookExport implements WithEvents
     {
         return [
             BeforeWriting::class => function(BeforeWriting $event) {
-                $diff = Year::diff($this->date);
-                $this->child->class_id = $this->child->class_id + $diff;
-                if($this->child->class_id < ChildrenClass::AGE_0) {
-                    $this->child->class_id = ChildrenClass::AGE_0;
-                } elseif($this->child->class_id > ChildrenClass::AGE_5) {
-                    $this->child->class_id = ChildrenClass::AGE_5;
-                }
-
                 if ($this->child->class_id === ChildrenClass::AGE_0)
                 {
                     $contactType = '0';

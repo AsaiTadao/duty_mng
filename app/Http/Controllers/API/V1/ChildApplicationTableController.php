@@ -12,7 +12,6 @@ use App\Models\Code;
 use App\Models\Office;
 use App\Models\ReasonForAbsence;
 use App\Models\User;
-use App\Models\Year;
 use App\Services\Child\AttendanceService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Gate;
@@ -92,6 +91,16 @@ class ChildApplicationTableController extends BaseController
             })
             ->where(['office_id' => $office->id])
             ->get();
+
+        // クラスは指定日の実年齢に対応するクラスとする
+        $firstOfMonth = Carbon::parse($date . '-01');
+
+        foreach ($children as $child) {
+            if (!empty($child->birthday)) {
+                $child->class_id = Carbon::parse($child->birthday)->diffInYears($firstOfMonth) + 1;
+            }
+        }
+
         $data['children_stat'] = [
             ChildrenClass::AGE_0 => $children->where('class_id', ChildrenClass::AGE_0)->count(),
             ChildrenClass::AGE_1 => $children->where('class_id', ChildrenClass::AGE_1)->count(),
@@ -219,12 +228,10 @@ class ChildApplicationTableController extends BaseController
         $childrenClasses = ChildrenClass::get();
 
         $childTable = [];
-        $diff = Year::diff($date);
         foreach ($childrenClasses as $childrenClass)
         {
-
-            $classChildren = $children->filter(function ($value, $key) use ($childrenClass, $diff) {
-                return $value->class_id === $childrenClass->id - $diff;
+            $classChildren = $children->filter(function ($value, $key) use ($childrenClass) {
+                return $value->class_id === $childrenClass->id;
             });
             $childTable[$childrenClass->id] = [];
             foreach ($classChildren as $child)

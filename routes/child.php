@@ -36,6 +36,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
         Route::post('/contact-book/child/{child}/school/0', [ContactBookController::class, 'schoolSave0'])->middleware('can:handle-child,child');
         Route::post('/contact-book/child/{child}/school/1', [ContactBookController::class, 'schoolSave12'])->middleware('can:handle-child,child');
         Route::post('/contact-book/child/{child}/school/2', [ContactBookController::class, 'schoolSave345'])->middleware('can:handle-child,child');
+        Route::post('/contact-book/child/{child}/type', [ContactBookController::class, 'typeSave'])->middleware('can:handle-child,child');
 
         Route::get('/child-diary', [ChildcareDiaryController::class, 'retrieve']);
         Route::post('/child-diary', [ChildcareDiaryController::class, 'save']);
