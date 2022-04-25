@@ -3,14 +3,11 @@
 namespace App\Http\Resources;
 
 use App\Models\ChildcarePlanDay;
-use App\Models\ChildrenClass;
 use App\Models\ContactBook;
-use App\Models\Year;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ChildAttendanceResource extends JsonResource
 {
-
     /**
      * Transform the resource into an array.
      *
@@ -43,15 +40,6 @@ class ChildAttendanceResource extends JsonResource
             {
                 $contact_status = $contactBook->status;
             }
-
-            $diff = Year::diff($date);
-            $this->class_id = $this->class_id + $diff;
-            if($this->class_id < ChildrenClass::AGE_0) {
-                $this->class_id = ChildrenClass::AGE_0;
-            } elseif($this->class_id > ChildrenClass::AGE_5) {
-                $this->class_id = ChildrenClass::AGE_5;
-            }
-
         }
         return [
             'id'            =>  $this->id,
@@ -64,7 +52,10 @@ class ChildAttendanceResource extends JsonResource
             'extension'     =>  $this->extension,
             'reason_for_absence_id'=>   $reason_for_absence_id,
             'no_schedule'   =>  $noSchedule,
-            'contact_status'=> $contact_status
+            'contact_status'=> $contact_status,
+            'notification_child_id'  =>  $this->notification_child_id,
+            'notification_message'  =>  $this->notification_message,
+            'process_flag'  =>  $this->process_flag,
         ];
     }
 }

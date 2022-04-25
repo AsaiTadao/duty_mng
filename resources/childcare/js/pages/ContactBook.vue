@@ -1,24 +1,39 @@
 <template>
     <section class="content">
         <template v-if="child">
-            <contact-book-0 v-if="childAge < 1"
+            <div class="container-fluid mb-2 text-right" v-if="canTypeEdit">
+                <a href="javascript:void(0)" @click="showTypeEditForm">連絡帳種別を変更</a>
+            </div>
+            <contact-book-0 v-if="type == 1"
                 :contact="contactBook"
                 :date="selectedDate"
                 :child="child"
                 v-on:success="onSaved">
             </contact-book-0>
-            <contact-book-1 v-else-if="childAge == 1"
+            <contact-book-1 v-else-if="type == 2"
                 :contact="contactBook"
                 :date="selectedDate"
                 :child="child"
                 v-on:success="onSaved">
             </contact-book-1>
-            <contact-book-2 v-else-if="childAge == 2"
+            <contact-book-2 v-else-if="type == 3"
                 :contact="contactBook"
                 :date="selectedDate"
                 :child="child"
                 v-on:success="onSaved">
             </contact-book-2>
+            <!-- Modal -->
+            <div class="fade modal" id="contact-book-type-edit-form">
+                <div class="modal-dialog">
+                    <type-edit-form
+                        ref="typeEditForm"
+                        :child-id="childId"
+                        :date="selectedDate"
+                        :type="type"
+                        @success="onTypeSaved"
+                    ></type-edit-form>
+                </div>
+            </div>
         </template>
     </section>
 </template>
@@ -32,10 +47,11 @@ import api, { apiErrorHandler } from '../global/api';
 import ContactBook0 from './ContactBook/ContactBook0.vue';
 import ContactBook1 from './ContactBook/ContactBook1.vue';
 import ContactBook2 from './ContactBook/ContactBook2.vue';
+import TypeEditForm from './ContactBook/TypeEditForm.vue';
 
 export default {
     components: {
-        Datepicker, ContactBook0, ContactBook1, ContactBook2
+        Datepicker, ContactBook0, ContactBook1, ContactBook2, TypeEditForm
     },
     mixins: [actionLoading],
     data () {
@@ -55,8 +71,25 @@ export default {
             selectedAppUserName: '',
             childId: null,
             child: null,
-            childAge: 0
+            type: null
         }
+    },
+    computed: {
+        canTypeEdit() {
+            if (!this.child) {
+                return false;
+            }
+
+            if (this.contactBook && this.contactBook.guardian) {
+                return false;
+            }
+
+            if (moment(this.selectedDate).isBefore(moment(), 'day')) {
+                return false;
+            }
+
+            return true;
+        },
     },
     methods: {
         setHour(hourIndex, number) {
@@ -112,8 +145,7 @@ export default {
                     this.contactBook = response.contactBook;
                     const child = response.child;
                     this.child = child ? child : null;
-                    const childAge = this.getAge(child.classId);
-                    this.childAge = childAge;
+                    this.type = response.contactBookType;
                 })
                 .catch(e => {
                     this.unsetActionLoading();
@@ -127,6 +159,12 @@ export default {
         onSaved() {
             // this.getContactBook(this.selectedDate);
             // $("#app-aprove-form").modal('hide');
+        },
+        onTypeSaved(response) {
+            this.contactBook = response.contactBook;
+            this.type = response.contactBookType;
+
+            $('#contact-book-type-edit-form').modal('hide');
         },
         isThisMonth() {
             const today = new Date();
@@ -210,12 +248,11 @@ export default {
         openDatePicker(){
             this.$refs.programaticOpen.showCalendar();
         },
-        getAge(classId) {
-            if (!classId) return null;
-            if(classId < 2) return 0;
-            else if(classId >= 2 && classId < 4) return 1;
-            else return 2;
-        }
+        showTypeEditForm() {
+            this.$refs.typeEditForm.show();
+
+            $("#contact-book-type-edit-form").modal('show');
+        },
     },
     created() {
 

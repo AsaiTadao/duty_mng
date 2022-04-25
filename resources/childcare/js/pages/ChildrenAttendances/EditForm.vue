@@ -225,6 +225,7 @@ import { showSuccess } from '../../helpers/error';
                     this.unsetActionLoading();
                     showSuccess(this.$t('Successfully saved'));
                     this.$emit('success');
+                    location.replace( '/child?date=' + moment(this.date).format('YYYY-MM-DD'));
                 })
                 .catch(e => {
                     apiErrorHandler(e);

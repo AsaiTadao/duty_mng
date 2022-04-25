@@ -12,7 +12,9 @@ use App\Http\Resources\ChildAttendanceResource;
 use App\Models\Child;
 use App\Models\ChildcarePlanDay;
 use App\Models\ChildrenAttendence;
+use App\Models\ChildrenClassPeriod;
 use App\Models\ContactBook;
+use App\Models\Notification;
 use App\Models\Year;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -63,11 +65,17 @@ class AttendanceController extends BaseController
             'extension'  => $data['extension']??null
         ]);
         $attendance->save();
+
+        Notification::where('date', $data['date'])->where('child_id', $child->id)->update([
+            'process_flag' => true, 'process_datetime' => date('YmdHis'), 'process_user_id' => \Auth::id()
+        ]);
+
         return $this->sendResponse($attendance);
     }
     public function list(AttendanceQuery $request)
     {
         $user = auth()->user();
+
         $data = $request->validated();
         [$year, $month, $day] = explode('-', $data['date']);
         $monthValue = $year * 100 + $month;
@@ -87,6 +95,11 @@ class AttendanceController extends BaseController
                         'children_attendences.day'  =>  (int)$day,
                     ]);
             })
+            ->leftJoin('notifications', function ($join) use ($data) {
+                $join->on('notifications.child_id', '=', 'children_attendences.child_id')
+                    ->where(['notifications.date'  =>  $data['date'], 'notifications.deleted_at' => null])
+                    ->select('notifications.child_id')->groupBy('notifications.child_id','notifications.date');
+            })
             ->where(function($query) use($data) {
                 $query->where('children.exit_date', '>=', $data['date'])
                     ->orWhere('children.exit_date', '=', null);
@@ -95,8 +108,12 @@ class AttendanceController extends BaseController
                 $query->where('children.admission_date', '<=', $data['date'])
                     ->orWhere('children.admission_date', '=', null);
             })
-            ->select('children_attendences.*', 'children.id', 'children.class_id', 'children.name')
+            ->select('children_attendences.*', 'children.id', 'children.name',
+                'notifications.child_id as notification_child_id', 'notifications.message as notification_message',
+                'notifications.process_flag')
+            ->selectSub(ChildrenClassPeriod::latestClassIDSubClosure($data['date']), 'class_id')
             ->get();
+
         return $this->sendResponse(ChildAttendanceResource::collection($childrenAttendences));
     }
 
@@ -218,7 +235,7 @@ class AttendanceController extends BaseController
         });
         if (!empty($data['children_class_id']))
         {
-            $childQb->where(['class_id' => $data['children_class_id']]);
+            $childQb->where(ChildrenClassPeriod::latestClassIDSubClosure($data['date']), $data['children_class_id']);
         }
         $children = $childQb->get();
         $allCount = $children->count();

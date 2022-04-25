@@ -10,7 +10,6 @@ use App\Models\Child;
 use App\Models\ChildcareDiary;
 use App\Models\ChildrenAttendence;
 use App\Models\ChildrenClass;
-use App\Models\Year;
 use Laravel\Sanctum\PersonalAccessToken;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -94,23 +93,6 @@ class ChildcareDiaryController extends BaseController
                     ->orWhere('admission_date', '=', null);
             });
 
-
-        $diff = Year::diff($data['date']);
-        $children_class_id = $data['children_class_id'] - $diff;
-        if($children_class_id < ChildrenClass::AGE_0) {
-            $children_class_id = ChildrenClass::AGE_0;
-        } elseif($children_class_id > ChildrenClass::AGE_5) {
-            $children_class_id = ChildrenClass::AGE_5;
-        }
-
-        if($data['children_class_id'] == ChildrenClass::AGE_0 || $data['children_class_id'] == ChildrenClass::AGE_5){
-            $childQb->where(function($query) use ($children_class_id,$data) {
-                $query->where(['class_id' => $children_class_id])
-                    ->orWhere(['class_id' => $data['children_class_id']]);
-            });
-        } else {
-            $childQb->where(['class_id' => $children_class_id]);
-        }
 
         $children = $childQb->get();
         $allCount = $children->count();
