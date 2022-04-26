@@ -28,7 +28,7 @@
                         <th colspan="2">特休有給</th>
                         <th colspan="2">特休無給</th>
                         <th colspan="2">その他無給</th>
-                        <th rowspan="2" class="align-middle">欠勤日数</th>
+                        <th rowspan="2" class="align-middle">欠勤日</th>
                         <th rowspan="2" class="align-middle">休暇・欠勤理由</th>
                         <th rowspan="2" class="align-middle">備考</th>
                         <th rowspan="2" class="align-middle p-0">編集</th>
