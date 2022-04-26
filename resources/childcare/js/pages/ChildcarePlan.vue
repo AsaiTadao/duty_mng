@@ -86,7 +86,7 @@ const defaultPlan = {
     dayOfWeeks: [],
     startTime: null,
     endTime: null,
-    excludingHolidays: 0
+    excludingHolidays: 1
 }
 const defaultPlanError = {
     dayOfWeeks: null,
@@ -108,7 +108,7 @@ export default {
                     dayOfWeeks: [],
                     startTime: null,
                     endTime: null,
-                    excludingHolidays: 0
+                    excludingHolidays: 1
                 },
             ],
             weekFilled: [],
