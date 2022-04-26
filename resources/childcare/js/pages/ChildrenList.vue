@@ -41,23 +41,23 @@
                     <div class="card-body">
                         <div class="table-responsive p-0">
                             <table
-                                class="table table-bordered table-children table-hover mb-0"
+                                class="table dataTable table-bordered table-children table-hover mb-0"
                             >
                                 <thead class="text-center">
                                     <tr class="dark-brown text-white">
-                                        <th>
+                                        <th class="sorting" @click="childSort(1)">
                                             園児ID
                                         </th>
-                                        <th>
+                                        <th class="sorting" @click="childSort(2)">
                                             園児氏名
                                         </th>
-                                        <th>
+                                        <th class="sorting" @click="childSort(3)">
                                             性別
                                         </th>
-                                        <th>
+                                        <th class="sorting" @click="childSort(4)">
                                             年齢
                                         </th>
-                                        <th>
+                                        <th class="sorting" @click="childSort(5)">
                                             クラス
                                         </th>
                                         <th>
@@ -125,6 +125,7 @@ export default {
             planRegistered: -1,
 
             searchFilter: '',
+            asc: true
         }
     },
     computed: {
@@ -152,6 +153,44 @@ export default {
                     apiErrorHandler(e);
                     this.unsetActionLoading();
                 });
+        },
+        childSort(index) {
+            this.asc = !this.asc;
+            var orderItems = $("table.dataTable>thead>tr").children('th');
+            orderItems = $("table.dataTable>thead>tr").children('th').removeClass('sorting_asc');
+            orderItems = $("table.dataTable>thead>tr").children('th').removeClass('sorting_desc');
+
+            if(this.asc)
+                $("table.dataTable>thead th:nth-child(" + index + ")").addClass('sorting_asc');
+            else
+                $("table.dataTable>thead th:nth-child(" + index + ")").addClass('sorting_desc');
+
+            if(index == 1) {
+                if(this.asc)
+                    this.childrenList.sort((first, second) => (first.number > second.number) ? 1 : ((second.number > first.number) ? -1 : 0));
+                else
+                    this.childrenList.sort((first, second) => (second.number > first.number) ? 1 : ((first.number > second.number) ? -1 : 0));
+            } else if(index == 2) {
+                if(this.asc)
+                    this.childrenList.sort((first, second) => (first.name > second.name) ? 1 : ((second.name > first.name) ? -1 : 0));
+                else
+                    this.childrenList.sort((first, second) => (second.name > first.name) ? 1 : ((first.name > second.name) ? -1 : 0));
+            } else if(index == 3) {
+                if(this.asc)
+                    this.childrenList.sort((first, second) => first.gender - second.gender);
+                else
+                    this.childrenList.sort((first, second) => second.gender - first.gender);
+            } else if(index == 4) {
+                if(this.asc)
+                    this.childrenList.sort((first, second) =>(first.birthday > second.birthday) ? 1 : ((second.birthday > first.birthday) ? -1 : 0));
+                else
+                    this.childrenList.sort((first, second) =>(second.birthday > first.birthday) ? 1 : ((first.birthday > second.birthday) ? -1 : 0));
+            } else if(index == 5) {
+                if(this.asc)
+                    this.childrenList.sort((first, second) => first.classId - second.classId);
+                else
+                    this.childrenList.sort((first, second) => second.classId - first.classId);
+            }
         },
         registerChild() {
             this.$router.push({name: 'children-register'});
@@ -203,3 +242,32 @@ export default {
     }
 };
 </script>
+<style scoped>
+    table.dataTable>thead .sorting, table.dataTable>thead .sorting_asc, table.dataTable>thead .sorting_desc {
+        cursor: pointer;
+        position: relative;
+    }
+
+    table.dataTable>thead .sorting:before {
+        right: 1em;
+        content: "↑";
+        position: absolute;
+        bottom: 0.5em;
+        display: block;
+        opacity: .3;
+    }
+    table.dataTable>thead .sorting_asc:before {
+        opacity: 1;
+    }
+    table.dataTable>thead .sorting:after{
+        right: 0.5em;
+        content: "↓";
+        position: absolute;
+        bottom: 0.5em;
+        display: block;
+        opacity: .3;
+    }
+    table.dataTable>thead .sorting_desc:after{
+        opacity: 1;
+    }
+</style>
