@@ -74,7 +74,6 @@ class ChildcareService
                 ];
             }
         }
-        $childrenPlans = ChildcarePlanDay::where(['child']);
 
         // calc overlap in 7:00 ~ 22:00
         $baseDate = clone $date;
@@ -117,6 +116,7 @@ class ChildcareService
                     }
                 }
             }
+            $baseDate->addMinutes(30);
         }
 
         // $children0 =

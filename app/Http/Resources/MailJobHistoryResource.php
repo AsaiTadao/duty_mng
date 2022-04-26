@@ -17,6 +17,7 @@ class MailJobHistoryResource extends JsonResource
         return [
             'id'        =>  $this->id,
             'child_id'  =>  $this->child_id,
+            'child_name'    =>  $this->child ? $this->child->name : null,
             'children_class_id' =>  $this->children_class_id,
             'cnt'   =>  $this->cnt,
             'content'   =>  $this->content,
