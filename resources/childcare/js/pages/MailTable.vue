@@ -21,7 +21,7 @@
                         <tbody>
                             <tr v-for="mail in mails" :key="mail.id">
                                 <td>{{getCreatedAt(mail.createdAt)}}</td>
-                                <td>{{mail.officeName}}{{getChildClassName(mail.childrenClassId)}}</td>
+                                <td>{{mail.officeName}} {{mail.childName ? mail.childName : getChildClassName(mail.childrenClassId)}}</td>
                                 <td>{{mail.cnt}}</td>
                                 <td>{{mail.subject}}</td>
                                 <!-- <td>{{mail.content}}</td> -->

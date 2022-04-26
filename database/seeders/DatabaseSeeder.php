@@ -40,7 +40,11 @@ class DatabaseSeeder extends Seeder
             ReasonForAbsenceSeeder::class,
             ChildSeeder::class,
             BusinessTypeSeeder::class,
-            OfficeInformationSeeder::class
+            OfficeInformationSeeder::class,
+
+            // dependency
+            ChildrenClassPeriodSeeder::class, // dependent on ChildSeeder
+            ContactBookTypePeriodSeeder::class, // dependent on ChildSeeder
         ]);
     }
 }

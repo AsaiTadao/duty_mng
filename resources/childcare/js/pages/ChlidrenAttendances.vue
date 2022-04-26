@@ -61,6 +61,11 @@
                                                         </td>
                                                         <td class="align-middle">
                                                             <a href="javascript:void(0)" @click="onEditClicked(indiAttendance.id)">編集</a>
+                                                            <div class="tooltip3" v-if="indiAttendance.notificationChildId">
+                                                                <i v-if="indiAttendance.processFlag == 0" class="fas fa-bell text-danger" @click="onFinishNotice(indiAttendance.notificationChildId, 1)"></i>
+                                                                <i v-else-if="indiAttendance.processFlag == 1" class="fas fa-bell-slash text-gray" @click="onFinishNotice(indiAttendance.notificationChildId, 0)"></i>
+                                                                <div class="description3">{{ indiAttendance.notificationMessage }}</div>
+                                                            </div>
                                                         </td>
                                                         <td v-if="index2 == 0" :rowspan="attendance.length" class="align-middle">
                                                             <div>
@@ -310,13 +315,38 @@ export default {
         openDiary() {
             this.$router.push('childcare-diary');
         },
+        getParam(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        },
+        onFinishNotice(childId, bool) {
+            if (bool) {
+                var result = window.confirm('アラートを終了します');
+            } else {
+                var result = window.confirm('アラートを戻します');
+            }
+            if( result ) {
+                return window.location.href = "/notice-finish/"+childId+"/"+this.todayDate+"/"+bool;
+            }
+        },
     },
     created() {
 
     },
     mounted() {
-        this.todayDate = this.getCurrentDate().toString();
-        this.getAttendanceData(this.currentDate);
+        var date = this.getParam('date');
+        if (date && moment(date).isValid()) {
+            this.todayDate = date.toString();
+            this.getAttendanceData(new Date(date));
+        } else {
+            this.todayDate = this.getCurrentDate().toString();
+            this.getAttendanceData(this.currentDate);
+        }
     }
 }
 </script>
@@ -329,5 +359,31 @@ export default {
     .calendar-title {
         display: flex;
         align-items: center;
+    }
+    .tooltip3{
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+    }
+    .tooltip3 i{
+        margin:0;
+        padding:0;
+    }
+    .description3 {
+        display: none;
+        position: absolute;
+        padding: 10px;
+        font-size: 12px;
+        line-height: 1.6em;
+        color: #fff;
+        border-radius: 5px;
+        background: #000;
+        width: 250px;
+        z-index:500;
+    }
+    .tooltip3:hover .description3{
+        display: inline-block;
+        top: 30px;
+        left: -125px;
     }
 </style>

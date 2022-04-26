@@ -9,6 +9,7 @@ use App\Http\Requests\Child\ChildcareDiaryRequest;
 use App\Models\Child;
 use App\Models\ChildcareDiary;
 use App\Models\ChildrenAttendence;
+use App\Models\ChildrenClass;
 use Laravel\Sanctum\PersonalAccessToken;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -82,8 +83,16 @@ class ChildcareDiaryController extends BaseController
         }
 
 
-        $childQb = Child::where(['office_id' => $currentUser->office_id]);
-        $childQb->where(['class_id' => $data['children_class_id']]);
+        $childQb = Child::where(['office_id' => $currentUser->office_id])
+            ->where(function($query) use ($data) {
+            $query->whereNull('exit_date')
+                ->orWhere('exit_date', '>=', $data['date']);
+            })
+            ->where(function($query) use ($data) {
+                $query->where('admission_date', '<=', $data['date'])
+                    ->orWhere('admission_date', '=', null);
+            });
+
 
         $children = $childQb->get();
         $allCount = $children->count();

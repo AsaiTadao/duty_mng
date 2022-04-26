@@ -91,6 +91,16 @@ class ChildApplicationTableController extends BaseController
             })
             ->where(['office_id' => $office->id])
             ->get();
+
+        // クラスは指定日の実年齢に対応するクラスとする
+        $firstOfMonth = Carbon::parse($date . '-01');
+
+        foreach ($children as $child) {
+            if (!empty($child->birthday)) {
+                $child->class_id = Carbon::parse($child->birthday)->diffInYears($firstOfMonth) + 1;
+            }
+        }
+
         $data['children_stat'] = [
             ChildrenClass::AGE_0 => $children->where('class_id', ChildrenClass::AGE_0)->count(),
             ChildrenClass::AGE_1 => $children->where('class_id', ChildrenClass::AGE_1)->count(),

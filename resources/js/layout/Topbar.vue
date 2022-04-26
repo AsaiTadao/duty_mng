@@ -13,19 +13,19 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-3" v-if="showChangeBtn()">
-            <li class="nav-item kintai-system system-selected">
+            <li class="nav-item kintai-system system-unselected">
                 <a
                     class="nav-link px-md-3 px-sm-1"
-                    href="#"
+                    href="/"
                     role="button"
                 >
                     勤怠
                 </a>
             </li>
-            <li class="nav-item childcare-system system-unselected">
+            <li class="nav-item childcare-system system-selected">
                 <a
                     class="nav-link px-md-3 px-sm-1"
-                    :href="isAdmin ? '/child/application-table' : '/child/'"
+                    href="#"
                     role="button"
                 >
                     保育
@@ -46,7 +46,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" @click="signOut" class="nav-link" style="font-size: 20px;">
+                <a href="#" class="nav-link" style="font-size: 20px;" @click="signOut">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
             </li>
@@ -56,16 +56,13 @@
 <script>
 import { handleSignOut } from '../helpers/error';
 import { mapState } from 'vuex';
-import { Guards } from '../../childcare/js/global/consts';
+import { Guards } from '../global/consts';
 
 export default {
     computed: {
-        ...mapState({
+        ... mapState({
             session: state => state.session.info
         }),
-        isAdmin() {
-            return this.session.roleId === Guards.ADMIN
-        }
     },
     methods: {
         signOut() {
@@ -73,7 +70,7 @@ export default {
         },
         showChangeBtn() {
             if(this.session.office) {
-                if(this.session.office.isNursery || this.isAdmin)
+                if(this.session.office.isNursery || this.session.roleId === Guards.ADMIN)
                     return true;
                 else
                     return false;

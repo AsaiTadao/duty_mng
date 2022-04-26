@@ -33,6 +33,22 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#" v-if="session.noticeCount">
+                    <i class="far fa-bell"></i>
+                    <span class="badge badge-warning navbar-badge">{{ session.noticeCount }}</span>
+                </a>
+                <div class="dropdown-menu">
+                    <div v-for="notification in session.notifications">
+                        <a v-bind:href="`/notice/${notification.id}`" class="dropdown-item">
+                            {{ notification.message }}<small><i class="far fa-clock mr-1"></i>{{ notification.ago }}</small>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                    <span class="dropdown-item dropdown-footer text-gray text-center"><small>最新の10件を表示しています</small></span>
+                </div>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <div class="top-profile-link">
@@ -80,3 +96,18 @@ export default {
     }
 };
 </script>
+<style scoped>
+.dropdown-menu{
+    top: 30px;
+    left: -160px;
+    width:460px;
+    max-height:600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.dropdown-item{
+    white-space: normal;
+    word-break: break-all;
+}
+</style>

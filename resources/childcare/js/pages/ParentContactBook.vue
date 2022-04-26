@@ -1,19 +1,19 @@
 <template>
     <section class="content">
         <template v-if="child">
-            <parent-contact-book-0 v-if="childAge < 1"
+            <parent-contact-book-0 v-if="type == 1"
                 :contact="contactBook"
                 :date="selectedDate"
                 :child="child"
                 v-on:success="onSaved">
             </parent-contact-book-0>
-            <parent-contact-book-1 v-else-if="childAge == 1"
+            <parent-contact-book-1 v-else-if="type == 2"
                 :contact="contactBook"
                 :date="selectedDate"
                 :child="child"
                 v-on:success="onSaved">
             </parent-contact-book-1>
-            <parent-contact-book-2 v-else-if="childAge == 2"
+            <parent-contact-book-2 v-else-if="type == 3"
                 :contact="contactBook"
                 :date="selectedDate"
                 :child="child"
@@ -55,7 +55,7 @@ export default {
             selectedAppUserName: '',
             childId: null,
             child: null,
-            childAge: 0
+            type: null
         }
     },
     computed: {
@@ -128,8 +128,7 @@ export default {
                     this.contactBook = response.contactBook;
                     const child = response.child;
                     this.child = child ? child : null;
-                    const childAge = this.getAge(child.classId);
-                    this.childAge = childAge;
+                    this.type = response.contactBookType;
                 })
                 .catch(e => {
                     this.unsetActionLoading();
@@ -206,12 +205,6 @@ export default {
         openDatePicker(){
             this.$refs.programaticOpen.showCalendar();
         },
-        getAge(classId) {
-            if (!classId) return null;
-            if(classId < 2) return 0;
-            else if(classId >= 2 && classId < 4) return 1;
-            else return 2;
-        }
     },
     mounted() {
         const childId = this.sessionChildId;

@@ -43,7 +43,7 @@ class ContactBookExport implements WithEvents
 
                 $sheet->setCellValue('b1', $this->office->name);
                 $sheet->setCellValue('b4', $this->child->name);
-                $sheet->setCellValue('c4', $this->date);
+                $sheet->setCellValue('f4', $this->date);
                 $sheet->setCellValue('m4', $this->contactBook->weather);
                 $sheet->setCellValue('e6', $this->contactBook->guardian);
                 $sheet->setCellValue('n6', $this->contactBook->nurse_name);

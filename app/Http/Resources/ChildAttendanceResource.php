@@ -52,7 +52,10 @@ class ChildAttendanceResource extends JsonResource
             'extension'     =>  $this->extension,
             'reason_for_absence_id'=>   $reason_for_absence_id,
             'no_schedule'   =>  $noSchedule,
-            'contact_status'=> $contact_status
+            'contact_status'=> $contact_status,
+            'notification_child_id'  =>  $this->notification_child_id,
+            'notification_message'  =>  $this->notification_message,
+            'process_flag'  =>  $this->process_flag,
         ];
     }
 }

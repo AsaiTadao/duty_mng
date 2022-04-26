@@ -298,7 +298,7 @@
                                                 {{index + 1}}
                                             </td>
                                             <td class="header-fix-sub-60 bg-white p-1">
-                                                {{changeBirthFormat(child.birthday)}}
+                                                {{changeBirthFormat(child.admissionDate)}}
                                             </td>
                                             <td class="header-fix-sub-170 bg-white p-1">
                                                 {{child.name}}
@@ -471,7 +471,7 @@ export default {
         },
         getAge(birthDay) {
            if (!birthDay) return null;
-            const ageInMonth = moment().diff(birthDay, 'months');
+            const ageInMonth = moment(this.month).diff(birthDay, 'months');
             const y = Math.floor(ageInMonth / 12);
             const m = ageInMonth % 12;
             return (y ? y + '歳' : '') + (m ? m + 'ヶ月' : '');
