@@ -227,6 +227,9 @@ class ChildController extends BaseController
             });
 
         }
+        $sort = $data['sort']??'number';
+        $dir = $data['dir']??'asc';
+        $qb->orderBy($sort, $dir);
         return $this->sendResponse($qb->get());
     }
 }
