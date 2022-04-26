@@ -11,6 +11,8 @@ class WorkTotalCsvRequest extends FormRequest {
         return [
             'start'     => ['required', 'numeric', 'min:202001', 'max:210012'],
             'end'       => ['nullable', 'numeric', 'min:202001', 'max:210012'],
+            'retire_included'  => ['nullable', 'boolean'],
+            'office_id' =>  ['nullable', 'exists:offices,id']
         ];
     }
 }

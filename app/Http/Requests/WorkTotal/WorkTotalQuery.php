@@ -10,7 +10,8 @@ class WorkTotalQuery extends FormRequest {
     public function rules() {
         return [
             'month'     => ['required', 'numeric', 'min:202001', 'max:210012'],
-            'retire_included'  => ['nullable', 'boolean']
+            'retire_included'  => ['nullable', 'boolean'],
+            'office_id' =>  ['nullable', 'exists:offices,id']
         ];
     }
 }

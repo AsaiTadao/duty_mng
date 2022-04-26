@@ -75,7 +75,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
         Route::post('/monthly-summary/attendances', [MonthlySummaryController::class, 'saveAttendance'])->name('monthly_summary.attendance.save');
 
         Route::get('/monthly-summary/{user}', [MonthlySummaryController::class, 'get'])->name('monthly_summary.get');
-        Route::get('/work-total/{office}', [WorkTotalController::class, 'get'])->name('work_total.get');
+        Route::get('/work-total', [WorkTotalController::class, 'get'])->name('work_total.get');
         Route::get('/office/{office}/users', [UserController::class, 'getUsers'])->name('office.users');
 
         Route::middleware(['can:admin-only'])->group(function () {
