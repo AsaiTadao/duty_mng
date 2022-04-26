@@ -357,4 +357,8 @@ export default {
     justify-content: center;
     align-items: center;
 }
+.table td {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+}
 </style>

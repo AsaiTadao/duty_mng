@@ -3,7 +3,7 @@
         <div class="home-minute-input-wrapper">
             <div class="home-minute-input">
                 <input :type="type" class="form-control" min="0" max="23" :value="hour"
-                    :class="{'is-invalid' : error && !light, 'is-invalid-light': error && light}"
+                    :class="{'is-invalid' : error && !light, 'is-invalid-light': error && light, 'light': light}"
                     @input="inputHour" :disabled="disabled" />
             </div>
             :
@@ -84,5 +84,12 @@ export default {
 .home-minute-input-error {
     margin-top: 5px;
     color: #f00;
+}
+.light {
+    padding: 0.2rem 0.2rem;
+    text-align: center;
+}
+input {
+    min-width: 42px;
 }
 </style>
