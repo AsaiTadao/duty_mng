@@ -73,6 +73,7 @@
     "Please input admissionDate": "入園日を選択してください",
     "Please input exitDate": "退園日を選択してください",
     "Please input exitDate after admissionDate": "退園日が入園日より後ろにある必要があります",
+    "Please input admissionDate after birthday": "入園日が生年月日より後ろにある必要があります",
     "Please input certificateExpirationDate": "支給認定証有効期限を選択してください",
     "Please input positive number": "整数を入力してください",
     "Please input subject": "メール件名を入力してください",
