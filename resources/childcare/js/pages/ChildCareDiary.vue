@@ -16,7 +16,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div>{{ date.format('YYYY年 MM月 DD日（ddd）') }}</div>
-                                    <div>天気：<input type="text" class="input-fit" v-model="weather" :class="{'is-invalid': errors.weather}" @change="errors.weather = null;"/>
+                                    <div>天気：<input type="text" class="input-fit" v-model="weather" :class="{'is-invalid': errors.weather}" @change="errors.weather = null;inputError = false;"/>
                                         <span v-if="errors.weather" class="error invalid-feedback">
                                             {{ errors.weather }}
                                         </span>
@@ -200,8 +200,11 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="float-right d-flex align-items-center mt-2">
+                            <div class="float-right d-flex align-items-center mt-2" :class="{'is-invalid': inputError}">
                                 <button class="btn btn-primary float-right" type="button" @click="onSubmit">登録</button>
+                            </div>
+                            <div v-if="inputError" class="error invalid-feedback text-center" style="margin-top: 60px;">
+                                {{$t("Input error")}}
                             </div>
                         </div>
                     </div>
@@ -240,7 +243,8 @@ export default {
             },
             errors: {
                 weather: null,
-            }
+            },
+            inputError: false,
         }
     },
     computed: {
@@ -298,6 +302,7 @@ export default {
                 this.errors.weather = this.$t('Please enter 10 characters or less');
                 valid = false;
             }
+            this.inputError = !valid;
             return valid;
         },
         fetchData() {
