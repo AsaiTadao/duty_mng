@@ -12,13 +12,11 @@ class AttendanceTotalExport implements WithEvents
 {
     protected $attendanceTotals;
     protected $title;
-    protected $office;
 
-    public function __construct($attendanceTotals, $title, $office)
+    public function __construct($attendanceTotals, $title)
     {
         $this->attendanceTotals = $attendanceTotals;
         $this->title = $title;
-        $this->office = $office;
     }
 
     public function registerEvents(): array
@@ -41,7 +39,7 @@ class AttendanceTotalExport implements WithEvents
                     $sheet->setCellValue('C' . $row, $user->name);
                     $sheet->setCellValue('D' . $row, $attendanceTotal['working_days']);
                     $sheet->setCellValue('E' . $row, round($attendanceTotal['total_working_hours'] / 60, 2));
-                    if ($this->office->is_headquarter && $user->employment_status_id === EmploymentStatus::NORMAL)
+                    if ($user->office->is_headquarter && $user->employment_status_id === EmploymentStatus::NORMAL)
                     {
                         $sheet->setCellValue('F' . $row, '-');
                         $sheet->setCellValue('G' . $row, '-');
@@ -67,7 +65,7 @@ class AttendanceTotalExport implements WithEvents
                         $sheet->setCellValue('AA' . $row, round($attendanceTotal['other_unpaid_time'] / 60, 2));
                         $sheet->setCellValue('AB' . $row, $attendanceTotal['other_unpaid_days'] . '日');
                         $sheet->setCellValue('AC' . $row, $attendanceTotal['absence_days'] . '日');
-                    } else if ($this->office->is_headquarter && $user->employment_status_id === EmploymentStatus::NORMAL)
+                    } else if ($user->office->is_headquarter && $user->employment_status_id === EmploymentStatus::NORMAL)
                     {
                         $sheet->setCellValue('F' . $row, $attendanceTotal['behind_time'] . '分');
                         $sheet->setCellValue('G' . $row, $attendanceTotal['leave_early'] . '分');
@@ -93,7 +91,7 @@ class AttendanceTotalExport implements WithEvents
                         $sheet->setCellValue('AA' . $row, round($attendanceTotal['other_unpaid_time'] / 60, 2));
                         $sheet->setCellValue('AB' . $row, $attendanceTotal['other_unpaid_days'] . '日');
                         $sheet->setCellValue('AC' . $row, $attendanceTotal['absence_days'] . '日');
-                    } else if (!$this->office->is_headquarter && $user->employment_status_id !== EmploymentStatus::NORMAL)
+                    } else if (!$user->office->is_headquarter && $user->employment_status_id !== EmploymentStatus::NORMAL)
                     {
                         $sheet->setCellValue('F' . $row, $attendanceTotal['behind_time'] . '分');
                         $sheet->setCellValue('G' . $row, $attendanceTotal['leave_early'] . '分');
@@ -119,7 +117,7 @@ class AttendanceTotalExport implements WithEvents
                         $sheet->setCellValue('AA' . $row, round($attendanceTotal['other_unpaid_time'] / 60, 2));
                         $sheet->setCellValue('AB' . $row, $attendanceTotal['other_unpaid_days'] . '日');
                         $sheet->setCellValue('AC' . $row, $attendanceTotal['absence_days'] . '日');
-                    } else if (!$this->office->is_headquarter && $user->employment_status_id === EmploymentStatus::NORMAL)
+                    } else if (!$user->office->is_headquarter && $user->employment_status_id === EmploymentStatus::NORMAL)
                     {
                         $sheet->setCellValue('F' . $row, $attendanceTotal['behind_time'] . '分');
                         $sheet->setCellValue('G' . $row, $attendanceTotal['leave_early'] . '分');
