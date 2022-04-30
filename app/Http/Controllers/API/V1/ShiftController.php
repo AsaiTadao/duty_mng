@@ -191,7 +191,7 @@ class ShiftController extends BaseController
         $year = (int)floor($month / 100);
         $month = $month % 100;
 
-        $qb = DB::table('shift_plans')
+        $qb = ShiftPlan::query()
             ->join('users', 'shift_plans.user_id', '=', 'users.id')
             ->leftJoin('working_hours', 'shift_plans.working_hours_id', '=', 'working_hours.id');
         $employeeQb = User::whereRaw('1=1');
