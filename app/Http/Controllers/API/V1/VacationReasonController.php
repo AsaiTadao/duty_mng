@@ -31,11 +31,23 @@ class VacationReasonController extends BaseController
     public function create(ReasonForVacationRequest $request)
     {
         $data = $request->validated();
+        $name = $data['name'];
+        if (ReasonForVacation::where(['name' => $name])->count() > 0)
+        {
+            return $this->sendError(trans("すでに使用されている名前です。"));
+        }
         ReasonForVacation::create($data);
         return $this->sendResponse($data);
     }
     public function update(ReasonForVacation $reasonForVacation, ReasonForVacationRequest $request)
     {
+        $data = $request->validated();
+        $name = $data['name'];
+        $existing = ReasonForVacation::where(['name' => $name])->first();
+        if ($existing && $existing->id !== $reasonForVacation->id)
+        {
+            return $this->sendError(trans("すでに使用されている名前です。"));
+        }
         $reasonForVacation->fill($request->validated());
         $reasonForVacation->save();
         return $this->sendResponse($reasonForVacation);
