@@ -24,6 +24,11 @@ class RegionController extends BaseController
     public function create(RegionRequest $request)
     {
         $data = $request->validated();
+        $name = $data['name'];
+        if (Region::where(['name' => $name])->count() > 0)
+        {
+            return $this->sendError(trans("すでに使用されている名前です。"));
+        }
         $region = Region::create([
             'name'  =>  $data['name']
         ]);
@@ -38,6 +43,13 @@ class RegionController extends BaseController
     public function update(Region $region, RegionRequest $request)
     {
         $data = $request->validated();
+        $name = $data['name'];
+        $existing = Region::where(['name' => $name])->first();
+        if ($existing && $existing->id !== $region->id)
+        {
+            return $this->sendError(trans("すでに使用されている名前です。"));
+        }
+
         $region->name = $data['name'];
         $region->save();
 

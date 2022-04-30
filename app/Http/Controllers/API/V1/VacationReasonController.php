@@ -48,7 +48,7 @@ class VacationReasonController extends BaseController
         {
             return $this->sendError(trans("すでに使用されている名前です。"));
         }
-        $reasonForVacation->fill($request->validated());
+        $reasonForVacation->fill($data);
         $reasonForVacation->save();
         return $this->sendResponse($reasonForVacation);
     }
