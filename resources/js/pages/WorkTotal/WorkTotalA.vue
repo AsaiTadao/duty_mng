@@ -33,6 +33,7 @@
                                 <div class="form-group mx-4 mb-0" style="width: 250px;">
                                     <select class="form-control" v-model="officeId" @change="selectOffice()">
                                         <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
+                                        <option :value="0">全ての事業所</option>
                                     </select>
                                 </div>
                                 <div class="d-flex align-items-center">
@@ -378,7 +379,7 @@ export default {
         getTotalData() {
                 if(this.actionLoading) return;
                 this.setActionLoading();
-                api.get('work-total/' + this.officeId, null, {month: this.selectedMonth, retireIncluded: this.retiredDisplay ? 1 : 0})
+                api.get('work-total', null, {officeId: this.officeId ? this.officeId : null, month: this.selectedMonth, retireIncluded: this.retiredDisplay ? 1 : 0})
                     .then(response => {
                         this.unsetActionLoading();
                         this.total = response;
