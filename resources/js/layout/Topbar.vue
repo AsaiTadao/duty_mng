@@ -13,7 +13,7 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-3" v-if="showChangeBtn()">
-            <li class="nav-item kintai-system system-unselected">
+            <li class="nav-item kintai-system system-selected">
                 <a
                     class="nav-link px-md-3 px-sm-1"
                     href="/"
@@ -22,10 +22,10 @@
                     勤怠
                 </a>
             </li>
-            <li class="nav-item childcare-system system-selected">
+            <li class="nav-item childcare-system system-unselected">
                 <a
                     class="nav-link px-md-3 px-sm-1"
-                    href="#"
+                    :href="isAdmin ? '/child/application-table' : '/child/'"
                     role="button"
                 >
                     保育
@@ -63,6 +63,9 @@ export default {
         ... mapState({
             session: state => state.session.info
         }),
+        isAdmin() {
+            return this.session.roleId === Guards.ADMIN
+        }
     },
     methods: {
         signOut() {

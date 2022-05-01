@@ -39,7 +39,7 @@
                     <span class="badge badge-warning navbar-badge">{{ session.noticeCount }}</span>
                 </a>
                 <div class="dropdown-menu">
-                    <div v-for="notification in session.notifications">
+                    <div v-for="(notification, index) in session.notifications" :key="index">
                         <a v-bind:href="`/notice/${notification.id}`" class="dropdown-item">
                             {{ notification.message }}<small><i class="far fa-clock mr-1"></i>{{ notification.ago }}</small>
                         </a>
