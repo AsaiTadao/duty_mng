@@ -171,11 +171,27 @@ import { showSuccess } from '../../helpers/error';
                     valid = false;
                 }
                 if (!this.formData.startTimeHour || !this.formData.startTimeMin) {
-                    this.errors.startTime = this.$t('Please input startTime');                        // need trans
+                    this.errors.startTime = this.$t('Please input updatedBeforeTime');                        // need trans
+                    valid = false;
+                }
+                if (this.formData.startTimeHour < 0 || this.formData.startTimeHour > 23) {
+                    this.errors.startTime = this.$t('Invalid time format');
+                    valid = false;
+                }
+                if (this.formData.startTimeMin < 0 || this.formData.startTimeMin > 59) {
+                    this.errors.startTime = this.$t('Invalid time format');
+                    valid = false;
+                }
+                if (this.formData.endTimeHour < 0 || this.formData.endTimeHour > 23) {
+                    this.errors.endTime = this.$t('Invalid time format');
+                    valid = false;
+                }
+                if (this.formData.endTimeMin < 0 || this.formData.endTimeMin > 59) {
+                    this.errors.endTime = this.$t('Invalid time format');
                     valid = false;
                 }
                 if (!this.formData.endTimeHour || !this.formData.endTimeMin) {
-                    this.errors.endTime = this.$t('Please input endTime');                            // need trans
+                    this.errors.endTime = this.$t('Please input updatedAfterTime');                            // need trans
                     valid = false;
                 }
                 // if (this.formData.startTimeHour > this.formData.endTimeHour) {
