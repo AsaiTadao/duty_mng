@@ -165,6 +165,18 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.endTime = this.$t('Please input endTime');                            // need trans
                     valid = false;
                 }
+                if (this.data.startTimeHour < 0 || this.data.startTimeHour > 23) {
+                    this.errors.startTime = this.$t('Invalid time format');
+                }
+                if (this.data.startTimeMinute < 0 || this.data.startTimeMinute > 59) {
+                    this.errors.startTime = this.$t('Invalid time format');
+                }
+                if (this.data.endTimeHour < 0 || this.data.endTimeHour > 23) {
+                    this.errors.endTime = this.$t('Invalid time format');
+                }
+                if (this.data.endTimeMinute < 0 || this.data.endTimeMinute > 59) {
+                    this.errors.endTime = this.$t('Invalid time format');
+                }
                 return valid;
             }
         }
