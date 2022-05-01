@@ -259,7 +259,7 @@ export default {
                 api.get('office-master')
                     .then(response => {
                         this.offices = response;
-                        this.officeName = this.offices[0];
+                        // this.officeName = this.offices[0];
                         this.getWorkingHours();
                     })
                     .catch(e => apiErrorHandler(e));
