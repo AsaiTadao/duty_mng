@@ -167,15 +167,19 @@ import { showSuccess } from '../../helpers/error';
                 }
                 if (this.data.startTimeHour < 0 || this.data.startTimeHour > 23) {
                     this.errors.startTime = this.$t('Invalid time format');
+                    valid = false;
                 }
                 if (this.data.startTimeMinute < 0 || this.data.startTimeMinute > 59) {
                     this.errors.startTime = this.$t('Invalid time format');
+                    valid = false;
                 }
                 if (this.data.endTimeHour < 0 || this.data.endTimeHour > 23) {
                     this.errors.endTime = this.$t('Invalid time format');
+                    valid = false;
                 }
                 if (this.data.endTimeMinute < 0 || this.data.endTimeMinute > 59) {
                     this.errors.endTime = this.$t('Invalid time format');
+                    valid = false;
                 }
                 return valid;
             }
