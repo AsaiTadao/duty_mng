@@ -118,13 +118,13 @@ export default {
                         clearInterval(this.loginTimeInterval);
                         LocalStorage.saveToken(token);
                         this.$store.commit('session/setSession', user);
-                        // if(user.office && user.office.isNursery) {
-                        //     location.href = "/child/";
-                        // } else if(user.roleId == Guards.ADMIN) {
-                        //     location.href = "/child/application-table";
-                        // } else {
+                        if(user.office && user.office.isNursery) {
+                            location.href = "/child/";
+                        } else if(user.roleId == Guards.ADMIN) {
+                            location.href = "/child/application-table";
+                        } else {
                             this.$router.push({ name: 'stamp' })
-                        // }
+                        }
                     })
                     .catch(e => {
                         this.unsetActionLoading();
