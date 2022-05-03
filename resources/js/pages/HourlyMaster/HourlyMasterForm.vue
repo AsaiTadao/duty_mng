@@ -12,6 +12,7 @@
             <div class="form-row align-items-center">
                 <div class="col-md-3">
                     <select class="form-control" v-model="data.officeId" :class="{'is-invalid' : errors.officeId}">
+                        <option :value="null" disabled hidden>保育園名を選択してください</option>
                         <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
                     </select>
                     <span v-if="errors.officeId" class="error invalid-feedback">
