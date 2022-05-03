@@ -25,6 +25,8 @@
                     <div class="col-md-3">
                         <input type="radio" :value="1" v-model="formData.employmentStatusId" :class="{'is-invalid' : errors.employmentStatusId}" @change="errors.employmentStatusId = null">
                         <label class="ml-auto">正社員</label>
+                        <input type="radio" :value="2" v-model="formData.employmentStatusId" :class="{'is-invalid' : errors.employmentStatusId}" @change="errors.employmentStatusId = null">
+                        <label class="ml-auto">時短社員</label>
                         <input type="radio" :value="3" v-model="formData.employmentStatusId" :class="{'is-invalid' : errors.employmentStatusId}" @change="errors.employmentStatusId = null">
                         <label class="ml-auto">パート</label>
                         <span v-if="errors.employmentStatusId" class="error invalid-feedback">
@@ -46,6 +48,7 @@
                 <div class="form-row align-items-center">
                     <div class="col-md-3">
                         <select class="form-control" v-model="formData.regionId" :class="{'is-invalid' : errors.regionId}">
+                            <option :value="undefined" disabled hidden>エリアを選択してください</option>
                             <option v-for="region in regions" :key="region.id" :value="region.id">{{region.name}}</option>
                         </select>
                         <span v-if="errors.regionId" class="error invalid-feedback">
@@ -54,6 +57,7 @@
                     </div>
                     <div class="col-md-3">
                         <select class="form-control" v-model="formData.officeId" :class="{'is-invalid' : errors.officeId}" @change="errors.officeId = null">
+                            <option :value="undefined" disabled hidden>事業所を選択してください</option>
                             <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
                         </select>
                         <span v-if="errors.officeId" class="error invalid-feedback">
@@ -68,10 +72,10 @@
                     </div>
                     <div class="col-md-3">
                         <select class="form-control" v-model="formData.workingHours" :class="{'is-invalid' : errors.workingHours}">
-                            <option :value="null">{{ $t('Please select working hour') }}</option>
-                            <option :value="8">8時間</option>
-                            <option :value="7">7時間</option>
-                            <option :value="6">6時間</option>
+                            <option value="undefined" disabled hidden>勤務時間を選択してください</option>
+                            <option value="8">8時間</option>
+                            <option value="7">7時間</option>
+                            <option value="6">6時間</option>
                         </select>
                         <span v-if="errors.workingHours" class="error invalid-feedback">
                             {{ errors.workingHours }}
@@ -114,13 +118,13 @@ import { showSuccess } from '../../helpers/error';
                 name: '',
                 number: '',
                 employmentStatusId: null,
-                enrolled: null,
+                enrolled: 0,
                 regionId: null,
                 officeId: null,
                 email: '',
                 password: '',
                 sort: null,
-                workingHours: 8
+                workingHours: null
             },
             regions: [],
             editMode: null,
