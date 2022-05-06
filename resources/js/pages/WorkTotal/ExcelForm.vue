@@ -100,15 +100,38 @@ import LocalStorage from '../../helpers/localStorage';
                 return displayMonth;
             },
             outputExcel() {
-                if (!this.officeId) return;
+                // if (!this.officeId) return;
+
                 if (!this.validate()) return;
-                let apiUrl = '/work-total/csv/' + this.officeId;
+                let request = {};
                 if (!this.formData.downloadType) {
-                    apiUrl += '?start=' + this.formData.selectedMonth.replace('-', '');
+                    request['start'] = this.formData.selectedMonth.replace('-', '');
                 } else {
-                    apiUrl += '?start=' + this.formData.firstMonth.replace('-', '') + '&end=' + this.formData.lastMonth.replace('-', '');
+                   request['end'] = this.formData.lastMonth.replace('-', '');
                 }
-                location.href = apiUrl + '&token=' + LocalStorage.getToken();
+                if (this.officeId) {
+                    request['officeId'] = this.officeId;
+                }
+
+                api.get('work-total/csv-available', null, request)
+                    .then(response => {
+                        this.unsetActionLoading();
+                        let apiUrl = '/work-total/csv';
+                        if (!this.formData.downloadType) {
+                            apiUrl += '?start=' + this.formData.selectedMonth.replace('-', '');
+                        } else {
+                            apiUrl += '?start=' + this.formData.firstMonth.replace('-', '') + '&end=' + this.formData.lastMonth.replace('-', '');
+                        }
+                        if (this.officeId) {
+                            apiUrl += '&office_id=' + this.officeId;
+                        }
+                        location.href = apiUrl + '&token=' + LocalStorage.getToken();
+                    })
+                    .catch(e => {
+                        this.unsetActionLoading();
+                        apiErrorHandler(e);
+                    });
+
                 // request = api.get('application/approve/' + this.application.id);
                 // request.then(() => {
                 //         this.unsetActionLoading();

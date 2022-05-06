@@ -16,6 +16,7 @@ use App\Services\StampService;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
+use App\Constants\Roles;
 
 class MonthlySummaryController extends BaseController
 {
@@ -148,7 +149,7 @@ class MonthlySummaryController extends BaseController
         {
             abort(404);
         }
-        if (!Gate::forUser($currentUser)->allows('update-user-work-status', $user))
+        if (!($currentUser->role_id === Roles::OFFICE_MANAGER && $currentUser->id === $user->id) && !Gate::forUser($currentUser)->allows('update-user-work-status', $user))
         {
             abort(403, "You are not allowed");
         }

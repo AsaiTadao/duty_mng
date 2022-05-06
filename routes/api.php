@@ -76,7 +76,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1')->prefix('/v1')->group(functio
 
         Route::get('/monthly-summary/{user}', [MonthlySummaryController::class, 'get'])->name('monthly_summary.get');
         Route::get('/work-total', [WorkTotalController::class, 'get'])->name('work_total.get');
-        Route::get('/work-total/csv-available', [WorkTotalController::class, 'csvAvailable'])->name('work_total.get');
+        Route::get('/work-total/csv-available', [WorkTotalController::class, 'csvAvailable'])->name('work_total.csvavailable');
         Route::get('/office/{office}/users', [UserController::class, 'getUsers'])->name('office.users');
 
         Route::middleware(['can:admin-only'])->group(function () {

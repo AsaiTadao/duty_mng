@@ -379,7 +379,7 @@ export default {
         getTotalData() {
                 if(this.actionLoading) return;
                 this.setActionLoading();
-                api.get('work-total', null, {officeId: this.officeId ? this.officeId : null, month: this.selectedMonth, retireIncluded: this.retiredDisplay ? 1 : 0})
+                api.get('work-total', null, {officeId: this.officeId ? this.officeId : '', month: this.selectedMonth, retireIncluded: this.retiredDisplay ? 1 : 0})
                     .then(response => {
                         this.unsetActionLoading();
                         this.total = response;
