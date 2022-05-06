@@ -149,7 +149,9 @@ class MonthlySummaryController extends BaseController
         {
             abort(404);
         }
-        if (!($currentUser->role_id === Roles::OFFICE_MANAGER && $currentUser->id === $user->id) && !Gate::forUser($currentUser)->allows('update-user-work-status', $user))
+        if ($currentUser->id === $user->id && ($currentUser->role_id === Roles::USER_A || $currentUser->role_id === Roles::USER_B)) {
+            abort(403, "You are not allowed");
+        } else if (!Gate::forUser($currentUser)->allows('update-user-work-status', $user))
         {
             abort(403, "You are not allowed");
         }
