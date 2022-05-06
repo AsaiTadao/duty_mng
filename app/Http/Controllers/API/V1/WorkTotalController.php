@@ -98,7 +98,7 @@ class WorkTotalController extends BaseController
 
         if (!empty($data['retire_included']))
         {
-            $users = User::whereIn('office_id', $officeIds);
+            $users = User::whereIn('office_id', $officeIds)->get();
         } else {
             $users = User::whereIn('office_id', $officeIds)->where(['enrolled' => true])->get();
         }
@@ -177,7 +177,7 @@ class WorkTotalController extends BaseController
 
         if (!empty($data['retire_included']))
         {
-            $users = User::whereIn('office_id', $officeIds);
+            $users = User::whereIn('office_id', $officeIds)->get();
         } else {
             $users = User::whereIn('office_id', $officeIds)->where(['enrolled' => true])->get();
         }
