@@ -184,7 +184,10 @@ class ChildController extends BaseController
             $qb->where(function($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('number', 'like', '%' . $search . '%')
-                    ->orWhere('email', 'like', '%' . $search . '%');
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhereHas('child_class', function($query) use ($search) {
+                        $query->where('name', 'like', '%' . $search . '%');
+                    });
             });
         }
         if (!empty($data['class_id']))

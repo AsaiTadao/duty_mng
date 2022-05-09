@@ -47,6 +47,10 @@ class Child extends Authenticatable
     {
         return $this->hasOne(ChildInformation::class, 'child_id', 'id');
     }
+    public function child_class()
+    {
+        return $this->belongsTo(ChildrenClass::class, 'class_id', 'id');
+    }
     public function office()
     {
         return $this->belongsTo(Office::class);
