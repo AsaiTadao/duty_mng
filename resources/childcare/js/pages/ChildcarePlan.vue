@@ -179,7 +179,7 @@ export default {
                 }
                 if (plan.startTime === plan.endTime) {
                     valid = false;
-                    this.planErrors[index].time = this.$t('Invalid time period');
+                    this.planErrors[index].time = this.$t('end time must be later than start time');
                 }
                 if (!plan.startTime) {
                     valid = false;
@@ -201,7 +201,7 @@ export default {
                 }
                 if (plan.endTime < plan.startTime) {
                     valid = false;
-                    this.planErrors[index].time = this.$t('Invalid time period');
+                    this.planErrors[index].time = this.$t('end time must be later than start time');
                 }
             });
             return valid
