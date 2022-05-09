@@ -27,14 +27,18 @@ class AttendanceService
                 ->get();
         $attendCount = $attends->count();
 
-        $absentCount = 0;
-        foreach ($plans as $plan)
-        {
-            if (!$attends->where('date', $plan->date)->count())
-            {
-                $absentCount++;
-            }
-        }
+        $absentCount = ChildrenAttendence::where(['child_id' => $child->id])
+            ->where(['month' => $month])
+            ->whereYear('date', $year)
+            ->whereNotNull('reason_for_absence_id')
+            ->count();
+        // foreach ($plans as $plan)
+        // {
+        //     if (!$attends->where('date', $plan->date)->count())
+        //     {
+        //         $absentCount++;
+        //     }
+        // }
         return [$attendCount, $absentCount];
     }
 }
