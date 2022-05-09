@@ -9,7 +9,7 @@
             :
             <div class="home-minute-input">
                 <input :type="type" class="form-control" min="0" max="59" :value="minute"
-                    :class="{'is-invalid' : error && !light, 'is-invalid-light': error && light}"
+                    :class="{'is-invalid' : error && !light, 'is-invalid-light': error && light, 'light': light}"
                     @input="inputMinute" :disabled="disabled" />
             </div>
         </div>
