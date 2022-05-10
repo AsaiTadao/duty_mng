@@ -42,6 +42,9 @@
                         <div class="text-center red mb-2" v-if="loginFailure">
                             {{$t('LoginId or Password dismatch')}}
                         </div>
+                        <div class="text-center red mb-2" v-if="fullWidthText">
+                            {{$t('Please input half-width text')}}
+                        </div>
                         <div class="row d-flex justify-content-center mb-3">
                             <!-- /.col -->
                             <div class="col-4">
@@ -95,6 +98,7 @@ export default {
             loginTime: null,
             loginTimeInterval: null,
             loginFailure: false,
+            fullWidthText: false,
         }
     },
     watch: {
@@ -108,6 +112,7 @@ export default {
         onSubmit() {
             if (this.actionLoading || !this.enableLogin) return;
             if (this.form.validate().errors().any()) return;
+            if (this.validateFullWidthText(this.form.number)) return;
             if (!this.validateEmail(this.form.number)) {
                 this.setActionLoading();
                 api.post('login', null, this.form.all())
@@ -177,7 +182,18 @@ export default {
                 return false;
             }
         },
+        validateFullWidthText(inputText) {
+            var fullTextFormat = /[\x01-\x7E\uFF65-\uFF9F]/;
+            if(String(inputText).match(fullTextFormat)) {
+                this.fullWidthText = false;
+                return false;
+            } else {
+                this.fullWidthText = true;
+                return true;
+            }
+        },
         onFormChange() {
+            this.loginFailure = false;
             this.form.validate();
         },
         enableLoginTimer() {
