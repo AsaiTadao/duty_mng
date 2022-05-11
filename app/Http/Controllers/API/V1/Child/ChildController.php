@@ -6,6 +6,7 @@ use App\Http\Controllers\API\V1\BaseController;
 use App\Http\Requests\Child\ChildQuery;
 use App\Http\Requests\Child\ChildRequest;
 use App\Http\Resources\ChildResource;
+use App\Http\Resources\ChildLightResource;
 use App\Models\Child;
 use App\Models\ChildInformation;
 use App\Models\ChildrenClass;
@@ -208,23 +209,44 @@ class ChildController extends BaseController
                     $query1->whereNotNull('canceled_at');
                     if (!empty($data['exited'])) {
                         $query1->orWhere('exit_date', '<', Carbon::now());
+                        if (!empty($data['planed'])) {
+                            $query1->orwhereNull('admission_date')->orWhere('admission_date', '>', Carbon::now());
+                        }else {
+                            $query1->Where(function ($query) {
+                                $query->Where('admission_date', '<=', Carbon::now());
+                            });
+                        }
                     } else {
-                        $query1->Where(function ($query) {
-                            $query->whereNull('exit_date')
-                                ->orWhere('exit_date', '>=', Carbon::now());
-                        });
+                        if (!empty($data['planed'])) {
+                            $query1->orwhereNull('admission_date')->orWhere('admission_date', '>', Carbon::now());
+                        }else {
+                        }
                     }
 
                 } else {
                     $query1->whereNull('canceled_at');
-
                     if (!empty($data['exited'])) {
                         $query1->Where('exit_date', '<', Carbon::now());
+                        if (!empty($data['planed'])) {
+                            $query1->orwhereNull('admission_date')->orWhere('admission_date', '>', Carbon::now());
+                        }else {
+                            $query1->Where(function ($query) {
+                                $query->Where('admission_date', '<=', Carbon::now());
+                            });
+                        }
                     } else {
                         $query1->Where(function ($query) {
-                            $query->whereNull('exit_date')
-                                ->orWhere('exit_date', '>=', Carbon::now());
+                            $query->Where('exit_date', '>=', Carbon::now())->orwhereNull('exit_date');
                         });
+                        if (!empty($data['planed'])) {
+                            $query1->Where(function ($query){
+                                $query->whereNull('admission_date')->orWhere('admission_date', '>', Carbon::now());
+                            });
+                        }else {
+                            $query1->Where(function ($query) {
+                                $query->Where('admission_date', '<=', Carbon::now());
+                            });
+                        }
                     }
                 }
             });
@@ -233,6 +255,7 @@ class ChildController extends BaseController
         $sort = $data['sort']??'number';
         $dir = $data['dir']??'asc';
         $qb->orderBy($sort, $dir);
-        return $this->sendResponse($qb->get());
+
+        return $this->sendResponse(ChildLightResource::collection($qb->get()));
     }
 }

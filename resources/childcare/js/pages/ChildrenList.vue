@@ -13,7 +13,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="d-flex align-items-center">
                                     <input type="checkbox" class="align-middle" :value="1" v-model="all" @click="changeAll">
                                     <div class="ml-1 mr-2">全て</div>
@@ -21,9 +21,11 @@
                                     <div class="ml-1 mr-2">退園児</div>
                                     <input type="checkbox" class="align-middle" :value="3" v-model="canceled" @click="changeCanceled">
                                     <div class="ml-1 mr-2">キャンセル</div>
+                                    <input type="checkbox" class="align-middle" :value="4" v-model="planed" @click="changePlaned">
+                                    <div class="ml-1 mr-2">入園予定</div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2" style=" padding-left: 0px; ">
                                 <label>託児計画作成</label>
                                 <select v-model="planRegistered" @change="getChildrenList">
                                     <option :value="-1">全て</option>
@@ -46,18 +48,21 @@
                                 <thead class="text-center">
                                     <tr class="dark-brown text-white">
                                         <th class="sorting" @click="childSort(1)">
-                                            園児ID
+                                            ステータ
                                         </th>
                                         <th class="sorting" @click="childSort(2)">
-                                            園児氏名
+                                            園児ID
                                         </th>
                                         <th class="sorting" @click="childSort(3)">
-                                            性別
+                                            園児氏名
                                         </th>
                                         <th class="sorting" @click="childSort(4)">
-                                            年齢
+                                            性別
                                         </th>
                                         <th class="sorting" @click="childSort(5)">
+                                            年齢
+                                        </th>
+                                        <th class="sorting" @click="childSort(6)">
                                             クラス
                                         </th>
                                         <th>
@@ -70,6 +75,7 @@
                                 </thead>
                                 <tbody class="text-center">
                                     <tr v-for="child in childrenList" :key="child.id">
+                                        <td>{{getStatus(child)}}</td>
                                         <td>{{child.number}}</td>
                                         <td>{{child.name}}</td>
                                         <td v-if="child.gender == 1">男</td>
@@ -120,10 +126,11 @@ export default {
             all: false,
             exited: false,
             canceled: false,
+            planed:false,
             childrenList: [],
+            currrentDate:'',
             searchInput: '',
             planRegistered: -1,
-
             searchFilter: '',
             asc: true
         }
@@ -141,9 +148,9 @@ export default {
             this.setActionLoading();
             let query;
             if(this.planRegistered != -1)
-                query = {query: this.searchFilter, plan_registered: this.planRegistered, all: this.all ? 1 : 0, exited: this.exited ? 1 : 0, canceled: this.canceled ? 1 : 0};
+                query = {query: this.searchFilter, plan_registered: this.planRegistered, all: this.all ? 1 : 0, exited: this.exited ? 1 : 0, canceled: this.canceled ? 1 : 0, planed: this.planed ? 1 : 0};
             else
-                query = {query: this.searchFilter, all: this.all ? 1 : 0, exited: this.exited ? 1 : 0, canceled: this.canceled ? 1 : 0};
+                query = {query: this.searchFilter, all: this.all ? 1 : 0, exited: this.exited ? 1 : 0, canceled: this.canceled ? 1 : 0,planed: this.planed ? 1 : 0};
             api.get('child', null, query)
                 .then(response => {
                     this.unsetActionLoading();
@@ -164,28 +171,32 @@ export default {
                 $("table.dataTable>thead th:nth-child(" + index + ")").addClass('sorting_asc');
             else
                 $("table.dataTable>thead th:nth-child(" + index + ")").addClass('sorting_desc');
-
             if(index == 1) {
+                if(this.asc)
+                    this.childrenList.sort((first, second) => (first.status > second.status) ? 1 : ((second.status > first.status) ? -1 : 0));
+                else
+                    this.childrenList.sort((first, second) => (second.status > first.status) ? 1 : ((first.status > second.status) ? -1 : 0));
+            } else if(index == 2) {
                 if(this.asc)
                     this.childrenList.sort((first, second) => (first.number > second.number) ? 1 : ((second.number > first.number) ? -1 : 0));
                 else
                     this.childrenList.sort((first, second) => (second.number > first.number) ? 1 : ((first.number > second.number) ? -1 : 0));
-            } else if(index == 2) {
+            } else if(index == 3) {
                 if(this.asc)
                     this.childrenList.sort((first, second) => (first.name > second.name) ? 1 : ((second.name > first.name) ? -1 : 0));
                 else
                     this.childrenList.sort((first, second) => (second.name > first.name) ? 1 : ((first.name > second.name) ? -1 : 0));
-            } else if(index == 3) {
+            } else if(index == 4) {
                 if(this.asc)
                     this.childrenList.sort((first, second) => first.gender - second.gender);
                 else
                     this.childrenList.sort((first, second) => second.gender - first.gender);
-            } else if(index == 4) {
+            } else if(index == 5) {
                 if(this.asc)
                     this.childrenList.sort((first, second) =>(first.birthday > second.birthday) ? 1 : ((second.birthday > first.birthday) ? -1 : 0));
                 else
                     this.childrenList.sort((first, second) =>(second.birthday > first.birthday) ? 1 : ((first.birthday > second.birthday) ? -1 : 0));
-            } else if(index == 5) {
+            } else if(index == 6) {
                 if(this.asc)
                     this.childrenList.sort((first, second) => first.classId - second.classId);
                 else
@@ -194,6 +205,15 @@ export default {
         },
         registerChild() {
             this.$router.push({name: 'children-register'});
+        },
+        getStatus(child){
+            switch(child.status) {
+                case 4: return 'キ';
+                case 3: return '退';
+                case 2: return '在';
+                case 1: return '';
+            }
+            return '';
         },
         getAge(birthDay) {
            if (!birthDay) return null;
@@ -220,9 +240,11 @@ export default {
             if(this.all) {
                 this.exited = true;
                 this.canceled = true;
+                this.planed=true;
             } else {
                 this.exited = false;
                 this.canceled = false;
+                this.planed=false;
             }
             this.getChildrenList();
         },
@@ -233,6 +255,11 @@ export default {
         },
         changeCanceled() {
             this.canceled = !this.canceled;
+            this.all = false;
+            this.getChildrenList();
+        },
+        changePlaned() {
+            this.planed = !this.planed;
             this.all = false;
             this.getChildrenList();
         }

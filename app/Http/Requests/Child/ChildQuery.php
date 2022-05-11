@@ -15,7 +15,8 @@ class ChildQuery extends FormRequest {
             'canceled'  => ['nullable', 'boolean'],
             'class_id'          => ['nullable', 'exists:children_classes,id'],
             'sort'     =>   ['nullable', 'string'],
-            'dir'       =>  ['nullable', 'in:desc,asc']
+            'dir'       =>  ['nullable', 'in:desc,asc'],
+            'planed'   =>['nullable','boolean'],
         ];
     }
 }
