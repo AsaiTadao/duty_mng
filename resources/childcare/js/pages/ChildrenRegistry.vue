@@ -433,11 +433,17 @@ export default {
         validate() {
             let valid = true;
             var alphanum_regex = /^[a-z0-9]+$/i;
+            var fullTextFormat = /[\x01-\x7E\uFF65-\uFF9F]/;
+
             if (!this.formData.childNumber) {
                 this.errors.childNumber = this.$t('Please input half-width alphanumerical');                                 // need trans
                 valid = false;
             }
             if (this.formData.childNumber && !alphanum_regex.test(this.formData.childNumber)) {
+                this.errors.childNumber = this.$t('Please input half-width alphanumerical');
+                valid = false;
+            }
+            if (this.formData.childNumber && !String(this.formData.childNumber).match(fullTextFormat)) {
                 this.errors.childNumber = this.$t('Please input half-width alphanumerical');
                 valid = false;
             }
@@ -503,6 +509,10 @@ export default {
             // }
             if (!this.formData.email) {
                 this.errors.email = this.$t('Please input email');
+                valid = false;
+            }
+            if (this.formData.email && !String(this.formData.email).match(fullTextFormat)) {
+                this.errors.email = this.$t('Please input half-width alphanumerical');
                 valid = false;
             }
             if (this.formData.email && this.formData.email.length > 50) {
