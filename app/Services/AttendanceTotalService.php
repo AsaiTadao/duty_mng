@@ -236,7 +236,7 @@ class AttendanceTotalService
                 }
             } else {
                 if ($total_working_hours > ($user->working_hours * 60)) {
-                    $overtime_working_hours = $total_working_hours - 8 * 60;
+                    $overtime_working_hours = $total_working_hours - $user->working_hours * 60;
                 }
             }
             // eoc: calc overtime_working_hours
