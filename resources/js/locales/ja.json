@@ -32,6 +32,7 @@
     "Please input email": "メールを入力してください",
     "Please input password": "パスワードを入力してください",
     "LoginId or Password dismatch": "ログインIDまたはパスワードが違います",
+    "Please input half-width text": "半角文字を入力してください",
     "Please input correct format": "正しい形式に入力してください",
     "Invalid time format": "無効な時刻形式",
     "Invalid time period": "無効な期間形式",
