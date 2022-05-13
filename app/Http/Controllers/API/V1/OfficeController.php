@@ -53,6 +53,15 @@ class OfficeController extends BaseController
     public function create(OfficeMasterRequest $request)
     {
         $data = $request->validated();
+        $number = $data['number'];
+        $name = $data['name'];
+
+        $existing = Office::where(['number' => $number, 'name' => $name])->first();
+        if ($existing) {
+            return abort(422, trans("Duplicated office error"));
+        }
+
+
         $office = Office::create($data);
 
         if ($office->type === Office::TYPE_NURSERY)
@@ -66,6 +75,14 @@ class OfficeController extends BaseController
     public function update(Office $office, OfficeMasterRequest $request)
     {
         $data = $request->validated();
+        $number = $data['number'];
+        $name = $data['name'];
+
+        $existing = Office::where(['number' => $number, 'name' => $name])->first();
+        if ($existing && $existing->id !== $office->id) {
+            return abort(422, trans("Duplicated office error"));
+        }
+
         $office->fill($data);
         $office->save();
 
