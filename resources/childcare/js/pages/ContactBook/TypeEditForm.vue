@@ -21,6 +21,7 @@
                     </select>
                 </div>
             </div>
+            <p class="mb-0">連絡帳フォームを変更した場合、<br>変更した日以降のすべての連絡帳の様式が変更されます。</p>
         </div>
         <div class="modal-footer">
             <button class="btn btn-secondary" data-dismiss="modal" type="button">閉じる</button>
