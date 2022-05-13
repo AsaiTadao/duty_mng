@@ -11,7 +11,7 @@
         <div class="form-group">
             <div class="form-row align-items-center">
                 <div class="col-md-3">
-                    <select class="form-control" v-model="data.officeId" :class="{'is-invalid' : errors.officeId}">
+                    <select class="form-control" v-model="data.officeId" :class="{'is-invalid' : errors.officeId}" @change="errors.officeId = null;">
                         <option :value="null" disabled hidden>保育園名を選択してください</option>
                         <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
                     </select>
@@ -37,28 +37,22 @@
                         </template>
                     </div>
                 </div>
-                <div class="col-md-1">
-                    <input type="number" class="form-control" v-model="data.startTimeHour" min="0" max="24" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                <div class="col-md-2">
+                    <div class="d-flex is-invalid align-items-center">
+                        <input type="number" class="form-control mr-2 p-1" v-model="data.startTimeHour" min="0" max="23" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                        :
+                        <input type="number" class="form-control ml-2 p-1" v-model="data.startTimeMinute" min="0" max="59" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                    </div>
                     <span v-if="errors.startTime" class="error invalid-feedback">
                         {{ errors.startTime }}
                     </span>
                 </div>
-                :
-                <div class="col-md-1">
-                    <input type="number" class="form-control" v-model="data.startTimeMinute" min="0" max="60" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
-                    <span v-if="errors.startTime" class="error invalid-feedback">
-                        {{ errors.startTime }}
-                    </span>
-                </div>
-                <div class="col-md-1">
-                    <input type="number" class="form-control" v-model="data.endTimeHour" min="0" max="24" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
-                    <span v-if="errors.endTime" class="error invalid-feedback">
-                        {{ errors.endTime }}
-                    </span>
-                </div>
-                :
-                <div class="col-md-1">
-                    <input type="number" class="form-control" v-model="data.endTimeMinute" min="0" max="60" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
+                <div class="col-md-2">
+                    <div class="d-flex is-invalid align-items-center">
+                        <input type="number" class="form-control mr-2 p-1" v-model="data.endTimeHour" min="0" max="23" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
+                        :
+                        <input type="number" class="form-control ml-2 p-1" v-model="data.endTimeMinute" min="0" max="59" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
+                    </div>
                     <span v-if="errors.endTime" class="error invalid-feedback">
                         {{ errors.endTime }}
                     </span>

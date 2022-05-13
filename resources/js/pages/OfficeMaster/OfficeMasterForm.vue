@@ -75,7 +75,7 @@
                         開所時間：
                     </div>
                     <div class="col-md-1">
-                        <input type="number" class="form-control" min="0" max="24" v-model="formData.openTimeHour" :class="{'is-invalid' : errors.openTimeHour}" @change="errors.openTimeHour = null">
+                        <input type="number" class="form-control" min="0" max="23" v-model="formData.openTimeHour" :class="{'is-invalid' : errors.openTimeHour}" @change="errors.openTimeHour = null">
                         <span v-if="errors.startTime" class="error invalid-feedback">
                             {{ errors.startTime }}
                         </span>
@@ -89,7 +89,7 @@
                     </div>
                     ~
                     <div class="col-md-1">
-                        <input type="number" class="form-control" min="0" max="24" v-model="formData.closeTimeHour" :class="{'is-invalid' : errors.closeTimeHour}" @change="errors.closeTimeHour = null">
+                        <input type="number" class="form-control" min="0" max="23" v-model="formData.closeTimeHour" :class="{'is-invalid' : errors.closeTimeHour}" @change="errors.closeTimeHour = null">
                         <span v-if="errors.endTime" class="error invalid-feedback">
                             {{ errors.endTime }}
                         </span>
