@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class ChildResource extends JsonResource
 {
@@ -14,6 +15,10 @@ class ChildResource extends JsonResource
      */
     public function toArray($request)
     {
+        $can_cancel=0;
+        if(($this->canceled_at==null)&&(($this->admission_date==null)||($this->admission_date!=null)&&(Carbon::now()->diffInDays(Carbon::createFromFormat('Y-m-d', $this->admission_date),false))>=0)){
+            $can_cancel=1;
+        }
         return [
             'id'        =>  $this->id,
             'number'    =>  $this->number,
@@ -32,7 +37,8 @@ class ChildResource extends JsonResource
             'certificate_expiration_date'=> $this->child_info->certificate_expiration_date??null,
             'tax_exempt_household'  =>  $this->child_info->tax_exempt_household??null,
             'remarks'    =>  $this->child_info->remarks??null,
-            'canceled_at'   =>  $this->canceled_at
+            'canceled_at'   =>  $this->canceled_at,
+            'can_cancel'    =>  $can_cancel
         ];
         // return parent::toArray($request);
     }

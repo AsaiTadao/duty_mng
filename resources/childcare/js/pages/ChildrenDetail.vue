@@ -10,10 +10,10 @@
                             </div>
                             <div class="col-md-2"></div>
                             <div class="col-md-4">
-                                <router-link type="button" class="btn btn-sm btn-primary float-right" :to="{ name: 'childcare-plan', params: {childId}}">
+                                <router-link :disabled="this.childInfor.canceledAt" tag="button" class="btn btn-sm btn-primary float-right" :to="{ name: 'childcare-plan', params: {childId}}">
                                     託児計画作成
                                 </router-link>
-                                <button type="button" class="btn btn-sm btn-primary float-right mr-2" @click="onQrSend">
+                                <button type="button" class="btn btn-sm btn-primary float-right mr-2" @click="onQrSend" :disabled="this.childInfor.canceledAt">
                                     <i class="fas fa-qrcode fa-lg"></i>
                                     QRコード発行
                                 </button>
@@ -235,9 +235,9 @@
                             </div>
                         </div>
                         <div class="float-right d-flex align-items-center mt-2">
-                            <button class="btn btn-primary mr-2" @click="childCancel()" :disabled="this.childInfor.canceledAt">キャンセル</button>
-                            <router-link class="btn btn-primary float-right mr-2" :to="{name: 'present-management', params: {childId}}">登降園管理</router-link>
-                            <button class="btn btn-primary float-right" @click="editChild()">編集</button>
+                            <button class="btn btn-primary mr-2" @click="childCancel()" :disabled="!this.childInfor.canCancel">入園キャンセル</button>
+                            <router-link class="btn btn-primary float-right mr-2" tag="button" :to="{name: 'present-management', params: {childId}}" :disabled="this.childInfor.canceledAt">登降園管理</router-link>
+                            <button class="btn btn-primary float-right" @click="editChild()" >編集</button>
                         </div>
                     </div>
                 </div>
@@ -377,7 +377,7 @@ export default {
         },
         childCancel() {
             if(!confirm(this.$t('Are you sure you want to cancel?'))) return;
-            if(this.childInfor.canceledAt) return;
+            if(!this.childInfor.canCancel) return;
             if(this.actionLoading) return;
             this.setActionLoading();
             api.put('cancel/' + this.childId)

@@ -1,7 +1,7 @@
 {
     "Successfully saved": "正常に保存しました",
     "Are you sure you want to delete?": "削除してよろしいですか？",
-    "Are you sure you want to cancel?": "キャンセルしてよろしいですか？",
+    "Are you sure you want to cancel?": "園児は入園キャンセルの扱いになり、すべての帳票への反映が取り消されます。また入園キャンセルとなった園児がEeeeeさぽへのログインが出来なくなります。",
     "Successfully deleted": "正常に削除されました。",
     "No Offices": "事業所なし",
     "Please input fraction commuting time": "出勤時間切り上げ分を入力してください",

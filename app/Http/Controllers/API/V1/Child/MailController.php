@@ -96,6 +96,8 @@ class MailController extends BaseController
     public function sendQr(Child $child)
     {
         $user = auth()->user();
+        if($child->canceled_at!=null)
+            return abort(422, "Canceled child");
         $content = Storage::get('mail_template/qr.txt');
         $mailJobHistory = new MailJobHistory([
             'subject'   =>  '登降園打刻用QRコードのお知らせ',

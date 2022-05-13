@@ -168,6 +168,8 @@ class ChildController extends BaseController
     }
     public function cancel(Child $child)
     {
+        if($child->canceled_at!=null)
+            return abort(422, "既にキャンセルされています");
         $child->canceled_at = Carbon::now();
         $child->save();
         return $this->sendResponse([]);
@@ -208,17 +210,17 @@ class ChildController extends BaseController
                 {
                     $query1->whereNotNull('canceled_at');
                     if (!empty($data['exited'])) {
-                        $query1->orWhere('exit_date', '<', Carbon::now());
+                        $query1->orWhere('exit_date', '<', Carbon::now()->format('Y-m-d'));
                         if (!empty($data['planed'])) {
-                            $query1->orwhereNull('admission_date')->orWhere('admission_date', '>', Carbon::now());
+                            $query1->orwhereNull('admission_date')->orWhere('admission_date', '>', Carbon::now()->format('Y-m-d'));
                         }else {
                             $query1->Where(function ($query) {
-                                $query->Where('admission_date', '<=', Carbon::now());
+                                $query->Where('admission_date', '<=', Carbon::now()->format('Y-m-d'));
                             });
                         }
                     } else {
                         if (!empty($data['planed'])) {
-                            $query1->orwhereNull('admission_date')->orWhere('admission_date', '>', Carbon::now());
+                            $query1->orwhereNull('admission_date')->orWhere('admission_date', '>', Carbon::now()->format('Y-m-d'));
                         }else {
                         }
                     }
@@ -226,25 +228,25 @@ class ChildController extends BaseController
                 } else {
                     $query1->whereNull('canceled_at');
                     if (!empty($data['exited'])) {
-                        $query1->Where('exit_date', '<', Carbon::now());
+                        $query1->Where('exit_date', '<', Carbon::now()->format('Y-m-d'));
                         if (!empty($data['planed'])) {
-                            $query1->orwhereNull('admission_date')->orWhere('admission_date', '>', Carbon::now());
+                            $query1->orwhereNull('admission_date')->orWhere('admission_date', '>', Carbon::now()->format('Y-m-d'));
                         }else {
                             $query1->Where(function ($query) {
-                                $query->Where('admission_date', '<=', Carbon::now());
+                                $query->Where('admission_date', '<=', Carbon::now()->format('Y-m-d'));
                             });
                         }
                     } else {
                         $query1->Where(function ($query) {
-                            $query->Where('exit_date', '>=', Carbon::now())->orwhereNull('exit_date');
+                            $query->Where('exit_date', '>=', Carbon::now()->format('Y-m-d'))->orwhereNull('exit_date');
                         });
                         if (!empty($data['planed'])) {
                             $query1->Where(function ($query){
-                                $query->whereNull('admission_date')->orWhere('admission_date', '>', Carbon::now());
+                                $query->whereNull('admission_date')->orWhere('admission_date', '>=', Carbon::now()->format('Y-m-d'));
                             });
                         }else {
                             $query1->Where(function ($query) {
-                                $query->Where('admission_date', '<=', Carbon::now());
+                                $query->Where('admission_date', '<', Carbon::now()->format('Y-m-d'));
                             });
                         }
                     }
