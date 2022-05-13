@@ -24,9 +24,9 @@
                     <div class="col-md-5">
                         <div class="d-flex is-invalid">
                             <input type="number" v-model="formData.startTimeHour1" class="form-control mr-2" :class="{'is-invalid' : errors.startTime1}"
-                            @change="() => {formData.workingHourId1 = null; errors.startTime1=null;}" :disabled="!!formData.vacationReasonId" min="0" max="24">
+                            @change="() => {formData.workingHourId1 = null; errors.startTime1=null;}" :disabled="!!formData.vacationReasonId" min="0" max="23">
                             <input type="number" v-model="formData.startTimeMin1" class="form-control" :class="{'is-invalid' : errors.startTime1}"
-                            @change="() => {formData.workingHourId1 = null; errors.startTime1=null}" :disabled="!!formData.vacationReasonId" min="0" max="60">
+                            @change="() => {formData.workingHourId1 = null; errors.startTime1=null}" :disabled="!!formData.vacationReasonId" min="0" max="59">
                         </div>
                         <span v-if="errors.startTime1" class="error invalid-feedback">
                             {{ errors.startTime1 }}
@@ -36,9 +36,9 @@
                     <div class="col-md-5">
                         <div class="d-flex is-invalid">
                             <input type="number" v-model="formData.endTimeHour1" class="form-control mr-2" :class="{'is-invalid' : errors.endTime1}"
-                            @change="() => {formData.workingHourId1 = null; errors.endTime1=null}" :disabled="!!formData.vacationReasonId" min="0" max="24">
+                            @change="() => {formData.workingHourId1 = null; errors.endTime1=null}" :disabled="!!formData.vacationReasonId" min="0" max="23">
                             <input type="number" v-model="formData.endTimeMin1" class="form-control" :class="{'is-invalid' : errors.endTime1}"
-                            @change="() => {formData.workingHourId1 = null; errors.endTime1=null}" :disabled="!!formData.vacationReasonId" min="0" max="60">
+                            @change="() => {formData.workingHourId1 = null; errors.endTime1=null}" :disabled="!!formData.vacationReasonId" min="0" max="59">
                         </div>
                         <span v-if="errors.endTime1" class="error invalid-feedback">
                             {{ errors.endTime1 }}
@@ -50,9 +50,9 @@
                     <div class="col-md-5">
                         <div class="d-flex is-invalid">
                             <input type="number" v-model="formData.restStartTimeHour1" class="form-control mr-2" :class="{'is-invalid' : errors.restStartTime1}"
-                            @change="() => {errors.restStartTime1=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="24">
+                            @change="() => {errors.restStartTime1=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="23">
                             <input type="number" v-model="formData.restStartTimeMin1" class="form-control" :class="{'is-invalid' : errors.restStartTime1}"
-                            @change="() => {errors.restStartTime1=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="60">
+                            @change="() => {errors.restStartTime1=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="59">
                         </div>
                          <span v-if="errors.restStartTime1" class="error invalid-feedback">
                             {{ errors.restStartTime1 }}
@@ -62,9 +62,9 @@
                     <div class="col-md-5">
                         <div class="d-flex is-invalid">
                             <input type="number" v-model="formData.restEndTimeHour1" class="form-control mr-2" :class="{'is-invalid' : errors.restEndTime1}"
-                            @change="() => {errors.restEndTime1=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="24">
+                            @change="() => {errors.restEndTime1=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="23">
                             <input type="number" v-model="formData.restEndTimeMin1" class="form-control" :class="{'is-invalid' : errors.restEndTime1}"
-                            @change="() => {errors.restEndTime1=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="60">
+                            @change="() => {errors.restEndTime1=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="59">
                         </div>
                         <span v-if="errors.restEndTime1" class="error invalid-feedback">
                             {{ errors.restEndTime1 }}
@@ -84,9 +84,9 @@
                     <div class="col-md-5">
                         <div class="d-flex is-invalid">
                             <input type="number" v-model="formData.startTimeHour2" class="form-control mr-2" :class="{'is-invalid' : errors.startTime2}"
-                            @change="() => {formData.workingHourId2 = null; errors.startTime2=null;}" :disabled="formData.vacationReasonId !== 0" min="0" max="24">
+                            @change="() => {formData.workingHourId2 = null; errors.startTime2=null;}" :disabled="formData.vacationReasonId !== 0" min="0" max="23">
                             <input type="number" v-model="formData.startTimeMin2" class="form-control" :class="{'is-invalid' : errors.startTime2}"
-                            @change="() => {formData.workingHourId2 = null; errors.startTime2=null;}" :disabled="formData.vacationReasonId !== 0" min="0" max="60">
+                            @change="() => {formData.workingHourId2 = null; errors.startTime2=null;}" :disabled="formData.vacationReasonId !== 0" min="0" max="59">
                         </div>
                         <span v-if="errors.startTime2" class="error invalid-feedback">
                             {{ errors.startTime2 }}
@@ -96,9 +96,9 @@
                     <div class="col-md-5">
                         <div class="d-flex is-invalid">
                             <input type="number" v-model="formData.endTimeHour2" class="form-control mr-2" :class="{'is-invalid' : errors.endTime2}"
-                            @change="() => {formData.workingHourId2 = null; errors.endTime2=null;}" :disabled="formData.vacationReasonId !== 0" min="0" max="24">
+                            @change="() => {formData.workingHourId2 = null; errors.endTime2=null;}" :disabled="formData.vacationReasonId !== 0" min="0" max="23">
                             <input type="number" v-model="formData.endTimeMin2" class="form-control" :class="{'is-invalid' : errors.endTime2}"
-                            @change="() => {formData.workingHourId2 = null; errors.endTime2=null;}" :disabled="formData.vacationReasonId !== 0" min="0" max="60">
+                            @change="() => {formData.workingHourId2 = null; errors.endTime2=null;}" :disabled="formData.vacationReasonId !== 0" min="0" max="59">
                         </div>
                         <span v-if="errors.endTime2" class="error invalid-feedback">
                             {{ errors.endTime2 }}
@@ -110,10 +110,10 @@
                     <div class="col-md-5">
                         <div class="d-flex is-invalid">
                             <input type="number" v-model="formData.restStartTimeHour2" class="form-control mr-2" :class="{'is-invalid' : errors.restStartTime2}"
-                            @change="() => {errors.restStartTime2=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="24">
+                            @change="() => {errors.restStartTime2=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="23">
 
                             <input type="number" v-model="formData.restStartTimeMin2" class="form-control" :class="{'is-invalid' : errors.restStartTime2}"
-                            @change="() => {errors.restStartTime2=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="60">
+                            @change="() => {errors.restStartTime2=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="59">
                         </div>
                         <span v-if="errors.restStartTime2" class="error invalid-feedback">
                             {{ errors.restStartTime2 }}
@@ -123,9 +123,9 @@
                     <div class="col-md-5">
                         <div class="d-flex is-invalid">
                             <input type="number" v-model="formData.restEndTimeHour2" class="form-control mr-2" :class="{'is-invalid' : errors.restEndTime2}"
-                            @change="() => {errors.restEndTime2=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="24">
+                            @change="() => {errors.restEndTime2=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="23">
                             <input type="number" v-model="formData.restEndTimeMin2" class="form-control" :class="{'is-invalid' : errors.restEndTime2}"
-                            @change="() => {errors.restEndTime2=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="60">
+                            @change="() => {errors.restEndTime2=null}" :disabled="formData.vacationReasonId !== 0" min="0" max="59">
                         </div>
                         <span v-if="errors.restEndTime2" class="error invalid-feedback">
                             {{ errors.restEndTime2 }}
