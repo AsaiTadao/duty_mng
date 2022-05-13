@@ -55,7 +55,10 @@
                             <tbody class="text-center">
                                 <schedule-working-item v-for="(schedule, index) in current" :key="index + '_' + officeId"
                                     :officeId="officeId"
-                                    :schedule.sync="current[index]" />
+                                    :schedule.sync="current[index]"
+                                    :index="index"
+                                    :current="1"
+                                    v-on:onEditMode="onEditMode"/>
                             </tbody>
                         </table>
                     </div>
@@ -79,7 +82,10 @@
                             <tbody class="text-center">
                                 <schedule-working-item v-for="(schedule, index) in next" :key="index + '_' + officeId"
                                     :officeId="officeId"
-                                    :schedule.sync="next[index]" />
+                                    :schedule.sync="next[index]"
+                                    :index="index"
+                                    :current="2"
+                                    v-on:onEditMode="onEditMode"/>
                             </tbody>
                         </table>
                     </div>
@@ -88,7 +94,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
-            <button type="button" class="btn btn-primary" @click="onSubmit">登録</button>
+            <button type="button" class="btn btn-primary" @click="onSubmit" :disabled="editStatus === true">登録</button>
         </div>
     </div>
 </template>
@@ -109,6 +115,10 @@ export default {
     data() {
         return {
             tab: 'current',
+            currentEditStatus: [],
+            nextEditStatus: [],
+            editStatusError: '',
+            editStatus: false,
         }
     },
     methods: {
@@ -131,6 +141,21 @@ export default {
                 apiErrorHandler(e);
                 this.unsetActionLoading();
             });
+        },
+        onEditMode(index, current, editMode) {
+            if (current == 1)
+                this.currentEditStatus[index] = editMode;
+            else
+                this.nextEditStatus[index] = editMode;
+
+            const count1 = this.currentEditStatus.filter(Boolean).length;
+            const count2 = this.nextEditStatus.filter(Boolean).length;
+
+            if(count1 + count2 > 0) {
+                this.editStatus = true;
+            } else {
+                this.editStatus = false;
+            }
         }
     }
 }

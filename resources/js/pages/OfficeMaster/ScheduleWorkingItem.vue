@@ -28,13 +28,22 @@ import api from '../../global/api';
 export default {
     props: {
         officeId: null,
-        schedule: {}
+        schedule: {},
+        index: null,
+        current: null,
     },
     data () {
         return {
             editMode: false,
             days: null,
             error: '',
+        }
+    },
+    watch: {
+        ['editMode'] : function() {
+            // if (this.editMode) {
+                this.$emit('onEditMode', this.index, this.current, this.editMode);
+            // }
         }
     },
     mounted() {
