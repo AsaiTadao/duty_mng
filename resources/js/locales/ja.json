@@ -25,6 +25,7 @@
     "Please select working hour": "勤務時間帯を選択してください",
     "Please input name": "名前を入力してください",
     "Please input number": "数を入力してください",
+    "Please input officeNumber": "事業所Noを入力してください",
     "Please input employeeNo": "ＩＤまたはメールアドレスを入力してください",
     "Please select enrolled": "選択してください",
     "Please select employmentStatusId": "雇用形態を選択してください",

@@ -342,7 +342,7 @@ import moment from 'moment';
             validate() {
                 let valid = true;
                 if (!this.formData.number) {
-                    this.errors.number = this.$t('Please input number');                            // need trans
+                    this.errors.number = this.$t('Please input officeNumber');                            // need trans
                     valid = false;
                 }
                 if (this.formData.number && this.formData.number.length > 20) {
