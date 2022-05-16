@@ -56,9 +56,9 @@ class OfficeController extends BaseController
         $number = $data['number'];
         $name = $data['name'];
 
-        $existing = Office::where(['number' => $number, 'name' => $name])->first();
+        $existing = Office::where(['number' => $number])->orWhere(['name' => $name])->first();
         if ($existing) {
-            return abort(422, trans("Duplicated office error"));
+            return abort(422, "事業所No又は事業所名が既に存在しています。");
         }
 
 
@@ -78,9 +78,9 @@ class OfficeController extends BaseController
         $number = $data['number'];
         $name = $data['name'];
 
-        $existing = Office::where(['number' => $number, 'name' => $name])->first();
+        $existing = Office::where(['number' => $number])->orWhere(['name' => $name])->first();
         if ($existing && $existing->id !== $office->id) {
-            return abort(422, trans("Duplicated office error"));
+            return abort(422, "事業所No又は事業所名が既に存在しています。");
         }
 
         $office->fill($data);
