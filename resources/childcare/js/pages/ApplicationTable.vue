@@ -474,7 +474,7 @@ export default {
             const ageInMonth = moment(this.month).diff(birthDay, 'months');
             const y = Math.floor(ageInMonth / 12);
             const m = ageInMonth % 12;
-            return (y ? y + '歳' : '') + (m ? m + 'ヶ月' : '');
+            return (y ? y + '歳' : '') + (m + 'ヶ月');
         },
         changeBirthFormat(birthDay) {
             if(birthDay) {
