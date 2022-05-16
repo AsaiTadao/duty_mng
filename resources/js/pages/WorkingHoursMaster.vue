@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header calendar-title">
                         <h3 class="card-title mb-0">勤務時間マスタ</h3>
-                        <h3 class="card-title mb-0 ml-5">ラテラル保育園</h3>
+                        <h3 class="card-title mb-0 ml-5">{{session.office ? session.office.name : ''}}</h3>
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -200,6 +200,7 @@
 import api, { apiErrorHandler } from '../global/api';
 import actionLoading from '../mixin/actionLoading';
 import { showSuccess } from '../helpers/error';
+import { mapState } from 'vuex';
 import WorkingHoursMasterForm from './WorkingHoursMaster/WorkingHoursMasterForm.vue';
 import EnableDisplayItem from './WorkingHoursMaster/EnableDisplayItem.vue';
 import vSelect from 'vue-select';
@@ -229,6 +230,11 @@ export default {
                 officeName: '',
                 editMode: false
             }
+        },
+        computed: {
+            ...mapState({
+                session: state => state.session.info
+            })
         },
         methods: {
             onEditClicked(workingHourId) {
