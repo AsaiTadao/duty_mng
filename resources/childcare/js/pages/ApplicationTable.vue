@@ -312,7 +312,8 @@
                                             <td class="p-1">{{child.freeOfCharge}}</td>
                                             <td class="p-1">{{child.certificateOfPayment}}</td>
                                             <td class="p-1">{{child.certificateExpirationDate}}</td>
-                                            <td class="p-1">{{child.taxExemptHousehold}}</td>
+                                            <td class="p-1" v-if="child.taxExemptHousehold">{{child.taxExemptHousehold}}</td>
+                                            <td class="p-1" v-else>X</td>
                                             <td v-for="(stat,dayIndex) in child.extensionState" :key="dayIndex+'AB'" class="align-middle p-1">
                                                 {{stat}}
                                             </td>
