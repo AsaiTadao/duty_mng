@@ -308,7 +308,7 @@
                                             </td>
                                             <td class="p-1">{{getAge(child.birthday)}}</td>
                                             <td class="p-1">{{child.type}}</td>
-                                            <td class="p-1">{{child.type}}</td>
+                                            <td class="p-1">{{child.companyName}}</td>
                                             <td class="p-1">{{child.freeOfCharge}}</td>
                                             <td class="p-1">{{child.certificateOfPayment}}</td>
                                             <td class="p-1">{{child.certificateExpirationDate}}</td>
