@@ -120,8 +120,8 @@ class ChildApplicationTableController extends BaseController
             $employeeQuotaRatio = 0;
             $regionalRatio = 0;
         } else {
-            $employeeQuotaRatio = floor($childEmployeeQuota * 100 / $totalCount);
-            $regionalRatio = floor($childRegional * 100 / $totalCount);
+            $employeeQuotaRatio = round($childEmployeeQuota * 100 / $totalCount);
+            $regionalRatio = round($childRegional * 100 / $totalCount);
         }
 
         $data['children_type_stat'] = [
