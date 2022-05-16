@@ -308,11 +308,12 @@
                                             </td>
                                             <td class="p-1">{{getAge(child.birthday)}}</td>
                                             <td class="p-1">{{child.type}}</td>
-                                            <td class="p-1">{{child.type}}</td>
+                                            <td class="p-1">{{child.companyName}}</td>
                                             <td class="p-1">{{child.freeOfCharge}}</td>
                                             <td class="p-1">{{child.certificateOfPayment}}</td>
                                             <td class="p-1">{{child.certificateExpirationDate}}</td>
-                                            <td class="p-1">{{child.taxExemptHousehold}}</td>
+                                            <td class="p-1" v-if="child.taxExemptHousehold">{{child.taxExemptHousehold}}</td>
+                                            <td class="p-1" v-else>X</td>
                                             <td v-for="(stat,dayIndex) in child.extensionState" :key="dayIndex+'AB'" class="align-middle p-1">
                                                 {{stat}}
                                             </td>
@@ -474,7 +475,7 @@ export default {
             const ageInMonth = moment(this.month).diff(birthDay, 'months');
             const y = Math.floor(ageInMonth / 12);
             const m = ageInMonth % 12;
-            return (y ? y + '歳' : '') + (m ? m + 'ヶ月' : '');
+            return (y ? y + '歳' : '') + (m + 'ヶ月');
         },
         changeBirthFormat(birthDay) {
             if(birthDay) {
