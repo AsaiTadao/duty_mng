@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-header calendar-title">
                         <h3 class="card-title mb-0">時給テーブルマスタ</h3>
-                        <h3 class="card-title mb-0 ml-5">ラテラル保育園</h3>
+                        <h3 class="card-title mb-0 ml-5">{{session.office ? session.office.name : ''}}</h3>
                     </div>
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
@@ -89,6 +89,7 @@ import actionLoading from '../mixin/actionLoading';
 import { showSuccess } from '../helpers/error';
 import HourlyMasterForm from './HourlyMaster/HourlyMasterForm.vue';
 import vSelect from 'vue-select';
+import { mapState } from 'vuex';
 import 'vue-select/dist/vue-select.css';
 
 export default {
@@ -109,6 +110,11 @@ export default {
                 officeName: '',
                 editMode: false,
             }
+        },
+        computed: {
+            ...mapState({
+                session: state => state.session.info
+            })
         },
         methods: {
             onEditClicked(HourlyId) {
