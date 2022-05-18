@@ -80,9 +80,14 @@ class checkStampingChildrenCommand extends Command
         $check1 = ChildrenAttendence::where('date', '=', $date)
             ->join('children', 'children.id', '=', 'children_attendences.child_id')
             ->where('commuting_time', '<>', null)->where('leave_time', '=', null)
-            ->select('children_attendences.*', 'children.name')->get();
+            ->select('children_attendences.*', 'children.name', 'children.id as child_id')->get();
 
         foreach ($check1 as $item) {
+            $notification = Notification::where('date', $date)->where('child_id', $item->child_id)
+                ->where('process_flag', false)->first();
+            if (!empty($notification->id)) {
+                continue;
+            }
             Notification::create([
                 'date' => $date,
                 'child_id' => $item->child_id,
@@ -95,9 +100,14 @@ class checkStampingChildrenCommand extends Command
         $check2 = ChildrenAttendence::where('date', '=', $date)
             ->join('children', 'children.id', '=', 'children_attendences.id')
             ->where('commuting_time', '=', null)->where('leave_time', '<>', null)
-            ->select('children_attendences.*', 'children.name')->get();
+            ->select('children_attendences.*', 'children.name', 'children.id as child_id')->get();
 
         foreach ($check2 as $item) {
+            $notification = Notification::where('date', $date)->where('child_id', $item->child_id)
+                ->where('process_flag', false)->first();
+            if (!empty($notification->id)) {
+                continue;
+            }
             Notification::create([
                 'date' => $date,
                 'child_id' => $item->child_id,
@@ -111,7 +121,7 @@ class checkStampingChildrenCommand extends Command
             ->join('children', 'children.qr', '=', 'qr_transactions.qr')
             ->groupBy('children.id', 'qr_transactions.ymd')
             ->having('count', '>', 2)
-            ->select('qr_transactions.qr', 'children.id', 'children.name')
+            ->select('qr_transactions.qr', 'children.id', 'children.name', 'children.id as child_id')
             ->selectRaw('COUNT(qr_transactions.qr) as count')
             ->get();
 
@@ -123,6 +133,11 @@ class checkStampingChildrenCommand extends Command
             }
             if (!empty($string) && COUNT($string) > 0) {
                 $string = '('.implode(',', $string).')';
+            }
+            $notification = Notification::where('date', $date)->where('child_id', $item->child_id)
+                ->where('process_flag', false)->first();
+            if (!empty($notification->id)) {
+                continue;
             }
             Notification::create([
                 'date' => $date,
@@ -142,6 +157,12 @@ class checkStampingChildrenCommand extends Command
             ->select('children_attendences.*', 'children.name', 'children.id as child_id')->get();
 
         foreach ($check4 as $item) {
+            $notification = Notification::where('date', $date)->where('child_id', $item->child_id)
+                ->where('process_flag', false)->first();
+            if (!empty($notification->id)) {
+                continue;
+            }
+
             Notification::create([
                 'date' => $date,
                 'child_id' => $item->child_id,

@@ -54,6 +54,11 @@ class reCheckStampingChildrenCommand extends Command
             if (!empty($holiday) && !empty($holiday->id)) {
                 continue;
             }
+            // 日曜は処理しない
+            $w = date('w', strtotime($date));
+            if (empty($w)) {
+                continue;
+            }
 
             // 降園なし（手動アラートOFF）
             $check1 = ChildrenAttendence::where('children_attendences.date', '=', $date)
@@ -66,12 +71,21 @@ class reCheckStampingChildrenCommand extends Command
                 ->select('children_attendences.*', 'children.name')->get();
 
             foreach ($check1 as $item) {
-                Notification::create([
-                    'date' => $date,
-                    'child_id' => $item->child_id,
-                    'message' =>  $item->name . 'さんの打刻（降園）がありません。[再]',
-                    'url' => '/child?date='.$date.'&',
-                ]);
+                $notification = Notification::where('date', $date)->where('child_id', $item->child_id)->first();
+                if (!empty($notification->id)) {
+                    Notification::where('id', $notification->id)->update([
+                        'message' =>  $item->name . 'さんの打刻（降園）がありません。[再]',
+                        'url' => '/child?date='.$date.'&',
+                        'process_flag' => false,
+                    ]);
+                } else {
+                    Notification::create([
+                        'date' => $date,
+                        'child_id' => $item->child_id,
+                        'message' =>  $item->name . 'さんの打刻（降園）がありません。[再]',
+                        'url' => '/child?date='.$date.'&',
+                    ]);
+                }
             }
         }
         return true;
