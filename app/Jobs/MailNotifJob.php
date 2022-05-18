@@ -75,8 +75,9 @@ class MailNotifJob implements ShouldQueue
                 continue;
             }
             $loginUrl =  Str::of(config('app.url'))->rtrim('/') . '/login';
-            $content = nl2br($utilService->templateCompile($this->mailJobHistory->content, [
-                'children_qr'   =>  $qrService->getChildQrImageTag($child),
+            $qrService->getChildQrImageTag($child);
+            $content = $utilService->templateCompile($this->mailJobHistory->content, [
+                // 'children_qr'   =>  '',
                 'password'      =>  Crypt::decryptString($child->password),
                 'login_id'       =>  $child->email,
                 'child_name'    =>  $child->name,
@@ -85,7 +86,7 @@ class MailNotifJob implements ShouldQueue
                 'office_tel'    =>  $child->office->tel,
                 'office_fax'    =>  $child->office->fax,
                 'login_url'     =>  $loginUrl
-            ]));
+            ]);
 
             $mailHistory = MailHistory::create([
                 'mail_address'  =>  $child->email,

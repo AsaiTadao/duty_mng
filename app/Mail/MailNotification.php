@@ -41,7 +41,13 @@ class MailNotification extends Mailable
     public function build()
     {
         $res = $this->subject($this->mail->subject);
-        $res->view('mail.mail_notification', ['content' => $this->content]);
+
+        if (Str::contains($this->content, '__children_qr__')) {
+            $this->content = Str::replace('__children_qr__', '', $this->content);
+            $res->attachFromStorage("public/qrs/{$this->child->id}.png");
+        }
+        $res->text('mail.mail_notification', ['content' => $this->content]);
+
         for ($i = 1; $i <= 10; $i++)
         {
             $file = 'file' . $i;
