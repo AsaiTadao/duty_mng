@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Children;
+use App\Models\Holiday;
 use App\Models\Notification;
 use App\Models\ChildrenAttendence;
 use App\Models\QrTransaction;
@@ -58,6 +60,19 @@ class checkStampingChildrenCommand extends Command
         $this->info($date);
         $this->info($ymd);
 
+        // 祝日は処理しない
+        $holiday = Holiday::where('date', '=', $date)->first();
+        if (!empty($holiday) && !empty($holiday->id)) {
+            $this->info("祝日の為処理終了:" . $holiday->name ?? null);
+            return true;
+        }
+        // 日曜は処理しない
+        $w = date('w', strtotime($date));
+        if (empty($w)) {
+            $this->info("日曜日の為処理終了:");
+            return true;
+        }
+
         // 該当日クリア
         Notification::where('date', '=', $date)->delete();
 
@@ -113,6 +128,24 @@ class checkStampingChildrenCommand extends Command
                 'date' => $date,
                 'child_id' => $item->id,
                 'message' =>  Carbon::parse($date)->format('y.m.d') . ' ' . $item->name . 'さんの打刻が'.$item->count.'回あります。' . $string,
+                'url' => '/child?date='.$date.'&',
+            ]);
+        }
+
+        // 登園なし降園なし（欠席除く）
+        $check4 = Children::leftJoin('children_attendences', function($join) use($date) {
+                $join->on('children.id', '=', 'children_attendences.id')->where('date', '=', $date);
+            })
+            ->where('children.deleted_at', '=', null)->where('exit_date', '=', null)
+            ->where('commuting_time', '=', null)->where('leave_time', '=', null)
+            ->where('reason_for_absence_id', '=', null)
+            ->select('children_attendences.*', 'children.name', 'children.id as child_id')->get();
+
+        foreach ($check4 as $item) {
+            Notification::create([
+                'date' => $date,
+                'child_id' => $item->child_id,
+                'message' =>  $item->name . 'さんの打刻（登園&降園）がありません。欠席除く',
                 'url' => '/child?date='.$date.'&',
             ]);
         }
