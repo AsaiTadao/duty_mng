@@ -93,7 +93,7 @@
                             <button class="btn btn-primary float-right mr-2" @click="saveContact(2)">完了</button>
                             <button class="btn btn-primary float-right" @click="exportExcel">Excel出力</button>
                         </div>
-                        <div v-if="inputError" class="error invalid-feedback text-center" style="margin-top: 60px;">
+                        <div v-if="inputError" class="error invalid-feedback text-right" style="margin-top: 60px;">
                             {{$t("Input error")}}
                         </div>
                     </div>
