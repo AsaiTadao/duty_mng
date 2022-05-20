@@ -56,9 +56,9 @@ class ContactBookExport implements WithEvents
                     $sheet->setCellValue('r6', $this->contactBook->nurse_name);
                     $sheet->setCellValue('e8', $this->moodLabel($this->contactBook->mood));
                     $sheet->setCellValue('e9', $this->timeLabel($this->contactBook->pick_up_time));
-                    $sheet->setCellValue('n8', $this->timeLabel($this->contactBook->temperature_time_std));
-                    $sheet->setCellValue('t8', $this->contactBook->temperature_std);
-                    $sheet->setCellValue('n9', $this->contactBook->pick_up_person);
+                    $sheet->setCellValue('p8', $this->timeLabel($this->contactBook->temperature_time_std));
+                    $sheet->setCellValue('u8', $this->contactBook->temperature_std);
+                    $sheet->setCellValue('p9', $this->contactBook->pick_up_person);
 
                     $times = [
                         '1800','1830','1900','1930','2000','2030','2100','2130','2200','2230','2300','2330','2400','2430','0100','0130','0200','0230','0300','0330','0400','0430','0500','0530','0600','0630','0700','0730','0800','0830','0900','0930','1000','1030','1100','1130','1200','1230','1300','1330','1400','1430','1500','1530','1600','1630','1700','1730'
@@ -98,9 +98,9 @@ class ContactBookExport implements WithEvents
                     $sheet->setCellValue('b12', $date->format('m月 d日 (l)'));
 
                     $sheet->setCellValue('b67', $this->contactBook->state_0_home);
-                    $sheet->setCellValue('n67', $this->contactBook->state_0_school);
+                    $sheet->setCellValue('q67', $this->contactBook->state_0_school);
                     $sheet->setCellValue('b77', $this->contactBook->contact_0_home);
-                    $sheet->setCellValue('n77', $this->contactBook->contact_0_school);
+                    $sheet->setCellValue('q77', $this->contactBook->contact_0_school);
                 } else if ($contactType === '1') {
                     $sheet->setCellValue('f6', $this->contactBook->guardian);
                     $sheet->setCellValue('o6', $this->contactBook->nurse_name);
