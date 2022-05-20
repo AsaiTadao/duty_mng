@@ -96,7 +96,7 @@ class AttendanceController extends BaseController
                     ]);
             })
             ->leftJoin('notifications', function ($join) use ($data) {
-                $join->on('notifications.child_id', '=', 'children_attendences.child_id')
+                $join->on('notifications.child_id', '=', 'children.id')
                     ->where(['notifications.date'  =>  $data['date'], 'notifications.deleted_at' => null])
                     ->select('notifications.child_id')->groupBy('notifications.child_id','notifications.date');
             })
