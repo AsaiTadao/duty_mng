@@ -308,12 +308,12 @@
                                             </td>
                                             <td class="p-1">{{getAge(child.birthday)}}</td>
                                             <td class="p-1">{{child.type}}</td>
-                                            <td class="p-1">{{child.companyName}}</td>
-                                            <td class="p-1">{{child.freeOfCharge}}</td>
-                                            <td class="p-1">{{child.certificateOfPayment}}</td>
-                                            <td class="p-1">{{child.certificateExpirationDate}}</td>
-                                            <td class="p-1" v-if="child.taxExemptHousehold">{{child.taxExemptHousehold}}</td>
-                                            <td class="p-1" v-else>X</td>
+                                            <td class="p-1" :class="{'background-grey': child.type == '地域枠（弾力）' || child.type == '地域枠（通常）'}">{{child.companyName}}</td>
+                                            <td class="p-1" :class="{'background-grey': child.freeOfCharge == '対象外'}">{{child.freeOfCharge}}</td>
+                                            <td class="p-1" :class="{'background-grey': child.freeOfCharge == '対象外'}">{{child.certificateOfPayment}}</td>
+                                            <td class="p-1" :class="{'background-grey': child.freeOfCharge == '対象外'}">{{child.certificateExpirationDate}}</td>
+                                            <td class="p-1" v-if="child.taxExemptHousehold" :class="{'background-grey': child.freeOfCharge == '対象外'}">{{child.taxExemptHousehold}}</td>
+                                            <td class="p-1" v-else :class="{'background-grey': child.freeOfCharge == '対象外'}">X</td>
                                             <td v-for="(stat,dayIndex) in child.extensionState" :key="dayIndex+'AB'" class="align-middle p-1">
                                                 {{stat}}
                                             </td>
@@ -505,5 +505,8 @@ export default {
     .calendar-title {
         display: flex;
         align-items: center;
+    }
+    .background-grey {
+        background-color: #bbb6b6;
     }
 </style>
