@@ -74,29 +74,23 @@
                     <div class="col-md-2">
                         開所時間：
                     </div>
-                    <div class="col-md-1">
-                        <input type="number" class="form-control" min="0" max="23" v-model="formData.openTimeHour" :class="{'is-invalid' : errors.openTimeHour}" @change="errors.openTimeHour = null">
-                        <span v-if="errors.startTime" class="error invalid-feedback">
-                            {{ errors.startTime }}
-                        </span>
-                    </div>
-                    :
-                    <div class="col-md-1">
-                        <input type="number" class="form-control" min="0" max="60" v-model="formData.openTimeMin" :class="{'is-invalid' : errors.openTimeMin}" @change="errors.openTimeMin = null">
+                    <div class="col-md-2">
+                        <div class="d-flex is-invalid align-items-center">
+                            <input type="number" class="form-control mr-2 p-1" min="0" max="23" v-model="formData.openTimeHour" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                        :
+                            <input type="number" class="form-control ml-2 p-1" min="0" max="60" v-model="formData.openTimeMin" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                        </div>
                         <span v-if="errors.startTime" class="error invalid-feedback">
                             {{ errors.startTime }}
                         </span>
                     </div>
                     ~
-                    <div class="col-md-1">
-                        <input type="number" class="form-control" min="0" max="23" v-model="formData.closeTimeHour" :class="{'is-invalid' : errors.closeTimeHour}" @change="errors.closeTimeHour = null">
-                        <span v-if="errors.endTime" class="error invalid-feedback">
-                            {{ errors.endTime }}
-                        </span>
-                    </div>
-                    :
-                    <div class="col-md-1">
-                        <input type="number" class="form-control" min="0" max="60" v-model="formData.closeTimeMin" :class="{'is-invalid' : errors.closeTimeMin}" @change="errors.closeTimeMin = null">
+                    <div class="col-md-2">
+                        <div class="d-flex is-invalid align-items-center">
+                            <input type="number" class="form-control mr-2 p-1" min="0" max="23" v-model="formData.closeTimeHour" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
+                        :
+                            <input type="number" class="form-control ml-2 p-1" min="0" max="60" v-model="formData.closeTimeMin" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
+                        </div>
                         <span v-if="errors.endTime" class="error invalid-feedback">
                             {{ errors.endTime }}
                         </span>
@@ -225,10 +219,8 @@ import moment from 'moment';
                     name: '',
                     number: '',
                     restDeductionId: '',
-                    openTimeHour: null,
-                    openTimeMin: null,
-                    closeTimeHour: null,
-                    closeTimeMin: null,
+                    startTime: null,
+                    endTime: null,
                     capacity: null,
                     appropriateNumber0: null,
                     appropriateNumber1: null,
@@ -245,10 +237,8 @@ import moment from 'moment';
                     name: '',
                     number: '',
                     restDeductionId: '',
-                    openTimeHour: null,
-                    openTimeMin: null,
-                    closeTimeHour: null,
-                    closeTimeMin: null,
+                    startTime: null,
+                    endTime: null,
                     capacity: null,
                     appropriateNumber0: null,
                     appropriateNumber1: null,
@@ -268,6 +258,7 @@ import moment from 'moment';
                     name: '',
                     restDeductionId: '',
                     isNursery: false,
+                    openTime: null,
                     openTimeHour: null,
                     openTimeMin: null,
                     closeTimeHour: null,
@@ -285,10 +276,8 @@ import moment from 'moment';
                     name: '',
                     number: '',
                     restDeductionId: '',
-                    openTimeHour: null,
-                    openTimeMin: null,
-                    closeTimeHour: null,
-                    closeTimeMin: null,
+                    startTime: null,
+                    endTime: null,
                     capacity: null,
                     appropriateNumber0: null,
                     appropriateNumber1: null,
@@ -333,10 +322,10 @@ import moment from 'moment';
             convertToFormData() {
                 if(this.data) {
                     this.formData = {...this.data};
-                    this.formData['openTimeHour'] = this.data.openTime ? moment(this.data.openTime).tz('asia/Tokyo').format('HH') : '';
-                    this.formData['openTimeMin'] = this.data.openTime ? moment(this.data.openTime).tz('asia/Tokyo').format('mm') : '';
-                    this.formData['closeTimeHour'] = this.data.closeTime ? moment(this.data.closeTime).tz('asia/Tokyo').format('HH') : '';
-                    this.formData['closeTimeMin'] = this.data.closeTime ? moment(this.data.closeTime).tz('asia/Tokyo').format('mm') : '';
+                    this.formData['openTimeHour'] = this.data.openTime ? moment(this.data.openTime, 'hh:mm:ss').format('HH') : '';
+                    this.formData['openTimeMin'] = this.data.openTime ? moment(this.data.openTime, 'hh:mm:ss').format('mm') : '';
+                    this.formData['closeTimeHour'] = this.data.closeTime ? moment(this.data.closeTime, 'hh:mm:ss').format('HH') : '';
+                    this.formData['closeTimeMin'] = this.data.closeTime ? moment(this.data.closeTime, 'hh:mm:ss').format('mm') : '';
                 }
             },
             validate() {
@@ -368,6 +357,30 @@ import moment from 'moment';
                     }
                     if(this.formData.capacity && this.formData.capacity < 0) {
                         this.errors.capacity = this.$t('Please input an integer');
+                        valid = false;
+                    }
+                    if(!this.formData.openTimeHour || !this.formData.openTimeMin) {
+                        this.errors.startTime = this.$t('Please input startTime');
+                        valid = false;
+                    }
+                    if(!this.formData.closeTimeHour || !this.formData.closeTimeMin) {
+                        this.errors.endTime = this.$t('Please input endTime');
+                        valid = false;
+                    }
+                    if (this.formData.openTimeHour < 0 || this.formData.openTimeHour > 23) {
+                        this.errors.startTime = this.$t('Invalid time format');
+                        valid = false;
+                    }
+                    if (this.formData.openTimeMin < 0 || this.formData.openTimeMin > 59) {
+                        this.errors.startTime = this.$t('Invalid time format');
+                        valid = false;
+                    }
+                    if (this.formData.closeTimeHour < 0 || this.formData.closeTimeHour > 23) {
+                        this.errors.endTime = this.$t('Invalid time format');
+                        valid = false;
+                    }
+                    if (this.formData.closeTimeMin < 0 || this.formData.closeTimeMin > 59) {
+                        this.errors.endTime = this.$t('Invalid time format');
                         valid = false;
                     }
                     if(this.formData.appropriateNumber0 && this.formData.appropriateNumber0 < 0) {
