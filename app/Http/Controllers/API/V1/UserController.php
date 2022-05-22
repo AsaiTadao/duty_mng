@@ -181,7 +181,8 @@ class UserController extends BaseController
                 $query->whereHas('office', function ($query) use ($officeName) {
                     $query->where('name', 'LIKE', '%' . $officeName . '%');
                 })
-                ->orWhere('number', 'LIKE', '%' . $officeName . '%');
+                ->orWhere('number', 'LIKE', '%' . $officeName . '%')
+                ->orWhere('name', 'LIKE', '%' . $officeName . '%');
             });
         }
         $pager = $qb->orderByDesc('created_at')->paginate($pageSize);
