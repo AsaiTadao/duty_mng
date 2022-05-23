@@ -104,7 +104,10 @@
                                         <option v-for="day in days" :key="day" :value="day">{{day}}日</option>
                                     </select>
                                 </td>
-                                <td>-</td>
+                                <td>
+                                    <template v-if="dayAttendance.consecutiveWork">●</template>
+                                    <template v-else>-</template>
+                                </td>
                                 <td>
                                     <input type="text" v-model="editData.annualPaidTime" :class="{'is-invalid' : errors.annualPaidTime}" class="fixed-width-60 form-control"/>
                                     <span v-if="editMode && errors.annualPaidTime" class="error invalid-feedback">
@@ -177,7 +180,10 @@
                                 <td>{{dayAttendance.offShiftWorkingHours ? (dayAttendance.offShiftWorkingHours / 60).toFixed(2) : '-'}}</td>
                                 <td>{{dayAttendance.substituteTime ? (dayAttendance.substituteTime / 60).toFixed(2) : '-'}}</td>
                                 <td>{{getSubstituteDay(dayAttendance.substituteDay)}}</td>
-                                <td>-</td>
+                                <td>
+                                    <template v-if="dayAttendance.consecutiveWork">●</template>
+                                    <template v-else>-</template>
+                                </td>
                                 <td>{{dayAttendance.annualPaidTime ? (dayAttendance.annualPaidTime / 60).toFixed(2) : '-'}}</td>
                                 <td><i v-if="dayAttendance.annualPaidTime" class="fas fa-check fa-lg"></i></td>
                                 <td>{{dayAttendance.specialPaidTime ? (dayAttendance.specialPaidTime / 60).toFixed(2) : '-'}}</td>
