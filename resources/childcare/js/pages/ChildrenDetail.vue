@@ -235,7 +235,7 @@
                             </div>
                         </div>
                         <div class="float-right d-flex align-items-center mt-2">
-                            <button class="btn btn-primary mr-2" @click="childCancel()" :disabled="!this.childInfor.canCancel">入園キャンセル</button>
+                            <button class="btn btn-danger mr-2" @click="childCancel()" :disabled="!this.childInfor.canCancel">入園キャンセル</button>
                             <router-link class="btn btn-primary float-right mr-2" tag="button" :to="{name: 'present-management', params: {childId}}" :disabled="this.childInfor.canceledAt">登降園管理</router-link>
                             <button class="btn btn-primary float-right" @click="editChild()" >編集</button>
                         </div>
