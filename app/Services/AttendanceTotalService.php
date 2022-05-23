@@ -52,6 +52,8 @@ class AttendanceTotalService
         ->whereMonth('date', $monthValue)
         ->get();
 
+        $setting = Setting::first();
+
 
         $monthCarbon = Carbon::parse($yearNumber . '-' . $monthValue . '-01');
         $daysInMonth = $monthCarbon->daysInMonth;
@@ -94,6 +96,13 @@ class AttendanceTotalService
         $attendanceItems = [];
         $attendanceMetaItems = [];
         $planedWorkDays = 0; // for headquarter employee over time working hours
+
+        $consecutive_work_day_count = 0;
+        $consecutive_work_hours = 0;
+
+        $consecutive_work_days = [];
+        $buff_consecutive_work_days = [];
+        $buff_consecutive_work_hours = 0;
         for($day = 1; $day <= $daysInMonth; $day++)
         {
             $work_hours = 0;                        // 総出勤時間
@@ -121,6 +130,17 @@ class AttendanceTotalService
 
             $shiftExisting = ($dayShifts->count() > 0);
             if (!$attendance) {
+                // BOC -- calculate consecutive work days and hours
+                if ($setting->consecutive_work) {
+                    if (count($buff_consecutive_work_days) >= $setting->consecutive_work) {
+                        $consecutive_work_days = array_merge($consecutive_work_days, $buff_consecutive_work_days);
+                        $consecutive_work_hours += $buff_consecutive_work_hours;
+                    }
+                    $buff_consecutive_work_days = [];
+                    $buff_consecutive_work_hours = 0;
+                }
+                // EOC -- calculate consecutive work days and hours
+
                 if (!$shiftExisting) {
                     $attendanceItems[$day] = [];
                     $attendanceMetaItems[$day] = [];
@@ -176,7 +196,7 @@ class AttendanceTotalService
                     continue;
                 }
             }
-            $setting = Setting::first();
+
             $this->roundProcess($attendance, $setting);
 
             // boc: shift foreach
@@ -221,6 +241,13 @@ class AttendanceTotalService
             // eoc: shift foreach
 
             $total_working_hours = $work_hours - $rest_hours;
+            if ($total_working_hours < 0) $total_working_hours = 0;
+
+            if ($setting->consecutive_work > 0 && $total_working_hours > 0) {
+                $buff_consecutive_work_days[] = $day;
+                $buff_consecutive_work_hours += $total_working_hours;
+            }
+
             // boc: calc overtime_working_hours
             if ($user->employment_status_id === EmploymentStatus::NORMAL) {
                 if (!$isInHeadquarter) {
@@ -337,6 +364,22 @@ class AttendanceTotalService
         }
         // eoc: days foreach
 
+        // BOC -- calculate consecutive work days and hours
+        if ($setting->consecutive_work) {
+            if (count($buff_consecutive_work_days) >= $setting->consecutive_work) {
+                $consecutive_work_days = array_merge($consecutive_work_days, $buff_consecutive_work_days);
+                $consecutive_work_hours += $buff_consecutive_work_hours;
+            }
+            $buff_consecutive_work_days = [];
+            $buff_consecutive_work_hours = 0;
+
+            foreach ($consecutive_work_days as $day) {
+                $attendanceMetaItems[$day]['consecutive_work'] = true;
+            }
+            $attendanceTotal->consecutive_working_hours = $consecutive_work_hours;
+        }
+        // EOC -- calculate consecutive work days and hours
+
         if ($user->office)
         {
             $scheduled_working = ScheduledWorking::where([
@@ -356,7 +399,6 @@ class AttendanceTotalService
                     }
                 }
             }
-
 
         }
 
