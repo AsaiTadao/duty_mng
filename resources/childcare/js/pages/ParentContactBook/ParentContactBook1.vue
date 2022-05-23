@@ -1079,12 +1079,24 @@ export default {
                 this.errors.temperature1Home = this.$t('Please input positive number');
                 valid = false;
             }
+            if(this.formData.temperature1Home && (this.formData.temperature1Home < 32 || this.formData.temperature1Home > 42)) {
+                this.errors.temperature1Home = this.$t('Incorrect temperature value');
+                valid = false;
+            }
             if(this.formData.temperature2Home && this.formData.temperature2Home < 0) {
                 this.errors.temperature2Home = this.$t('Please input positive number');
                 valid = false;
             }
+            if(this.formData.temperature2Home && (this.formData.temperature2Home < 32 || this.formData.temperature2Home > 42)) {
+                this.errors.temperature1Home = this.$t('Incorrect temperature value');
+                valid = false;
+            }
             if(this.formData.temperature3Home && this.formData.temperature3Home < 0) {
                 this.errors.temperature3Home = this.$t('Please input positive number');
+                valid = false;
+            }
+            if(this.formData.temperature3Home && (this.formData.temperature3Home < 32 || this.formData.temperature3Home > 42)) {
+                this.errors.temperature1Home = this.$t('Incorrect temperature value');
                 valid = false;
             }
             this.inputError = !valid;

@@ -168,9 +168,9 @@
                                                     </td>
                                                     <td rowspan="2" style="width: 120px;">
                                                         <div class="d-flex justify-content-center is-invalid" style="width: fit-content; margin: auto;">
-                                                            <input type="number" class="form-control" min="32" max="42" v-if="formData[`temperature${('0' + hour.time).slice(-2)}School`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}School`]}" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}School`] = null; inputError = false;"/>
-                                                            <input type="number" class="form-control" min="32" max="42" v-else-if="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}School`]}" v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" disabled @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}School`] = null; inputError = false;"/>
-                                                            <input type="number" class="form-control" min="32" max="42" v-else v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}School`]}" @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}School`] = null; inputError = false;"/>
+                                                            <input type="number" class="form-control p-1" min="32" max="42" v-if="formData[`temperature${('0' + hour.time).slice(-2)}School`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}School`]}" v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}School`] = null; inputError = false;"/>
+                                                            <input type="number" class="form-control p-1" min="32" max="42" v-else-if="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}School`]}" v-model="formData[`temperature${('0' + hour.time).slice(-2)}Home`]" disabled @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}School`] = null; inputError = false;"/>
+                                                            <input type="number" class="form-control p-1" min="32" max="42" v-else v-model="formData[`temperature${('0' + hour.time).slice(-2)}School`]" :class="{'is-invalid': errors[`temperature${('0' + hour.time).slice(-2)}School`]}" @change="dataChanged = true; errors[`temperature${('0' + hour.time).slice(-2)}School`] = null; inputError = false;"/>
                                                             <label class="align-self-center m-0 ml-1">℃</label>
                                                         </div>
                                                         <span v-if="errors[`temperature${('0' + hour.time).slice(-2)}School`]" class="error invalid-feedback">
@@ -681,6 +681,10 @@ export default {
             this.hours.forEach(element => {
                 if(this.formData[`temperature${('0' + element.time).slice(-2)}School`] && this.formData[`temperature${('0' + element.time).slice(-2)}School`] < 0) {
                     this.errors[`temperature${('0' + element.time).slice(-2)}School`] = this.$t('Please input positive number');
+                    valid = false;
+                }
+                if(this.formData[`temperature${('0' + element.time).slice(-2)}School`] && (this.formData[`temperature${('0' + element.time).slice(-2)}School`] < 32 || this.formData[`temperature${('0' + element.time).slice(-2)}School`] > 42)) {
+                    this.errors[`temperature${('0' + element.time).slice(-2)}School`] = this.$t('Incorrect temperature value');
                     valid = false;
                 }
             });
