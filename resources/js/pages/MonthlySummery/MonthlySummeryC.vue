@@ -393,7 +393,7 @@ import { showSuccess } from '../../helpers/error';
             },
             validate() {
                 let valid = true;
-                var timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
+                var timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
                 if (this.editData.startWorkTime1 && !this.editData.startWorkTime1.match(timeRegex)) {
                     this.errors.startWorkTime1 = this.$t('Please input correct format');                                 // need trans
                     valid = false;
@@ -426,19 +426,19 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.startWorkTime2 = this.$t('Please input time');                                 // need trans
                     valid = false;
                 }
-                if (this.editData.startWorkTime1 && this.editData.startWorkTime2 && this.editData.startWorkTime1 >= this.editData.startWorkTime2) {
+                if (this.editData.startWorkTime1 && this.editData.startWorkTime2 && this.changeTimeString(this.editData.startWorkTime1) >= this.changeTimeString(this.editData.startWorkTime2)) {
                     this.errors.startWorkTime1 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
-                if (this.editData.startWorkTime2 && this.editData.endWorkTime1 && this.editData.startWorkTime2 <= this.editData.endWorkTime1) {
+                if (this.editData.startWorkTime2 && this.editData.endWorkTime1 && this.changeTimeString(this.editData.startWorkTime2) <= this.changeTimeString(this.editData.endWorkTime1)) {
                     this.errors.endWorkTime1 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
-                if (this.editData.startWorkTime1 && this.editData.endWorkTime2 && this.editData.startWorkTime1 >= this.editData.endWorkTime2) {
+                if (this.editData.startWorkTime1 && this.editData.endWorkTime2 && this.changeTimeString(this.editData.startWorkTime1) >= this.changeTimeString(this.editData.endWorkTime2)) {
                     this.errors.endWorkTime1 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
-                if (this.editData.endWorkTime1 && this.editData.endWorkTime2 && this.editData.endWorkTime1 >= this.editData.endWorkTime2) {
+                if (this.editData.endWorkTime1 && this.editData.endWorkTime2 && this.changeTimeString(this.editData.endWorkTime1) >= this.changeTimeString(this.editData.endWorkTime2)) {
                     this.errors.endWorkTime2 = this.$t('Please avoid time overlapped');
                     valid = false;
                 }
@@ -470,10 +470,10 @@ import { showSuccess } from '../../helpers/error';
                 const requestData = {
                     'user_id': this.editData.userId,
                     'date': this.month + "-" + ('0' + this.selectedIndex).slice(-2),
-                    'commuting_time_1': this.editData.startWorkTime1,
-                    'leave_time_1': this.editData.endWorkTime1,
-                    'commuting_time_2': this.editData.startWorkTime2,
-                    'leave_time_2': this.editData.endWorkTime2,
+                    'commuting_time_1': this.changeTimeString(this.editData.startWorkTime1),
+                    'leave_time_1': this.changeTimeString(this.editData.endWorkTime1),
+                    'commuting_time_2': this.changeTimeString(this.editData.startWorkTime2),
+                    'leave_time_2': this.changeTimeString(this.editData.endWorkTime2),
                     'substitute_time': this.editData.substituteTime * 60,
                     'substitute_day' : this.editData.substituteDay,
                     'annual_paid_time': this.editData.annualPaidTime * 60,
@@ -535,6 +535,16 @@ import { showSuccess } from '../../helpers/error';
             changeTimeFormat(date) {
                 if(date) {
                     return moment(date).tz('Asia/Tokyo').format('HH:mm');
+                } else {
+                    return "";
+                }
+            },
+            changeTimeString(timeString) {
+                if(timeString) {
+                    var time = timeString.split(':');
+                    var time1 = ('0' + time[0]).slice(-2);
+                    var time2 = time[1];
+                    return time1 + ":" + time2;
                 } else {
                     return "";
                 }
