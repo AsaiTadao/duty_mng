@@ -652,6 +652,10 @@ export default {
             //     this.errors.nurseName = this.$t('Please enter 20 characters or less');
             //     valid = false;
             // }
+            if(this.formData.temperatureStd && (this.formData.temperatureStd < 32 || this.formData.temperatureStd > 42)) {
+                this.errors.temperatureStd = this.$t('Incorrect temperature value');
+                valid = false;
+            }
             if(!this.formData.pickUpPerson) {
                 this.errors.pickUpPerson = this.$t('Please input');
                 valid = false;
