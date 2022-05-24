@@ -282,6 +282,7 @@
                                             <td rowspan="2" class="align-middle p-1">病欠</td>
                                             <td rowspan="2" class="align-middle p-1">停止</td>
                                             <td rowspan="2" class="align-middle p-1">休園</td>
+                                            <td rowspan="2" class="align-middle p-1">災害</td>
                                             <td rowspan="2" class="align-middle p-1">退園日</td>
                                             <td rowspan="2" class="align-middle p-1">規定日数</td>
                                             <td rowspan="2" class="align-middle p-1">備考</td>
@@ -325,6 +326,7 @@
                                             <td class="p-1">{{child.absentState[4]}}</td>
                                             <td class="p-1">{{child.absentState[5]}}</td>
                                             <td class="p-1">{{child.absentState[6]}}</td>
+                                            <td class="p-1">{{child.absentState[7]}}</td>
                                             <td class="p-1">{{child.exitDate}}</td>
                                             <td class="p-1" v-if="child.regulationDays >= 16">●</td>
                                             <td class="p-1" v-else>-</td>
