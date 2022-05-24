@@ -36,6 +36,7 @@ class ChildResource extends JsonResource
             'certificate_of_payment'    =>  $this->child_info->certificate_of_payment??null,
             'certificate_expiration_date'=> $this->child_info->certificate_expiration_date??null,
             'tax_exempt_household'  =>  $this->child_info->tax_exempt_household??null,
+            'plan_registered' => $this->plan_registered,
             'remarks'    =>  $this->child_info->remarks??null,
             'canceled_at'   =>  $this->canceled_at,
             'can_cancel'    =>  $can_cancel

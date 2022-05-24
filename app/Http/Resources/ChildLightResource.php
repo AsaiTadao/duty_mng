@@ -37,7 +37,8 @@ class ChildLightResource extends JsonResource
             'email'     =>  $this->email,
             'class_id'  =>  $this->class_id,
             'canceled_at'   =>  $this->canceled_at,
-            'status'    =>  $status
+            'plan_registered' => $this->plan_registered,
+            'status'    =>  $status,
         ];
     }
 }
