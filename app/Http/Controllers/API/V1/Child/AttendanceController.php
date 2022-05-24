@@ -44,8 +44,7 @@ class AttendanceController extends BaseController
             'child_id'  => $child->id
         ])->first();
 
-        if (!$attendance)
-        {
+        if (!$attendance) {
             $attendance = new ChildrenAttendence([
                 'year_id'   =>  $Year->id,
                 'month'     =>  $month,
@@ -59,10 +58,10 @@ class AttendanceController extends BaseController
             'day'       =>  $day,
             'date'      =>  $data['date'],
             'commuting_time'    =>  !empty($data['commuting_time']) ? Carbon::parse($data['date'] . ' ' .  $data['commuting_time']) : null,
-            'leave_time'=>  !empty($data['leave_time']) ? Carbon::parse($data['date'] . ' ' .  $data['leave_time']) : null,
-            'reason_for_absence_id' =>  $data['reason_for_absence_id']??null,
-            'behind_time'=> $data['behind_time']??null,
-            'extension'  => $data['extension']??null
+            'leave_time' =>  !empty($data['leave_time']) ? Carbon::parse($data['date'] . ' ' .  $data['leave_time']) : null,
+            'reason_for_absence_id' =>  $data['reason_for_absence_id'] ?? null,
+            'behind_time' => $data['behind_time'] ?? null,
+            'extension'  => $data['extension'] ?? null
         ]);
         $attendance->save();
 
@@ -98,20 +97,25 @@ class AttendanceController extends BaseController
             ->leftJoin('notifications', function ($join) use ($data) {
                 $join->on('notifications.child_id', '=', 'children.id')
                     ->where(['notifications.date'  =>  $data['date'], 'notifications.deleted_at' => null])
-                    ->select('notifications.child_id')->groupBy('notifications.child_id','notifications.date');
+                    ->select('notifications.child_id')->groupBy('notifications.child_id', 'notifications.date');
             })
-            ->where(function($query) use($data) {
+            ->where(function ($query) use ($data) {
                 $query->where('children.exit_date', '>=', $data['date'])
                     ->orWhere('children.exit_date', '=', null);
             })
-            ->where(function($query) use($data) {
+            ->where(function ($query) use ($data) {
                 $query->where('children.admission_date', '<=', $data['date'])
                     ->orWhere('children.admission_date', '=', null);
             })
-            ->select('children_attendences.*', 'children.id', 'children.name', 'children.class_id',
-                'notifications.child_id as notification_child_id', 'notifications.message as notification_message',
-                'notifications.process_flag')
-            // ->selectSub(ChildrenClassPeriod::latestClassIDSubClosure($data['date']), 'class_id')
+            ->select(
+                'children_attendences.*',
+                'children.id',
+                'children.name',
+                'notifications.child_id as notification_child_id',
+                'notifications.message as notification_message',
+                'notifications.process_flag'
+            )
+            ->selectSub(ChildrenClassPeriod::latestClassIDSubClosure($data['date']), 'class_id')
             ->get();
 
         return $this->sendResponse(ChildAttendanceResource::collection($childrenAttendences));
@@ -120,15 +124,14 @@ class AttendanceController extends BaseController
     public function monthlyList(Child $child, AttendanceMonthlyQuery $request)
     {
         $user = $this->getUser();
-        if (!Gate::forUser($user)->allows('handle-child', $child))
-        {
+        if (!Gate::forUser($user)->allows('handle-child', $child)) {
             abort(403, trans('You are not allowed'));
         }
         $data = $request->validated();
         [$year, $month] = explode('-', $data['month']);
         $attendances = ChildrenAttendence::where(['child_id' => $child->id, 'month' => $month])
-        ->whereYear('date', $year)
-        ->get();
+            ->whereYear('date', $year)
+            ->get();
         $planDays = ChildcarePlanDay::where(['child_id' => $child->id])
             ->whereYear('date', $year)
             ->whereMonth('date', $month)
@@ -136,21 +139,20 @@ class AttendanceController extends BaseController
         $baseDate = Carbon::parse($data['month'] . '-01');
         $daysInMonth = $baseDate->daysInMonth;
         $result = [];
-        for ($i = 0; $i < $daysInMonth; $i++)
-        {
+        for ($i = 0; $i < $daysInMonth; $i++) {
             $baseDate->day($i + 1);
             $item = [
-                'id'=> null,
-                'commuting_time'=> null,
-                'leave_time'=> null,
-                'reason_for_absence_id'=> null,
-                'extension'=> '',
+                'id' => null,
+                'commuting_time' => null,
+                'leave_time' => null,
+                'reason_for_absence_id' => null,
+                'extension' => '',
                 'no_schedule'   =>  false,
                 'day'   =>  $i + 1,
             ];
 
             $attendance = $attendances->firstWhere('date', $baseDate->format('Y-m-d'));
-            $plan = $planDays->first(function($value) use ($baseDate) {
+            $plan = $planDays->first(function ($value) use ($baseDate) {
                 return $value->date->timestamp == $baseDate->timestamp;
             });
             if ($attendance) {
@@ -170,8 +172,7 @@ class AttendanceController extends BaseController
 
             $contact_status = ContactBook::STATUS_INCOMPLETE;
             $contactBook = ContactBook::whereDate('date', $baseDate->format('Y-m-d'))->where(['child_id' => $child->id])->first();
-            if ($contactBook)
-            {
+            if ($contactBook) {
                 $contact_status = $contactBook->status;
             }
             $item['contact_status'] = $contact_status;
@@ -191,8 +192,7 @@ class AttendanceController extends BaseController
     }
     public function monthlyListCsv(Child $child, AttendanceMonthlyQuery $request)
     {
-        if (!$request->has('token'))
-        {
+        if (!$request->has('token')) {
             abort(403, "You are not allowed");
         }
         $token = $request->input('token');
@@ -205,8 +205,7 @@ class AttendanceController extends BaseController
         if (!$currentUser) {
             abort(403, "You are not allowed");
         }
-        if (!Gate::forUser($currentUser)->allows('handle-child', $child))
-        {
+        if (!Gate::forUser($currentUser)->allows('handle-child', $child)) {
             abort(403, trans('You are not allowed'));
         }
         $data = $request->validated();
@@ -225,32 +224,31 @@ class AttendanceController extends BaseController
         $office_id = $user->office_id;
 
         $childQb = Child::where(['office_id' => $office_id])
-        ->where(function($query) use ($data) {
-            $query->whereNull('exit_date')
-                ->orWhere('exit_date', '>=', $data['date']);
-        })
-        ->where(function($query) use ($data) {
-            $query->where('admission_date', '<=', $data['date'])
-                ->orWhere('admission_date', '=', null);
-        });
-        if (!empty($data['children_class_id']))
-        {
+            ->where(function ($query) use ($data) {
+                $query->whereNull('exit_date')
+                    ->orWhere('exit_date', '>=', $data['date']);
+            })
+            ->where(function ($query) use ($data) {
+                $query->where('admission_date', '<=', $data['date'])
+                    ->orWhere('admission_date', '=', null);
+            });
+        if (!empty($data['children_class_id'])) {
             $childQb->where(ChildrenClassPeriod::latestClassIDSubClosure($data['date']), $data['children_class_id']);
         }
         $children = $childQb->get();
         $allCount = $children->count();
 
         $attendanceCount = ChildrenAttendence::where(['date' => $data['date']])
-                ->whereIn('child_id', $children->pluck('id')->toArray())
-                ->whereNotNull('commuting_time')
-                ->count();
+            ->whereIn('child_id', $children->pluck('id')->toArray())
+            ->whereNotNull('commuting_time')
+            ->count();
 
         $absentCount = $allCount - $attendanceCount;
 
         return $this->sendResponse([
             'all'   =>  $allCount,
-            'attend'=>  $attendanceCount,
-            'absent'=>  $absentCount
+            'attend' =>  $attendanceCount,
+            'absent' =>  $absentCount
         ]);
     }
 }
