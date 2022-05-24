@@ -242,11 +242,11 @@ class ChildController extends BaseController
                         });
                         if (!empty($data['planed'])) {
                             $query1->Where(function ($query){
-                                $query->whereNull('admission_date')->orWhere('admission_date', '>=', Carbon::now()->format('Y-m-d'));
+                                $query->whereNull('admission_date')->orWhere('admission_date', '>', Carbon::now()->format('Y-m-d'));
                             });
                         }else {
                             $query1->Where(function ($query) {
-                                $query->Where('admission_date', '<', Carbon::now()->format('Y-m-d'));
+                                $query->Where('admission_date', '<=', Carbon::now()->format('Y-m-d'));
                             });
                         }
                     }

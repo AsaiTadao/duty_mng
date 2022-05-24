@@ -211,7 +211,7 @@ export default {
                 case 4: return 'キ';
                 case 3: return '退';
                 case 2: return '在';
-                case 1: return '';
+                case 1: return '予';
             }
             return '';
         },
