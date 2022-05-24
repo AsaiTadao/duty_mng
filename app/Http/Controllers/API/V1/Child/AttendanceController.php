@@ -108,10 +108,10 @@ class AttendanceController extends BaseController
                 $query->where('children.admission_date', '<=', $data['date'])
                     ->orWhere('children.admission_date', '=', null);
             })
-            ->select('children_attendences.*', 'children.id', 'children.name',
+            ->select('children_attendences.*', 'children.id', 'children.name', 'children.class_id',
                 'notifications.child_id as notification_child_id', 'notifications.message as notification_message',
                 'notifications.process_flag')
-            ->selectSub(ChildrenClassPeriod::latestClassIDSubClosure($data['date']), 'class_id')
+            // ->selectSub(ChildrenClassPeriod::latestClassIDSubClosure($data['date']), 'class_id')
             ->get();
 
         return $this->sendResponse(ChildAttendanceResource::collection($childrenAttendences));
