@@ -18,7 +18,7 @@ class ChildLightResource extends JsonResource
         $status = 4;
         if($this->canceled_at != null)
             $status = 4;
-        else if(($this->admission_date==null)||(Carbon::now()->diffInDays(Carbon::createFromFormat('Y-m-d', $this->admission_date),false))>=0)
+        else if(($this->admission_date==null)||(Carbon::now()->diffInDays(Carbon::createFromFormat('Y-m-d', $this->admission_date),false))>0)
             $status = 1;
         else if(($this->exit_date==null)||(Carbon::now()->diffInDays(Carbon::createFromFormat('Y-m-d', $this->exit_date),false))>0)
             $status = 2;
@@ -37,7 +37,8 @@ class ChildLightResource extends JsonResource
             'email'     =>  $this->email,
             'class_id'  =>  $this->class_id,
             'canceled_at'   =>  $this->canceled_at,
-            'status'    =>  $status
+            'plan_registered' => $this->plan_registered,
+            'status'    =>  $status,
         ];
     }
 }

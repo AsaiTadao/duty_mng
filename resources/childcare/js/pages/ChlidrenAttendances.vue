@@ -331,7 +331,7 @@ export default {
                 var result = window.confirm('アラートを戻します');
             }
             if( result ) {
-                return window.location.href = "/notice-finish/"+childId+"/"+this.todayDate+"/"+bool;
+                return window.location.href = "/notice-finish/"+childId+"/"+ moment(this.selectedDate).format('YYYY-MM-DD') +"/"+bool;
             }
         },
     },

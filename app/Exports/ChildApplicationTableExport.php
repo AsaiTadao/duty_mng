@@ -66,22 +66,23 @@ class ChildApplicationTableExport implements WithEvents
                 for ($i = 0; $i < $daysInMonth; $i++)
                 {
                     $day = $i + 1;
-                    $sheet->setCellValue($columns[$i] . '3', $day);
+                    $sheet->setCellValue($columns[$i] . '2', $day);
                     $baseDay->setDay($day);
-                    $sheet->setCellValue($columns[$i] . '4', $baseDay->isoFormat('dd'));
-                    $sheet->setCellValue($columns[$i] . '5', $this->zeroToString($this->data['children_stat']['extension_stat'][$day]['a']));
-                    $sheet->setCellValue($columns[$i] . '6', $this->zeroToString($this->data['children_stat']['extension_stat'][$day]['b']));
-                    $sheet->setCellValue($columns[$i] . '7', $this->zeroToString($this->data['children_stat']['extension_stat'][$day]['c']));
-                    $sheet->setCellValue($columns[$i] . '8', $this->zeroToString($this->data['children_stat']['extension_stat'][$day]['d']));
-                    $sheet->setCellValue($columns[$i] . '9', $this->zeroToString($this->data['children_stat']['extension_stat'][$day]['e']));
+                    $sheet->setCellValue($columns[$i] . '3', $baseDay->isoFormat('dd'));
+                    $sheet->setCellValue($columns[$i] . '4', $this->zeroToString($this->data['children_stat']['extension_stat'][$day]['a']));
+                    $sheet->setCellValue($columns[$i] . '5', $this->zeroToString($this->data['children_stat']['extension_stat'][$day]['b']));
+                    $sheet->setCellValue($columns[$i] . '6', $this->zeroToString($this->data['children_stat']['extension_stat'][$day]['c']));
+                    $sheet->setCellValue($columns[$i] . '7', $this->zeroToString($this->data['children_stat']['extension_stat'][$day]['d']));
+                    $sheet->setCellValue($columns[$i] . '8', $this->zeroToString($this->data['children_stat']['extension_stat'][$day]['e']));
 
 
-                    $sheet->setCellValue($columns[$i] . '10', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_CORONA]));
-                    $sheet->setCellValue($columns[$i] . '11', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_PRIVATE]));
-                    $sheet->setCellValue($columns[$i] . '12', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_KIBIKI]));
-                    $sheet->setCellValue($columns[$i] . '13', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_SICK]));
-                    $sheet->setCellValue($columns[$i] . '14', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_SUSPENSION]));
-                    $sheet->setCellValue($columns[$i] . '15', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_VACATION]));
+                    $sheet->setCellValue($columns[$i] . '9', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_CORONA]));
+                    $sheet->setCellValue($columns[$i] . '10', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_PRIVATE]));
+                    $sheet->setCellValue($columns[$i] . '11', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_KIBIKI]));
+                    $sheet->setCellValue($columns[$i] . '12', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_SICK]));
+                    $sheet->setCellValue($columns[$i] . '13', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_SUSPENSION]));
+                    $sheet->setCellValue($columns[$i] . '14', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_VACATION]));
+                    $sheet->setCellValue($columns[$i] . '15', $this->zeroToString($this->data['children_stat']['absent_stat'][$day][ReasonForAbsence::REASON_DISASTER]));
 
                     $sheet->setCellValue($columns[$i] . '17', $day);
                 }
@@ -110,11 +111,11 @@ class ChildApplicationTableExport implements WithEvents
                     $sheet->getDelegate()->getStyle("B$row:AP$row")->applyFromArray(['font' => ['bold' => true]]);
                     $sheet->setCellValue("B$row", $this->getClassLabel($classId));
 
-                    $sheet->mergeCells("AR$row:CI$row");
-                    $sheet->getDelegate()->getStyle("AR$row:CI$row")->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'C6E0B4']]);
-                    $sheet->getDelegate()->getStyle("AR$row:CI$row")->applyFromArray(['font' => ['bold' => true]]);
+                    $sheet->mergeCells("AR$row:CJ$row");
+                    $sheet->getDelegate()->getStyle("AR$row:CJ$row")->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'C6E0B4']]);
+                    $sheet->getDelegate()->getStyle("AR$row:CJ$row")->applyFromArray(['font' => ['bold' => true]]);
 
-                    $sheet->getDelegate()->getStyle("AR$row:CI$row")->applyFromArray([
+                    $sheet->getDelegate()->getStyle("AR$row:CJ$row")->applyFromArray([
                         'alignment' => [
                             'horizontal' => Alignment::HORIZONTAL_LEFT,
                             'vertical' => Alignment::VERTICAL_CENTER,
@@ -175,7 +176,7 @@ class ChildApplicationTableExport implements WithEvents
                         {
                             $sheet->setCellValue($columns[$i] . $row, $childItem['extension_state'][$i + 1]);
                         }
-                        $sheet->getDelegate()->getStyle("AR$row:CI$row")->applyFromArray(['borders' => [
+                        $sheet->getDelegate()->getStyle("AR$row:CJ$row")->applyFromArray(['borders' => [
                             'allBorders' => [
                                 'borderStyle' => Border::BORDER_THIN,
                                 'color' => [
@@ -194,8 +195,30 @@ class ChildApplicationTableExport implements WithEvents
                         $sheet->setCellValue("BW$row", $childItem['attend_count']);
                         $sheet->mergeCells("BY$row:BZ$row");
                         $sheet->setCellValue("BY$row", $childItem['absent_count']);
-                        $sheet->mergeCells("CG$row:CI$row");
-                        $sheet->setCellValue("CG$row", $childItem['exit_date']);
+
+                        if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_CORONA])) {
+                            $sheet->setCellValue("CA$row", $childItem['absent_state'][ReasonForAbsence::REASON_CORONA]);
+                        }
+                        if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_PRIVATE])) {
+                            $sheet->setCellValue("CB$row", $childItem['absent_state'][ReasonForAbsence::REASON_PRIVATE]);
+                        }
+                        if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_KIBIKI])) {
+                            $sheet->setCellValue("CC$row", $childItem['absent_state'][ReasonForAbsence::REASON_KIBIKI]);
+                        }
+                        if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_SICK])) {
+                            $sheet->setCellValue("CD$row", $childItem['absent_state'][ReasonForAbsence::REASON_SICK]);
+                        }
+                        if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_SUSPENSION])) {
+                            $sheet->setCellValue("CE$row", $childItem['absent_state'][ReasonForAbsence::REASON_SUSPENSION]);
+                        }
+                        if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_VACATION])) {
+                            $sheet->setCellValue("CF$row", $childItem['absent_state'][ReasonForAbsence::REASON_VACATION]);
+                        }
+                        if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_DISASTER])) {
+                            $sheet->setCellValue("CG$row", $childItem['absent_state'][ReasonForAbsence::REASON_DISASTER]);
+                        }
+                        $sheet->mergeCells("CH$row:CJ$row");
+                        $sheet->setCellValue("CH$row", $childItem['exit_date']);
 
                         $row++;
                         $index++;

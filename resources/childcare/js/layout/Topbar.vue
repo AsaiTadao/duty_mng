@@ -99,8 +99,8 @@ export default {
 <style scoped>
 .dropdown-menu{
     top: 30px;
-    left: -160px;
-    width:460px;
+    left: -130px;
+    width:300px;
     max-height:600px;
     overflow-x: hidden;
     overflow-y: auto;

@@ -146,7 +146,7 @@ class ChildApplicationTableController extends BaseController
 
         $sumA = 0; $sumB = 0; $sumC = 0; $sumD = 0; $sumE = 0;
 
-        $sumAbsentCorona = 0; $sumAbsentPrivate = 0; $sumAbsentKibiki = 0; $sumAbsentSick = 0; $sumAbsentSuspension = 0; $sumAbsentVacation = 0;
+        $sumAbsentCorona = 0; $sumAbsentPrivate = 0; $sumAbsentKibiki = 0; $sumAbsentSick = 0; $sumAbsentSuspension = 0; $sumAbsentVacation = 0; $sumAbsentDisaster = 0;
 
         for ($i = 1; $i <= $daysInMonth; $i++)
         {
@@ -190,6 +190,9 @@ class ChildApplicationTableController extends BaseController
             $absentVacation = $attendances->filter(function ($value, $key) use ($targetDate) {
                 return $value->date === $targetDate && $value->reason_for_absence_id === ReasonForAbsence::REASON_VACATION;
             })->count();
+            $absentDisaster = $attendances->filter(function ($value, $key) use ($targetDate) {
+                return $value->date === $targetDate && $value->reason_for_absence_id === ReasonForAbsence::REASON_DISASTER;
+            })->count();
 
             $data['children_stat']['absent_stat'][$i] = [
                 ReasonForAbsence::REASON_CORONA =>  $absentCorona,
@@ -198,6 +201,7 @@ class ChildApplicationTableController extends BaseController
                 ReasonForAbsence::REASON_SICK   =>  $absentSick,
                 ReasonForAbsence::REASON_SUSPENSION =>  $absentSuspension,
                 ReasonForAbsence::REASON_VACATION   =>  $absentVacation,
+                ReasonForAbsence::REASON_DISASTER   =>  $absentDisaster
             ];
             $sumAbsentCorona += $absentCorona;
             $sumAbsentPrivate += $absentPrivate;
@@ -205,6 +209,7 @@ class ChildApplicationTableController extends BaseController
             $sumAbsentSick += $absentSick;
             $sumAbsentSuspension += $absentSuspension;
             $sumAbsentVacation += $absentVacation;
+            $sumAbsentDisaster += $absentDisaster;
 
         }
 
@@ -223,6 +228,7 @@ class ChildApplicationTableController extends BaseController
             ReasonForAbsence::REASON_SICK   =>  $sumAbsentSick,
             ReasonForAbsence::REASON_SUSPENSION =>  $sumAbsentSuspension,
             ReasonForAbsence::REASON_VACATION   =>  $sumAbsentVacation,
+            ReasonForAbsence::REASON_DISASTER   =>  $sumAbsentDisaster,
         ];
 
         $childrenClasses = ChildrenClass::get();
@@ -272,6 +278,7 @@ class ChildApplicationTableController extends BaseController
                     ReasonForAbsence::REASON_SUSPENSION =>  0,
                     ReasonForAbsence::REASON_VACATION   =>  0,
                     ReasonForAbsence::REASON_HOLIDAY   =>  0,
+                    ReasonForAbsence::REASON_DISASTER   =>  0,
                 ];
 
                 $regulation_days = 0;

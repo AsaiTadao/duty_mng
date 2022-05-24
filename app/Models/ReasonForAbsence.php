@@ -15,6 +15,6 @@ class ReasonForAbsence extends Model
     const REASON_SICK = 4;
     const REASON_SUSPENSION = 5;
     const REASON_VACATION = 6;
-
     const REASON_HOLIDAY = 7;
+    const REASON_DISASTER = 8;
 }
