@@ -65,7 +65,7 @@
                                         <th class="sorting" @click="childSort(6)">
                                             クラス
                                         </th>
-                                        <th>
+                                        <th class="sorting" @click="childSort(7)">
                                             託児計画
                                         </th>
                                         <th>
@@ -201,6 +201,11 @@ export default {
                     this.childrenList.sort((first, second) => first.classId - second.classId);
                 else
                     this.childrenList.sort((first, second) => second.classId - first.classId);
+            } else if(index == 7) {
+                if(this.asc)
+                    this.childrenList.sort((first, second) => (first.planRegistered < second.planRegistered) ? 1 : ((second.planRegistered < first.planRegistered) ? -1 : 0));
+                else
+                    this.childrenList.sort((first, second) => (second.planRegistered < first.planRegistered) ? 1 : ((first.planRegistered < second.planRegistered) ? -1 : 0));
             }
         },
         registerChild() {
