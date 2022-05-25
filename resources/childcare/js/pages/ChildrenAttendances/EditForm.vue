@@ -242,6 +242,11 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.commutingTimeMin = this.$t('Please input number');                              //need trans
                     valid = false;
                 }
+
+                if (this.formData.leaveTimeHour && this.formData.leaveTimeMin && ('0' + this.formData.leaveTimeHour).slice(-2) + ":" + ('0' + this.formData.leaveTimeMin).slice(-2) < ('0' + this.formData.commutingTimeHour).slice(-2) + ":" + ('0' + this.formData.commutingTimeMin).slice(-2)) {
+                    this.errors.leaveTimeHour = this.$t('end time must be later than start time');
+                    valid = false;
+                }
                 // if (!this.formData.reasonForAbsenceId && !this.formData.leaveTimeHour) {
                 //     this.errors.leaveTimeHour = this.$t('Please input number');
                 //     valid = false;
@@ -272,10 +277,6 @@ import { showSuccess } from '../../helpers/error';
                 }
                 if (!this.formData.leaveTimeHour && this.formData.leaveTimeMin) {
                     this.errors.leaveTimeHour = this.$t('Please input number');
-                    valid = false;
-                }
-                if (this.formData.leaveTimeHour && this.formData.leaveTimeMin && ('0' + this.formData.leaveTimeHour).slice(-2) + ":" + ('0' + this.formData.leaveTimeMin).slice(-2) < ('0' + this.formData.commutingTimeHour).slice(-2) + ":" + ('0' + this.formData.commutingTimeMin).slice(-2)) {
-                    this.errors.leaveTimeHour = this.$t('end time must be later than start time');
                     valid = false;
                 }
                 if (this.formData.commutingTimeHour && this.formData.reasonForAbsenceId || this.formData.commutingTimeMin && this.formData.reasonForAbsenceId) {
