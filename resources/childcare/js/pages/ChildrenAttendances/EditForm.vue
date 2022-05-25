@@ -234,6 +234,8 @@ import { showSuccess } from '../../helpers/error';
             },
             validate() {
                 let valid = true;
+                const positiveNumber = /^\d*[0-9]\d*$/;
+
                 if (!this.formData.reasonForAbsenceId && !this.formData.commutingTimeHour) {
                     this.errors.commutingTimeHour = this.$t('Please input number');                                 // need trans
                     valid = false;
@@ -242,7 +244,22 @@ import { showSuccess } from '../../helpers/error';
                     this.errors.commutingTimeMin = this.$t('Please input number');                              //need trans
                     valid = false;
                 }
-
+                if (this.formData.commutingTimeHour && !this.formData.commutingTimeHour.match(positiveNumber)) {
+                    this.errors.commutingTimeHour = this.$t('Invalid time format');                                 // need trans
+                    valid = false;
+                }
+                if (this.formData.commutingTimeMin && !this.formData.commutingTimeMin.match(positiveNumber)) {
+                    this.errors.commutingTimeMin = this.$t('Invalid time format');                                 // need trans
+                    valid = false;
+                }
+                if (this.formData.leaveTimeHour && !this.formData.leaveTimeHour.match(positiveNumber)) {
+                    this.errors.leaveTimeHour = this.$t('Invalid time format');                                 // need trans
+                    valid = false;
+                }
+                if (this.formData.leaveTimeMin && !this.formData.leaveTimeMin.match(positiveNumber)) {
+                    this.errors.leaveTimeMin = this.$t('Invalid time format');                                 // need trans
+                    valid = false;
+                }
                 if (this.formData.leaveTimeHour && this.formData.leaveTimeMin && ('0' + this.formData.leaveTimeHour).slice(-2) + ":" + ('0' + this.formData.leaveTimeMin).slice(-2) < ('0' + this.formData.commutingTimeHour).slice(-2) + ":" + ('0' + this.formData.commutingTimeMin).slice(-2)) {
                     this.errors.leaveTimeHour = this.$t('end time must be later than start time');
                     valid = false;
@@ -255,19 +272,20 @@ import { showSuccess } from '../../helpers/error';
                 //     this.errors.leaveTimeMin = this.$t('Please input number');
                 //     valid = false;
                 // }
-                if (this.formData.commutingTimeHour > 24) {
+
+                if (this.formData.commutingTimeHour < 0 || this.formData.commutingTimeHour > 24) {
                     this.errors.commutingTimeHour = this.$t('Invalid time format');                                 // need trans
                     valid = false;
                 }
-                if (this.formData.commutingTimeMin > 59) {
+                if (this.formData.commutingTimeMin < 0 || this.formData.commutingTimeMin > 59) {
                     this.errors.commutingTimeMin = this.$t('Invalid time format');                                 // need trans
                     valid = false;
                 }
-                if (this.formData.leaveTimeHour > 24) {
+                if (this.formData.leaveTimeHour < 0 || this.formData.leaveTimeHour > 24) {
                     this.errors.leaveTimeHour = this.$t('Invalid time format');                                 // need trans
                     valid = false;
                 }
-                if (this.formData.leaveTimeMin > 59) {
+                if (this.formData.leaveTimeMin < 0 || this.formData.leaveTimeMin > 59) {
                     this.errors.leaveTimeMin = this.$t('Invalid time format');                                 // need trans
                     valid = false;
                 }
