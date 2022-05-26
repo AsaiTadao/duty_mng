@@ -1088,7 +1088,7 @@ export default {
                 valid = false;
             }
             if(this.formData.temperature2Home && (this.formData.temperature2Home < 32 || this.formData.temperature2Home > 42)) {
-                this.errors.temperature1Home = this.$t('Incorrect temperature value');
+                this.errors.temperature2Home = this.$t('Incorrect temperature value');
                 valid = false;
             }
             if(this.formData.temperature3Home && this.formData.temperature3Home < 0) {
@@ -1096,7 +1096,7 @@ export default {
                 valid = false;
             }
             if(this.formData.temperature3Home && (this.formData.temperature3Home < 32 || this.formData.temperature3Home > 42)) {
-                this.errors.temperature1Home = this.$t('Incorrect temperature value');
+                this.errors.temperature3Home = this.$t('Incorrect temperature value');
                 valid = false;
             }
             this.inputError = !valid;
