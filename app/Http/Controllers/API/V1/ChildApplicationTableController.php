@@ -281,6 +281,14 @@ class ChildApplicationTableController extends BaseController
                     ReasonForAbsence::REASON_DISASTER   =>  0,
                 ];
 
+                $excludes_absent_reasons = [
+                    ReasonForAbsence::REASON_CORONA,
+                    ReasonForAbsence::REASON_SICK,
+                    ReasonForAbsence::REASON_DISASTER
+                ];
+
+                $exclude_absent_count = 0;
+
                 $regulation_days = 0;
                 for ($i = 1; $i <= $daysInMonth; $i++)
                 {
@@ -292,17 +300,21 @@ class ChildApplicationTableController extends BaseController
                         else if ($attendance->extension_in_minute > 30) $extensionState[$i] = 'C';
                         else if ($attendance->extension_in_minute > 0) $extensionState[$i] = 'B';
                         else $extensionState[$i] = 'A';
+                        $exclude_absent = in_array($attendance->reason_for_absence_id, $excludes_absent_reasons);
                         if ($attendance->reason_for_absence_id)
                         {
                             $extensionState[$i] = $attendance->reason_for_absence->ruby;
                             $absentState[$attendance->reason_for_absence_id]++;
                         }
-                        if ($attendance->commuting_time
-                            || $attendance->reason_for_absence_id === ReasonForAbsence::REASON_CORONA
-                            || $attendance->reason_for_absence_id === ReasonForAbsence::REASON_SICK)
+                        if ($attendance->commuting_time || $exclude_absent)
                         {
                             $regulation_days++;
                         }
+                        if ($exclude_absent || $attendance->reason_for_absence_id === ReasonForAbsence::REASON_HOLIDAY)
+                        {
+                            $exclude_absent_count++;
+                        }
+
                     } else {
                         $extensionState[$i] = '';
                     }
@@ -310,6 +322,8 @@ class ChildApplicationTableController extends BaseController
                 $childItem['extension_state'] = $extensionState;
                 $childItem['absent_state'] = $absentState;
                 $childItem['regulation_days'] = $regulation_days;
+                $childItem['attend_count'] = $regulation_days;
+                $childItem['absent_count'] = $absentCount - $exclude_absent_count;
 
                 $childTable[$childrenClass->id][] = $childItem;
             }
