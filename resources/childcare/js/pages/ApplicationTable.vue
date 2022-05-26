@@ -310,7 +310,7 @@
                                             <td class="p-1">{{getAge(child.birthday)}}</td>
                                             <td class="p-1">{{child.type}}</td>
                                             <td class="p-1" :class="{'background-grey': child.type == '地域枠（弾力）' || child.type == '地域枠（通常）'}">{{child.companyName}}</td>
-                                            <td class="p-1" :class="{'background-grey': child.freeOfCharge == '対象外'}">{{child.freeOfCharge}}</td>
+                                            <td class="p-1">{{child.freeOfCharge}}</td>
                                             <td class="p-1" :class="{'background-grey': child.freeOfCharge == '対象外'}">{{child.certificateOfPayment}}</td>
                                             <td class="p-1" :class="{'background-grey': child.freeOfCharge == '対象外'}">{{child.certificateExpirationDate}}</td>
                                             <td class="p-1" v-if="child.taxExemptHousehold" :class="{'background-grey': child.freeOfCharge == '対象外'}">{{child.taxExemptHousehold}}</td>
