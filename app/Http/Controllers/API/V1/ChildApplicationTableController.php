@@ -263,7 +263,8 @@ class ChildApplicationTableController extends BaseController
                     'tax_exempt_household'      =>  $child->tax_exempt_household_label,
                     'attend_count'              =>  $attendCount,
                     'absent_count'              =>  $absentCount,
-                    'exit_date'  => $currentExitDate
+                    'exit_date'  => $currentExitDate,
+                    'remarks'   =>  $child->remarks
                 ];
                 $childAttendances = $attendances->filter(function ($value, $key) use ($child){
                     return $value->child_id === $child->id;
