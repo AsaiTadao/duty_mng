@@ -330,7 +330,7 @@
                                             <td class="p-1">{{child.exitDate}}</td>
                                             <td class="p-1" v-if="child.regulationDays >= 16">●</td>
                                             <td class="p-1" v-else>-</td>
-                                            <td></td>
+                                            <td>{{child.remarks}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
