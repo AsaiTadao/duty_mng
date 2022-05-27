@@ -67,6 +67,7 @@ class OfficeController extends BaseController
         if ($office->type === Office::TYPE_NURSERY)
         {
             $officeInformation = new OfficeInformation($data);
+            $officeInformation->start_date = Carbon::now();
             $office->office_information()->save($officeInformation);
         }
         return $this->sendResponse(new OfficeResource($office));
@@ -88,16 +89,40 @@ class OfficeController extends BaseController
 
         if ($office->type === Office::TYPE_NURSERY)
         {
-            if ($office->office_information)
+            $infoChanged = $this->isOfficeInformationChanged($office->office_information, $data);
+            if ($office->office_information && $infoChanged)
             {
-                $officeInformation = $office->office_information;
-            } else {
-                $officeInformation = new OfficeInformation();
+                $office->office_information->end_date = Carbon::now()->subDays(1);
+                $office->office_information->save();
             }
-            $officeInformation->fill($data);
-            $office->office_information()->save($officeInformation);
+            if ($infoChanged)
+            {
+                $officeInformation = new OfficeInformation();
+                $officeInformation->fill($data);
+                $officeInformation->start_date = Carbon::now();
+                $office->office_information()->save($officeInformation);
+            }
         }
         return $this->sendResponse(new OfficeResource($office));
+    }
+
+    private function isOfficeInformationChanged($officeInformation, $data)
+    {
+        if (!$officeInformation) return true;
+        $open_time = !empty($data['open_time']) ? ($data['open_time'] . ':00') : null;
+        $close_time = !empty($data['close_time']) ? ($data['close_time'] . ':00') : null;
+
+        if ($officeInformation->open_time !== $open_time) return true;
+        if ($officeInformation->close_time !== $close_time) return true;
+        if ($officeInformation->capacity !== ($data['capacity']??null)) return true;
+        if ($officeInformation->appropriate_number_0 !== ($data['appropriate_number_0']??null)) return true;
+        if ($officeInformation->appropriate_number_1 !== ($data['appropriate_number_1']??null)) return true;
+        if ($officeInformation->appropriate_number_2 !== ($data['appropriate_number_2']??null)) return true;
+        if ($officeInformation->appropriate_number_3 !== ($data['appropriate_number_3']??null)) return true;
+        if ($officeInformation->appropriate_number_4 !== ($data['appropriate_number_4']??null)) return true;
+        if ($officeInformation->appropriate_number_5 !== ($data['appropriate_number_5']??null)) return true;
+        if ($officeInformation->business_type_id !== ($data['business_type_id']??null)) return true;
+        return false;
     }
 
     public function getNurseryOffices()

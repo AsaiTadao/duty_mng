@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class Office extends Model
@@ -56,12 +57,34 @@ class Office extends Model
 
     public function office_information()
     {
-        return $this->hasOne(OfficeInformation::class);
+        return $this->hasOne(OfficeInformation::class)->ofMany('created_at', 'max');
     }
 
     public function getCapacityAttribute()
     {
         if ($this->office_information) return $this->office_information->capacity;
+        return null;
+    }
+    public function getInformationByMonth($month) // YYYY-MM
+    {
+        $baseDate = Carbon::parse($month . '-01');
+        $firstDate = $baseDate->format('Y-m-d');
+        $lastDate = $baseDate->endOfMonth()->format('Y-m-d');
+
+        return OfficeInformation::where(['office_id' => $this->id])
+            ->where('start_date', '<=', $lastDate)
+            ->where(function($query) use ($lastDate) {
+                $query->whereNull('end_date')
+                    ->orWhere('end_date', '>=', $lastDate);
+            })
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
+
+    public function getCapacityByMonth($month)
+    {
+        $office_information = $this->getInformationByMonth($month);
+        if ($office_information) return $office_information->capacity;
         return null;
     }
 
