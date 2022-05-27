@@ -48,7 +48,7 @@
                                 <thead class="text-center">
                                     <tr class="dark-brown text-white">
                                         <th class="sorting" @click="childSort(1)">
-                                            ステータ
+                                            ステータス
                                         </th>
                                         <th class="sorting" @click="childSort(2)">
                                             園児ID

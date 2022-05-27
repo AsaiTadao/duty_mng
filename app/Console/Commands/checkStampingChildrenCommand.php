@@ -83,7 +83,7 @@ class checkStampingChildrenCommand extends Command
             ->where('admission_date', '<=', $date)
             ->where('canceled_at', '=', null)
             ->where(function ($query) use ($date) {
-                $query->orWhere('exit_date', '=>', $date)->orWhere('exit_date', '=', null);
+                $query->orWhere('exit_date', '>=', $date)->orWhere('exit_date', '=', null);
             })
             ->select('children_attendences.*', 'children.name', 'children.id as child_id')->get();
 
@@ -108,7 +108,7 @@ class checkStampingChildrenCommand extends Command
             ->where('admission_date', '<=', $date)
             ->where('canceled_at', '=', null)
             ->where(function ($query) use ($date) {
-                $query->orWhere('exit_date', '=>', $date)->orWhere('exit_date', '=', null);
+                $query->orWhere('exit_date', '>=', $date)->orWhere('exit_date', '=', null);
             })
             ->select('children_attendences.*', 'children.name', 'children.id as child_id')->get();
 
@@ -161,14 +161,19 @@ class checkStampingChildrenCommand extends Command
         $check4 = Children::leftJoin('children_attendences', function($join) use($date) {
                 $join->on('children.id', '=', 'children_attendences.id')->where('date', '=', $date);
             })
+            ->leftJoin('childcare_plan_days', function($join) use($date) {
+                $join->on('children.id', '=', 'childcare_plan_days.child_id')
+                    ->where('childcare_plan_days.date', '=', $date);
+            })
             ->where('children.deleted_at', '=', null)
             ->where('commuting_time', '=', null)->where('leave_time', '=', null)
             ->where('reason_for_absence_id', '=', null)
             ->where('admission_date', '<=', $date)
             ->where('canceled_at', '=', null)
             ->where(function ($query) use ($date) {
-                $query->orWhere('exit_date', '=>', $date)->orWhere('exit_date', '=', null);
+                $query->orWhere('exit_date', '>=', $date)->orWhere('exit_date', '=', null);
             })
+            ->where('absent_id', '=', null)
             ->select('children_attendences.*', 'children.name', 'children.id as child_id')->get();
 
         foreach ($check4 as $item) {

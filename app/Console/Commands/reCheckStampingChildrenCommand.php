@@ -71,7 +71,7 @@ class reCheckStampingChildrenCommand extends Command
                 ->where('reason_for_absence_id', '=', null)
                 ->where('canceled_at', '=', null)
                 ->where(function ($query) use ($date) {
-                    $query->where('exit_date', '=>', $date)->orWhere('exit_date', '=', null);
+                    $query->orWhere('exit_date', '>=', $date)->orWhere('exit_date', '=', null);
                 })
                 ->select('children_attendences.*', 'children.name')->get();
 
