@@ -68,6 +68,11 @@ class reCheckStampingChildrenCommand extends Command
                         ->where('notifications.date', '=', $date)->where('notifications.process_flag', '=', true);
                 })
                 ->where('commuting_time', '<>', null)->where('leave_time', '=', null)
+                ->where('reason_for_absence_id', '=', null)
+                ->where('canceled_at', '=', null)
+                ->where(function ($query) use ($date) {
+                    $query->where('exit_date', '=>', $date)->orWhere('exit_date', '=', null);
+                })
                 ->select('children_attendences.*', 'children.name')->get();
 
             foreach ($check1 as $item) {
