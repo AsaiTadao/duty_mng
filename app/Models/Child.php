@@ -57,6 +57,12 @@ class Child extends Authenticatable
         return $this->belongsTo(Office::class);
     }
 
+    public function getRemarksAttribute()
+    {
+        if (!$this->child_info) return '';
+        return $this->child_info->remarks;
+    }
+
     public function getFreeOfChargeLabelAttribute()
     {
         if (!$this->child_info) return '';

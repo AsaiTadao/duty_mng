@@ -16,7 +16,7 @@ class ChildResource extends JsonResource
     public function toArray($request)
     {
         $can_cancel=0;
-        if(($this->canceled_at==null)&&(($this->admission_date==null)||($this->admission_date!=null)&&(Carbon::now()->diffInDays(Carbon::createFromFormat('Y-m-d', $this->admission_date),false))>0)){
+        if(($this->canceled_at==null)&&(($this->admission_date==null)||($this->admission_date!=null)&&(Carbon::now()->diffInDays(Carbon::createFromFormat('Y-m-d', $this->admission_date),false))>=0)){
             $can_cancel=1;
         }
         return [
