@@ -35,8 +35,8 @@ class ChildApplicationTableExport implements WithEvents
                 $templateFile = new LocalTemporaryFile(storage_path('app/excel/child_application_table.xlsx'));
                 $event->writer->reopen($templateFile, Excel::XLSX);
                 $sheet = $event->writer->getSheetByIndex(0);
-
-                $sheet->setCellValue('B3', Carbon::now()->format('m/d/Y'));
+                [$yearNumber, $monthNumber] = explode('-', $this->month);
+                $sheet->setCellValue('B3', $yearNumber . '年' . ' ' . $monthNumber . '月');
                 $sheet->setCellValue('G3', $this->office->name);
                 $sheet->setCellValue('O3', $this->office->capacity . '名');
 
@@ -111,11 +111,11 @@ class ChildApplicationTableExport implements WithEvents
                     $sheet->getDelegate()->getStyle("B$row:AP$row")->applyFromArray(['font' => ['bold' => true]]);
                     $sheet->setCellValue("B$row", $this->getClassLabel($classId));
 
-                    $sheet->mergeCells("AR$row:CJ$row");
-                    $sheet->getDelegate()->getStyle("AR$row:CJ$row")->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'C6E0B4']]);
-                    $sheet->getDelegate()->getStyle("AR$row:CJ$row")->applyFromArray(['font' => ['bold' => true]]);
+                    $sheet->mergeCells("AR$row:CN$row");
+                    $sheet->getDelegate()->getStyle("AR$row:CN$row")->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'C6E0B4']]);
+                    $sheet->getDelegate()->getStyle("AR$row:CN$row")->applyFromArray(['font' => ['bold' => true]]);
 
-                    $sheet->getDelegate()->getStyle("AR$row:CJ$row")->applyFromArray([
+                    $sheet->getDelegate()->getStyle("AR$row:CN$row")->applyFromArray([
                         'alignment' => [
                             'horizontal' => Alignment::HORIZONTAL_LEFT,
                             'vertical' => Alignment::VERTICAL_CENTER,
@@ -176,7 +176,7 @@ class ChildApplicationTableExport implements WithEvents
                         {
                             $sheet->setCellValue($columns[$i] . $row, $childItem['extension_state'][$i + 1]);
                         }
-                        $sheet->getDelegate()->getStyle("AR$row:CJ$row")->applyFromArray(['borders' => [
+                        $sheet->getDelegate()->getStyle("AR$row:CN$row")->applyFromArray(['borders' => [
                             'allBorders' => [
                                 'borderStyle' => Border::BORDER_THIN,
                                 'color' => [
@@ -217,8 +217,10 @@ class ChildApplicationTableExport implements WithEvents
                         if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_DISASTER])) {
                             $sheet->setCellValue("CG$row", $childItem['absent_state'][ReasonForAbsence::REASON_DISASTER]);
                         }
-                        $sheet->mergeCells("CH$row:CJ$row");
                         $sheet->setCellValue("CH$row", $childItem['exit_date']);
+                        $sheet->setCellValue("CI$row", $childItem['regulation_days'] ? '●' : '');
+                        $sheet->mergeCells("CJ$row:CN$row");
+                        $sheet->setCellValue("CJ$row", $childItem['remarks']);
 
                         $row++;
                         $index++;
