@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Constants\CodeGroups;
 use App\Exports\ChildApplicationTableExport;
 use App\Http\Requests\ChildApplicationTableQuery;
+use App\Http\Resources\OfficeResource;
 use App\Models\Child;
 use App\Models\ChildrenAttendence;
 use App\Models\ChildrenClass;
@@ -37,6 +38,7 @@ class ChildApplicationTableController extends BaseController
             abort(403, trans('You are not allowed'));
         }
         $table = $this->getTable($office, $data['month']);
+        $table['office'] = new OfficeResource($office);
         return $this->sendResponse($table);
     }
 
@@ -331,6 +333,7 @@ class ChildApplicationTableController extends BaseController
             }
         }
         $data['children_table'] = $childTable;
+
 
         return $data;
 

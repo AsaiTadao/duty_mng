@@ -32,6 +32,9 @@ class ChildApplicationTableExport implements WithEvents
     {
         return [
             BeforeWriting::class => function(BeforeWriting $event) {
+                $office_information = $this->office->getInformationByMonth($this->month);
+                $close_time = $office_information->close_time;
+
                 $templateFile = new LocalTemporaryFile(storage_path('app/excel/child_application_table.xlsx'));
                 $event->writer->reopen($templateFile, Excel::XLSX);
                 $sheet = $event->writer->getSheetByIndex(0);
@@ -56,6 +59,17 @@ class ChildApplicationTableExport implements WithEvents
                 $sheet->getDelegate()->getStyle('K5:K10')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'DDEBF7']]);
                 $sheet->getDelegate()->getStyle('AJ5:AM15')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'DDEBF7']]);
                 $sheet->getDelegate()->getStyle('B18:AN18')->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'FFE699']]);
+
+                if ($close_time)
+                {
+                    $close_time = Carbon::parse($close_time);
+                    $ext_b_label = $close_time->addMinutes(31)->format('H:i') . '～' . $close_time->addMinutes(29)->format('H:i');
+                    $ext_c_label = $close_time->addMinutes(1)->format('H:i') . '～' . $close_time->addMinutes(29)->format('H:i');
+                    $ext_d_label = $close_time->addMinutes(1)->format('H:i') . '～' . $close_time->addMinutes(29)->format('H:i');
+                    $sheet->setCellValue('AM5', $ext_b_label);
+                    $sheet->setCellValue('AM6', $ext_c_label);
+                    $sheet->setCellValue('AM7', $ext_d_label);
+                }
 
 
                 $baseDay = Carbon::parse($this->month . '-01');
