@@ -178,7 +178,12 @@
                                                 </tr>
                                                 <tr style="font-size:12px;">
                                                     <td class="light-blue header-fix-sub-77">
-                                                        18:31～19:00
+                                                        <template v-if="total.office.closeTime">
+                                                            {{setExtensionTime(total.office.closeTime, 0)}}
+                                                        </template>
+                                                        <template v-else>
+                                                            18:31～19:00
+                                                        </template>
                                                     </td>
                                                     <td class="light-blue header-fix-sub-183">
                                                         B
@@ -190,7 +195,12 @@
                                                 </tr>
                                                 <tr style="font-size:12px;">
                                                     <td class="light-blue header-fix-sub-77">
-                                                        19:01～19:30
+                                                        <template v-if="total.office.closeTime">
+                                                            {{setExtensionTime(total.office.closeTime, 1)}}
+                                                        </template>
+                                                        <template v-else>
+                                                            19:01～19:30
+                                                        </template>
                                                     </td>
                                                     <td class="light-blue header-fix-sub-183">
                                                         C
@@ -202,7 +212,12 @@
                                                 </tr>
                                                 <tr style="font-size:12px;">
                                                     <td class="light-blue header-fix-sub-77">
-                                                        19:31～20:00
+                                                        <template v-if="total.office.closeTime">
+                                                            {{setExtensionTime(total.office.closeTime, 2)}}
+                                                        </template>
+                                                        <template v-else>
+                                                            19:31～20:00
+                                                        </template>
                                                     </td>
                                                     <td class="light-blue header-fix-sub-183">
                                                         D
@@ -368,6 +383,8 @@ export default {
                     regional: null,
                     employeeQuotaRatio: null,
                     regionalRatio: null
+                },
+                office: {
                 }
             },
             selectedMonth: '',
@@ -478,6 +495,11 @@ export default {
             const y = Math.floor(ageInMonth / 12);
             const m = ageInMonth % 12;
             return (y ? y + '歳' : '') + (m + 'ヶ月');
+        },
+        setExtensionTime(closeTime, index) {
+            const time1 = moment(closeTime, 'hh:mm:ss').add(index * 30 + 1, 'minutes').format('HH:mm');
+            const time2 = moment(closeTime, 'hh:mm:ss').add((index + 1) * 30, 'minutes').format('HH:mm');
+            return time1 + "～" + time2;
         },
         changeBirthFormat(birthDay) {
             if(birthDay) {
