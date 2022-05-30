@@ -130,19 +130,21 @@ class ChildController extends BaseController
         $child->save();
 
         $childInfo = $child->child_info;
-        if (!$childInfo)
+        $inforChanged = $this->isChildInforChanged($childInfo, $data);
+
+        if ($childInfo && $inforChanged)
+        {
+            $childInfo->end_date = Carbon::now()->subDays(1);
+            $childInfo->save();
+        }
+
+        if ($inforChanged)
         {
             $childInfo = new ChildInformation(['child_id' => $child->id]);
+            $childInfo->fill($data);
+            $childInfo->start_date = Carbon::now();
+            $childInfo->save();
         }
-        $type_updated_before = $child->child_info ? $child->child_info->type : null;
-
-        $childInfo->fill($data);
-        if ($type_updated_before && $type_updated_before !== $childInfo->type)
-        {
-            $childInfo->type_updated_at = Carbon::now();
-            $childInfo->type_updated_before = $type_updated_before;
-        }
-        $childInfo->save();
 
         $child->refresh();
         $qrService->getChildQrImageUri($child);
@@ -156,6 +158,21 @@ class ChildController extends BaseController
 
         return $this->sendResponse(new ChildResource($child));
     }
+
+    private function isChildInforChanged($childInformation, $data)
+    {
+        if (!$childInformation) return true;
+        if ($childInformation->name !== $data['name']) return true;
+        if ($childInformation->type !== $data['type']) return true;
+        if ($childInformation->company_name !== $data['company_name']??null) return true;
+        if ($childInformation->free_of_charge !== $data['free_of_charge']??null) return true;
+        if ($childInformation->certificate_of_payment !== $data['certificate_of_payment']??null) return true;
+        if ($childInformation->certificate_expiration_date !== $data['certificate_expiration_date']??null) return true;
+        if ($childInformation->tax_exempt_household !== $data['tax_exempt_household']??null) return true;
+        if ($childInformation->remarks !== $data['remarks']??null) return true;
+        if ($childInformation->certification_type !== $data['certification_type']??null) return true;
+    }
+
     public function retrieve(Child $child, QrService $qrService)
     {
         $qrService->getChildQrImageUri($child);

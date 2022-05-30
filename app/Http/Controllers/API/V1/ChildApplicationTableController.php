@@ -68,7 +68,6 @@ class ChildApplicationTableController extends BaseController
         return Excel::download(new ChildApplicationTableExport($table, $office, $data['month']), $title . '.xlsx');
     }
 
-
     private function getTable($office, $date)
     {
         $data = [
@@ -109,11 +108,13 @@ class ChildApplicationTableController extends BaseController
             ChildrenClass::AGE_4 => $children->where('class_id', ChildrenClass::AGE_4)->count(),
             ChildrenClass::AGE_5 => $children->where('class_id', ChildrenClass::AGE_5)->count(),
         ];
-        $childEmployeeQuota = $children->filter(function ($value, $key) {
-            return $value->child_info && ($value->child_info->type === 1 || $value->child_info->type === 2);
+        $childEmployeeQuota = $children->filter(function ($value, $key) use ($date) {
+            $child_info = $value->getChildInfoByMonth($date);
+            return $child_info && ($child_info->type === 1 || $child_info->type === 2);
         })->count();
-        $childRegional = $children->filter(function ($value, $key) {
-            return $value->child_info && ($value->child_info->type === 3 || $value->child_info->type === 4);
+        $childRegional = $children->filter(function ($value, $key) use ($date) {
+            $child_info = $value->getChildInfoByMonth($date);
+            return $child_info && ($child_info->type === 3 || $child_info->type === 4);
         })->count();
         $totalCount = $children->count();
         if (!$totalCount) {
@@ -336,15 +337,16 @@ class ChildApplicationTableController extends BaseController
     }
     private function getChildTypeLabel($child, $date)
     {
-        if (!$child->child_info) return '';
-        if (!$child->child_info->type) return '';
-        $type = $child->child_info->type;
-        if ($child->child_info->type_updated_at && $child->child_info->type_updated_before)
+        $childInfo = $child->getChildInfoByMonth($date);
+        if (!$childInfo) return '';
+        if (!$childInfo->type) return '';
+        $type = $childInfo->type;
+        if ($childInfo->type_updated_at && $childInfo->type_updated_before)
         {
-            $updated_at = Carbon::parse($child->child_info->type_updated_at)->format('Y-m');
+            $updated_at = Carbon::parse($childInfo->type_updated_at)->format('Y-m');
             if ($date <= $updated_at)
             {
-                $type = $child->child_info->type_updated_before;
+                $type = $childInfo->type_updated_before;
             }
         }
 

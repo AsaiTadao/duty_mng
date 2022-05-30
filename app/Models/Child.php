@@ -46,7 +46,24 @@ class Child extends Authenticatable
 
     public function child_info()
     {
-        return $this->hasOne(ChildInformation::class, 'child_id', 'id');
+        return $this->hasOne(ChildInformation::class, 'child_id', 'id')->ofMany('created_at', 'max');
+    }
+    public function getChildInfoByMonth($month)
+    {
+        $baseDate = Carbon::parse($month . '-01');
+        $firstDate = $baseDate->format('Y-m-d');
+        $lastDate = $baseDate->endOfMonth()->format('Y-m-d');
+        return ChildInformation::where(['child_id' => $this->id])
+            ->where(function($query) use ($lastDate) {
+                $query->whereNull('start_date')
+                    ->orWhere('start_date', '<=', $lastDate);
+            })
+            ->where(function($query) use ($lastDate) {
+                $query->whereNull('end_date')
+                    ->orWhere('end_date', '>=', $lastDate);
+            })
+            ->orderBy('created_at', 'desc')
+            ->first();
     }
     public function child_class()
     {
