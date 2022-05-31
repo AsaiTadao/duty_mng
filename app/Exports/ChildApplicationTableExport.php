@@ -33,7 +33,7 @@ class ChildApplicationTableExport implements WithEvents
         return [
             BeforeWriting::class => function(BeforeWriting $event) {
                 $office_information = $this->office->getInformationByMonth($this->month);
-                $close_time = $office_information->close_time;
+                $close_time = $office_information->close_time ?? null;
 
                 $templateFile = new LocalTemporaryFile(storage_path('app/excel/child_application_table.xlsx'));
                 $event->writer->reopen($templateFile, Excel::XLSX);
@@ -41,7 +41,7 @@ class ChildApplicationTableExport implements WithEvents
                 [$yearNumber, $monthNumber] = explode('-', $this->month);
                 $sheet->setCellValue('B3', $yearNumber . '年' . ' ' . $monthNumber . '月');
                 $sheet->setCellValue('G3', $this->office->name);
-                $sheet->setCellValue('O3', $this->office->capacity . '名');
+                $sheet->setCellValue('O3', $this->office->getCapacityByMonth($this->month) . '名');
 
                 $sheet->setCellValue('E5', $this->data['children_stat'][ChildrenClass::AGE_0]);
                 $sheet->setCellValue('E6', $this->data['children_stat'][ChildrenClass::AGE_1]);
