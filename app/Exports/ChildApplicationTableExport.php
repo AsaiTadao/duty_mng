@@ -171,7 +171,7 @@ class ChildApplicationTableExport implements WithEvents
                         $sheet->setCellValue("G$row", $childItem['name']);
                         $sheet->setCellValue("L$row", $this->convertToDateString($childItem['birthday']));
                         $sheet->mergeCells("L$row:O$row");
-                        $sheet->setCellValue("P$row", $this->getAge($childItem['birthday']));
+                        $sheet->setCellValue("P$row", $this->getAge($childItem['birthday'], $baseDay));
                         $sheet->mergeCells("P$row:R$row");
                         $sheet->setCellValue("S$row", $childItem['type']);
                         $sheet->mergeCells("S$row:W$row");
@@ -270,10 +270,10 @@ class ChildApplicationTableExport implements WithEvents
         return Carbon::parse($date)->format('m/d/Y');
     }
 
-    private function getAge($birthday)
+    private function getAge($birthday, $baseDay)
     {
         if (!$birthday) return '';
-        $diffInMonths = Carbon::parse($birthday)->diffInMonths(Carbon::now());
+        $diffInMonths = Carbon::parse($birthday)->diffInMonths($baseDay);
         $diffInYear = floor($diffInMonths / 12);
         $months = $diffInMonths % 12;
 
