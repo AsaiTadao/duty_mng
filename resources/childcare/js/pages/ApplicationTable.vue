@@ -300,7 +300,7 @@
                                             <td rowspan="2" class="align-middle p-1">災害</td>
                                             <td rowspan="2" class="align-middle p-1">退園日</td>
                                             <td rowspan="2" class="align-middle p-1">規定日数</td>
-                                            <td rowspan="2" class="align-middle p-1">備考</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:500px;">備考</td>
                                         </tr>
                                         <tr class="light-yellow">
                                             <td v-for="day in days" :key="day + '-childtable'" class="align-middle p-1">
