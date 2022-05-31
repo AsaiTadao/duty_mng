@@ -271,7 +271,7 @@ class ChildApplicationTableController extends BaseController
 
                 $childItem = [
                     'number'    =>  $child->number,
-                    'name'      =>  $child->name,
+                    'name'      =>  $child_info->name ?? $child->name,
                     'birthday'  =>  $child->birthday ? Carbon::parse($child->birthday)->format('Y-m-d') : '',
                     'type'      =>  $this->getChildTypeLabel($child_info, $date),
                     'admission_date'    =>  $child->admission_date,
