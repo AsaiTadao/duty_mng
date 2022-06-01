@@ -9,7 +9,8 @@ use App\Models\Code;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 
-class ChildRequest extends FormRequest {
+class ChildRequest extends FormRequest
+{
 
     protected $childTypesRule = '';
 
@@ -19,7 +20,8 @@ class ChildRequest extends FormRequest {
         $this->childTypesRule = implode(',', Arr::pluck($codes, 'key'));
     }
 
-    public function rules() {
+    public function rules()
+    {
         return [
             'number'    => ['required', 'string'],
             'name'      => ['required', 'string'],
@@ -27,16 +29,16 @@ class ChildRequest extends FormRequest {
             'birthday'  => ['required', 'date_format:Y-m-d'],
             'admission_date'  => ['nullable', 'date_format:Y-m-d'],
             'exit_date'  => ['nullable', 'date_format:Y-m-d'],
-            'email'     =>  ['required'],
+            'email'     =>  ['required', 'email:dns,spoof'],
             'password'  =>  ['nullable'],
             'type'      =>  ['nullable', 'in:' . $this->childTypesRule],
             'company_name' => ['nullable', 'string'],
-            'free_of_charge'=>  ['nullable', 'in:0,1'],
-            'certificate_of_payment'=> ['nullable', 'in:0,1'],
-            'certificate_expiration_date'=> ['nullable', 'date_format:Y-m-d'],
+            'free_of_charge' =>  ['nullable', 'in:0,1'],
+            'certificate_of_payment' => ['nullable', 'in:0,1'],
+            'certificate_expiration_date' => ['nullable', 'date_format:Y-m-d'],
             'certification_type'    =>  ['nullable', 'boolean'],
             'tax_exempt_household'  =>  ['nullable', 'in:0,1'],
-            'class_id'   =>  ['nullable', 'in:' . ChildrenClass::AGE_0 . ',' . ChildrenClass::AGE_1 . ',' . ChildrenClass::AGE_2 . ',' . ChildrenClass::AGE_3 . ',' . ChildrenClass::AGE_4 . ',' . ChildrenClass::AGE_5 ],
+            'class_id'   =>  ['nullable', 'in:' . ChildrenClass::AGE_0 . ',' . ChildrenClass::AGE_1 . ',' . ChildrenClass::AGE_2 . ',' . ChildrenClass::AGE_3 . ',' . ChildrenClass::AGE_4 . ',' . ChildrenClass::AGE_5],
             'remarks'    =>  ['nullable', 'string'],
         ];
     }
