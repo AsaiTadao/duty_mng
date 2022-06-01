@@ -72,7 +72,10 @@ class Office extends Model
         $lastDate = $baseDate->endOfMonth()->format('Y-m-d');
 
         return OfficeInformation::where(['office_id' => $this->id])
-            ->where('start_date', '<=', $lastDate)
+            ->where(function($query) use ($lastDate) {
+                $query->whereNull('start_date')
+                    ->orWhere('start_date', '<=', $lastDate);
+            })
             ->where(function($query) use ($lastDate) {
                 $query->whereNull('end_date')
                     ->orWhere('end_date', '>=', $lastDate);

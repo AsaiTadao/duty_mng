@@ -27,7 +27,7 @@ class ChildRequest extends FormRequest {
             'birthday'  => ['required', 'date_format:Y-m-d'],
             'admission_date'  => ['nullable', 'date_format:Y-m-d'],
             'exit_date'  => ['nullable', 'date_format:Y-m-d'],
-            'email'     =>  ['required', 'email:dns,spoof'],
+            'email'     =>  ['required'],
             'password'  =>  ['nullable'],
             'type'      =>  ['nullable', 'in:' . $this->childTypesRule],
             'company_name' => ['nullable', 'string'],

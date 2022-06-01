@@ -7,6 +7,7 @@ use App\Exports\ChildApplicationTableExport;
 use App\Http\Requests\ChildApplicationTableQuery;
 use App\Http\Resources\OfficeResource;
 use App\Models\Child;
+use App\Models\ChildInformation;
 use App\Models\ChildrenAttendence;
 use App\Models\ChildrenClass;
 use App\Models\Code;
@@ -82,7 +83,7 @@ class ChildApplicationTableController extends BaseController
         $baseDay = Carbon::parse($date . '-01');
         $daysInMonth = $baseDay->daysInMonth;
 
-        $children = Child::with('child_info')->where(function($query) use ($baseDay) {
+        $children = Child::where(function($query) use ($baseDay) {
                 $query->whereNull('exit_date')
                     ->orWhere('exit_date', '>=', $baseDay->format('Y-m-d'));
             })
@@ -253,21 +254,36 @@ class ChildApplicationTableController extends BaseController
                 } else {
                     $currentExitDate = '';
                 }
+                $baseDate = Carbon::parse($date . '-01');
+                $firstDate = $baseDate->format('Y-m-d');
+
+                $child_info = ChildInformation::where(['child_id' => $child->id])
+                    ->where(function($query) use ($firstDate) {
+                        $query->whereNull('start_date')
+                            ->orWhere('start_date', '<=', $firstDate);
+                    })
+                    ->where(function($query) use ($firstDate) {
+                        $query->whereNull('end_date')
+                            ->orWhere('end_date', '>=', $firstDate);
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+
                 $childItem = [
                     'number'    =>  $child->number,
-                    'name'      =>  $child->name,
+                    'name'      =>  $child_info->name ?? $child->name,
                     'birthday'  =>  $child->birthday ? Carbon::parse($child->birthday)->format('Y-m-d') : '',
-                    'type'      =>  $this->getChildTypeLabel($child, $date),
-                    'company_name'  =>  $child->company_name,
+                    'type'      =>  $this->getChildTypeLabel($child_info, $date),
                     'admission_date'    =>  $child->admission_date,
-                    'free_of_charge' => $child->free_of_charge_label,
-                    'certificate_of_payment'    =>  $child->certificate_of_payment_label,
-                    'certificate_expiration_date'=> $child->certificate_expiration_date_label,
-                    'tax_exempt_household'      =>  $child->tax_exempt_household_label,
+                    'company_name'  =>  $child_info->company_name??'',
+                    'free_of_charge' => ($child_info->free_of_charge ?? null) ? '対象' : '対象外',
+                    'certificate_of_payment'    =>  ($child_info->certificate_of_payment ?? null) ? '有り' : '無し',
+                    'certificate_expiration_date'=> ($child_info->certificate_expiration_date ?? null) ? Carbon::parse($child_info->certificate_expiration_date)->format('Y-m-d') : '' ,
+                    'tax_exempt_household'      =>  ($child_info->tax_exempt_household ?? '') ? '〇' : '',
                     'attend_count'              =>  $attendCount,
                     'absent_count'              =>  $absentCount,
                     'exit_date'  => $currentExitDate,
-                    'remarks'   =>  $child->remarks
+                    'remarks'   =>  $child_info->remarks ?? ''
                 ];
                 $childAttendances = $attendances->filter(function ($value, $key) use ($child){
                     return $value->child_id === $child->id;
@@ -338,20 +354,11 @@ class ChildApplicationTableController extends BaseController
         return $data;
 
     }
-    private function getChildTypeLabel($child, $date)
+    private function getChildTypeLabel($child_info)
     {
-        $childInfo = $child->getChildInfoByMonth($date);
-        if (!$childInfo) return '';
-        if (!$childInfo->type) return '';
-        $type = $childInfo->type;
-        if ($childInfo->type_updated_at && $childInfo->type_updated_before)
-        {
-            $updated_at = Carbon::parse($childInfo->type_updated_at)->format('Y-m');
-            if ($date <= $updated_at)
-            {
-                $type = $childInfo->type_updated_before;
-            }
-        }
+        if (!$child_info) return '';
+        if (!$child_info->type) return '';
+        $type = $child_info->type;
 
         $childType = $this->childTypes->first(function ($value, $key) use ($type){
             return $value->key == $type;
