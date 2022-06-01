@@ -491,7 +491,12 @@ export default {
         },
         getAge(birthDay) {
            if (!birthDay) return null;
-            const ageInMonth = moment(this.month).diff(birthDay, 'months');
+           let ageInMonth;
+           if (moment().format('YYYY-MM') === this.month) {
+               ageInMonth = moment(this.month + '-01').diff(birthDay, 'months');
+           } else {
+               ageInMonth = moment(this.month + '-01').add(1, 'months').subtract(1, 'days').diff(birthDay, 'months');
+           }
             const y = Math.floor(ageInMonth / 12);
             const m = ageInMonth % 12;
             return (y ? y + '歳' : '') + (m + 'ヶ月');
