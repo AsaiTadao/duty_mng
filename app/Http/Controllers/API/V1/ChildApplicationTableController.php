@@ -112,11 +112,11 @@ class ChildApplicationTableController extends BaseController
             ChildrenClass::AGE_5 => $children->where('class_id', ChildrenClass::AGE_5)->count(),
         ];
         $childEmployeeQuota = $children->filter(function ($value, $key) use ($date) {
-            $child_info = $value->getChildInfoByMonth($date);
+            $child_info = $value->getChildInfoByMonthForApplication($date);
             return $child_info && ($child_info->type === 1 || $child_info->type === 2);
         })->count();
         $childRegional = $children->filter(function ($value, $key) use ($date) {
-            $child_info = $value->getChildInfoByMonth($date);
+            $child_info = $value->getChildInfoByMonthForApplication($date);
             return $child_info && ($child_info->type === 3 || $child_info->type === 4);
         })->count();
         $totalCount = $children->count();
@@ -254,20 +254,7 @@ class ChildApplicationTableController extends BaseController
                 } else {
                     $currentExitDate = '';
                 }
-                $baseDate = Carbon::parse($date . '-01');
-                $firstDate = $baseDate->format('Y-m-d');
-
-                $child_info = ChildInformation::where(['child_id' => $child->id])
-                    ->where(function($query) use ($firstDate) {
-                        $query->whereNull('start_date')
-                            ->orWhere('start_date', '<=', $firstDate);
-                    })
-                    ->where(function($query) use ($firstDate) {
-                        $query->whereNull('end_date')
-                            ->orWhere('end_date', '>=', $firstDate);
-                    })
-                    ->orderBy('created_at', 'desc')
-                    ->first();
+                $child_info = $child->getChildInfoByMonthForApplication($date);
 
                 $childItem = [
                     'number'    =>  $child->number,

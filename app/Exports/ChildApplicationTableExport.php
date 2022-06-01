@@ -270,10 +270,15 @@ class ChildApplicationTableExport implements WithEvents
         return Carbon::parse($date)->format('m/d/Y');
     }
 
-    private function getAge($birthday, $baseDay)
+    private function getAge($birthday)
     {
         if (!$birthday) return '';
-        $diffInMonths = Carbon::parse($birthday)->diffInMonths($baseDay);
+        $date = Carbon::parse($this->month . '-01');
+        if (Carbon::now()->format('Y-m') !== $this->month) {
+            $date->lastOfMonth();
+        }
+
+        $diffInMonths = Carbon::parse($birthday)->diffInMonths($date);
         $diffInYear = floor($diffInMonths / 12);
         $months = $diffInMonths % 12;
 

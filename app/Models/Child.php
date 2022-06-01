@@ -48,19 +48,23 @@ class Child extends Authenticatable
     {
         return $this->hasOne(ChildInformation::class, 'child_id', 'id')->ofMany('created_at', 'max');
     }
-    public function getChildInfoByMonth($month)
+    public function getChildInfoByMonthForApplication($month)
     {
         $baseDate = Carbon::parse($month . '-01');
         $firstDate = $baseDate->format('Y-m-d');
         $lastDate = $baseDate->endOfMonth()->format('Y-m-d');
+        $date = $lastDate;
+        if (Carbon::now()->format('Y-m') === $month) {
+            $date = $firstDate;
+        }
         return ChildInformation::where(['child_id' => $this->id])
-            ->where(function($query) use ($lastDate) {
+            ->where(function($query) use ($date) {
                 $query->whereNull('start_date')
-                    ->orWhere('start_date', '<=', $lastDate);
+                    ->orWhere('start_date', '<=', $date);
             })
-            ->where(function($query) use ($lastDate) {
+            ->where(function($query) use ($date) {
                 $query->whereNull('end_date')
-                    ->orWhere('end_date', '>=', $lastDate);
+                    ->orWhere('end_date', '>=', $date);
             })
             ->orderBy('created_at', 'desc')
             ->first();
