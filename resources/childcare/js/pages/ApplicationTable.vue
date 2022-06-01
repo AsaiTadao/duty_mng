@@ -261,7 +261,7 @@
                                             <td rowspan="2" class="header-fix-sub-60 dark-yellow align-middle p-1" style="width:110px;">
                                                 入園日
                                             </td>
-                                            <td rowspan="2" class="header-fix-sub-170 dark-yellow align-middle p-1" style="width:80px;">
+                                            <td rowspan="2" class="header-fix-sub-170 dark-yellow align-middle p-1" style="max-width:120px;">
                                                 氏名
                                             </td>
                                             <td rowspan="2" class="align-middle p-1" style="width:110px;">
@@ -273,7 +273,7 @@
                                             <td rowspan="2" class="align-middle p-1" style="width:120px;">
                                                 区分
                                             </td>
-                                            <td rowspan="2" class="align-middle p-1" style="width:110px;">
+                                            <td rowspan="2" class="align-middle p-1" style="width:150px;">
                                                 従業員枠企業名
                                             </td>
                                             <td rowspan="2" class="align-middle p-1" style="width:60px;">
@@ -282,24 +282,24 @@
                                             <td rowspan="2" class="align-middle p-1" style="width:75px;">支給認定証</td>
                                             <td rowspan="2" class="align-middle p-1" style="width:100px;">認定証有効期限</td>
                                             <td rowspan="2" class="align-middle p-1" style="width:75px;">非課税世帯</td>
-                                            <td v-for="day in days" :key="day+'0child'" class="align-middle">
+                                            <td v-for="day in days" :key="day+'0child'" class="align-middle" style="width:40px;">
                                                 {{day.getDate()}}
                                             </td>
-                                            <td rowspan="2" class="align-middle p-1">
+                                            <td rowspan="2" class="align-middle p-1" style="width:75px;">
                                                 登園日数
                                             </td>
-                                            <td rowspan="2" class="align-middle p-1">
+                                            <td rowspan="2" class="align-middle p-1" style="width:75px;">
                                                 欠席日数
                                             </td>
-                                            <td rowspan="2" class="align-middle p-1">コロナ</td>
-                                            <td rowspan="2" class="align-middle p-1">都合</td>
-                                            <td rowspan="2" class="align-middle p-1">忌引</td>
-                                            <td rowspan="2" class="align-middle p-1">病欠</td>
-                                            <td rowspan="2" class="align-middle p-1">停止</td>
-                                            <td rowspan="2" class="align-middle p-1">休園</td>
-                                            <td rowspan="2" class="align-middle p-1">災害</td>
-                                            <td rowspan="2" class="align-middle p-1">退園日</td>
-                                            <td rowspan="2" class="align-middle p-1">規定日数</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:55px;">コロナ</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:45px;">都合</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:45px;">忌引</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:45px;">病欠</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:45px;">停止</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:45px;">休園</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:45px;">災害</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:60px;">退園日</td>
+                                            <td rowspan="2" class="align-middle p-1" style="width:60px;">規定日数</td>
                                             <td rowspan="2" class="align-middle p-1" style="width:500px;">備考</td>
                                         </tr>
                                         <tr class="light-yellow">
@@ -316,7 +316,7 @@
                                             <td class="header-fix-sub-60 bg-white p-1">
                                                 {{changeBirthFormat(child.admissionDate)}}
                                             </td>
-                                            <td class="header-fix-sub-170 bg-white p-1">
+                                            <td class="header-fix-sub-170 bg-white p-1" style="width:120px;">
                                                 {{child.name}}
                                             </td>
                                             <td class="p-1">
