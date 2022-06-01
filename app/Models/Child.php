@@ -51,7 +51,7 @@ class Child extends Authenticatable
     public function getChildInfoByMonthForApplication($month)
     {
         $baseDate = Carbon::parse($month . '-01');
-        $firstDate = $baseDate->format('Y-m-d');
+        $firstDate = $baseDate->subDays(1)->format('Y-m-d');
         $lastDate = $baseDate->endOfMonth()->format('Y-m-d');
         $date = $lastDate;
         if (Carbon::now()->format('Y-m') === $month) {
