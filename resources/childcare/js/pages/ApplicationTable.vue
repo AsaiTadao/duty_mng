@@ -7,10 +7,13 @@
                         <div class="card-header calendar-title">
                             <h3 class="card-title mb-0">{{officeName}}</h3>
                             <div class="mx-5">申請用帳票</div>
-                            <div class="form-group mx-4 mb-0" style="width: 250px;">
+                            <div class="form-group mx-4 mb-0" style="width: 250px;" v-if="session.roleId < 2">
                                 <select class="form-control" v-model="officeId" @change="selectOffice()">
                                     <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
                                 </select>
+                            </div>
+                            <div class="form-group mx-4 mb-0" style="width: 250px;" v-else>
+                                {{session.office.name}}
                             </div>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
@@ -394,6 +397,11 @@ export default {
             offices: [],
         }
     },
+    computed: {
+        ...mapState({
+            session: state => state.session.info
+        })
+    },
     methods: {
         getWeekEnd(index) {
             const weekDay = moment(this.month + '-' + ('0' + index).slice(-2)).format('ddd');
@@ -521,7 +529,13 @@ export default {
         this.month = moment(this.displayDate).format('YYYY-MM');
         this.displayDate = moment(this.displayDate).format('YYYY年 M月');
         this.getResults(this.getThisMonthDate());
-        this.getNurseryOffices();
+        if (this.session.roleId < 2)
+            this.getNurseryOffices();
+        else {
+            this.officeName = this.session.office ? this.session.office.name : '';
+            this.officeId = this.session.officeId;
+            this.getTotalData();
+        }
     }
 }
 </script>

@@ -193,7 +193,10 @@ export default [
                     anchor: "申請用帳票",
                     menu: true,
                     guards: [
-                        Guards.ADMIN
+                        Guards.ADMIN,
+                        Guards.OFFICE_MANAGER,
+                        Guards.USER_A,
+                        Guards.USER_B,
                     ]
                 }
             },
