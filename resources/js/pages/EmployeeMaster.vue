@@ -14,7 +14,7 @@
                                 </button>
                             </div>
                             <div class="input-group w-auto">
-                                <input type="search" class="form-control form-control-sm" placeholder="事業所名" v-model="searchName">
+                                <input type="search" class="form-control form-control-sm" placeholder="事業所名, 社員No, 氏名" v-model="searchName">
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-sm btn-default" @click="onSearch">
                                         <i class="fa fa-search"></i>
