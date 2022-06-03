@@ -73,7 +73,7 @@
                                             </tr>
                                             <tr :key="office.id + '_open_time'">
                                                 <td>
-                                                    開所時間：{{office.openTime}}
+                                                    保育標準時間：{{setTime(office.openTime)}}～{{setTime(office.closeTime)}}
                                                 </td>
                                                 <td>
                                                     定員数：{{office.capacity}}
@@ -197,6 +197,7 @@
     </div>
 </template>
 <script>
+import moment from 'moment';
 import OfficeMasterForm from './OfficeMaster/OfficeMasterForm.vue';
 import api, { apiErrorHandler } from '../global/api';
 import ScheduleWorkingForm from './OfficeMaster/ScheduleWorkingForm.vue';
@@ -341,7 +342,11 @@ export default {
             },
             modalClose() {
                 this.modalOpen = false;
-            }
+            },
+            setTime(time) {
+                if (!time) return '';
+                return moment(time, 'hh:mm:ss').format('HH:mm');
+            },
         },
         mounted() {
             this.getOffices();

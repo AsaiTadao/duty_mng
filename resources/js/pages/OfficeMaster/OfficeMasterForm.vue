@@ -72,7 +72,7 @@
                 </div>
                 <div class="form-row">
                     <div class="col-md-2">
-                        開所時間：
+                        保育標準時間：
                     </div>
                     <div class="col-md-2">
                         <div class="d-flex is-invalid align-items-center">

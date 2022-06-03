@@ -12,7 +12,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="navbar-nav ml-3" v-if="showChangeBtn()">
+        <!-- <ul class="navbar-nav ml-3" v-if="showChangeBtn()">
             <li class="nav-item kintai-system system-unselected">
                 <a
                     class="nav-link px-md-3 px-sm-1"
@@ -31,7 +31,7 @@
                     保育
                 </a>
             </li>
-        </ul>
+        </ul> -->
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link" data-toggle="dropdown" href="#" v-if="session.noticeCount">
