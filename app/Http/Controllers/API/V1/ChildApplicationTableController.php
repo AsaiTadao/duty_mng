@@ -119,13 +119,20 @@ class ChildApplicationTableController extends BaseController
             $child_info = $value->getChildInfoByMonthForApplication($date);
             return $child_info && ($child_info->type === 3 || $child_info->type === 4);
         })->count();
-        $totalCount = $children->count();
-        if (!$totalCount) {
+//        $totalCount = $children->count();
+//        if (!$totalCount) {
+//            $employeeQuotaRatio = 0;
+//            $regionalRatio = 0;
+//        } else {
+//            $employeeQuotaRatio = round($childEmployeeQuota * 100 / $totalCount);
+//            $regionalRatio = round($childRegional * 100 / $totalCount);
+//        }
+        if (!$data['capacity']) {
             $employeeQuotaRatio = 0;
             $regionalRatio = 0;
         } else {
-            $employeeQuotaRatio = round($childEmployeeQuota * 100 / $totalCount);
-            $regionalRatio = round($childRegional * 100 / $totalCount);
+            $employeeQuotaRatio = round($childEmployeeQuota * 100 / $data['capacity']);
+            $regionalRatio = round($childRegional * 100 / $data['capacity']);
         }
 
         $data['children_type_stat'] = [
