@@ -9,7 +9,7 @@
         <div class="modal-body">
             <div class="form-group row justify-content-center">
                 <div class="col-md-10 text-center">
-                    <img :src="'/storage/qrs/'+childId+'.png'" id="qrImage" ref="input"/>
+                    <img :src="this.baseUrl + '/storage/qrs/'+childId+'.png'" id="qrImage" ref="input"/>
                 </div>
                 <div class="mt-3">
                     <button class="btn btn-sm btn-primary" @click="copyQrImage()">
@@ -34,7 +34,7 @@ import { copyImageToClipboard } from 'copy-image-clipboard';
         },
         data() {
             return {
-
+                baseUrl: window.location.origin
             }
         },
         methods: {
