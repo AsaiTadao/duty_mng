@@ -249,7 +249,7 @@
                             </div>
                             <br>
                             <div class="w-100 overflow-scroll-x">
-                                <table v-for="(childrenClass, index) in total.childrenTable" :key="index" class="table table-bordered table-diary text-center w-3500-px">
+                                <table v-for="(childrenClass, index) in total.childrenTable" :key="index" class="table table-bordered table-diary text-center w-3395-px">
                                     <thead>
 
                                     </thead>
@@ -264,7 +264,7 @@
                                             <td rowspan="2" class="header-fix-sub-60 dark-yellow align-middle p-1" style="width:110px;">
                                                 入園日
                                             </td>
-                                            <td rowspan="2" class="header-fix-sub-170 dark-yellow align-middle p-1" style="max-width:120px;">
+                                            <td rowspan="2" class="header-fix-sub-170 dark-yellow align-middle p-1" style="width:120px;">
                                                 氏名
                                             </td>
                                             <td rowspan="2" class="align-middle p-1" style="width:110px;">
