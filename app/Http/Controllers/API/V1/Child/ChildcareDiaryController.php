@@ -10,6 +10,7 @@ use App\Models\Child;
 use App\Models\ChildcareDiary;
 use App\Models\ChildrenAttendence;
 use App\Models\ChildrenClass;
+use App\Models\ChildrenClassPeriod;
 use Laravel\Sanctum\PersonalAccessToken;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -92,7 +93,9 @@ class ChildcareDiaryController extends BaseController
                 $query->where('admission_date', '<=', $data['date'])
                     ->orWhere('admission_date', '=', null);
             });
-
+        if (!empty($data['children_class_id'])) {
+            $childQb->where(ChildrenClassPeriod::latestClassIDSubClosure($data['date']), $data['children_class_id']);
+        }
 
         $children = $childQb->get();
         $allCount = $children->count();
