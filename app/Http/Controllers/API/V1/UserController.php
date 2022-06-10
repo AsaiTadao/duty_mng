@@ -80,6 +80,9 @@ class UserController extends BaseController
             $user->role_id = Roles::USER_B;
         }
         $user->save();
+        $qr = "LK-USER-" . bcrypt($user->id);
+        $user->qr = $qr;
+        $user->save();
 
         $setting = new UserSetting();
         $setting->user_id = $user->id;
@@ -112,6 +115,12 @@ class UserController extends BaseController
             $user->password = Hash::make($data['password']);
         }
         $user->update_user_id = $currentUser->id;
+
+        if (!$user->qr)
+        {
+            $user->qr = "LK-USER-" . bcrypt($user->id);
+        }
+
         $user->save();
         if (!empty($data['password']))
         {
