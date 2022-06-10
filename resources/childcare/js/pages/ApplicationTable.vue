@@ -12,9 +12,6 @@
                                     <option v-for="office in offices" :key="office.id" :value="office.id">{{office.name}}</option>
                                 </select>
                             </div>
-                            <div class="form-group mx-4 mb-0" style="width: 250px;" v-else>
-                                {{session.office.name}}
-                            </div>
                             <div class="card-tools calendar-center flex-grow-1">
                                 <button type="button" class="btn btn-sm btn-outline" @click="getResults(getPrevMonthDate())">
                                     <i class="fas fa-caret-left fa-2x"></i>

@@ -247,7 +247,7 @@ class ChildApplicationTableExport implements WithEvents
                             $sheet->setCellValue("CO$row", $childItem['absent_state'][ReasonForAbsence::REASON_DISASTER]);
                         }
                         $sheet->setCellValue("CP$row", $childItem['exit_date']);
-                        $sheet->setCellValue("CQ$row", $childItem['regulation_days'] ? '●' : '');
+                        $sheet->setCellValue("CQ$row", $childItem['regulation_days'] >= 16 ? '●' : '');
                         $sheet->mergeCells("CR$row:CU$row");
                         $sheet->setCellValue("CR$row", $childItem['remarks']);
 
