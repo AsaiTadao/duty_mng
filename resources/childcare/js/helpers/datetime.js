@@ -10,9 +10,9 @@ export const changeToHhMm = (value) => {
     if(value) {
         var hour = value.split(':')[0];
         var min = value.split(':')[1];
-        if(hour)
+        if(hour && hour < 24)
             hour = ('0' + hour).slice(-2);
-        if(min)
+        if(min && min < 60)
             min = ('0' + min).slice(-2);
         return hour + ":" + min;
     }
