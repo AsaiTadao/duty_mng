@@ -183,7 +183,7 @@
                                         <td>
                                             <div class="d-flex align-middle is-invalid">
                                                 <div v-for="childType in childTypes" :key = "childType.key" class="d-flex align-items-center mr-3">
-                                                    <input type="radio" class="align-middle" :value="childType.key" v-model="formData.type" @change="errors.type = null; errors.companyName = null; onTypeChanged();">
+                                                    <input type="radio" class="align-middle" :value="childType.key" v-model="formData.type" @change="errors.type = null; errors.companyName = null">
                                                     <label class="ml-1 mr-4 mb-0">{{childType.value}}</label>
                                                 </div>
                                             </div>
@@ -223,9 +223,9 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center justify-content-center is-invalid">
-                                                <input type="radio" class="align-middle" :value="1" v-model="formData.freeOfCharge" @change="errors.freeOfCharge = null; onfreeOfChargeChanged();">
+                                                <input type="radio" class="align-middle" :value="1" v-model="formData.freeOfCharge" @change="errors.freeOfCharge = null">
                                                 <div class="ml-1 mr-4">対象</div>
-                                                <input type="radio" class="align-middle" :value="0" v-model="formData.freeOfCharge" @change="errors.freeOfCharge = null; onfreeOfChargeChanged();">
+                                                <input type="radio" class="align-middle" :value="0" v-model="formData.freeOfCharge" @change="errors.freeOfCharge = null">
                                                 <div class="ml-1 mr-4">対象外</div>
                                             </div>
                                             <span v-if="errors.freeOfCharge" class="error invalid-feedback">
@@ -234,9 +234,9 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center justify-content-center is-invalid">
-                                                <input type="radio" class="align-middle" :value="1" v-model="formData.certificateOfPayment" :class="{'is-invalid' : errors.certificateOfPayment}" @change="errors.certificateOfPayment = null; oncertificateOfPaymentChanged();">
+                                                <input type="radio" class="align-middle" :value="1" v-model="formData.certificateOfPayment" :class="{'is-invalid' : errors.certificateOfPayment}" @change="errors.certificateOfPayment = null">
                                                 <div class="ml-1 mr-4">有り</div>
-                                                <input type="radio" class="align-middle" :value="0" v-model="formData.certificateOfPayment" @change="errors.certificateOfPayment = null; errors.certificateExpirationDate = null; oncertificateOfPaymentChanged();">
+                                                <input type="radio" class="align-middle" :value="0" v-model="formData.certificateOfPayment" @change="errors.certificateOfPayment = null; errors.certificateExpirationDate = null;">
                                                 <div class="ml-1 mr-4">無し</div>
                                             </div>
                                             <span v-if="errors.certificateOfPayment" class="error invalid-feedback">
@@ -429,10 +429,6 @@ export default {
             this.formData.taxExemptHousehold = this.childInfor.taxExemptHousehold;
             this.formData.remarks = this.childInfor.remarks;
             this.formData.certificationType = this.childInfor.certificationType;
-
-            this.onTypeChanged();
-            this.onfreeOfChargeChanged();
-            this.oncertificateOfPaymentChanged();
         },
         validate() {
             let valid = true;
@@ -586,23 +582,6 @@ export default {
         },
         isCompanyled() {
             return (this.session) ? this.session.office.businessTypeId == 1 : false;
-        },
-        onTypeChanged(){
-            if (this.formData.type != 1 && this.formData.type != 2){
-                this.formData.companyName = '';
-            }
-        },
-        onfreeOfChargeChanged(){
-            if (this.formData.freeOfCharge != 1) {
-                this.formData.certificateOfPayment = null;
-                this.formData.certificateExpirationDate = null;
-                this.formData.taxExemptHousehold = null;
-            }
-        },
-        oncertificateOfPaymentChanged(){
-            if (this.formData.certificateOfPayment != 1) {
-                this.formData.certificateExpirationDate = null;
-            }
         }
     },
     mounted() {

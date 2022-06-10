@@ -51,14 +51,20 @@ export default {
             return route;
         },
         ...mapState({
-            roleId: state =>  state.session.info.roleId || Guards.PARENT
+            roleId: state =>  state.session.info.roleId || Guards.PARENT,
+            office: state => state.session.info.office
         })
     },
     methods: {
     },
     mounted() {
         const userRoutes = routes[0];
-        this.routes = userRoutes.children.filter(item => item.meta.guards.includes(this.roleId) && item.meta.menu);
+        this.routes = userRoutes.children.filter((item) => {
+            if(item.meta.businessTypeBranch && this.roleId != Guards.ADMIN && this.office.businessTypeId != 1){
+                return false;
+            }
+                return item.meta.guards.includes(this.roleId) && item.meta.menu;
+        });
     }
 };
 </script>

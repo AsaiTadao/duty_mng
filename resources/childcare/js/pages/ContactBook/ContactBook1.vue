@@ -1029,16 +1029,16 @@ export default {
                 this.errors.mealTime3School = this.$t('Invalid time format');
                 valid = false;
             }
-            if(this.formData.mealMemo1School && this.formData.mealMemo1School.length > 50) {
-                this.errors.mealMemo1School = this.$t('Please enter 50 characters or less');
+            if(this.formData.mealMemo1School && this.formData.mealMemo1School.length > 200) {
+                this.errors.mealMemo1School = this.$t('Please enter 200 characters or less');
                 valid = false;
             }
-            if(this.formData.mealMemo2School && this.formData.mealMemo2School.length > 50) {
-                this.errors.mealMemo2School = this.$t('Please enter 50 characters or less');
+            if(this.formData.mealMemo2School && this.formData.mealMemo2School.length > 200) {
+                this.errors.mealMemo2School = this.$t('Please enter 200 characters or less');
                 valid = false;
             }
-            if(this.formData.mealMemo3School && this.formData.mealMemo3School.length > 50) {
-                this.errors.mealMemo3School = this.$t('Please enter 50 characters or less');
+            if(this.formData.mealMemo3School && this.formData.mealMemo3School.length > 200) {
+                this.errors.mealMemo3School = this.$t('Please enter 200 characters or less');
                 valid = false;
             }
             this.formData.sleepStart1School = changeToHhMm(this.formData.sleepStart1School);

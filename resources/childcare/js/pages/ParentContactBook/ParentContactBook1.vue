@@ -1012,16 +1012,16 @@ export default {
                 this.errors.mealTime3Home = this.$t('Invalid time format');
                 valid = false;
             }
-            if(this.formData.mealMemo1Home && this.formData.mealMemo1Home.length > 50) {
-                this.errors.mealMemo1Home = this.$t("Please enter 50 characters or less");
+            if(this.formData.mealMemo1Home && this.formData.mealMemo1Home.length > 200) {
+                this.errors.mealMemo1Home = this.$t("Please enter 200 characters or less");
                 valid = false;
             }
-            if(this.formData.mealMemo2Home && this.formData.mealMemo2Home.length > 50) {
-                this.errors.mealMemo2Home = this.$t("Please enter 50 characters or less");
+            if(this.formData.mealMemo2Home && this.formData.mealMemo2Home.length > 200) {
+                this.errors.mealMemo2Home = this.$t("Please enter 200 characters or less");
                 valid = false;
             }
-            if(this.formData.mealMemo3Home && this.formData.mealMemo3Home.length > 50) {
-                this.errors.mealMemo3Home = this.$t("Please enter 50 characters or less");
+            if(this.formData.mealMemo3Home && this.formData.mealMemo3Home.length > 200) {
+                this.errors.mealMemo3Home = this.$t("Please enter 200 characters or less");
                 valid = false;
             }
             this.formData.sleepStart1Home = changeToHhMm(this.formData.sleepStart1Home);

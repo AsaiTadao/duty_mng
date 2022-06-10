@@ -192,6 +192,7 @@ export default [
                     icon: "fas fa-plus-square",
                     anchor: "申請用帳票",
                     menu: true,
+                    businessTypeBranch: true,
                     guards: [
                         Guards.ADMIN,
                         Guards.OFFICE_MANAGER,

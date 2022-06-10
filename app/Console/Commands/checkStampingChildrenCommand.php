@@ -159,7 +159,7 @@ class checkStampingChildrenCommand extends Command
 
         // 登園なし降園なし（欠席除く）
         $check4 = Children::leftJoin('children_attendences', function($join) use($date) {
-                $join->on('children.id', '=', 'children_attendences.id')->where('date', '=', $date);
+                $join->on('children.id', '=', 'children_attendences.child_id')->where('date', '=', $date);
             })
             ->leftJoin('childcare_plan_days', function($join) use($date) {
                 $join->on('children.id', '=', 'childcare_plan_days.child_id')

@@ -94,12 +94,13 @@ class ChildApplicationTableController extends BaseController
             ->where(['office_id' => $office->id])
             ->get();
 
-        // クラスは指定日の実年齢に対応するクラスとする
-        $firstOfMonth = Carbon::parse($date . '-01');
+        // クラスは年度開始日(4月1日)の実年齢に対応するクラスとする
+        $classYear = Carbon::parse($date)->subMonthsNoOverflow(3)->format('Y');
+        $firstOfYear = Carbon::parse($classYear . '-04-01');
 
         foreach ($children as $child) {
             if (!empty($child->birthday)) {
-                $child->class_id = Carbon::parse($child->birthday)->diffInYears($firstOfMonth) + 1;
+                $child->class_id = Carbon::parse($child->birthday)->diffInYears($firstOfYear) + 1;
             }
         }
 
