@@ -6,6 +6,7 @@ use App\Http\Controllers\API\V1\BaseController;
 use App\Http\Requests\Child\LoginRequest;
 use App\Http\Resources\OfficeResource;
 use App\Models\Child;
+use App\Models\Holiday;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -69,6 +70,7 @@ class AuthController extends BaseController
         }
 
         $result['office']['certif_type_enabled'] =  $user->office ?  $user->office->certif_type_enabled : false;
+        $result['holidays'] = Holiday::select('name', 'date')->pluck('name', 'date');
         return $this->sendResponse($result);
     }
     public function currentOffice(Request $request)

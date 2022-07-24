@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid has-fixed-btn">
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="card">
@@ -83,8 +83,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="float-right d-flex align-items-center mt-2" :class="{'is-invalid': inputError}">
-                            <button class="btn btn-primary float-right mr-2" @click="saveContact">登録</button>
+                        <div class="float-right d-flex align-items-center mt-2 fixed-btn-group" :class="{'is-invalid': inputError}">
+                            <button class="btn btn-primary float-right mr-md-2" @click="saveContact">登録</button>
                             <button class="btn btn-primary float-right" @click="exportExcel">Excel出力</button>
                         </div>
                         <div v-if="inputError" class="error invalid-feedback text-right" style="margin-top: 60px;">
@@ -174,7 +174,7 @@ export default {
             + today.getMinutes();
         },
         customFormatter(date) {
-            return moment(date).format('YYYY年 M月 D日 (ddd)');
+            return moment(date).format('YYYY/M/D(ddd)');
         },
         saveContact() {
             if(this.actionLoading) return;
@@ -308,16 +308,4 @@ export default {
            font-size: 13px!important;
        }
     }
-</style>
-<style>
-div.vdp-datepicker input{
-    width: 145px;
-}
-@media (max-width: 500px) {
-
-    div.vdp-datepicker input{
-        font-size: 10px;
-        width: 100px;
-    }
-}
 </style>

@@ -288,9 +288,6 @@
                                             <td rowspan="2" class="align-middle p-1" style="width:75px;">
                                                 登園日数
                                             </td>
-                                            <td rowspan="2" class="align-middle p-1" style="width:75px;">
-                                                欠席日数
-                                            </td>
                                             <td rowspan="2" class="align-middle p-1" style="width:55px;">コロナ</td>
                                             <td rowspan="2" class="align-middle p-1" style="width:45px;">都合</td>
                                             <td rowspan="2" class="align-middle p-1" style="width:45px;">忌引</td>
@@ -334,7 +331,6 @@
                                                 {{stat}}
                                             </td>
                                             <td class="p-1">{{child.attendCount}}</td>
-                                            <td class="p-1">{{child.absentCount}}</td>
                                             <td class="p-1">{{child.absentState[1]}}</td>
                                             <td class="p-1">{{child.absentState[2]}}</td>
                                             <td class="p-1">{{child.absentState[3]}}</td>

@@ -12,6 +12,8 @@ class OfficeInformation extends Model
     protected $fillable = [
         'open_time',
         'close_time',
+        'open_time_short',
+        'close_time_short',
         'capacity',
         'appropriate_number_0',
         'appropriate_number_1',

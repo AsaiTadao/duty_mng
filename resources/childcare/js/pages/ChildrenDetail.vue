@@ -125,7 +125,7 @@
                                         <td class="light-pink align-middle" style="width:200px;">
                                             認定区分
                                         </td>
-                                        <td class="align-middle" v-if="childInfor.certificationType">短期間</td>
+                                        <td class="align-middle" v-if="childInfor.certificationType">短時間</td>
                                         <td class="align-middle" v-else>標準時間</td>
                                     </tr>
                                 </tbody>

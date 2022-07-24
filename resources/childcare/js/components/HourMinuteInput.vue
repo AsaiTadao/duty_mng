@@ -2,15 +2,31 @@
     <div class="home-minute-input-container">
         <div class="home-minute-input-wrapper">
             <div class="home-minute-input">
-                <input :type="type" class="form-control" min="0" max="23" :value="hour"
-                    :class="{'is-invalid' : error && !light, 'is-invalid-light': error && light, 'light': light}"
-                    @input="inputHour" :disabled="disabled" />
+                <input
+                    class="form-control"
+                    inputmode="numeric"
+                    max="23"
+                    min="0"
+                    :class="{'is-invalid': error && !light, 'is-invalid-light': error && light, 'light': light}"
+                    :disabled="disabled"
+                    :type="type"
+                    :value="hour"
+                    @input="inputHour"
+                />
             </div>
             :
             <div class="home-minute-input">
-                <input :type="type" class="form-control" min="0" max="59" :value="minute"
-                    :class="{'is-invalid' : error && !light, 'is-invalid-light': error && light, 'light': light}"
-                    @input="inputMinute" :disabled="disabled" />
+                <input
+                    class="form-control"
+                    inputmode="numeric"
+                    max="59"
+                    min="0"
+                    :class="{'is-invalid': error && !light, 'is-invalid-light': error && light, 'light': light}"
+                    :disabled="disabled"
+                    :type="type"
+                    :value="minute"
+                    @input="inputMinute"
+                />
             </div>
         </div>
         <div v-if="error" class="home-minute-input-error">
@@ -50,6 +66,7 @@ export default {
     },
     methods: {
         inputHour(e) {
+            e.target.value = e.target.value.slice(0, 2);
             let hour = e.target.value;
             if (!hour && !this.minute) {
                 this.$emit('input', '');
@@ -58,6 +75,7 @@ export default {
             this.$emit('input', hour + ':' + this.minute);
         },
         inputMinute(e) {
+            e.target.value = e.target.value.slice(0, 2);
             let minute = e.target.value;
             if (!minute && !this.hour) {
                 this.$emit('input', '');
@@ -75,6 +93,7 @@ export default {
     column-gap: 5px;
 }
 .home-minute-input-wrapper {
+    align-items: center;
     display: flex;
 }
 .home-minute-input {
@@ -82,14 +101,16 @@ export default {
     margin-left: 5px;
 }
 .home-minute-input-error {
-    margin-top: 5px;
-    color: #f00;
+    color: #e3342f;
+    font-size: 80%;
+    margin-top: 0.25rem;
+    text-align: center;
 }
 .light {
     padding: 0.2rem 0.2rem;
     text-align: center;
 }
 input {
-    min-width: 42px;
+    min-width: 44px;
 }
 </style>

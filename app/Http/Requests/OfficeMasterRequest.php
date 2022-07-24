@@ -15,6 +15,8 @@ class OfficeMasterRequest extends FormRequest {
             'rest_deduction_id'=>  ['required', 'exists:rest_deductions,id'],
             'open_time' =>  ['nullable', 'date_format:H:i'],
             'close_time'=>  ['nullable', 'date_format:H:i'],
+            'open_time_short' =>  ['nullable'],
+            'close_time_short'=>  ['nullable'],
             'capacity'  =>  ['nullable', 'numeric', 'min:0'],
             'appropriate_number_0'  =>  ['nullable', 'numeric', 'min:0'],
             'appropriate_number_1'  =>  ['nullable', 'numeric', 'min:0'],
@@ -24,5 +26,21 @@ class OfficeMasterRequest extends FormRequest {
             'appropriate_number_5'  =>  ['nullable', 'numeric', 'min:0'],
             'business_type_id'      =>  ['nullable', 'exists:business_types,id'],
         ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function withValidator($validator)
+    {
+        $attributeNames = [];
+        $data = $validator->getData();
+        if (!empty($data['business_type_id']) && ($data['business_type_id'] == 2 || $data['business_type_id'] == 3)) {
+            $validator->addRules([
+                "open_time_short" => ['required', 'date_format:H:i'],
+                "close_time_short" => ['required', 'date_format:H:i'],
+            ]);
+        }
+        $validator->setAttributeNames($attributeNames);
     }
 }

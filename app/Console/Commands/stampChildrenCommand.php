@@ -3,10 +3,13 @@
 namespace App\Console\Commands;
 
 use App\Models\Child;
+use App\Models\ChildInformation;
 use App\Models\ChildrenAttendence;
 use App\Models\OfficeInformation;
 use App\Models\QrTransaction;
 use App\Models\Year;
+use App\Services\Child\AttendanceService;
+use App\Services\UtilService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -44,7 +47,6 @@ class stampChildrenCommand extends Command
     public function handle()
     {
         $deviceId = $this->argument("device_id");
-        //$officeId = $this->argument("office_id");
         $data = $this->argument("data");
         $datetime = $this->argument("datetime");
 
@@ -54,6 +56,7 @@ class stampChildrenCommand extends Command
         $m = date("m", strtotime($datetime));
         $d = date("d", strtotime($datetime));
         $time = date("His", strtotime($datetime));
+        $timeF = date("H:i:s", strtotime($datetime));
 
         $child = Child::where('qr', $data)->first();
         if (empty($child) || empty($child->id)) {
@@ -74,12 +77,7 @@ class stampChildrenCommand extends Command
                 $count = 3;
             } else {
                     if(date('His',strtotime( $attendence->commuting_time . '+10 min')) < $time) {
-                        $office = OfficeInformation::where('office_id', $child->office_id)->first();
-                        $close_time = $office->close_time;
-                        $extension = strtotime($time) - strtotime($date . $close_time);
-                        //延長時間timezoneの問題で9時間ずれるので補正
-                        $extension = $extension > 0 ? date("H:i:s",$extension - 9*60*60) : NULL;
-
+                        $extension = (new AttendanceService)->getExtension($child, $date, $timeF);
                         ChildrenAttendence::where('child_id', $child->id)->where('year_id', $year->id)
                             ->where('month', $m)->where('day', $d)
                             ->update([
@@ -94,19 +92,23 @@ class stampChildrenCommand extends Command
                     }
             }
         } else {
+                    $previous_extension = (new AttendanceService)->getPreviousExtension($child, $date, $timeF);
                     ChildrenAttendence::create([
                     'child_id' => $child->id,
+                    'office_id' => $child->office_id,
                     'year_id' => $year->id,
                     'month' => $m,
                     'day' => $d,
                     'date' => $date,
-                    'commuting_time' => $datetime
+                    'commuting_time' => $datetime,
+                    'previous_extension' => $previous_extension
                 ]);
             $count = 1;
         }
 
         QrTransaction::create([
             'device_id' => $deviceId,
+            'office_id' => $child->office_id,
             'qr' => $data,
             'ymd' => $ymd,
             'counter' => $count,

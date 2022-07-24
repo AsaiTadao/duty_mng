@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ChildInformation;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             OfficeSeeder::class,
             UserSeeder::class,
+            DeviceSeeder::class,
 
             UserSettingSeeder::class,
             YearSeeder::class,
@@ -39,8 +41,12 @@ class DatabaseSeeder extends Seeder
             ChildMoodTypeSeeder::class,
             ReasonForAbsenceSeeder::class,
             ChildSeeder::class,
+            ChildInformationSeeder::class,
             BusinessTypeSeeder::class,
             OfficeInformationSeeder::class,
+            ChildrenAttendenceSeeder::class,
+
+            EraNamesSeeder::class,
 
             // dependency
             ChildrenClassPeriodSeeder::class, // dependent on ChildSeeder

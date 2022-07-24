@@ -47,7 +47,7 @@
                         </div>
                         <div class="row d-flex justify-content-center mb-3">
                             <!-- /.col -->
-                            <div class="col-4">
+                            <div>
                                 <button
                                     type="button"
                                     class="btn btn-primary btn-block"

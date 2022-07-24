@@ -78,7 +78,6 @@ class OfficeController extends BaseController
         $data = $request->validated();
         $number = $data['number'];
         $name = $data['name'];
-
         $existing = Office::where(['number' => $number])->orWhere(['name' => $name])->first();
         if ($existing && $existing->id !== $office->id) {
             return abort(422, "事業所No又は事業所名が既に存在しています。");
@@ -111,9 +110,13 @@ class OfficeController extends BaseController
         if (!$officeInformation) return true;
         $open_time = !empty($data['open_time']) ? ($data['open_time'] . ':00') : null;
         $close_time = !empty($data['close_time']) ? ($data['close_time'] . ':00') : null;
+        $open_time_short = !empty($data['open_time_short']) ? ($data['open_time_short'] . ':00') : null;
+        $close_time_short = !empty($data['close_time_short']) ? ($data['close_time_short'] . ':00') : null;
 
         if ($officeInformation->open_time !== $open_time) return true;
         if ($officeInformation->close_time !== $close_time) return true;
+        if ($officeInformation->open_time_short !== $open_time_short) return true;
+        if ($officeInformation->close_time_short !== $close_time_short) return true;
         if ($officeInformation->capacity !== ($data['capacity']??null)) return true;
         if ($officeInformation->appropriate_number_0 !== ($data['appropriate_number_0']??null)) return true;
         if ($officeInformation->appropriate_number_1 !== ($data['appropriate_number_1']??null)) return true;

@@ -4,7 +4,9 @@ namespace App\Http\Resources;
 
 use App\Models\ChildcarePlanDay;
 use App\Models\ContactBook;
+use App\Services\UtilService;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class ChildAttendanceResource extends JsonResource
 {
@@ -18,23 +20,14 @@ class ChildAttendanceResource extends JsonResource
     {
         $date = request()->get('date');
         $noSchedule = false;
-        $reason_for_absence_id = $this->reason_for_absence_id;
+
+        $reason_for_absence_id = $this->reason_for_absence_id ?? null;
         $contact_status = ContactBook::STATUS_INCOMPLETE;
         if ($date) {
-            $planDay = ChildcarePlanDay::where(['child_id' => $this->id, 'date' => $date])->first();
-            // if (!$this->reason_for_absence_id && (!$planDay || $planDay->absent_id || !$planDay->start_time || !$planDay->end_time))
-            // {
-            //     $noSchedule = true;
-            // }
-            // if (!$this->reason_for_absence_id && !$this->commuting_time && $planDay && $planDay->absent_id)
-            // {
-            //     $reason_for_absence_id = $planDay->absent_id;
-            // }
-            if ($planDay && $planDay->absent_id) {
+            if (!empty($this->plan_absent_id)) {
                 $noSchedule = true;
-                $reason_for_absence_id = $planDay->absent_id;
+                $reason_for_absence_id = $this->plan_absent_id;
             }
-
             $contactBook = ContactBook::whereDate('date', $date)->where(['child_id' => $this->id])->first();
             if ($contactBook)
             {
@@ -44,12 +37,17 @@ class ChildAttendanceResource extends JsonResource
         return [
             'id'            =>  $this->id,
             'class_id'      =>  $this->class_id,
+            'child_id'      =>  $this->child_id,
             'name'          =>  $this->name,
+            'number'  =>  $this->number,
+            'day'           =>  $this->day,
             'commuting_time'=>  $this->commuting_time,
             'leave_time'    =>  $this->leave_time,
             'behind_time'   =>  $this->behind_time,
             'leave_early'   =>  $this->leave_early,
             'extension'     =>  $this->extension,
+            'previous_extension'     =>  $this->previous_extension,
+            'total_extension'     =>  (new UtilService)->addTimeToTime($this->previous_extension, $this->extension),
             'reason_for_absence_id'=>   $reason_for_absence_id,
             'no_schedule'   =>  $noSchedule,
             'contact_status'=> $contact_status,

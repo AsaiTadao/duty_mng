@@ -193,7 +193,7 @@ export default {
 
         },
         customFormatter(date) {
-            return moment(date).format('YYYY年 M月 D日 (ddd)');
+            return moment(date).format('YYYY/M/D(ddd)');
         },
         changeTimeFormat(date) {
             if(date) {
@@ -233,16 +233,4 @@ export default {
            font-size: 13px!important;
        }
     }
-</style>
-<style>
-div.vdp-datepicker input{
-    width: 145px;
-}
-@media (max-width: 500px) {
-
-    div.vdp-datepicker input{
-        font-size: 10px;
-        width: 100px;
-    }
-}
 </style>

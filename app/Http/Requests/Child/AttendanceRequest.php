@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Child;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
 
 class AttendanceRequest extends FormRequest {
 
@@ -14,6 +15,8 @@ class AttendanceRequest extends FormRequest {
             'reason_for_absence_id' => ['nullable', 'exists:reason_for_absences,id'],
             'behind_time'   => ['nullable', 'numeric'],
             'extension'     => ['nullable', 'date_format:H:i'],
+            'previous_extension'     => ['nullable', 'date_format:H:i'],
         ];
     }
+    
 }

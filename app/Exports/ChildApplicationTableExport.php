@@ -71,7 +71,7 @@ class ChildApplicationTableExport implements WithEvents
                     $ext_d_label = $close_time->addMinutes(1)->format('H:i') . '～' . $close_time->addMinutes(29)->format('H:i');
                     $sheet->setCellValue('AT6', $ext_b_label);
                     $sheet->setCellValue('AT7', $ext_c_label);
-                    $sheet->setCellValue('AT7', $ext_d_label);
+                    $sheet->setCellValue('AT8', $ext_d_label);
                 }
 
 
@@ -134,11 +134,11 @@ class ChildApplicationTableExport implements WithEvents
                     $sheet->getDelegate()->getStyle("B$row:AX$row")->applyFromArray(['font' => ['bold' => true]]);
                     $sheet->setCellValue("B$row", $this->getClassLabel($classId));
 
-                    $sheet->mergeCells("AZ$row:CU$row");
-                    $sheet->getDelegate()->getStyle("AZ$row:CU$row")->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'C6E0B4']]);
-                    $sheet->getDelegate()->getStyle("AZ$row:CU$row")->applyFromArray(['font' => ['bold' => true]]);
+                    $sheet->mergeCells("AZ$row:CS$row");
+                    $sheet->getDelegate()->getStyle("AZ$row:CS$row")->getFill()->applyFromArray(['fillType' => 'solid','rotation' => 0, 'color' => ['rgb' => 'C6E0B4']]);
+                    $sheet->getDelegate()->getStyle("AZ$row:CS$row")->applyFromArray(['font' => ['bold' => true]]);
 
-                    $sheet->getDelegate()->getStyle("AZ$row:CU$row")->applyFromArray([
+                    $sheet->getDelegate()->getStyle("AZ$row:CS$row")->applyFromArray([
                         'alignment' => [
                             'horizontal' => Alignment::HORIZONTAL_LEFT,
                             'vertical' => Alignment::VERTICAL_CENTER,
@@ -205,7 +205,7 @@ class ChildApplicationTableExport implements WithEvents
                         {
                             $sheet->setCellValue($columns[$i] . $row, $childItem['extension_state'][$i + 1]);
                         }
-                        $sheet->getDelegate()->getStyle("AZ$row:CU$row")->applyFromArray(['borders' => [
+                        $sheet->getDelegate()->getStyle("AZ$row:CS$row")->applyFromArray(['borders' => [
                             'allBorders' => [
                                 'borderStyle' => Border::BORDER_THIN,
                                 'color' => [
@@ -222,34 +222,32 @@ class ChildApplicationTableExport implements WithEvents
                         ]]]);
                         $sheet->mergeCells("CE$row:CF$row");
                         $sheet->setCellValue("CE$row", $childItem['attend_count']);
-                        $sheet->mergeCells("CG$row:CH$row");
-                        $sheet->setCellValue("CG$row", $childItem['absent_count']);
 
                         if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_CORONA])) {
-                            $sheet->setCellValue("CI$row", $childItem['absent_state'][ReasonForAbsence::REASON_CORONA]);
+                            $sheet->setCellValue("CG$row", $childItem['absent_state'][ReasonForAbsence::REASON_CORONA]);
                         }
                         if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_PRIVATE])) {
-                            $sheet->setCellValue("CJ$row", $childItem['absent_state'][ReasonForAbsence::REASON_PRIVATE]);
+                            $sheet->setCellValue("CH$row", $childItem['absent_state'][ReasonForAbsence::REASON_PRIVATE]);
                         }
                         if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_KIBIKI])) {
-                            $sheet->setCellValue("CK$row", $childItem['absent_state'][ReasonForAbsence::REASON_KIBIKI]);
+                            $sheet->setCellValue("CI$row", $childItem['absent_state'][ReasonForAbsence::REASON_KIBIKI]);
                         }
                         if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_SICK])) {
-                            $sheet->setCellValue("CL$row", $childItem['absent_state'][ReasonForAbsence::REASON_SICK]);
+                            $sheet->setCellValue("CJ$row", $childItem['absent_state'][ReasonForAbsence::REASON_SICK]);
                         }
                         if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_SUSPENSION])) {
-                            $sheet->setCellValue("CM$row", $childItem['absent_state'][ReasonForAbsence::REASON_SUSPENSION]);
+                            $sheet->setCellValue("CK$row", $childItem['absent_state'][ReasonForAbsence::REASON_SUSPENSION]);
                         }
                         if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_VACATION])) {
-                            $sheet->setCellValue("CN$row", $childItem['absent_state'][ReasonForAbsence::REASON_VACATION]);
+                            $sheet->setCellValue("CL$row", $childItem['absent_state'][ReasonForAbsence::REASON_VACATION]);
                         }
                         if (!empty($childItem['absent_state'][ReasonForAbsence::REASON_DISASTER])) {
-                            $sheet->setCellValue("CO$row", $childItem['absent_state'][ReasonForAbsence::REASON_DISASTER]);
+                            $sheet->setCellValue("CM$row", $childItem['absent_state'][ReasonForAbsence::REASON_DISASTER]);
                         }
-                        $sheet->setCellValue("CP$row", $childItem['exit_date']);
-                        $sheet->setCellValue("CQ$row", $childItem['regulation_days'] >= 16 ? '●' : '');
-                        $sheet->mergeCells("CR$row:CU$row");
-                        $sheet->setCellValue("CR$row", $childItem['remarks']);
+                        $sheet->setCellValue("CN$row", $childItem['exit_date']);
+                        $sheet->setCellValue("CO$row", $childItem['regulation_days'] >= 16 ? '●' : '');
+                        $sheet->mergeCells("CP$row:CS$row");
+                        $sheet->setCellValue("CP$row", $childItem['remarks']);
 
                         $row++;
                         $index++;

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use DateTime;
 
@@ -66,5 +67,37 @@ class UtilService
             return $i . '分前';
         }
         return null;
+    }
+
+    /**
+     * time型同士の加算（24時間以上表示対応）
+     */
+    function addTimeToTime($time1, $time2) {
+        $total = '00:00';   // 秒は不要
+        if (!empty($time1) && !empty($time2) && strpos($time1,':') !== false && strpos($time2,':') !== false) {
+            $time1 = explode(':', $time1);
+            $time2 = explode(':', $time2);
+            $sum = (((int)$time1[0] * 60) + (int)$time1[1]) + (((int)$time2[0] * 60) + (int)$time2[1]);
+            $total = sprintf('%02d', floor($sum / 60)) . ':' . sprintf('%02d', $sum % 60);
+
+        } elseif (!empty($time2)) {
+            $total = $time2;
+        } elseif (!empty($time1)) {
+            $total = $time1;
+        }
+        return $total;
+    }
+
+    /**
+     * timeとtime型の減算
+     */
+    function subTimeToTime($time1, $time2) {
+        $diff = false;
+        if (!empty($time1) && !empty($time2)) {
+            if (Carbon::parse($time1)->format('His') > Carbon::parse($time2)->format('His')) {
+                $diff = Carbon::parse($time1)->subHours(Carbon::parse($time2)->format('H'))->subMinutes(Carbon::parse($time2)->format('i'))->format('H:i');
+            }
+        }
+        return $diff;
     }
 }

@@ -78,7 +78,7 @@
                         <div class="d-flex is-invalid align-items-center">
                             <input type="number" class="form-control mr-2 p-1" min="0" max="23" v-model="formData.openTimeHour" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
                         :
-                            <input type="number" class="form-control ml-2 p-1" min="0" max="60" v-model="formData.openTimeMin" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
+                            <input type="number" class="form-control ml-2 p-1" min="0" max="59" v-model="formData.openTimeMin" :class="{'is-invalid' : errors.startTime}" @change="errors.startTime = null">
                         </div>
                         <span v-if="errors.startTime" class="error invalid-feedback">
                             {{ errors.startTime }}
@@ -89,10 +89,36 @@
                         <div class="d-flex is-invalid align-items-center">
                             <input type="number" class="form-control mr-2 p-1" min="0" max="23" v-model="formData.closeTimeHour" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
                         :
-                            <input type="number" class="form-control ml-2 p-1" min="0" max="60" v-model="formData.closeTimeMin" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
+                            <input type="number" class="form-control ml-2 p-1" min="0" max="59" v-model="formData.closeTimeMin" :class="{'is-invalid' : errors.endTime}" @change="errors.endTime = null">
                         </div>
                         <span v-if="errors.endTime" class="error invalid-feedback">
                             {{ errors.endTime }}
+                        </span>
+                    </div>
+                </div>
+                <div class="form-row" id="div-short-time" v-if="formData.businessTypeId == 2 || formData.businessTypeId == 3">
+                    <div class="col-md-2">
+                        保育短時間：
+                    </div>
+                    <div class="col-md-2">
+                        <div class="d-flex is-invalid align-items-center">
+                            <input type="number" class="form-control mr-2 p-1" min="0" max="23" v-model="formData.openTimeShortHour" :class="{'is-invalid' : errors.startTimeShort}" @change="errors.startTimeShort = null">
+                            :
+                            <input type="number" class="form-control ml-2 p-1" min="0" max="59" v-model="formData.openTimeShortMin" :class="{'is-invalid' : errors.startTimeShort}" @change="errors.startTimeShort = null">
+                        </div>
+                        <span v-if="errors.startTimeShort" class="error invalid-feedback">
+                            {{ errors.startTimeShort }}
+                        </span>
+                    </div>
+                    ~
+                    <div class="col-md-2">
+                        <div class="d-flex is-invalid align-items-center">
+                            <input type="number" class="form-control mr-2 p-1" min="0" max="23" v-model="formData.closeTimeShortHour" :class="{'is-invalid' : errors.endTimeShort}" @change="errors.endTimeShort = null">
+                            :
+                            <input type="number" class="form-control ml-2 p-1" min="0" max="59" v-model="formData.closeTimeShortMin" :class="{'is-invalid' : errors.endTimeShort}" @change="errors.endTimeShort = null">
+                        </div>
+                        <span v-if="errors.endTimeShort" class="error invalid-feedback">
+                            {{ errors.endTimeShort }}
                         </span>
                     </div>
                 </div>
@@ -175,7 +201,7 @@
                         事業種別：
                     </div>
                     <div class="col-md-6">
-                        <select class="form-control" v-model="formData.businessTypeId" name="businessTypeId" :class="{'is-invalid' : errors.businessTypeId}" @change="errors.businessTypeId = null">
+                        <select class="form-control" v-model="formData.businessTypeId" name="businessTypeId" :class="{'is-invalid' : errors.businessTypeId}" @change="errors.businessTypeId = null" v-on:change="selectedBusinessType">
                             <option :value="null"></option>
                             <option v-for="business in businessTypes" :key="business.id" :value="business.id">{{business.label}}</option>
                         </select>
@@ -221,6 +247,8 @@ import moment from 'moment';
                     restDeductionId: '',
                     startTime: null,
                     endTime: null,
+                    startTimeShort: null,
+                    endTimeShort: null,
                     capacity: null,
                     appropriateNumber0: null,
                     appropriateNumber1: null,
@@ -239,6 +267,8 @@ import moment from 'moment';
                     restDeductionId: '',
                     startTime: null,
                     endTime: null,
+                    startTimeShort: null,
+                    endTimeShort: null,
                     capacity: null,
                     appropriateNumber0: null,
                     appropriateNumber1: null,
@@ -249,6 +279,7 @@ import moment from 'moment';
                     businessTypeId: null
                 };
                 this.convertToFormData();
+                this.toggleShortTime(this.data.businessTypeId);
             },
         },
         data() {
@@ -261,8 +292,12 @@ import moment from 'moment';
                     openTime: null,
                     openTimeHour: null,
                     openTimeMin: null,
+                    openTimeShortHour: null,
+                    openTimeShortMin: null,
                     closeTimeHour: null,
                     closeTimeMin: null,
+                    closeTimeShortHour: null,
+                    closeTimeShortMin: null,
                     capacity: null,
                     appropriateNumber0: null,
                     appropriateNumber1: null,
@@ -278,6 +313,8 @@ import moment from 'moment';
                     restDeductionId: '',
                     startTime: null,
                     endTime: null,
+                    startTimeShort: null,
+                    endTimeShort: null,
                     capacity: null,
                     appropriateNumber0: null,
                     appropriateNumber1: null,
@@ -291,14 +328,31 @@ import moment from 'moment';
             }
         },
         methods: {
+            toggleShortTime: function (val) {
+                if (val == 1 || val == 4) {
+                    this.formData.openTimeShortHour = null;
+                    this.formData.openTimeShortMin = null;
+                    this.formData.closeTimeShortHour = null;
+                    this.formData.closeTimeShortMin = null;                }
+            },
+            selectedBusinessType: function (e) {
+                this.toggleShortTime(e.target.value);
+            },
             saveOffice() {
                 if (this.actionLoading) return;
                 if (!this.validate()) return;
                 this.setActionLoading();
                 let request;
                 if(this.formData.openTimeHour && this.formData.openTimeMin) {
-                    this.formData['open_time'] = this.formData.openTimeHour + ":" + this.formData.openTimeMin;
-                    this.formData['close_time'] = this.formData.closeTimeHour + ":" + this.formData.closeTimeMin;
+                    this.formData['open_time'] = ('0' + this.formData.openTimeHour).slice(-2) + ":" + ('0' + this.formData.openTimeMin).slice(-2);
+                    this.formData['close_time'] = ('0' + this.formData.closeTimeHour).slice(-2) + ":" + ('0' + this.formData.closeTimeMin).slice(-2);
+                }
+                if(this.formData.openTimeShortHour && this.formData.openTimeShortMin) {
+                    this.formData['open_time_short'] = ('0' + this.formData.openTimeShortHour).slice(-2) + ":" + ('0' + this.formData.openTimeShortMin).slice(-2);
+                    this.formData['close_time_short'] = ('0' + this.formData.closeTimeShortHour).slice(-2) + ":" + ('0' + this.formData.closeTimeShortMin).slice(-2);
+                } else {
+                    this.formData['open_time_short'] = null;
+                    this.formData['close_time_short'] = null;
                 }
                 if(!this.formData.businessTypeId) {
                     this.formData['business_type_id'] = null;
@@ -326,6 +380,10 @@ import moment from 'moment';
                     this.formData['openTimeMin'] = this.data.openTime ? moment(this.data.openTime, 'hh:mm:ss').format('mm') : '';
                     this.formData['closeTimeHour'] = this.data.closeTime ? moment(this.data.closeTime, 'hh:mm:ss').format('HH') : '';
                     this.formData['closeTimeMin'] = this.data.closeTime ? moment(this.data.closeTime, 'hh:mm:ss').format('mm') : '';
+                    this.formData['openTimeShortHour'] = this.data.openTimeShort ? moment(this.data.openTimeShort, 'hh:mm:ss').format('HH') : '';
+                    this.formData['openTimeShortMin'] = this.data.openTimeShort ? moment(this.data.openTimeShort, 'hh:mm:ss').format('mm') : '';
+                    this.formData['closeTimeShortHour'] = this.data.closeTimeShort ? moment(this.data.closeTimeShort, 'hh:mm:ss').format('HH') : '';
+                    this.formData['closeTimeShortMin'] = this.data.closeTimeShort ? moment(this.data.closeTimeShort, 'hh:mm:ss').format('mm') : '';
                 }
             },
             validate() {
@@ -382,6 +440,40 @@ import moment from 'moment';
                     if (this.formData.closeTimeMin < 0 || this.formData.closeTimeMin > 59) {
                         this.errors.endTime = this.$t('Invalid time format');
                         valid = false;
+                    }
+                    if (this.formData.closeTimeHour && this.formData.closeTimeMin && ('0' + this.formData.closeTimeHour).slice(-2) + ":" + ('0' + this.formData.closeTimeMin).slice(-2) < ('0' + this.formData.openTimeHour).slice(-2) + ":" + ('0' + this.formData.openTimeMin).slice(-2)) {
+                        this.errors.endTime = this.$t('start time must be earlier than end time');
+                        valid = false;
+                    }
+                    if(this.formData.businessTypeId == 2 || this.formData.businessTypeId == 3) {
+                        if(!this.formData.openTimeShortHour || !this.formData.openTimeShortMin) {
+                            this.errors.startTimeShort = this.$t('Please input startTime');
+                            valid = false;
+                        }
+                        if(!this.formData.closeTimeShortHour || !this.formData.closeTimeShortMin) {
+                            this.errors.endTimeShort = this.$t('Please input endTime');
+                            valid = false;
+                        }
+                        if (this.formData.openTimeShortHour < 0 || this.formData.openTimeShortHour > 23) {
+                            this.errors.startTimeShort = this.$t('Invalid time format');
+                            valid = false;
+                        }
+                        if (this.formData.openTimeShortMin < 0 || this.formData.openTimeShortMin > 59) {
+                            this.errors.startTimeShort = this.$t('Invalid time format');
+                            valid = false;
+                        }
+                        if (this.formData.closeTimeShortHour < 0 || this.formData.closeTimeShortHour > 23) {
+                            this.errors.endTimeShort = this.$t('Invalid time format');
+                            valid = false;
+                        }
+                        if (this.formData.closeTimeShortMin < 0 || this.formData.closeTimeShortMin > 59) {
+                            this.errors.endTimeShort = this.$t('Invalid time format');
+                            valid = false;
+                        }
+                        if (this.formData.closeTimeShortHour && this.formData.closeTimeShortMin && ('0' + this.formData.closeTimeShortHour).slice(-2) + ":" + ('0' + this.formData.closeTimeShortMin).slice(-2) < ('0' + this.formData.openTimeShortHour).slice(-2) + ":" + ('0' + this.formData.openTimeShortMin).slice(-2)) {
+                            this.errors.endTimeShort = this.$t('start time must be earlier than end time');
+                            valid = false;
+                        }
                     }
                     if(this.formData.appropriateNumber0 && this.formData.appropriateNumber0 < 0) {
                         this.errors.appropriateNumber0 = this.$t('Please input an integer');

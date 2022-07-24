@@ -164,7 +164,7 @@ class ChildApplicationTableController extends BaseController
         {
             $targetDate = $baseDay->day($i)->format('Y-m-d');
             $a = $attendances->filter(function ($value, $key) use ($targetDate) {
-                return $value->date === $targetDate && !$value->extension_in_minute;
+                return $value->date === $targetDate && !$value->extension_in_minute && !$value->reason_for_absence_id;
             })->count();
             $b = $attendances->filter(function ($value, $key) use ($targetDate) {
                 return $value->date === $targetDate && $value->extension_in_minute && $value->extension_in_minute <= 30;
@@ -258,7 +258,7 @@ class ChildApplicationTableController extends BaseController
                 $exitDate = Carbon::parse($child->exit_date);
                 if ($child->exit_date && $exitDate->format('Y-m') === $date)
                 {
-                    $currentExitDate = $exitDate->format('d日');
+                    $currentExitDate = $exitDate->format('Y/m/d');
                 } else {
                     $currentExitDate = '';
                 }
@@ -337,7 +337,7 @@ class ChildApplicationTableController extends BaseController
                 $childItem['extension_state'] = $extensionState;
                 $childItem['absent_state'] = $absentState;
                 $childItem['regulation_days'] = $regulation_days;
-                $childItem['attend_count'] = $regulation_days;
+                $childItem['attend_count'] = $attendCount;
                 $childItem['absent_count'] = $absentCount - $exclude_absent_count;
 
                 $childTable[$childrenClass->id][] = $childItem;

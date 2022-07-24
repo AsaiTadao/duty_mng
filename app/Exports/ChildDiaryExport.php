@@ -59,7 +59,7 @@ class ChildDiaryExport implements WithEvents
 
 
                 $sheet->setCellValue('a18', $this->diary->health_status);
-                $sheet->setCellValue('a26', $this->diary->remarks);
+                $sheet->setCellValue('a24', $this->diary->remarks);
 
             }
         ];

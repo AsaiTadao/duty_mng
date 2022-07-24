@@ -270,7 +270,10 @@ export default {
     methods: {
         onSubmit() {
             if (this.actionLoading) return;
-            if(!this.validate()) return;
+            if (!this.validate()) {
+                this.scrollToTop();
+                return;
+            }
             this.setActionLoading();
             api.post('child-diary', null, {
                 date: this.date.format('YYYY-MM-DD'),
@@ -326,13 +329,24 @@ export default {
             api.get('attendance-daily-stat', null, { date: this.date.format('YYYY-MM-DD' ), childrenClassId: this.childrenClassId})
             .then(response => {this.stat = response})
             .catch(apiErrorHandler);
+        },
+        scrollToTop(){
+            window.scrollTo({
+                top: 0,
+                behavior:'smooth'
+            })
         }
     }
 };
 </script>
 <style scoped>
 .input-fit {
-    border: none;
+    border: 1px solid lightgrey;
     outline: none;
 }
+
+.is-invalid.light-pink {
+    border: 1px solid red;
+}
+
 </style>

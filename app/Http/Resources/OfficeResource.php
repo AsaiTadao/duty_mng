@@ -36,6 +36,8 @@ class OfficeResource extends JsonResource
 
             'open_time' =>  $office_info ? $office_info->open_time : null,
             'close_time'    =>  $office_info ? $office_info->close_time : null,
+            'open_time_short' =>  $office_info ? $office_info->open_time_short : null,
+            'close_time_short'    =>  $office_info ? $office_info->close_time_short : null,
             'capacity'  =>  $office_info ? $office_info->capacity : null,
             'appropriate_number_0'  =>  $office_info ? $office_info->appropriate_number_0 : null,
             'appropriate_number_1'  =>  $office_info ? $office_info->appropriate_number_1 : null,

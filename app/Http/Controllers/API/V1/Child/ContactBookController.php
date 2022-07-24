@@ -190,11 +190,12 @@ class ContactBookController extends BaseController
         $data = $request->validated();
         $date = $data['date'];
         $contactBook = ContactBook::where(['child_id' => $child->id, 'date' => $date])->first();
+        $contactBookType = ContactBookTypePeriod::getType($child, $date);
         if (!$contactBook) {
             $contactBook = new ContactBook();
         }
         $fileName = $child->name . '_' . $data['date'] . '_連絡帳.xlsx';
 
-        return Excel::download(new ContactBookExport($child, $child->office, $date, $contactBook), $fileName);
+        return Excel::download(new ContactBookExport($child, $child->office, $date, $contactBook, $contactBookType), $fileName);
     }
 }

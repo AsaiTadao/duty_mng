@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\ChildrenClass;
+use App\Models\ContactBookTypePeriod;
 use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Events\BeforeWriting;
@@ -15,23 +16,25 @@ class ContactBookExport implements WithEvents
     protected $office;
     protected $child;
     protected $date;
+    protected $contactBookType;
 
-    public function __construct($child, $office, $date, $contactBook)
+    public function __construct($child, $office, $date, $contactBook, $contactBookType)
     {
         $this->child = $child;
         $this->office = $office;
         $this->contactBook = $contactBook;
         $this->date = $date;
+        $this->contactBookType = $contactBookType;
     }
     public function registerEvents(): array
     {
         return [
             BeforeWriting::class => function(BeforeWriting $event) {
-                if ($this->child->class_id === ChildrenClass::AGE_0)
+                if ($this->contactBookType === ContactBookTypePeriod::TYPE_0)
                 {
                     $contactType = '0';
                 }
-                else if ($this->child->class_id === ChildrenClass::AGE_1 || $this->child->class_id === ChildrenClass::AGE_2)
+                else if ($this->contactBookType === ContactBookTypePeriod::TYPE_1_2)
                 {
                     $contactType = '1';
                 } else {
@@ -123,26 +126,31 @@ class ContactBookExport implements WithEvents
                     $sheet->setCellValue('f21', $this->moodLabel($this->contactBook->mood_1_home));
                     $sheet->setCellValue('f23', $this->moodLabel($this->contactBook->mood_2_home));
 
+                    $sheet->setCellValue('c26', $this->timeLabel($this->contactBook->defecation_time_1_home));
                     $sheet->setCellValue('f26', $this->defecationLabel($this->contactBook->defecation_1_home));
-                    $sheet->setCellValue('L26', $this->contactBook->defecation_count_1_home);
+                    $sheet->setCellValue('h26', $this->contactBook->defecation_memo_1_home);
+                    $sheet->setCellValue('c28', $this->timeLabel($this->contactBook->defecation_time_2_home));
                     $sheet->setCellValue('f28', $this->defecationLabel($this->contactBook->defecation_2_home));
-                    $sheet->setCellValue('L28', $this->contactBook->defecation_count_2_home);
+                    $sheet->setCellValue('h28', $this->contactBook->defecation_memo_2_home);
+                    $sheet->setCellValue('c30', $this->timeLabel($this->contactBook->defecation_time_3_home));
+                    $sheet->setCellValue('f30', $this->defecationLabel($this->contactBook->defecation_3_home));
+                    $sheet->setCellValue('h30', $this->contactBook->defecation_memo_3_home);
 
 
-                    $sheet->setCellValue('c31', $this->timePeriodLabel($this->contactBook->sleep_start_1_home, $this->contactBook->sleep_end_1_home));
-                    $sheet->setCellValue('c33', $this->timePeriodLabel($this->contactBook->sleep_start_2_home, $this->contactBook->sleep_end_2_home));
+                    $sheet->setCellValue('c33', $this->timePeriodLabel($this->contactBook->sleep_start_1_home, $this->contactBook->sleep_end_1_home));
+                    $sheet->setCellValue('c35', $this->timePeriodLabel($this->contactBook->sleep_start_2_home, $this->contactBook->sleep_end_2_home));
 
-                    $sheet->setCellValue('c36', $this->bathLabel($this->contactBook->bathing_home));
+                    $sheet->setCellValue('c38', $this->bathLabel($this->contactBook->bathing_home));
 
-                    $sheet->setCellValue('c39', $this->timeLabel($this->contactBook->temperature_time_1_home));
-                    $sheet->setCellValue('f39', $this->timeLabel($this->contactBook->temperature_time_2_home));
-                    $sheet->setCellValue('j39', $this->timeLabel($this->contactBook->temperature_time_3_home));
+                    $sheet->setCellValue('c41', $this->timeLabel($this->contactBook->temperature_time_1_home));
+                    $sheet->setCellValue('f41', $this->timeLabel($this->contactBook->temperature_time_2_home));
+                    $sheet->setCellValue('j41', $this->timeLabel($this->contactBook->temperature_time_3_home));
 
-                    $sheet->setCellValue('c41', $this->contactBook->temperature_1_home);
-                    $sheet->setCellValue('f41', $this->contactBook->temperature_2_home);
-                    $sheet->setCellValue('j41', $this->contactBook->temperature_3_home);
+                    $sheet->setCellValue('c43', $this->contactBook->temperature_1_home);
+                    $sheet->setCellValue('f43', $this->contactBook->temperature_2_home);
+                    $sheet->setCellValue('j43', $this->contactBook->temperature_3_home);
 
-                    $sheet->setCellValue('b46', $this->contactBook->state_0_home);
+                    $sheet->setCellValue('b48', $this->contactBook->state_0_home);
 
 
                     //========school=========
@@ -161,31 +169,36 @@ class ContactBookExport implements WithEvents
                     $sheet->setCellValue('r21', $this->moodLabel($this->contactBook->mood_1_school));
                     $sheet->setCellValue('r23', $this->moodLabel($this->contactBook->mood_2_school));
 
+                    $sheet->setCellValue('o26', $this->timeLabel($this->contactBook->defecation_time_1_school));
                     $sheet->setCellValue('r26', $this->defecationLabel($this->contactBook->defecation_1_school));
-                    $sheet->setCellValue('x26', $this->contactBook->defecation_count_1_school);
+                    $sheet->setCellValue('t26', $this->contactBook->defecation_memo_1_school);
+                    $sheet->setCellValue('o28', $this->timeLabel($this->contactBook->defecation_time_2_school));
                     $sheet->setCellValue('r28', $this->defecationLabel($this->contactBook->defecation_2_school));
-                    $sheet->setCellValue('x28', $this->contactBook->defecation_count_2_school);
+                    $sheet->setCellValue('t28', $this->contactBook->defecation_memo_2_school);
+                    $sheet->setCellValue('o30', $this->timeLabel($this->contactBook->defecation_time_3_school));
+                    $sheet->setCellValue('r30', $this->defecationLabel($this->contactBook->defecation_3_school));
+                    $sheet->setCellValue('t30', $this->contactBook->defecation_memo_3_school);
 
 
-                    $sheet->setCellValue('o31', $this->timePeriodLabel($this->contactBook->sleep_start_1_school, $this->contactBook->sleep_end_1_school));
-                    $sheet->setCellValue('o33', $this->timePeriodLabel($this->contactBook->sleep_start_2_school, $this->contactBook->sleep_end_2_school));
+                    $sheet->setCellValue('o33', $this->timePeriodLabel($this->contactBook->sleep_start_1_school, $this->contactBook->sleep_end_1_school));
+                    $sheet->setCellValue('o35', $this->timePeriodLabel($this->contactBook->sleep_start_2_school, $this->contactBook->sleep_end_2_school));
 
-                    $sheet->setCellValue('o36', $this->bathLabel($this->contactBook->bathing_school));
+                    $sheet->setCellValue('o38', $this->bathLabel($this->contactBook->bathing_school));
 
-                    $sheet->setCellValue('o39', $this->timeLabel($this->contactBook->temperature_time_1_school));
-                    $sheet->setCellValue('r39', $this->timeLabel($this->contactBook->temperature_time_2_school));
-                    $sheet->setCellValue('v39', $this->timeLabel($this->contactBook->temperature_time_3_school));
+                    $sheet->setCellValue('o41', $this->timeLabel($this->contactBook->temperature_time_1_school));
+                    $sheet->setCellValue('r41', $this->timeLabel($this->contactBook->temperature_time_2_school));
+                    $sheet->setCellValue('v41', $this->timeLabel($this->contactBook->temperature_time_3_school));
 
-                    $sheet->setCellValue('o41', $this->contactBook->temperature_1_school);
-                    $sheet->setCellValue('r41', $this->contactBook->temperature_2_school);
-                    $sheet->setCellValue('v41', $this->contactBook->temperature_3_school);
+                    $sheet->setCellValue('o43', $this->contactBook->temperature_1_school);
+                    $sheet->setCellValue('r43', $this->contactBook->temperature_2_school);
+                    $sheet->setCellValue('v43', $this->contactBook->temperature_3_school);
 
-                    $sheet->setCellValue('n46', $this->contactBook->state_0_school);
+                    $sheet->setCellValue('n48', $this->contactBook->state_0_school);
                 } else {
                     $sheet->setCellValue('e6', $this->contactBook->guardian);
                     $sheet->setCellValue('n6', $this->contactBook->nurse_name);
                     $sheet->setCellValue('b11', $this->contactBook->contact_0_home);
-                    $sheet->setCellValue('l11', $this->contactBook->contact_0_school);
+                    $sheet->setCellValue('n11', $this->contactBook->contact_0_school);
                 }
             }
         ];
@@ -263,15 +276,15 @@ class ContactBookExport implements WithEvents
     {
         if ($defecation == 1)
         {
-            return '普通';
+            return '普';
         }
         if ($defecation == 2)
         {
-            return '軟い';
+            return '軟';
         }
         if ($defecation == 3)
         {
-            return '固い';
+            return '固';
         }
         return null;
     }

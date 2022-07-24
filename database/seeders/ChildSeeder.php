@@ -470,6 +470,52 @@ class ChildSeeder extends Seeder
         ]);
         $i++;
 
+        for ($c = 1; $c < 100; $c++) {
+            Child::create([
+                'name' => 'テスト　園児' . sprintf('%05d', $c),
+                'number' => 'LK50E' . sprintf('%05d', $c),
+                'password' => Crypt::encryptString('pass'),
+                'office_id' => 7,
+                'class_id' => rand(1, 5),
+                'qr' => 'LK-CHILDREN-' . Hash::make($i),
+                'email' => 'child' .  sprintf('%05d', $c) . '@digital-think.jp',
+                'admission_date' => '2020-04-02',
+                'birthday' => '2022-04-02',
+                'gender' => rand(1, 2), //1:男 2:女
 
+            ]);
+            $i++;
+        }
+        /*Child::create([
+            'id' => $i,
+            'name' => 'aaaaaa　bbbbbb',
+            'number' => 'LK50E0001',
+            'password' => Crypt::encryptString('pass'),
+            'office_id' => 7,
+            'class_id' => 1,
+            'qr' => 'LK-CHILDREN-' . Hash::make($i),
+            'email' => 'child029@digital-think.jp',
+            'admission_date' => '2020-04-20',
+            'birthday' => '2022-04-02',
+            'gender' => 2, //1:男 2:女
+
+        ]);
+        $i++;
+
+        Child::create([
+            'id' => $i,
+            'name' => 'cccccc　dddddd',
+            'number' => 'LK50E0002',
+            'password' => Crypt::encryptString('pass'),
+            'office_id' => 7,
+            'class_id' => 2,
+            'qr' => 'LK-CHILDREN-' . Hash::make($i),
+            'email' => 'child030@digital-think.jp',
+            'admission_date' => '2019-05-01',
+            'birthday' => '2022-04-02',
+            'gender' => 1, //1:男 2:女
+
+        ]);
+        $i++;*/
     }
 }

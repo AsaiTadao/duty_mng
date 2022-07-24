@@ -51,12 +51,12 @@
                                                 <td>
                                                     {{ office.name }}
                                                 </td>
-                                                <td class="align-middle" rowspan="4">
+                                                <td class="align-middle" rowspan="5">
                                                     <a href="#" class="mx-2" @click="onScheduleEditClick(office.id)">
                                                         <i class="far fa-edit fa-lg"></i>
                                                     </a>
                                                 </td>
-                                                <td class="align-middle" rowspan="4">
+                                                <td class="align-middle" rowspan="5">
                                                     <a href="#" class="mx-2" @click="onEditClicked(office.id)">
                                                         <i class="far fa-edit fa-lg"></i>
                                                     </a>
@@ -77,6 +77,15 @@
                                                 </td>
                                                 <td>
                                                     定員数：{{office.capacity}}
+                                                </td>
+                                            </tr>
+                                            <tr :key="office.id + '_open_time_short'">
+                                                <td>
+                                                    <span v-if="office.businessTypeId == 2 || office.businessTypeId == 3">
+                                                        保育短時間：{{setTime(office.openTimeShort)}}～{{setTime(office.closeTimeShort)}}
+                                                    </span>
+                                                </td>
+                                                <td>
                                                 </td>
                                             </tr>
                                             <tr :key="office.id + '_members'">

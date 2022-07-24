@@ -643,7 +643,7 @@ div.meal-time-input div.home-minute-input > input {
         width: 100px;
     }
     .contactbook-fix {
-        width: 60px;
+        width: 45px;
         position: sticky;
         left: 0;
         z-index: 11 !important;
@@ -676,3 +676,17 @@ div.meal-time-input div.home-minute-input > input {
 .validation-error {
     color: #f00;
 }
+
+.form-control.is-invalid {
+    background-color: #faeaf5;
+}
+
+// Breakpoints
+
+@import './_breakpoints.scss';
+
+// Partials
+
+@import './partials/_contact_book.scss';
+@import './partials/_date_picker.scss';
+@import './partials/_mobile.scss';

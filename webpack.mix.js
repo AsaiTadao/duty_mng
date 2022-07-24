@@ -11,11 +11,15 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .vue()
+mix
+    .browserSync({
+        files: ['public/**/*.*'],
+        proxy: 'localhost'
+    })
+    .disableNotifications()
+    .js('resources/js/app.js', 'public/js')
+    .js('resources/childcare/js/app.js', 'public/childcare/js')
     .sass('resources/sass/app.scss', 'public/css')
-    .sourceMaps();
-mix.js('resources/childcare/js/app.js', 'public/childcare/js')
-    .vue()
     .sass('resources/childcare/sass/app.scss', 'public/childcare/css')
-    .sourceMaps();
+    .sourceMaps()
+    .vue();

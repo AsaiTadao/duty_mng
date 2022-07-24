@@ -326,7 +326,7 @@ export default {
             this.$refs.programaticOpen.showCalendar();
         },
         customFormatter(date) {
-            return moment(date).format('YYYY年 M月 D日 (ddd)');
+            return moment(date).format('YYYY/M/D(ddd)');
         },
         exportExcel() {
             location.href = process.env.MIX_APP_BASE_URL + 'childcare-diary/excel?children_class_id=' + this.childrenClassId + '&date=' + this.date.format('YYYY-MM-DD') + '&token=' + LocalStorage.getToken();

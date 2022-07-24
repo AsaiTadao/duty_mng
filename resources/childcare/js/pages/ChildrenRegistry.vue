@@ -386,6 +386,7 @@ export default {
             this.setActionLoading();
             let request;
             if(this.childId) {
+                requestData['id'] = this.childId;
                 request = api.put('register/' + this.childId, null, requestData);
             } else {
                 request = api.post('register', null, requestData);

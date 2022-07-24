@@ -16,7 +16,7 @@ class CreateQrTransactionsTable extends Migration
         Schema::create('qr_transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('device_id');
-            $table->foreignId('office_id');
+            $table->foreignId('office_id')->nullable();
             $table->string('qr', 100);
             $table->unsignedInteger('ymd');
             $table->unsignedSmallInteger('counter')->nullable();

@@ -184,15 +184,23 @@ export default {
         getAbsenceName(reasonForAbsenceId, noSchedule) {
             if(reasonForAbsenceId){
                 if(noSchedule) {
-                    if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId))
-                        return '（予）' + this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
-                    else
+                    if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId)) {
+                        if(reasonForAbsenceId == 7)
+                            return '（予）' + this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
+                        else
+                            return '（予）欠席';
+                    } else {
                         return null;
+                    }
                 } else {
-                    if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId))
-                        return this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
-                    else
+                    if(this.reasonForAbsences.find(item => item.id === reasonForAbsenceId)) {
+                        if (reasonForAbsenceId == 7)
+                            return this.reasonForAbsences.find(item => item.id === reasonForAbsenceId).name;
+                        else
+                            return '欠席';
+                    }else {
                         return null;
+                    }
                 }
 
             } else {

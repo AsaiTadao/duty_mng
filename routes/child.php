@@ -31,6 +31,7 @@ Route::namespace('App\\Http\\Controllers\\API\V1\\Child')->group(function () {
         Route::delete('/child/{child}', [ChildController::class, 'delete'])->middleware('can:handle-child,child');
         Route::post('/attendance/{child}', [AttendanceController::class, 'save'])->middleware('can:handle-child,child');
         Route::get('/attendance', [AttendanceController::class, 'list']);
+        Route::get('/attendance/monthly', [AttendanceController::class, 'monthly']);
 
 
         Route::post('/contact-book/child/{child}/school/0', [ContactBookController::class, 'schoolSave0'])->middleware('can:handle-child,child');

@@ -44,6 +44,7 @@ Route::get("/notice/{id}", [NoticeController::class, 'notice']);
 Route::get("/notice-finish/{id}/{date}/{bool}", [NoticeController::class, 'noticeFinish']);
 
 Route::get('/child-monthly-attendance/csv/{child}', [AttendanceController::class, 'monthlyListCsv']);
+Route::get('/child-monthly-attendance/monthly/excel/{office}', [AttendanceController::class, 'excel']);
 Route::get('/childcare-contact-book/excel/{child}', [ContactBookController::class, 'excel']);
 Route::get('/childcare-diary/excel', [ChildcareDiaryController::class, 'excel']);
 Route::get('/childcare-application-table/excel/{office}', [ChildApplicationTableController::class, 'exportExcel']);
