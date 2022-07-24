@@ -140,6 +140,7 @@ class ChildcareService
             $office->office_information->appropriate_number_4 ? $office->office_information->appropriate_number_4 : 7,
             $office->office_information->appropriate_number_5 ? $office->office_information->appropriate_number_5 : 7,
         ];
+
         $timePeriods = self::TIME_PERIODS;
         $len = count($timePeriods);
         $neededNurse0 = [];
