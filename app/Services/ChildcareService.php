@@ -132,7 +132,14 @@ class ChildcareService
         // $children5 =
         //     [ 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0];
 
-        $nurseRate = [3, 6, 7, 7, 7, 7];
+        $nurseRate = [
+            $office->office_information->appropriate_number_0 || 3,
+            $office->office_information->appropriate_number_1 || 6,
+            $office->office_information->appropriate_number_2 || 6,
+            $office->office_information->appropriate_number_3 || 7,
+            $office->office_information->appropriate_number_4 || 7,
+            $office->office_information->appropriate_number_5 || 7,
+        ];
 
         $timePeriods = self::TIME_PERIODS;
         $len = count($timePeriods);
@@ -156,7 +163,7 @@ class ChildcareService
             $needed5 = round($children5[$i] / $nurseRate[5], 1);
 
             $precise =  $needed0 + $needed1 + $needed2 + $needed3 + $needed4 + $needed5 ;
-            $round = round($precise);
+            $round = ceil($precise);
 
             $sumPrecise[] = $precise;
             $sumRound[] = $round;
