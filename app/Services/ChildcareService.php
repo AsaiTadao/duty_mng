@@ -133,14 +133,14 @@ class ChildcareService
         //     [ 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0];
 
         $nurseRate = [
-            $office->office_information->appropriate_number_0 || 3,
-            $office->office_information->appropriate_number_1 || 6,
-            $office->office_information->appropriate_number_2 || 6,
-            $office->office_information->appropriate_number_3 || 7,
-            $office->office_information->appropriate_number_4 || 7,
-            $office->office_information->appropriate_number_5 || 7,
+            $office->office_information->appropriate_number_0 ? $office->office_information->appropriate_number_0 : 3,
+            $office->office_information->appropriate_number_1 ? $office->office_information->appropriate_number_1 : 6,
+            $office->office_information->appropriate_number_2 ? $office->office_information->appropriate_number_2 : 7,
+            $office->office_information->appropriate_number_3 ? $office->office_information->appropriate_number_3 : 7,
+            $office->office_information->appropriate_number_4 ? $office->office_information->appropriate_number_4 : 7,
+            $office->office_information->appropriate_number_5 ? $office->office_information->appropriate_number_5 : 7,
         ];
-
+dd($nurseRate);
         $timePeriods = self::TIME_PERIODS;
         $len = count($timePeriods);
         $neededNurse0 = [];
