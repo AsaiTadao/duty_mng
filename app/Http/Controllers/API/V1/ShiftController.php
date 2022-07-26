@@ -36,12 +36,12 @@ class ShiftController extends BaseController
         $days = $baseDate->daysInMonth;
         $childcarePlans = [];
         for ($day = 0; $day < $days; $day++) {
-            $baseDate->addDay();
             $childSchedule = $childcareService->getChildSchedule($office, $baseDate);
             $childcarePlans[] = [
                 'children'  =>  $childSchedule['totalChildren'],
                 'needUser'  =>  max($childSchedule['sumRound'])
             ];
+            $baseDate->addDay();
         }
         // -------
 
@@ -86,7 +86,7 @@ class ShiftController extends BaseController
     public function getChildcareSchedule(Office $office, ChildcareQuery $request, ChildcareService $childcareService)
     {
         $currentUser = auth()->user();
-        if (!Gate::forUser($currentUser)->allows('get-office-shift-detail', $office))
+        if (!Gate::forUser($currentUser)->allows('get-office-childcare-schedule', $office))
         {
             abort(403, "You are not allowed");
         }

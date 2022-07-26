@@ -162,6 +162,10 @@ class AuthServiceProvider extends ServiceProvider
             return $userGuard($user, $targetUser);
         });
         Gate::define('get-office-shift-detail', $userOfficeGuard);
+        Gate::define('get-office-childcare-schedule', function(User $user, Office $office) use ($userOfficeGuard) {
+            if ($user->role_id === Roles::USER_A || $user->role_id === Roles::USER_B) return $user->office_id === $office->id;
+            return $userOfficeGuard($user, $office);
+        });
         Gate::define('delete-shift', function (User $user, ShiftPlan $shift) use ($shiftGuard) {
             $targetUser = $shift->user;
             if (!$targetUser->office) return false;
