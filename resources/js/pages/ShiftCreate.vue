@@ -68,14 +68,14 @@
                                     </tr>
                                     <tr v-if="isHoikuen(officeName)" class="light-green">
                                         <th width="4%" class="align-middle shift-th-x">園児数</th>
-                                        <th v-for="(child, index) in children" :key="'children' + index" class="align-middle">
-                                            {{child}}
+                                        <th v-for="(child, index) in childcarePlans" :key="'children' + index" class="align-middle">
+                                            {{child.children}}
                                         </th>
                                     </tr>
                                     <tr v-if="isHoikuen(officeName)" class="light-green">
                                         <th class="align-middle shift-th-x">必要職員数</th>
-                                        <th v-for="(user, index) in needUser" :key="'needUser' + index" class="align-middle">
-                                            {{user}}
+                                        <th v-for="(user, index) in childcarePlans" :key="'needUser' + index" class="align-middle">
+                                            {{user.needUser}}
                                         </th>
                                     </tr>
                                 </thead>
@@ -182,6 +182,7 @@ export default {
                 dateSelectedCShift: {},
                 children: [],
                 needUser: [],
+                childcarePlans: [],
             }
         },
         watch: {
@@ -203,7 +204,8 @@ export default {
                 api.get('shift/' + this.officeId, null, {month: this.selectedMonth})
                     .then(response => {
                         this.unsetActionLoading();
-                        this.shifts = response;
+                        this.shifts = response.employeeShifts;
+                        this.childcarePlans = response.childcarePlans;
                         const office = this.offices.find(office => office.id === this.officeId);
                         this.officeName = office ? office.name : '';
                         this.getShoteiTime();
