@@ -22,9 +22,32 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ShiftController extends BaseController
 {
-    public function get(Office $office, ShiftQuery $request)
+    public function get(Office $office, ShiftQuery $request, ChildcareService $childcareService)
     {
-        $response = $this->getShiftData($office, $request);
+        $employeeShifts = $this->getShiftData($office, $request);
+
+        // calculate childcare shifts
+        $data = $request->validated();
+        $month = (int)$data['month'];
+        $year = (int)floor($month / 100);
+        $month = $month % 100;
+
+        $baseDate = Carbon::parse($year . '-' . $month . '-01');
+        $days = $baseDate->daysInMonth;
+        $childcarePlans = [];
+        for ($day = 0; $day < $days; $day++) {
+            $baseDate->addDay();
+            $childSchedule = $childcareService->getChildSchedule($office, $baseDate);
+            $childcarePlans[] = [
+                'children'  =>  $childSchedule['totalChildren'],
+                'needUser'  =>  max($childSchedule['sumRound'])
+            ];
+        }
+        // -------
+
+
+        $response['employeeShifts'] = $employeeShifts;
+        $response['childcarePlans'] = $childcarePlans;
 
         return $this->sendResponse($response);
     }

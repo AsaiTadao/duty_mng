@@ -189,7 +189,8 @@ class ChildcareService
             'children5'     =>  $children5,
             'neededNurse5'  => $neededNurse5,
             'sumPrecise'    =>  $sumPrecise,
-            'sumRound'      =>  $sumRound
+            'sumRound'      =>  $sumRound,
+            'totalChildren' =>  count($childrenPlans)
         ];
     }
 }
